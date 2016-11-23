@@ -58,9 +58,9 @@ public final class DocumentWorkerResultTest
         DocumentWorkerFieldChanges changeOb = dsTestResult.fieldChanges.get("fieldName");
         DocumentWorkerData recoveredData = changeOb.values.get(0);
 
-        assertEquals(changeOb.action, DocumentWorkerAction.add);
-        assertEquals(recoveredData.data, "Deserialization Test");
-        assertEquals(recoveredData.encoding, DocumentWorkerEncoding.utf8);
+        assertEquals(DocumentWorkerAction.add, changeOb.action);
+        assertEquals("Deserialization Test", recoveredData.data);
+        assertEquals(DocumentWorkerEncoding.utf8, recoveredData.encoding);
     }
 
     @Test
@@ -75,8 +75,8 @@ public final class DocumentWorkerResultTest
         DocumentWorkerFieldChanges changeOb = dsTestResult.fieldChanges.get("fieldName");
         DocumentWorkerData recoveredData = changeOb.values.get(0);
 
-        assertEquals(changeOb.action, DocumentWorkerAction.add);
-        assertEquals(recoveredData.data, "Deserialization Test");
-        assertEquals(recoveredData.encoding, null);
+        assertEquals(DocumentWorkerAction.add, changeOb.action);
+        assertEquals("Deserialization Test", recoveredData.data);
+        assertEquals(null, recoveredData.encoding);
     }
 }

@@ -70,8 +70,8 @@ public final class DocumentWorkerTaskTest
 
         DocumentWorkerData dataOb = dsTestTask.fields.get("Name").get(0);
 
-        assertEquals(dataOb.data, "base64 encoding");
-        assertEquals(dataOb.encoding, DocumentWorkerEncoding.base64);
+        assertEquals("base64 encoding", dataOb.data);
+        assertEquals(DocumentWorkerEncoding.base64, dataOb.encoding);
     }
 
     @Test
@@ -85,8 +85,8 @@ public final class DocumentWorkerTaskTest
 
         DocumentWorkerData dataOb = dsTestTask.fields.get("Name").get(0);
 
-        assertEquals(dataOb.data, "utf8 encoding");
-        assertEquals(dataOb.encoding, DocumentWorkerEncoding.utf8);
+        assertEquals("utf8 encoding", dataOb.data);
+        assertEquals(DocumentWorkerEncoding.utf8, dataOb.encoding);
     }
 
     @Test
@@ -100,7 +100,7 @@ public final class DocumentWorkerTaskTest
 
         DocumentWorkerData dataOb = dsTestTask.fields.get("Name").get(0);
 
-        assertEquals(dataOb.data, "null encoding");
-        assertEquals(dataOb.encoding, null);
+        assertEquals("null encoding", dataOb.data);
+        assertEquals(null, dataOb.encoding);
     }
 }
