@@ -5,6 +5,7 @@ package com.hpe.caf.worker.document;
 
 public final class DocumentWorkerFailure
 {
+    public String workerName;
     public String failureId;
     public String failureMessage;
     public String failureStack;
