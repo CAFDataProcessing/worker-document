@@ -4,42 +4,62 @@ import com.hpe.caf.worker.document.DocumentWorkerResult;
 import com.hpe.caf.worker.document.DocumentWorkerTask;
 import com.hpe.caf.worker.testing.TestConfiguration;
 import com.hpe.caf.worker.testing.TestItem;
+import com.hpe.caf.worker.testing.TestItemProvider;
 import com.hpe.caf.worker.testing.preparation.PreparationItemProvider;
 
 import java.nio.file.Path;
+import java.util.*;
 
 /**
  * Result preparation provider for preparing test items.
  * Generates Test items from the yaml serialised test case files.
  */
-public class DocumentWorkerResultPreparationProvider  extends PreparationItemProvider<DocumentWorkerTask, DocumentWorkerResult, DocumentWorkerTestInput, DocumentWorkerTestExpectation> {
+public class DocumentWorkerResultPreparationProvider  implements TestItemProvider {
 
-    public DocumentWorkerResultPreparationProvider(TestConfiguration<DocumentWorkerTask, DocumentWorkerResult, DocumentWorkerTestInput, DocumentWorkerTestExpectation> configuration) {
-        super(configuration);
-    }
-
-    /**
-     * Method for generating test items from the yaml testcases.
-     * Creates DocumentExampleWorkerTestInput and DocumentExampleWorkerTestExpectation objects (which contain DocumentWorkerTask and DocumentWorkerResult).
-     * The DocumentWorkerTask found in DocumentExampleWorkerTestInput is fed into the worker for the integration test, and the result is
-     * compared with the DocumentWorkerResult found in the DocumentExampleWorkerTestExpectation.
-     * @param inputFile
-     * @param expectedFile
-     * @return TestItem
-     * @throws Exception
-     */
     @Override
-    protected TestItem createTestItem(Path inputFile, Path expectedFile) throws Exception {
-        TestItem<DocumentWorkerTestInput, DocumentWorkerTestExpectation> item = super.createTestItem(inputFile, expectedFile);
-        DocumentWorkerTask task = getTaskTemplate();
+    public Collection<TestItem> getItems() throws Exception {
+        //Creates a Test Item Collection with hardcoded values
 
-        // if the task is null, put in default values
-        if(task==null){
-            task=new DocumentWorkerTask();
-//            task. = DocumentExampleWorkerAction.VERBATIM;
-        }
+        //Set Document Worker Test Input
+        DocumentWorkerData workerData = new DocumentWorkerData();
+        workerData.data = "This is an Example";
+        workerData.encoding = DocumentWorkerEncoding.utf8;
 
-        item.getInputData().setTask(task);
-        return item;
+        List<DocumentWorkerData> workerDataList = new ArrayList<>();
+        workerDataList.add(workerData);
+
+        Map<String, List<DocumentWorkerData>> fields = new HashMap<>();
+        fields.put("ReferenceField", workerDataList);
+
+        DocumentWorkerTask task = new DocumentWorkerTask();
+        task.fields = fields;
+
+        DocumentWorkerTestInput testInput = new DocumentWorkerTestInput();
+        testInput.setTask(task);
+
+        //Set Document Worker Test Expectation
+        DocumentWorkerFieldChanges fieldChanges = new DocumentWorkerFieldChanges();
+        fieldChanges.action = DocumentWorkerAction.add;
+        fieldChanges.values = workerDataList;
+
+        List<DocumentWorkerFieldChanges> fieldChangesList = new ArrayList<>();
+        fieldChangesList.add(fieldChanges);
+
+        Map<String, DocumentWorkerFieldChanges> resultFieldChanges = new HashMap<>();
+        resultFieldChanges.put("This is an example", fieldChanges);
+
+
+        DocumentWorkerResult result = new DocumentWorkerResult();
+        result.fieldChanges = resultFieldChanges;
+
+        DocumentWorkerTestExpectation testExpectation = new DocumentWorkerTestExpectation();
+        testExpectation.setResult(result);
+
+        TestItem item = new TestItem("This is an example", testInput, testExpectation);
+
+        Collection<TestItem> testItems = new ArrayList<>();
+        testItems.add(item);
+
+        return testItems;
     }
 }

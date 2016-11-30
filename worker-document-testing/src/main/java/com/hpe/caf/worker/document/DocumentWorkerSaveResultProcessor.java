@@ -1,19 +1,27 @@
 package com.hpe.caf.worker.document;
 
+import com.hpe.caf.api.worker.DataStoreSource;
 import com.hpe.caf.api.worker.TaskMessage;
+import com.hpe.caf.util.ref.ReferencedData;
 import com.hpe.caf.worker.document.DocumentWorkerResult;
 import com.hpe.caf.worker.document.DocumentWorkerTask;
+import com.hpe.caf.worker.testing.OutputToFileProcessor;
 import com.hpe.caf.worker.testing.TestConfiguration;
 import com.hpe.caf.worker.testing.TestItem;
 import com.hpe.caf.worker.testing.WorkerServices;
 import com.hpe.caf.worker.testing.preparation.PreparationResultProcessor;
 
-public class DocumentWorkerSaveResultProcessor extends PreparationResultProcessor<DocumentWorkerTask, DocumentWorkerResult, DocumentWorkerTestInput, DocumentWorkerTestExpectation>
+import java.io.InputStream;
+import java.nio.file.Path;
+
+public class DocumentWorkerSaveResultProcessor extends OutputToFileProcessor<DocumentWorkerResult, DocumentWorkerTestInput, DocumentWorkerTestExpectation>
 {
+    private TestConfiguration configuration;
+
     public DocumentWorkerSaveResultProcessor(TestConfiguration<DocumentWorkerTask, DocumentWorkerResult, DocumentWorkerTestInput, DocumentWorkerTestExpectation> configuration, WorkerServices workerServices)
     {
-
-        super(configuration, workerServices.getCodec());
+        super(workerServices.getCodec(), configuration.getWorkerResultClass(), configuration.getTestDataFolder());
+        this.configuration = configuration;
     }
 
     @Override
@@ -21,6 +29,11 @@ public class DocumentWorkerSaveResultProcessor extends PreparationResultProcesso
             throws Exception
     {
         testItem.getExpectedOutputData().setResult(workerResult);
-        return super.getOutputContent(workerResult, message, testItem);
+        return getSerializedTestItem(testItem, configuration);
+    }
+
+    @Override
+    protected byte[] getFailedOutputContent(TaskMessage message, TestItem<DocumentWorkerTestInput, DocumentWorkerTestExpectation> testItem) throws Exception {
+        return new byte[0];
     }
 }

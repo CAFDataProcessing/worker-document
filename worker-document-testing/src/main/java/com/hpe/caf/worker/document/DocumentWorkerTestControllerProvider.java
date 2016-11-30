@@ -27,7 +27,7 @@ public class DocumentWorkerTestControllerProvider<TConfiguration> extends Abstra
      */
     @Override
     protected WorkerTaskFactory<DocumentWorkerTask, DocumentWorkerTestInput, DocumentWorkerTestExpectation> getTaskFactory(TestConfiguration<DocumentWorkerTask, DocumentWorkerResult, DocumentWorkerTestInput, DocumentWorkerTestExpectation> configuration) throws Exception {
-        return new DocumentWorkerTaskFactory(configuration);
+        return new DocumentWorkerTaskFactory();
     }
 
     /**
@@ -38,7 +38,7 @@ public class DocumentWorkerTestControllerProvider<TConfiguration> extends Abstra
      */
     @Override
     protected ResultProcessor getTestResultProcessor(TestConfiguration<DocumentWorkerTask, DocumentWorkerResult, DocumentWorkerTestInput, DocumentWorkerTestExpectation> configuration, WorkerServices workerServices) {
-        return new DocumentWorkerResultValidationProcessor(workerServices);
+        return new DocumentWorkerResultValidationProcessor(configuration, workerServices);
     }
 
     /**
@@ -48,7 +48,7 @@ public class DocumentWorkerTestControllerProvider<TConfiguration> extends Abstra
      */
     @Override
     protected TestItemProvider getDataPreparationItemProvider(TestConfiguration<DocumentWorkerTask, DocumentWorkerResult, DocumentWorkerTestInput, DocumentWorkerTestExpectation> configuration) {
-        return new DocumentWorkerResultPreparationProvider(configuration);
+        return new DocumentWorkerResultPreparationProvider();
     }
 
     /**

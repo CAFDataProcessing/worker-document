@@ -2,14 +2,19 @@ package com.hpe.caf.worker.document;
 
 import com.hpe.caf.api.worker.TaskMessage;
 import com.hpe.caf.worker.testing.*;
+import com.hpe.caf.worker.testing.configuration.ValidationSettings;
+import com.hpe.caf.worker.testing.validation.PropertyValidatingProcessor;
+import org.testng.Assert;
+
+import java.util.Map;
 
 /**
  * Processor for validation of the worker result, compares with the expected result in the test item.
  */
-public class DocumentWorkerResultValidationProcessor extends ContentResultValidationProcessor<DocumentWorkerResult, DocumentWorkerTestInput, DocumentWorkerTestExpectation> {
+public class DocumentWorkerResultValidationProcessor extends PropertyValidatingProcessor<DocumentWorkerResult, DocumentWorkerTestInput, DocumentWorkerTestExpectation> {
 
-    public DocumentWorkerResultValidationProcessor(WorkerServices workerServices) {
-        super(workerServices.getDataStore(), workerServices.getCodec(), DocumentWorkerResult.class, DocumentWorkerResultAccessors::getTextData, SettingsProvider.defaultProvider.getSetting(SettingNames.expectedFolder));
+    public DocumentWorkerResultValidationProcessor(TestConfiguration<DocumentWorkerTask, DocumentWorkerResult, DocumentWorkerTestInput, DocumentWorkerTestExpectation> testConfiguration, WorkerServices workerServices) {
+        super(testConfiguration, workerServices, ValidationSettings.configure().build());
     }
 
     /**
@@ -26,7 +31,26 @@ public class DocumentWorkerResultValidationProcessor extends ContentResultValida
      */
     @Override
     protected boolean processWorkerResult(TestItem<DocumentWorkerTestInput, DocumentWorkerTestExpectation> testItem, TaskMessage message, DocumentWorkerResult workerResult) throws Exception {
-//        Assert.assertEquals(testItem.getExpectedOutputData().getResult().workerStatus, workerResult.workerStatus);
         return super.processWorkerResult(testItem, message, workerResult);
+    }
+
+    @Override
+    protected boolean isCompleted(TestItem<DocumentWorkerTestInput, DocumentWorkerTestExpectation> testItem, TaskMessage message, DocumentWorkerResult documentWorkerResult) {
+        return true;
+    }
+
+    @Override
+    protected Map<String, Object> getExpectationMap(TestItem<DocumentWorkerTestInput, DocumentWorkerTestExpectation> testItem, TaskMessage message, DocumentWorkerResult documentWorkerResult) {
+        return (Map)testItem.getExpectedOutputData();
+    }
+
+    @Override
+    protected Map<String, Object> getFailedExpectationMap(TestItem<DocumentWorkerTestInput, DocumentWorkerTestExpectation> testItem, TaskMessage message) {
+        return (Map)testItem.getExpectedOutputData();
+    }
+
+    @Override
+    protected Object getValidatedObject(TestItem<DocumentWorkerTestInput, DocumentWorkerTestExpectation> testItem, TaskMessage message, DocumentWorkerResult documentWorkerResult) {
+        return documentWorkerResult;
     }
 }
