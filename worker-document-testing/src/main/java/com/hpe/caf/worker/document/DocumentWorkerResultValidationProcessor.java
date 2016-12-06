@@ -1,10 +1,12 @@
 package com.hpe.caf.worker.document;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.datatype.guava.GuavaModule;
 import com.hpe.caf.api.worker.TaskMessage;
 import com.hpe.caf.worker.testing.*;
 import com.hpe.caf.worker.testing.configuration.ValidationSettings;
+import com.hpe.caf.worker.testing.validation.PropertyMap;
 import com.hpe.caf.worker.testing.validation.PropertyValidatingProcessor;
-import org.testng.Assert;
 
 import java.util.Map;
 
@@ -41,12 +43,12 @@ public class DocumentWorkerResultValidationProcessor extends PropertyValidatingP
 
     @Override
     protected Map<String, Object> getExpectationMap(TestItem<DocumentWorkerTestInput, DocumentWorkerTestExpectation> testItem, TaskMessage message, DocumentWorkerResult documentWorkerResult) {
-        return (Map)testItem.getExpectedOutputData();
-    }
 
-    @Override
-    protected Map<String, Object> getFailedExpectationMap(TestItem<DocumentWorkerTestInput, DocumentWorkerTestExpectation> testItem, TaskMessage message) {
-        return (Map)testItem.getExpectedOutputData();
+        ObjectMapper mapper = new ObjectMapper();
+        mapper.registerModule(new GuavaModule());
+        DocumentWorkerResult expectation = testItem.getExpectedOutputData().getResult();
+        PropertyMap expectationPropertyMap = mapper.convertValue(expectation,PropertyMap.class);
+        return expectationPropertyMap;
     }
 
     @Override

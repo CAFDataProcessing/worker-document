@@ -48,7 +48,7 @@ public class DocumentWorkerTestControllerProvider<TConfiguration> extends Abstra
      */
     @Override
     protected TestItemProvider getDataPreparationItemProvider(TestConfiguration<DocumentWorkerTask, DocumentWorkerResult, DocumentWorkerTestInput, DocumentWorkerTestExpectation> configuration) {
-        return new DocumentWorkerResultPreparationProvider();
+        return new DocumentWorkerResultPreparationProvider(configuration);
     }
 
     /**

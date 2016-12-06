@@ -7,7 +7,11 @@ import com.hpe.caf.worker.testing.TestItem;
 import com.hpe.caf.worker.testing.TestItemProvider;
 import com.hpe.caf.worker.testing.preparation.PreparationItemProvider;
 
+import java.io.IOException;
+import java.nio.file.DirectoryStream;
+import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.*;
 
 /**
@@ -16,50 +20,83 @@ import java.util.*;
  */
 public class DocumentWorkerResultPreparationProvider  implements TestItemProvider {
 
+    private final TestConfiguration<DocumentWorkerTask, DocumentWorkerResult, DocumentWorkerTestInput, DocumentWorkerTestExpectation> configuration;
+    private final String inputPath;
+    private final String expectedPath;
+    private final String globPattern;
+    private final boolean includeSubFolders;
+
+    public DocumentWorkerResultPreparationProvider(final TestConfiguration<DocumentWorkerTask, DocumentWorkerResult, DocumentWorkerTestInput, DocumentWorkerTestExpectation> configuration) {
+        this.configuration = configuration;
+        this.inputPath = configuration.getTestDocumentsFolder();
+        this.expectedPath = configuration.getTestDataFolder();
+        this.globPattern = "regex:^(?!.*[.](content|testcase)$).*$";
+        this.includeSubFolders = true;
+    }
+
     @Override
     public Collection<TestItem> getItems() throws Exception {
-        //Creates a Test Item Collection with hardcoded values
 
-        //Set Document Worker Test Input
-        DocumentWorkerData workerData = new DocumentWorkerData();
-        workerData.data = "This is an Example";
-        workerData.encoding = DocumentWorkerEncoding.utf8;
+        List<Path> files = getFiles(Paths.get(inputPath));
 
-        List<DocumentWorkerData> workerDataList = new ArrayList<>();
-        workerDataList.add(workerData);
-
-        Map<String, List<DocumentWorkerData>> fields = new HashMap<>();
-        fields.put("ReferenceField", workerDataList);
-
-        DocumentWorkerTask task = new DocumentWorkerTask();
-        task.fields = fields;
-
-        DocumentWorkerTestInput testInput = new DocumentWorkerTestInput();
-        testInput.setTask(task);
-
-        //Set Document Worker Test Expectation
-        DocumentWorkerFieldChanges fieldChanges = new DocumentWorkerFieldChanges();
-        fieldChanges.action = DocumentWorkerAction.add;
-        fieldChanges.values = workerDataList;
-
-        List<DocumentWorkerFieldChanges> fieldChangesList = new ArrayList<>();
-        fieldChangesList.add(fieldChanges);
-
-        Map<String, DocumentWorkerFieldChanges> resultFieldChanges = new HashMap<>();
-        resultFieldChanges.put("This is an example", fieldChanges);
-
-
-        DocumentWorkerResult result = new DocumentWorkerResult();
-        result.fieldChanges = resultFieldChanges;
-
-        DocumentWorkerTestExpectation testExpectation = new DocumentWorkerTestExpectation();
-        testExpectation.setResult(result);
-
-        TestItem item = new TestItem("This is an example", testInput, testExpectation);
-
-        Collection<TestItem> testItems = new ArrayList<>();
-        testItems.add(item);
-
+        List<TestItem> testItems = new ArrayList<>(files.size());
+        for (Path inputFile : files) {
+            testItems.add(createTestItem(inputFile));
+        }
         return testItems;
+    }
+
+    private List<Path> getFiles(Path directory) throws IOException {
+        List<Path> fileNames = new ArrayList<>();
+        try (DirectoryStream<Path> directoryStream = Files.newDirectoryStream(directory)) {
+            for (Path path : directoryStream) {
+
+                if (Files.isDirectory(path)){
+                    if (includeSubFolders) {
+                        fileNames.addAll(getFiles(path));
+                    }
+                }
+                else {
+
+                    if (globPattern == null || path.getFileSystem().getPathMatcher(globPattern).matches(path.getFileName())) {
+                        fileNames.add(path);
+                    }
+                }
+            }
+        } catch (IOException ex) {
+            System.out.println(ex);
+            throw ex;
+        }
+        return fileNames;
+    }
+
+    private TestItem createTestItem(Path inputFile) throws Exception {
+
+        DocumentWorkerTestInput testInput = configuration.getInputClass().newInstance();
+
+        Path basePath = Paths.get(expectedPath);
+
+        Path relativePath = basePath.relativize(inputFile);
+        String normalizedRelativePath = relativePath.toString().replace("\\", "/");
+
+        DocumentWorkerTestExpectation testExpectation = configuration.getExpectationClass().newInstance();
+
+        TestItem<DocumentWorkerTestInput, DocumentWorkerTestExpectation> testItem = new TestItem<>(normalizedRelativePath, testInput, testExpectation);
+
+        testItem.getInputData().setTask(createDocumentWorkerTask(inputFile));
+
+        return testItem;
+    }
+
+    private DocumentWorkerTask createDocumentWorkerTask(Path inputFile) {
+
+        try {
+            DocumentWorkerTask task = configuration.getSerializer().readValue(inputFile.toFile(), configuration.getWorkerTaskClass());
+            return task;
+        }
+        catch (IOException e) {
+            e.printStackTrace();
+            throw new AssertionError("Failed to deserialize inputFile task: " + inputFile + ". Message: " + e.getMessage());
+        }
     }
 }
