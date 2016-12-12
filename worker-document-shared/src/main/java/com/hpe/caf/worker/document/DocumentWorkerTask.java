@@ -1,6 +1,5 @@
 package com.hpe.caf.worker.document;
 
-
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import javax.validation.constraints.NotNull;
@@ -19,8 +18,8 @@ public final class DocumentWorkerTask
     @NotNull
     public Map<String, List<DocumentWorkerData>> fields;
 
-    /*
-    *This is a method of providing further information to the document-worker.
+    /**
+     * This is a method of providing further information to the document-worker.
      */
     public Map<String, String> customMap;
 }
