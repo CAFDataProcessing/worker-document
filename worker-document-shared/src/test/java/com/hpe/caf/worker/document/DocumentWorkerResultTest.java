@@ -87,7 +87,7 @@ public final class DocumentWorkerResultTest
         testResult.fieldChanges = new HashMap<>();
         testResult.fieldChanges.put(
             "fieldName", createFieldChanges(
-                DocumentWorkerAction.add, createDataList("Deserialization Test", DocumentWorkerEncoding.utf8)));
+                DocumentWorkerAction.add, createDataList("Deserialization Test", DocumentWorkerFieldEncoding.utf8)));
 
         String testString = serialiseResult(testResult);
 
@@ -108,11 +108,11 @@ public final class DocumentWorkerResultTest
         DocumentWorkerResult dsTestResult = deserialiseResult(jsonString);
 
         DocumentWorkerFieldChanges changeOb = dsTestResult.fieldChanges.get("fieldName");
-        DocumentWorkerData recoveredData = changeOb.values.get(0);
+        DocumentWorkerFieldValue recoveredData = changeOb.values.get(0);
 
         assertEquals(DocumentWorkerAction.add, changeOb.action);
         assertEquals("Deserialization Test", recoveredData.data);
-        assertEquals(DocumentWorkerEncoding.utf8, recoveredData.encoding);
+        assertEquals(DocumentWorkerFieldEncoding.utf8, recoveredData.encoding);
     }
 
     @Test
@@ -126,7 +126,7 @@ public final class DocumentWorkerResultTest
         DocumentWorkerResult dsTestResult = deserialiseResult(jsonString);
 
         DocumentWorkerFieldChanges changeOb = dsTestResult.fieldChanges.get("fieldName");
-        DocumentWorkerData recoveredData = changeOb.values.get(0);
+        DocumentWorkerFieldValue recoveredData = changeOb.values.get(0);
         List<DocumentWorkerFailure> failure = dsTestResult.failures;
 
         assertEquals(DocumentWorkerAction.add, changeOb.action);
@@ -148,7 +148,7 @@ public final class DocumentWorkerResultTest
         DocumentWorkerResult dsTestResult = deserialiseResult(jsonString);
 
         DocumentWorkerFieldChanges changeOb = dsTestResult.fieldChanges.get("fieldName");
-        DocumentWorkerData recoveredData = changeOb.values.get(0);
+        DocumentWorkerFieldValue recoveredData = changeOb.values.get(0);
         List<DocumentWorkerFailure> failure = dsTestResult.failures;
 
         assertEquals(DocumentWorkerAction.add, changeOb.action);
@@ -169,7 +169,7 @@ public final class DocumentWorkerResultTest
         DocumentWorkerResult dsTestResult = deserialiseResult(jsonString);
 
         DocumentWorkerFieldChanges changeOb = dsTestResult.fieldChanges.get("fieldName");
-        DocumentWorkerData recoveredData = changeOb.values.get(0);
+        DocumentWorkerFieldValue recoveredData = changeOb.values.get(0);
 
         assertEquals(DocumentWorkerAction.add, changeOb.action);
         assertEquals("Deserialization Test", recoveredData.data);

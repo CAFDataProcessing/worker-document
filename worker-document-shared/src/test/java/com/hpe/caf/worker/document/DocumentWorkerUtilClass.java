@@ -15,38 +15,38 @@ public final class DocumentWorkerUtilClass
     {
     }
 
-    static DocumentWorkerData createData(String data, DocumentWorkerEncoding encoding)
+    static DocumentWorkerFieldValue createData(String data, DocumentWorkerFieldEncoding encoding)
     {
-        DocumentWorkerData documentWorkerData = new DocumentWorkerData();
-        documentWorkerData.data = data;
-        documentWorkerData.encoding = encoding;
-        return documentWorkerData;
+        DocumentWorkerFieldValue documentWorkerFieldValue = new DocumentWorkerFieldValue();
+        documentWorkerFieldValue.data = data;
+        documentWorkerFieldValue.encoding = encoding;
+        return documentWorkerFieldValue;
     }
 
-    static DocumentWorkerData createData(String data)
+    static DocumentWorkerFieldValue createData(String data)
     {
-        DocumentWorkerData documentWorkerData = new DocumentWorkerData();
-        documentWorkerData.data = data;
-        return documentWorkerData;
+        DocumentWorkerFieldValue documentWorkerFieldValue = new DocumentWorkerFieldValue();
+        documentWorkerFieldValue.data = data;
+        return documentWorkerFieldValue;
     }
 
-    static List<DocumentWorkerData> createDataList(String data, DocumentWorkerEncoding encoding)
+    static List<DocumentWorkerFieldValue> createDataList(String data, DocumentWorkerFieldEncoding encoding)
     {
-        List<DocumentWorkerData> documentWorkerDataList = new ArrayList<>();
-        DocumentWorkerData documentWorkerData = createData(data, encoding);
-        documentWorkerDataList.add(documentWorkerData);
-        return documentWorkerDataList;
+        List<DocumentWorkerFieldValue> documentWorkerFieldValueList = new ArrayList<>();
+        DocumentWorkerFieldValue documentWorkerFieldValue = createData(data, encoding);
+        documentWorkerFieldValueList.add(documentWorkerFieldValue);
+        return documentWorkerFieldValueList;
     }
 
-    static List<DocumentWorkerData> createDataList(String data)
+    static List<DocumentWorkerFieldValue> createDataList(String data)
     {
-        List<DocumentWorkerData> documentWorkerDataList = new ArrayList<>();
-        DocumentWorkerData documentWorkerData = createData(data);
-        documentWorkerDataList.add(documentWorkerData);
-        return documentWorkerDataList;
+        List<DocumentWorkerFieldValue> documentWorkerFieldValueList = new ArrayList<>();
+        DocumentWorkerFieldValue documentWorkerFieldValue = createData(data);
+        documentWorkerFieldValueList.add(documentWorkerFieldValue);
+        return documentWorkerFieldValueList;
     }
 
-    static DocumentWorkerFieldChanges createFieldChanges(DocumentWorkerAction action, List<DocumentWorkerData> values)
+    static DocumentWorkerFieldChanges createFieldChanges(DocumentWorkerAction action, List<DocumentWorkerFieldValue> values)
     {
         DocumentWorkerFieldChanges documentWorkerFieldChanges = new DocumentWorkerFieldChanges();
         documentWorkerFieldChanges.action = action;

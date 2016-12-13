@@ -16,10 +16,10 @@ public final class DocumentWorkerTask
      * The source data for worker-document to act upon.
      */
     @NotNull
-    public Map<String, List<DocumentWorkerData>> fields;
+    public Map<String, List<DocumentWorkerFieldValue>> fields;
 
     /**
      * This is a method of providing further information to the document-worker.
      */
-    public Map<String, String> customMap;
+    public Map<String, String> customData;
 }

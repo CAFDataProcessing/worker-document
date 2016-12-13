@@ -6,8 +6,8 @@ package com.hpe.caf.worker.document;
 import com.fasterxml.jackson.annotation.JsonInclude;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public final class DocumentWorkerData
+public final class DocumentWorkerFieldValue
 {
     public String data;
-    public DocumentWorkerEncoding encoding;
+    public DocumentWorkerFieldEncoding encoding;
 }

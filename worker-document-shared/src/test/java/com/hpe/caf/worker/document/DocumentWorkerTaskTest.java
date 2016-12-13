@@ -16,7 +16,7 @@ public final class DocumentWorkerTaskTest
     {
         DocumentWorkerTask testTask = new DocumentWorkerTask();
         testTask.fields = new HashMap<>();
-        testTask.fields.put("Name", createDataList("base64 encoding", DocumentWorkerEncoding.base64));
+        testTask.fields.put("Name", createDataList("base64 encoding", DocumentWorkerFieldEncoding.base64));
 
         String testString = serialiseTask(testTask);
 
@@ -32,7 +32,7 @@ public final class DocumentWorkerTaskTest
     {
         DocumentWorkerTask testTask = new DocumentWorkerTask();
         testTask.fields = new HashMap<>();
-        testTask.fields.put("Name", createDataList("utf8 encoding", DocumentWorkerEncoding.utf8));
+        testTask.fields.put("Name", createDataList("utf8 encoding", DocumentWorkerFieldEncoding.utf8));
 
         String testString = serialiseTask(testTask);
 
@@ -68,10 +68,10 @@ public final class DocumentWorkerTaskTest
 
         DocumentWorkerTask dsTestTask = deserialiseTask(jsonString);
 
-        DocumentWorkerData dataOb = dsTestTask.fields.get("Name").get(0);
+        DocumentWorkerFieldValue dataOb = dsTestTask.fields.get("Name").get(0);
 
         assertEquals("base64 encoding", dataOb.data);
-        assertEquals(DocumentWorkerEncoding.base64, dataOb.encoding);
+        assertEquals(DocumentWorkerFieldEncoding.base64, dataOb.encoding);
     }
 
     @Test
@@ -83,10 +83,10 @@ public final class DocumentWorkerTaskTest
 
         DocumentWorkerTask dsTestTask = deserialiseTask(jsonString);
 
-        DocumentWorkerData dataOb = dsTestTask.fields.get("Name").get(0);
+        DocumentWorkerFieldValue dataOb = dsTestTask.fields.get("Name").get(0);
 
         assertEquals("utf8 encoding", dataOb.data);
-        assertEquals(DocumentWorkerEncoding.utf8, dataOb.encoding);
+        assertEquals(DocumentWorkerFieldEncoding.utf8, dataOb.encoding);
     }
 
     @Test
@@ -98,7 +98,7 @@ public final class DocumentWorkerTaskTest
 
         DocumentWorkerTask dsTestTask = deserialiseTask(jsonString);
 
-        DocumentWorkerData dataOb = dsTestTask.fields.get("Name").get(0);
+        DocumentWorkerFieldValue dataOb = dsTestTask.fields.get("Name").get(0);
 
         assertEquals("null encoding", dataOb.data);
         assertEquals(null, dataOb.encoding);

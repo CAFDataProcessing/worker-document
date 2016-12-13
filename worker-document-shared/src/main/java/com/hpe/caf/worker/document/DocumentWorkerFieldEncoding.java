@@ -3,7 +3,7 @@
  */
 package com.hpe.caf.worker.document;
 
-public enum DocumentWorkerEncoding
+public enum DocumentWorkerFieldEncoding
 {
     // UFT8 Encoding to be used.
     utf8,

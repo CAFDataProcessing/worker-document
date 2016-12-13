@@ -8,5 +8,5 @@ import java.util.List;
 public final class DocumentWorkerFieldChanges
 {
     public DocumentWorkerAction action;
-    public List<DocumentWorkerData> values;
+    public List<DocumentWorkerFieldValue> values;
 }
