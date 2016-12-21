@@ -7,11 +7,45 @@
     <groupId>com.hpe.caf.worker</groupId>
     <artifactId>worker-document-archetype</artifactId>
     <version>1.0.0-SNAPSHOT</version>
+    <packaging>maven-archetype</packaging>
 
-    <parent>
-        <groupId>com.hpe.caf.worker</groupId>
-        <artifactId>worker-document-aggregator</artifactId>
-        <version>1.0.0-SNAPSHOT</version>
-    </parent>
+    <build>
+        <extensions>
+            <extension>
+                <groupId>org.apache.maven.archetype</groupId>
+                <artifactId>archetype-packaging</artifactId>
+                <version>2.4</version>
+            </extension>
+        </extensions>
+
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <artifactId>maven-archetype-plugin</artifactId>
+                    <version>2.4</version>
+                    <dependencies>
+                        <dependency>
+                            <groupId>org.apache.maven.shared</groupId>
+                            <artifactId>maven-invoker</artifactId>
+                            <version>2.2</version>
+                        </dependency>
+                    </dependencies>
+                </plugin>
+            </plugins>
+        </pluginManagement>
+    </build>
+
+    <distributionManagement>
+        <repository>
+            <id>HPEreleases</id>
+            <name>Internal Releases</name>
+            <url>http://rh7-artifactory.svs.hpeswlab.net:8081/artifactory/libs-release-local</url>
+        </repository>
+        <snapshotRepository>
+            <id>HPEsnapshots</id>
+            <name>Internal Snapshots</name>
+            <url>http://rh7-artifactory.svs.hpeswlab.net:8081/artifactory/libs-snapshot-local</url>
+        </snapshotRepository>
+    </distributionManagement>
 
 </project>

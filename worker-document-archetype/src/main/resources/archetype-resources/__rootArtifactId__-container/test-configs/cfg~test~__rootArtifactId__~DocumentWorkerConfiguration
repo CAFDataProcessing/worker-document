@@ -1,0 +1,8 @@
+{
+    "workerName": "${workerName}",
+    "workerVersion": "${version}",
+    "outputQueue": "${workerName}-output-1",
+    "threads": 1,
+    "maxBatchSize": 2,
+    "maxBatchTime": 5000
+}

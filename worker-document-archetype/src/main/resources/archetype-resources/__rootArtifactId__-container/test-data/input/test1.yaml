@@ -1,0 +1,13 @@
+#set( $symbol_pound = '#' )
+#set( $symbol_dollar = '$' )
+#set( $symbol_escape = '\' )
+---
+fields:
+  REFERENCE:
+    - data: "/mnt/fs/docs/hr policy.doc"
+    - data: "/mnt/fs/docs/strategy.doc"
+  REFERENCED_VALUE:
+    - data: VGhpcyBpcyBhIHRlc3QgdmFsdWU=
+      encoding: base64
+customData:
+  ADDITIONAL_INFO: "this is some additional info"
