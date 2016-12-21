@@ -31,9 +31,4 @@ public class DocumentWorkerSaveResultProcessor extends OutputToFileProcessor<Doc
         testItem.getExpectedOutputData().setResult(workerResult);
         return getSerializedTestItem(testItem, configuration);
     }
-
-    @Override
-    protected byte[] getFailedOutputContent(TaskMessage message, TestItem<DocumentWorkerTestInput, DocumentWorkerTestExpectation> testItem) throws Exception {
-        return new byte[0];
-    }
 }

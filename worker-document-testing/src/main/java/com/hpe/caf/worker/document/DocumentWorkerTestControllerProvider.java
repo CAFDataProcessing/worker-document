@@ -1,22 +1,17 @@
 package com.hpe.caf.worker.document;
 
-import com.hpe.caf.worker.document.DocumentWorkerConstants;
-import com.hpe.caf.worker.document.DocumentWorkerResult;
-import com.hpe.caf.worker.document.DocumentWorkerTask;
 import com.hpe.caf.worker.testing.*;
 import com.hpe.caf.worker.testing.execution.AbstractTestControllerProvider;
-
-import java.util.function.Function;
 
 /**
  * Class providing task factory, validation processor, save result processor, result preparation provider for running integration
  * tests.
  */
-public class DocumentWorkerTestControllerProvider<TConfiguration> extends AbstractTestControllerProvider<TConfiguration,
+public class DocumentWorkerTestControllerProvider extends AbstractTestControllerProvider<DocumentWorkerConfiguration,
         DocumentWorkerTask, DocumentWorkerResult, DocumentWorkerTestInput, DocumentWorkerTestExpectation> {
 
-    public DocumentWorkerTestControllerProvider(Function<TConfiguration, String> queueNameFunc, Class TConfiguration) {
-        super(DocumentWorkerConstants.WORKER_NAME, queueNameFunc, TConfiguration, DocumentWorkerTask.class, DocumentWorkerResult.class, DocumentWorkerTestInput.class, DocumentWorkerTestExpectation.class);
+    public DocumentWorkerTestControllerProvider() {
+        super(DocumentWorkerConstants.WORKER_NAME, DocumentWorkerConfiguration::getOutputQueue, DocumentWorkerConfiguration.class, DocumentWorkerTask.class, DocumentWorkerResult.class, DocumentWorkerTestInput.class, DocumentWorkerTestExpectation.class);
     }
 
     /**
