@@ -10,14 +10,26 @@ Below is an illustration showing the communication between a document-worker and
 
 ## Modules
 
+### worker-document
+
+This repository defines public base classes which facilitate the creation of projects generated from the [worker-document-archetype](worker-document-archetype). The project can be found in [worker-document](worker-document).
+
+### worker-document-archetype
+
+This repository is a Maven Archetype template for the generation of a new generic CAF Document Worker project. Generation of a worker project with the Maven Archetype will produce a generic Document Worker with minimal functionality. The project can be found in [worker-document-archetype](worker-document-archetype).
+
+### worker-document-framework
+
+This project is used for centralizing dependency information for a Document Worker. The project can be found in [worker-document-framework](worker-document-framework).
+
+### worker-document-interface
+
+This library defines public interfaces to assist with the implementation of a Document Worker. The project can be found in [worker-document-interface](worker-document-interface).
+
 ### worker-document-shared
 
 This is the shared library defining public classes that constitute the worker interface to be used by consumers of the Document Worker. The project can be found in [worker-document-shared](worker-document-shared).
 
-### worker-document-archetype
-
-This repository is a Maven Archetype template for the generation of a new generic CAF Document Worker project. Generation of a worker project with the Maven Archetype will produce a generic Document Worker with minimal functionality. The project can be found in [worker-document-testing](worker-document-archetype).
-
-### worker-markup-testing
+### worker-document-testing
 
 This contains implementations of the testing framework to allow for integration testing of the Document Worker. The project can be found in [worker-document-testing](worker-document-testing).
