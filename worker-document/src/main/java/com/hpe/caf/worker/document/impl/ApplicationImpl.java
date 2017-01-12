@@ -10,7 +10,7 @@ import com.hpe.caf.worker.document.model.Application;
 import com.hpe.caf.worker.document.model.ServiceLocator;
 import java.util.Objects;
 
-public final class ApplicationImpl implements Application
+public class ApplicationImpl implements Application
 {
     private final ServiceLocatorImpl serviceLocator;
     private final ConfigurationSource configSource;
