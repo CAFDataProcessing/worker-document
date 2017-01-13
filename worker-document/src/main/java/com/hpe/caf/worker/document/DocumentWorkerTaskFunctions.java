@@ -87,7 +87,7 @@ public final class DocumentWorkerTaskFunctions
         }
 
         try {
-            return codec.deserialise(data, DocumentWorkerTask.class, DecodeMethod.LENIENT);
+            return codec.deserialise(data, DocumentWorkerTask.class, DecodeMethod.STRICT);
         } catch (CodecException e) {
             throw new InvalidTaskException("Invalid input message", e);
         }
