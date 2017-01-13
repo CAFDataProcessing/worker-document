@@ -47,7 +47,7 @@ public class DocumentWorkerTestControllerProvider extends AbstractTestController
     }
 
     /**
-     * Return a save result processor for generating .testcase and result.content files found in test-data > input folder.
+     * Return a save result processor for generating .testcase and result.content files found in test-data &gt; input folder.
      * @param configuration
      * @param workerServices
      * @return DocumentWorkerSaveResultProcessor
