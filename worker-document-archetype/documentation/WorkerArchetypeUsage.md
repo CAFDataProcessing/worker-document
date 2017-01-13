@@ -55,6 +55,7 @@ A new Document Worker aggregator project generated from the Document Worker Arch
 
 The following subsections provide instructions on how you can use Maven Command Line Interface (CLI), IntelliJ Integrated Development
 Environment (IDE) or NetBeans IDE to create the components of a Document Worker from the Document Worker Archetype.
+*Note: You must replace __WORKER-DOCUMENT-ARCHETYPE-VERSION__ with a valid version of Worker-Document-Archetype.*
 
 #### Maven CLI
 
@@ -64,8 +65,7 @@ where you run the command will be where the project is created.
 ##### Generate the New Document Worker Aggregator
 
 Generate the new Document Worker Aggregator from the `worker-document-archetype` with the following Maven command:
-
-<pre>mvn archetype:generate -DarchetypeRepository=http://rh7-artifactory.svs.hpeswlab.net:8081/artifactory/hpe-mirror -DarchetypeVersion=1.0.0 -DarchetypeArtifactId=worker-document-archetype -DarchetypeGroupId=com.hpe.caf.worker</pre>
+<pre>mvn archetype:generate -DarchetypeRepository=http://rh7-artifactory.svs.hpeswlab.net:8081/artifactory/hpe-mirror -DarchetypeVersion=WORKER-DOCUMENT-ARCHETYPE-VERSION -DarchetypeArtifactId=worker-document-archetype -DarchetypeGroupId=com.hpe.caf.worker</pre>
 
 The CLI will prompt you for artifactId, groupId, version (default suggestion is 1.0.0-SNAPSHOT), package (default suggestion is the
 groupId, you should however adjust this to include the worker's purpose) and workerName properties required for the new Document Worker
@@ -94,7 +94,7 @@ Generate the new Document Worker Aggregator from the `worker-document-archetype`
 - Specify the details of the 'worker-document-archetype'
 	- GroupId : com.hpe.caf.worker
 	- ArtifactId : worker-document-archetype
-	- Version : 1.0.0
+	- Version : *WORKER-DOCUMENT-ARCHETYPE-VERSION*
 	- Repository : http://rh7-artifactory.svs.hpeswlab.net:8081/artifactory/hpe-mirror
 	- Click 'OK'
 - Select the added 'com.hpe.caf.worker:worker-document-archetype' archetype > Click 'Next'
@@ -127,7 +127,7 @@ Generate the new Document Worker Aggregator from the `worker-document-archetype`
 - Specify the details of the 'worker-document-archetype'
 	- GroupId : com.hpe.caf.worker
 	- ArtifactId : worker-document-archetype
-	- Version : 1.0.0
+	- Version : *WORKER-DOCUMENT-ARCHETYPE-VERSION*
 	- Repository : http://rh7-artifactory.svs.hpeswlab.net:8081/artifactory/hpe-mirror
 	- Click 'Next >'
 - Enter Project Name, Project Location, GroupId, Version and Package of your Worker Shared project, e.g:
