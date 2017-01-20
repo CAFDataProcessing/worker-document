@@ -13,7 +13,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
-        <caf.worker-document-framework.version>1.0.0-SNAPSHOT</caf.worker-document-framework.version>
+        <caf.worker-document-framework.version>${archetypeVersion}</caf.worker-document-framework.version>
     </properties>
 
     <dependencyManagement>

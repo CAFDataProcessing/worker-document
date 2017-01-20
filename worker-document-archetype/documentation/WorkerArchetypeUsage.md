@@ -67,7 +67,7 @@ where you run the command will be where the project is created.
 Generate the new Document Worker Aggregator from the `worker-document-archetype` with the following Maven command:
 <pre>mvn archetype:generate -DarchetypeRepository=http://rh7-artifactory.svs.hpeswlab.net:8081/artifactory/hpe-mirror -DarchetypeVersion=WORKER-DOCUMENT-ARCHETYPE-VERSION -DarchetypeArtifactId=worker-document-archetype -DarchetypeGroupId=com.hpe.caf.worker</pre>
 
-The CLI will prompt you for artifactId, groupId, version (default suggestion is 1.0.0-SNAPSHOT), package (default suggestion is the
+The CLI will prompt you for artifactId, groupId, version (default suggestion is 1.0-SNAPSHOT), package (default suggestion is the
 groupId, you should however adjust this to include the worker's purpose) and workerName properties required for the new Document Worker
 project. See Figure 1.
 
@@ -130,7 +130,7 @@ Generate the new Document Worker Aggregator from the `worker-document-archetype`
 	- Version : *WORKER-DOCUMENT-ARCHETYPE-VERSION*
 	- Repository : http://rh7-artifactory.svs.hpeswlab.net:8081/artifactory/hpe-mirror
 	- Click 'Next >'
-- Enter Project Name, Project Location, GroupId, Version and Package of your Worker Shared project, e.g:
+- Enter Project Name, Project Location, GroupId, Version and Package of your Worker project, e.g:
 	- Project Name : worker-documentexample
 	- Project Location : C:\MyWorkerProjects
 	- GroupId : com.hpe.caf.worker
