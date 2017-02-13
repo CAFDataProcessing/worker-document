@@ -4,23 +4,23 @@
 package ${package};
 
 import com.hpe.caf.worker.document.exceptions.DocumentWorkerTransientException;
-import com.hpe.caf.worker.document.extensibility.BulkDocumentWorker;
+import com.hpe.caf.worker.document.extensibility.DocumentWorker;
 import com.hpe.caf.worker.document.model.*;
 import java.util.HashMap;
 import java.util.Map;
 
 /**
- * This is an example implementation of the BulkDocumentWorker interface.
+ * This is an example implementation of the DocumentWorker interface.
  * <p>
- * Implementing the BulkDocumentWorker interface provides an easy way to efficiently integrate into the Data Processing pipeline.
+ * Implementing the DocumentWorker interface provides an easy way to efficiently integrate into the Data Processing pipeline.
  * Documents passing through the pipeline can be routed to the worker and enriched from an external source such as a database.
  * <p>
  * The example implementation simply does a lookup from an internal in-memory map.
  * <p>
- * If there is no efficiency to be gained by processing documents together then the DocumentWorker interface should be implemented instead
- * of the BulkDocumentWorker interface. (The example implementation breaks this rule but does so just for demonstration purposes.)
+ * If it would be more efficient to process multiple documents together then the BulkDocumentWorker interface can be implemented instead
+ * of the DocumentWorker interface.
  */
-public class ${workerName} implements BulkDocumentWorker
+public class ${workerName} implements DocumentWorker
 {
     private final Map<String, Integer> IdLookupMap;
 
@@ -47,6 +47,12 @@ public class ${workerName} implements BulkDocumentWorker
 
     /**
      * Processes a single document.
+     * <p>
+     * This example implementation sets the values of the 'UNIQUE_ID' field based on the values of the 'REFERENCE' field. The references
+     * are looked up in an internal in-memory map, and if any of them are present then the corresponding unique ids are set.
+     * <p>
+     * Obviously a real implementation would likely query a central database rather than having an in-memory map, and it would also
+     * operate in bulk rather than a single document at a time as presented here.
      *
      * @param document the document to be processed. Fields can be added or removed from the document.
      * @throws InterruptedException if any thread has interrupted the current thread
@@ -54,35 +60,6 @@ public class ${workerName} implements BulkDocumentWorker
      */
     @Override
     public void processDocument(Document document) throws InterruptedException, DocumentWorkerTransientException
-    {
-        doWorkOnFields(document);
-    }
-
-    /**
-     * Processes a collection of documents.
-     *
-     * @param documents the documents to be processed. Fields can be added or removed from the documents.
-     * @throws InterruptedException if any thread has interrupted the current thread
-     * @throws DocumentWorkerTransientException if the documents could not be processed
-     */
-    @Override
-    public void processDocuments(Documents documents) throws InterruptedException, DocumentWorkerTransientException
-    {
-        for (Document document : documents) {
-            doWorkOnFields(document);
-        }
-    }
-
-    /**
-     * This example implementation sets the values of the 'UNIQUE_ID' field based on the values of the 'REFERENCE' field. The references
-     * are looked up in an internal in-memory map, and if any of them are present then the corresponding unique ids are set.
-     * <p>
-     * Obviously a real implementation would likely query a central database rather than having an in-memory map, and it would also
-     * operate in bulk rather than a single document at a time as presented here.
-     *
-     * @param document the document to be processed
-     */
-    private void doWorkOnFields(Document document)
     {
         // Get the REFERENCE and UNIQUE_ID fields
         Field referenceField = document.getField("REFERENCE");
