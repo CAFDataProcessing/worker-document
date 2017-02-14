@@ -4,16 +4,12 @@ import com.hpe.caf.api.worker.WorkerConfiguration;
 
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
 
 public class DocumentWorkerConfiguration extends WorkerConfiguration
 {
     /**
      * Output queue to return results to RabbitMQ.
      */
-    @NotNull
-    @Size(min = 1)
     private String outputQueue;
 
     /**
