@@ -23,11 +23,11 @@ public final class ServiceFunctions
      * @param service the interface or abstract class representing the service
      * @return a new instance of the service, or null if the service could not be loaded
      */
-    public static <S> S loadService(Class<S> service)
+    public static <S> S loadService(final Class<S> service)
     {
-        ServiceLoader<S> documentWorkerFactoryLoader = ServiceLoader.load(service);
+        final ServiceLoader<S> serviceLoader = ServiceLoader.load(service);
 
-        return StreamSupport.stream(documentWorkerFactoryLoader.spliterator(), false)
+        return StreamSupport.stream(serviceLoader.spliterator(), false)
             .findFirst()
             .orElse(null);
     }
