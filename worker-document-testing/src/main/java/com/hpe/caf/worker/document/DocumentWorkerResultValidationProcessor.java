@@ -13,46 +13,78 @@ import java.util.Map;
 /**
  * Processor for validation of the worker result, compares with the expected result in the test item.
  */
-public class DocumentWorkerResultValidationProcessor extends PropertyValidatingProcessor<DocumentWorkerResult, DocumentWorkerTestInput, DocumentWorkerTestExpectation> {
-
-    public DocumentWorkerResultValidationProcessor(TestConfiguration<DocumentWorkerTask, DocumentWorkerResult, DocumentWorkerTestInput, DocumentWorkerTestExpectation> testConfiguration, WorkerServices workerServices) {
-        super(testConfiguration, workerServices, ValidationSettings.configure().build());
+public class DocumentWorkerResultValidationProcessor<TTestInput>
+        extends PropertyValidatingProcessor<DocumentWorkerResult, TTestInput, DocumentWorkerTestExpectation>
+{
+    public DocumentWorkerResultValidationProcessor(final TestConfiguration<DocumentWorkerTask,
+                                                                           DocumentWorkerResult,
+                                                                           TTestInput,
+                                                                           DocumentWorkerTestExpectation> testConfiguration,
+                                                   WorkerServices workerServices)
+    {
+        super(testConfiguration,
+              workerServices,
+              ValidationSettings.configure()
+                      .customValidators(new DocumentWorkerFieldValueValidator(workerServices.getDataStore(),
+                                                                              testConfiguration,
+                                                                              workerServices.getCodec()))
+                      .build());
     }
 
-    /**
-     * Validates the result by comparing the test expectation in the test item with the actual worker result.
-     * First it asserts that the result has the correct worker status.
-     * Then it passes the test item and worker result back to the superclass.
-     * The superclass compares the referenced data in the worker result with the test item and calculates a similarity percentage
-     * between the text in the worker result with the text in the expected result.
-     * @param testItem
-     * @param message
-     * @param workerResult
-     * @return boolean
-     * @throws Exception
-     */
     @Override
-    protected boolean processWorkerResult(TestItem<DocumentWorkerTestInput, DocumentWorkerTestExpectation> testItem, TaskMessage message, DocumentWorkerResult workerResult) throws Exception {
+    protected boolean processWorkerResult(TestItem<TTestInput, DocumentWorkerTestExpectation> testItem,
+                                          TaskMessage message,
+                                          DocumentWorkerResult workerResult) throws Exception {
         return super.processWorkerResult(testItem, message, workerResult);
     }
 
     @Override
-    protected boolean isCompleted(TestItem<DocumentWorkerTestInput, DocumentWorkerTestExpectation> testItem, TaskMessage message, DocumentWorkerResult documentWorkerResult) {
+    protected boolean isCompleted(TestItem<TTestInput, DocumentWorkerTestExpectation> testItem,
+                                  TaskMessage message,
+                                  DocumentWorkerResult documentWorkerResult) {
         return true;
     }
 
     @Override
-    protected Map<String, Object> getExpectationMap(TestItem<DocumentWorkerTestInput, DocumentWorkerTestExpectation> testItem, TaskMessage message, DocumentWorkerResult documentWorkerResult) {
+    protected Map<String, Object> getExpectationMap(TestItem<TTestInput, DocumentWorkerTestExpectation> testItem,
+                                                    TaskMessage message,
+                                                    DocumentWorkerResult documentWorkerResult) {
 
-        ObjectMapper mapper = new ObjectMapper();
+        final ObjectMapper mapper = new ObjectMapper();
         mapper.registerModule(new GuavaModule());
-        DocumentWorkerResult expectation = testItem.getExpectedOutputData().getResult();
-        PropertyMap expectationPropertyMap = mapper.convertValue(expectation,PropertyMap.class);
+        final DocumentWorkerResultExpectation expectation = testItem.getExpectedOutputData().getResult();
+        final PropertyMap expectationPropertyMap = convert(expectation);
         return expectationPropertyMap;
     }
 
     @Override
-    protected Object getValidatedObject(TestItem<DocumentWorkerTestInput, DocumentWorkerTestExpectation> testItem, TaskMessage message, DocumentWorkerResult documentWorkerResult) {
-        return documentWorkerResult;
+    protected Object getValidatedObject(TestItem<TTestInput, DocumentWorkerTestExpectation> testItem,
+                                        TaskMessage message,
+                                        DocumentWorkerResult documentWorkerResult) {
+        return convert(documentWorkerResult);
+    }
+
+    private PropertyMap convert(final DocumentWorkerResult result) {
+        final PropertyMap propertyMap = new PropertyMap();
+        if (result != null) {
+            if (result.fieldChanges != null) {
+                propertyMap.put("fieldChanges", result.fieldChanges);
+            }
+            if (result.failures != null) {
+                propertyMap.put("failures", result.failures);
+            }
+        }
+        return propertyMap;
+    }
+
+    private PropertyMap convert(final DocumentWorkerResultExpectation result) {
+        final PropertyMap propertyMap = new PropertyMap();
+        if (result.fieldChanges != null) {
+            propertyMap.put("fieldChanges", result.fieldChanges);
+        }
+        if (result.failures != null) {
+            propertyMap.put("failures", result.failures);
+        }
+        return propertyMap;
     }
 }
