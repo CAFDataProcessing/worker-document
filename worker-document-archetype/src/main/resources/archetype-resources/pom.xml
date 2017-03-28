@@ -4,16 +4,16 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>${groupId}</groupId>
-    <artifactId>${artifactId}-aggregator</artifactId>
-    <version>${version}</version>
+    <groupId>\${groupId}</groupId>
+    <artifactId>\${artifactId}-aggregator</artifactId>
+    <version>\${version}</version>
     <packaging>pom</packaging>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
-        <caf.worker-document-framework.version>${archetypeVersion}</caf.worker-document-framework.version>
+        <caf.worker-document-framework.version>${project.version}</caf.worker-document-framework.version>
     </properties>
 
     <dependencyManagement>
@@ -21,7 +21,7 @@
             <dependency>
                 <groupId>com.hpe.caf.worker</groupId>
                 <artifactId>worker-document-framework</artifactId>
-                <version>${caf.worker-document-framework.version}</version>
+                <version>\${caf.worker-document-framework.version}</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
@@ -29,8 +29,8 @@
     </dependencyManagement>
 
     <modules>
-        <module>${artifactId}</module>
-        <module>${artifactId}-container</module>
+        <module>\${artifactId}</module>
+        <module>\${artifactId}-container</module>
     </modules>
 
 </project>
