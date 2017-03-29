@@ -19,6 +19,7 @@
         <dependency>
             <groupId>com.hpe.caf.worker</groupId>
             <artifactId>worker-document-framework</artifactId>
+            <type>pom</type>
             <version>${project.version}</version>
             <scope>test</scope>
         </dependency>
