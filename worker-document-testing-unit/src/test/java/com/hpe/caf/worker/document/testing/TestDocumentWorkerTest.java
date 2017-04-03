@@ -4,14 +4,10 @@ import com.hpe.caf.api.CodecException;
 import com.hpe.caf.api.worker.DataStoreException;
 import com.hpe.caf.api.worker.WorkerException;
 import com.hpe.caf.worker.document.DocumentWorkerFieldEncoding;
-import com.hpe.caf.worker.document.DocumentWorkerTask;
 import com.hpe.caf.worker.document.exceptions.DocumentWorkerTransientException;
-import com.hpe.caf.worker.document.impl.DocumentImpl;
 import com.hpe.caf.worker.document.model.Document;
-import org.apache.commons.io.FileUtils;
 import org.junit.Test;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.List;
 import static org.hamcrest.CoreMatchers.hasItem;
@@ -49,14 +45,6 @@ public class TestDocumentWorkerTest
 
         TestDocumentWorker worker = new TestDocumentWorker();
         worker.processDocument(testDocument);
-
-        DocumentImpl doc = (DocumentImpl) testDocument;
-
-        DocumentWorkerTask documentWorkerTask = doc.getDocumentWorkerTask();
-        byte[] bytes = testServices.getCodec().serialise(documentWorkerTask);
-
-        File file = new File("task.json");
-        FileUtils.writeByteArrayToFile(file, bytes);
 
         int testContentCount = testContent.split("\\s").length;
         int testTitleCount = testTitle.split("\\s").length;
