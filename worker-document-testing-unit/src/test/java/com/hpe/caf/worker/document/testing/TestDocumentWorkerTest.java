@@ -21,7 +21,7 @@ import static org.junit.Assert.assertThat;
 public class TestDocumentWorkerTest
 {
     @Test
-    public void testTestDocumenntWorkerCountWordsInContentAndTitle()
+    public void testTestDocumentWorkerCountWordsInContentAndTitle()
         throws DocumentWorkerTransientException, InterruptedException, DataStoreException, WorkerException, CodecException, IOException
     {
         TestServices testServices = TestServices.createDefault();
