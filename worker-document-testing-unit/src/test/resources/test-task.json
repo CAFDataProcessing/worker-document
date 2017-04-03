@@ -1,0 +1,26 @@
+{
+    "fields": {
+        "field1": [
+            {
+                "data": "value1-1"
+            },
+            {
+                "data": "value1-2"
+            }
+        ],
+        "field2": [
+            {
+                "data": "dmFsdWUyLTE=",
+                "encoding": "base64"
+            },
+            {
+                "data": "value2-2",
+                "encoding": "storage_ref"
+            }
+        ]
+    },
+    "customData": {
+        "data2": "value2",
+        "data1": "value1"
+    }
+}

@@ -22,6 +22,7 @@
         <module>worker-document-framework</module>
         <module>worker-document-shared</module>
         <module>worker-document-testing</module>
+        <module>worker-document-testing-unit</module>
     </modules>
 
     <dependencyManagement>
@@ -29,7 +30,7 @@
             <dependency>
                 <groupId>com.github.workerframework</groupId>
                 <artifactId>worker-framework</artifactId>
-                <version>1.6.0-181</version>
+                <version>1.7.0-SNAPSHOT</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>

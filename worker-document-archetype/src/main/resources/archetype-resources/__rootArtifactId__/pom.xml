@@ -20,6 +20,18 @@
             <artifactId>worker-document-interface</artifactId>
             <scope>provided</scope>
         </dependency>
+
+        <!-- Test dependencies -->
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.hpe.caf.worker</groupId>
+            <artifactId>worker-document-testing-unit</artifactId>
+            <scope>test</scope>
+        </dependency>
     </dependencies>
 
 </project>

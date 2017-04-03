@@ -36,6 +36,11 @@
                 <artifactId>worker-document-testing</artifactId>
                 <version>${project.version}</version>
             </dependency>
+            <dependency>
+                <groupId>com.hpe.caf.worker</groupId>
+                <artifactId>worker-document-testing-unit</artifactId>
+                <version>${project.version}</version>
+            </dependency>
         </dependencies>
     </dependencyManagement>
 
