@@ -1,4 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright 2015-2017 Hewlett Packard Enterprise Development LP.
+
+    Licensed under the Apache License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+         http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
@@ -18,12 +35,13 @@
         <maven.install.skip>true</maven.install.skip>
         <maven.deploy.skip>true</maven.deploy.skip>
         <docker.maven.version>0.13.6</docker.maven.version>
-        <${rootArtifactId}.container.name>rh7-artifactory.svs.hpeswlab.net:8443/caf/${rootArtifactId}:${project.version}</${rootArtifactId}.container.name>
+        <${rootArtifactId}.container.name>${rootArtifactId}:${project.version}</${rootArtifactId}.container.name>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <test.data>${project.basedir}/test-data/input</test.data>
         <test.configs>${project.basedir}/test-configs</test.configs>
         <maven.failsafe.version>2.19</maven.failsafe.version>
         <maven.compiler.version>3.3</maven.compiler.version>
+        <fabric8.docker.maven.version>0.16.7</fabric8.docker.maven.version>
     </properties>
 
     <!-- CAF standard worker container dependency, ${workerName} dependency. -->
@@ -32,6 +50,12 @@
             <groupId>com.github.workerframework</groupId>
             <artifactId>standard-worker-container</artifactId>
             <type>pom</type>
+            <exclusions>
+                <exclusion>
+                    <groupId>com.github.workerframework</groupId>
+                    <artifactId>worker-store-cs</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <dependency>
             <groupId>${groupId}</groupId>
@@ -39,7 +63,7 @@
             <version>${version}</version>
         </dependency>
         <dependency>
-            <groupId>com.hpe.caf.worker</groupId>
+            <groupId>com.github.cafdataprocessing</groupId>
             <artifactId>worker-document</artifactId>
         </dependency>
         <dependency>
@@ -48,9 +72,13 @@
             <type>tar.gz</type>
         </dependency>
         <dependency>
-            <groupId>com.hpe.caf.worker</groupId>
+            <groupId>com.github.cafdataprocessing</groupId>
             <artifactId>worker-document-testing</artifactId>
             <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.github.workerframework</groupId>
+            <artifactId>worker-store-fs</artifactId>
         </dependency>
     </dependencies>
 
@@ -91,12 +119,12 @@
                         <rabbitmq.ctrl.port>${rabbitmq.ctrl.port}</rabbitmq.ctrl.port>
                         <input.folder>${test.data}</input.folder>
                         <expected.folder>${test.data}</expected.folder>
-                        <datastore.container.id>b591d8c6615c4af99d7915719b01259c</datastore.container.id>
-                        <datastore.enabled>true</datastore.enabled>
+                        <datastore.enabled>false</datastore.enabled>
                     </systemPropertyVariables>
                     <environmentVariables>
                         <CAF_APPNAME>test/${rootArtifactId}</CAF_APPNAME>
                         <CAF_CONFIG_PATH>${test.configs}</CAF_CONFIG_PATH>
+                        <CAF_INTEGRATIONTESTS_FS_PATH>datastore</CAF_INTEGRATIONTESTS_FS_PATH>
                     </environmentVariables>
                 </configuration>
             </plugin>
@@ -105,9 +133,9 @@
                 for running the integration tests.
             -->
             <plugin>
-                <groupId>org.jolokia</groupId>
+                <groupId>io.fabric8</groupId>
                 <artifactId>docker-maven-plugin</artifactId>
-                <version>${docker.maven.version}</version>
+                <version>${fabric8.docker.maven.version}</version>
                 <executions>
                     <!-- Build the container in compile phase. -->
                     <execution>
@@ -148,8 +176,38 @@
                 <configuration>
                     <watchInterval>500</watchInterval>
                     <logDate>default</logDate>
+                    <autoPull>always</autoPull>
                     <verbose>true</verbose>
                     <images>
+                        <!-- WebDav -->
+                        <image>
+                            <alias>webdav</alias>
+                            <name>cloudesire/webdav</name>
+                            <run>
+                                <volumes>
+                                    <bind>
+                                        <volume>/srv/common/webdav</volume>
+                                    </bind>
+                                </volumes>
+                                <ports>
+                                    <port>${webdav.apache.port}:8080</port>
+                                </ports>
+                                <env>
+                                    <APACHE_PORT>8080</APACHE_PORT>
+                                </env>
+                                <wait>
+                                    <log>WebDAV Server startup complete</log>
+                                    <http>
+                                        <url>http://${docker.host.address}:${webdav.apache.port}</url>
+                                    </http>
+                                    <time>120000</time>
+                                    <shutdown>500</shutdown>
+                                </wait>
+                                <log>
+                                    <enabled>true</enabled>
+                                </log>
+                            </run>
+                        </image>
                         <!-- Run the RabbitMQ image. -->
                         <image>
                             <alias>rabbitmq</alias>
@@ -267,6 +325,7 @@
                                 <volumes>
                                     <from>
                                         <image>config</image>
+                                        <image>webdav</image>
                                     </from>
                                 </volumes>
                                 <links>

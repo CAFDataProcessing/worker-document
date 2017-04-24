@@ -2,7 +2,6 @@
 
 ## Prerequisites
 
-- Refer to the correct Maven Settings found [here](https://github.hpe.com/caf/caf-development/tree/master/environment/maven-settings).
 - Maven
 - Docker VM
 - IntelliJ (Optional)
@@ -65,7 +64,7 @@ where you run the command will be where the project is created.
 ##### Generate the New Document Worker Aggregator
 
 Generate the new Document Worker Aggregator from the `worker-document-archetype` with the following Maven command:
-<pre>mvn archetype:generate -DarchetypeRepository=http://rh7-artifactory.svs.hpeswlab.net:8081/artifactory/hpe-mirror -DarchetypeVersion=WORKER-DOCUMENT-ARCHETYPE-VERSION -DarchetypeArtifactId=worker-document-archetype -DarchetypeGroupId=com.hpe.caf.worker</pre>
+<pre>mvn archetype:generate -DarchetypeVersion=WORKER-DOCUMENT-ARCHETYPE-VERSION -DarchetypeArtifactId=worker-document-archetype -DarchetypeGroupId=com.github.cafdataprocessing</pre>
 
 The CLI will prompt you for artifactId, groupId, version (default suggestion is 1.0-SNAPSHOT), package (default suggestion is the
 groupId, you should however adjust this to include the worker's purpose) and workerName properties required for the new Document Worker
@@ -92,12 +91,11 @@ Generate the new Document Worker Aggregator from the `worker-document-archetype`
 - 'File > New > Project...'
 - Select Maven from the left-hand pane > Tick 'Create from archetype' > Click 'Add Archetype...'
 - Specify the details of the 'worker-document-archetype'
-	- GroupId : com.hpe.caf.worker
+	- GroupId : com.github.cafdataprocessing
 	- ArtifactId : worker-document-archetype
 	- Version : *WORKER-DOCUMENT-ARCHETYPE-VERSION*
-	- Repository : http://rh7-artifactory.svs.hpeswlab.net:8081/artifactory/hpe-mirror
 	- Click 'OK'
-- Select the added 'com.hpe.caf.worker:worker-document-archetype' archetype > Click 'Next'
+- Select the added 'com.github.cafdataprocessing:worker-document-archetype' archetype > Click 'Next'
 - Enter GroupId, ArtifactId and Version of your Worker project > Click 'Next', e.g:
 	- GroupId : com.hpe.caf.worker
 	- ArtifactId : worker-documentexample
@@ -125,10 +123,9 @@ Generate the new Document Worker Aggregator from the `worker-document-archetype`
 - 'File > New Project...'
 - From the Categories Pane select Maven > From the Select Pane select 'Project from Archetype' > Click 'Next >'
 - Specify the details of the 'worker-document-archetype'
-	- GroupId : com.hpe.caf.worker
+	- GroupId : com.github.cafdataprocessing
 	- ArtifactId : worker-document-archetype
 	- Version : *WORKER-DOCUMENT-ARCHETYPE-VERSION*
-	- Repository : http://rh7-artifactory.svs.hpeswlab.net:8081/artifactory/hpe-mirror
 	- Click 'Next >'
 - Enter Project Name, Project Location, GroupId, Version and Package of your Worker project, e.g:
 	- Project Name : worker-documentexample
@@ -147,7 +144,7 @@ The foundations for your new Document Worker is now set up. The generated projec
 ## Further Information
 
 Information on worker-document and its modules worker-document-shared, and worker-document-testing, which the archetype utilizes can be
-found [here](https://github.hpe.com/caf/worker-document/blob/develop/README.md).
+found [here](https://github.com/CAFDataProcessing/worker-document/blob/develop/README.md).
 
 At the time this guide was written with:
 
