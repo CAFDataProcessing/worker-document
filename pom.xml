@@ -35,14 +35,14 @@
         <artifactId>caf-common</artifactId>
         <version>1.8.0-191</version>
     </parent>
-    
+
     <licenses>
         <license>
             <name>Apache License, Version 2.0</name>
             <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
         </license>
     </licenses>
-    
+
     <developers>
         <developer>
             <id>dermot-hardy</id>
@@ -97,8 +97,8 @@
             </dependency>
         </dependencies>
     </dependencyManagement>
-    
-     <scm>
+
+    <scm>
         <connection>scm:git:https://github.com/CAFDataProcessing/worker-document.git</connection>
         <developerConnection>scm:git:https://github.com/CAFDataProcessing/worker-document.git</developerConnection>
         <url>https://github.com/CAFDataProcessing/worker-document</url>
