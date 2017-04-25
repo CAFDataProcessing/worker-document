@@ -6,7 +6,7 @@ A Document Worker can be completely configured for each individual instance runn
 
 Below is an illustration showing the communication between a document-worker and `Policy` using `RabbitMQ`:
 
-![Overview](images/Document-Worker.PNG)
+![Overview](images/Document-Worker.png)
 
 ## Modules
 
