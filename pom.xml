@@ -28,7 +28,7 @@
     
     <name>Worker Document</name>
     <description>A worker with the ability to alter the field names and values contained within the metadata of a document supplied to it.</description>
-	<url>https://pages.github.hpe.com/caf/data-processing-service/</url>
+    <url>https://pages.github.hpe.com/caf/data-processing-service/</url>
 
     <parent>
         <groupId>com.github.cafapi</groupId>
