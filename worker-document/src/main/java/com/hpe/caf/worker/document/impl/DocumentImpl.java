@@ -105,11 +105,16 @@ public final class DocumentImpl extends DocumentWorkerObjectImpl implements Docu
         documentWorkerResult.fieldChanges = fields.getChanges();
         documentWorkerResult.failures = failures;
 
+        // Select the output queue
+        final String outputQueue = (failures == null || failures.isEmpty())
+            ? application.getSuccessQueue()
+            : application.getFailureQueue();
+
         // Serialise the result object
         final byte[] data = DocumentWorkerResultFunctions.serialise(documentWorkerResult, application.getCodec());
 
         // Create the WorkerResponse object
-        return new WorkerResponse(application.getConfiguration().getOutputQueue(),
+        return new WorkerResponse(outputQueue,
                                   TaskStatus.RESULT_SUCCESS,
                                   data,
                                   DocumentWorkerConstants.WORKER_NAME,

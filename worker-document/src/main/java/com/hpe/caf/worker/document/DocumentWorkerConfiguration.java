@@ -28,6 +28,11 @@ public class DocumentWorkerConfiguration extends WorkerConfiguration
     private String outputQueue;
 
     /**
+     * Failure queue to return failed documents to RabbitMQ.
+     */
+    private String failureQueue;
+
+    /**
      * Number of threads to use in the worker.
      */
     @Min(1)
@@ -56,6 +61,16 @@ public class DocumentWorkerConfiguration extends WorkerConfiguration
     public void setOutputQueue(String outputQueue)
     {
         this.outputQueue = outputQueue;
+    }
+
+    public String getFailureQueue()
+    {
+        return failureQueue;
+    }
+
+    public void setFailureQueue(String failureQueue)
+    {
+        this.failureQueue = failureQueue;
     }
 
     public int getThreads()
