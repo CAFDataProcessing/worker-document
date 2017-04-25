@@ -112,17 +112,6 @@
                         <escapeString>\</escapeString>
                     </configuration>
                 </plugin>
-
-                <!-- Exclude the archetype test resources when checking license headers -->
-                <plugin>
-                    <groupId>com.mycila</groupId>
-                    <artifactId>license-maven-plugin</artifactId>
-                    <configuration>
-                        <excludes combine.children="append">
-                            <exclude>src/test/resources/projects/basic/**</exclude>
-                        </excludes>
-                    </configuration>
-                </plugin>
             </plugins>
         </pluginManagement>
 
@@ -140,6 +129,17 @@
                 </executions>
                 <configuration>
                     <skip>true</skip>
+                </configuration>
+            </plugin>
+
+            <!-- Exclude the archetype test resources when checking license headers -->
+            <plugin>
+                <groupId>com.mycila</groupId>
+                <artifactId>license-maven-plugin</artifactId>
+                <configuration>
+                    <excludes combine.children="append">
+                        <exclude>src/test/resources/projects/basic/**</exclude>
+                    </excludes>
                 </configuration>
             </plugin>
         </plugins>
