@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 ({
-    workerName: "worker-textextract",
+    workerName: "${workerName}",
     workerVersion: "${project.version}",
     outputQueue: getenv("CAF_WORKER_OUTPUT_QUEUE")
             || (getenv("CAF_WORKER_BASE_QUEUE_NAME") || getenv("CAF_WORKER_NAME") || "worker") + "-out",
