@@ -33,6 +33,8 @@ public class ApplicationImpl implements Application
     private final Codec codec;
     private final DocumentWorkerConfiguration configuration;
     private final BatchSizeControllerImpl batchSizeController;
+    private final String successQueue;
+    private final String failureQueue;
 
     public ApplicationImpl(final ConfigurationSource configSource, final DataStore dataStore, final Codec codec)
         throws WorkerException
@@ -43,6 +45,8 @@ public class ApplicationImpl implements Application
         this.codec = Objects.requireNonNull(codec);
         this.configuration = getConfiguration(configSource);
         this.batchSizeController = new BatchSizeControllerImpl(this, configuration);
+        this.successQueue = configuration.getOutputQueue();
+        this.failureQueue = getFailureQueue(configuration);
 
         // Register services
         serviceLocator.register(DataStore.class, dataStore);
@@ -93,6 +97,16 @@ public class ApplicationImpl implements Application
         return configuration;
     }
 
+    public String getSuccessQueue()
+    {
+        return successQueue;
+    }
+
+    public String getFailureQueue()
+    {
+        return failureQueue;
+    }
+
     /**
      * This method retrieves the DocumentWorkerConfiguration or throws an exception.
      *
@@ -107,5 +121,14 @@ public class ApplicationImpl implements Application
         } catch (ConfigurationException ce) {
             throw new WorkerException("Failed to construct DocumentWorkerConfiguration object", ce);
         }
+    }
+
+    private static String getFailureQueue(final DocumentWorkerConfiguration configuration)
+    {
+        final String failureQueue = configuration.getFailureQueue();
+
+        return (failureQueue == null || failureQueue.isEmpty())
+            ? configuration.getOutputQueue()
+            : failureQueue;
     }
 }

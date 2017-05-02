@@ -109,7 +109,7 @@ public final class DocumentMessageProcessor implements Worker
     @Override
     public final WorkerResponse getGeneralFailureResult(Throwable t)
     {
-        return new WorkerResponse(application.getConfiguration().getOutputQueue(),
+        return new WorkerResponse(application.getFailureQueue(),
                                   TaskStatus.RESULT_EXCEPTION,
                                   getExceptionData(t),
                                   DocumentWorkerConstants.WORKER_NAME,
