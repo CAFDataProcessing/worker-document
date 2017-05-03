@@ -20,7 +20,7 @@ The following modules are required to create a Document worker. Each contains it
 **These modules are generated from the worker-document-archetype:**
 - `worker-example` module contains the worker itself and an md documentation explaining the service use of the worker.
 	1. **ExampleWorker** – responsible for doing the work. By default this class implements the BulkDocumentWorker interface. It should be updated to implement the DocumentWorker interface instead if there is no requirement to process documents in batches.
-- `worker-example-container` module is for building the Docker image of the worker and pushing the image to Docker. The module starts a container for RabbitMQ, [test-configs](#document-worker-default-configuration), the worker and runs the worker acceptance integration testcases via the `worker-document-testing` module.
+- `worker-example-container` module is for building the Docker image of the worker and pushing the image to Docker. The module starts a container for RabbitMQ, the worker, and runs the worker acceptance integration testcases via the `worker-document-testing` module.
 	1. **ExampleWorkerAcceptanceIT** – calls the `worker-document-testing` module's DocumentWorkerTestControllerProvider class to generate or run worker integration testing testcase files.
 	2. **pom.xml** – specifies the Docker Maven plugin configurations to build the image for the worker, and Maven compiler and failsafe plugin for compiling and running integration tests.
 
@@ -78,7 +78,7 @@ character to re-enter property values. After confirming your properties Maven wi
 which will contain the following submodules:
 
 - `<artifactId>` - submodule containing the Worker's backend code.
-- `<artifactId>-container` - submodule containing the Worker's container and [testing configurations](#document-worker-default-configuration).
+- `<artifactId>-container` - submodule containing the Worker's container and configuration.
 
 #### IntelliJ IDE
 
@@ -110,7 +110,7 @@ Generate the new Document Worker Aggregator from the `worker-document-archetype`
 The foundations for your new Document Worker is now set up. The generated project will contain the following submodules:
 
 - `<artifactId>` - submodule containing the Worker's backend code.
-- `<artifactId>-container` - submodule containing the Worker's container and [testing configurations](#document-worker-default-configuration).
+- `<artifactId>-container` - submodule containing the Worker's container and configuration.
 
 #### NetBeans IDE
 
@@ -139,7 +139,7 @@ Generate the new Document Worker Aggregator from the `worker-document-archetype`
 The foundations for your new Document Worker is now set up. The generated project will contain the following submodules:
 
 - `<artifactId>` - submodule containing the Worker's backend code.
-- `<artifactId>-container` - submodule containing the Worker's container and [testing configurations](#document-worker-default-configuration).
+- `<artifactId>-container` - submodule containing the Worker's container and configuration.
 
 ## Document Worker Default Configuration
 
@@ -154,8 +154,9 @@ The default Document Worker configuration file checks for values as below;
 |----------|-------------------------------|-----------------------|
 | outputQueue  |  `CAF_WORKER_OUTPUT_QUEUE` | Use environment variable `CAF_WORKER_BASE_QUEUE_NAME` + "-out". <br> Or use environment variable `CAF_WORKER_NAME` + "-out". <br> Else use "worker-out".  |
 | threads  |  `CAF_WORKER_THREADS` | 1  |
-| maxBatchSize  |  `CAF_WORKER_MAX_BATCH_SIZE` | undefined  |
-| maxBatchTime  |  `CAF_WORKER_MAX_BATCH_TIME` | undefined  |
+| maxBatchSize  |  `CAF_WORKER_MAX_BATCH_SIZE` | 2  |
+| maxBatchTime  |  `CAF_WORKER_MAX_BATCH_TIME` | 5000  |
+| failureQueue | `CAF_WORKER_FAILURE_QUEUE` | undefined  |
 
 ## Further Information
 
