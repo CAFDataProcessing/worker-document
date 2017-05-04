@@ -153,10 +153,10 @@ The default Document Worker configuration file checks for values as below;
 | Property | Checked Environment Variables | Default               |
 |----------|-------------------------------|-----------------------|
 | outputQueue  |  `CAF_WORKER_OUTPUT_QUEUE` | Use environment variable `CAF_WORKER_BASE_QUEUE_NAME` + "-out". <br> Or use environment variable `CAF_WORKER_NAME` + "-out". <br> Else use "worker-out".  |
+| failureQueue | `CAF_WORKER_FAILURE_QUEUE` | undefined  |
 | threads  |  `CAF_WORKER_THREADS` | 1  |
 | maxBatchSize  |  `CAF_WORKER_MAX_BATCH_SIZE` | 2  |
 | maxBatchTime  |  `CAF_WORKER_MAX_BATCH_TIME` | 5000  |
-| failureQueue | `CAF_WORKER_FAILURE_QUEUE` | undefined  |
 
 ## Further Information
 

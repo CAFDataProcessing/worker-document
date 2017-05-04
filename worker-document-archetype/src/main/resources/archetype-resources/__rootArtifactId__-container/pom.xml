@@ -176,7 +176,7 @@
                         <CAF_CONFIG_ENABLE_SUBSTITUTOR>false</CAF_CONFIG_ENABLE_SUBSTITUTOR>
                         <CAF_WORKER_DATASTORE_PATH>datastore</CAF_WORKER_DATASTORE_PATH>
                         <CAF_RABBITMQ_PREFETCH_BUFFER>1000</CAF_RABBITMQ_PREFETCH_BUFFER>
-                        <CAF_WORKER_RETRY_LIMIT>10</CAF_WORKER_RETRY_LIMIT>
+                        <CAF_WORKER_RETRY_LIMIT>2</CAF_WORKER_RETRY_LIMIT>
                         <CAF_WORKER_MAX_BATCH_SIZE>2</CAF_WORKER_MAX_BATCH_SIZE>
                         <CAF_WORKER_MAX_BATCH_TIME>5000</CAF_WORKER_MAX_BATCH_TIME>
                     </environmentVariables>
@@ -356,7 +356,7 @@
                                 <env>
                                     <CAF_WORKER_DATASTORE_PATH>/srv/common/webdav</CAF_WORKER_DATASTORE_PATH>
                                     <CAF_RABBITMQ_PREFETCH_BUFFER>1000</CAF_RABBITMQ_PREFETCH_BUFFER>
-                                    <CAF_WORKER_RETRY_LIMIT>10</CAF_WORKER_RETRY_LIMIT>
+                                    <CAF_WORKER_RETRY_LIMIT>2</CAF_WORKER_RETRY_LIMIT>
                                     <CAF_WORKER_MAX_BATCH_SIZE>2</CAF_WORKER_MAX_BATCH_SIZE>
                                     <CAF_WORKER_MAX_BATCH_TIME>5000</CAF_WORKER_MAX_BATCH_TIME>
                                 </env>
