@@ -15,7 +15,7 @@
  */
 ({
     workerName: "${workerName}",
-    workerVersion: "${version}",
+    workerVersion: "${project.version}",
     outputQueue: getenv("CAF_WORKER_OUTPUT_QUEUE")
             || (getenv("CAF_WORKER_BASE_QUEUE_NAME") || getenv("CAF_WORKER_NAME") || "worker") + "-out",
     failureQueue: getenv("CAF_WORKER_FAILURE_QUEUE") || undefined,
