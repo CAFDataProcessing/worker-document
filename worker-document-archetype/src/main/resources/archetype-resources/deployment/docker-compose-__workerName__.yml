@@ -13,11 +13,15 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
-
-#Fri Feb 26 10:23:57 GMT 2016
-package=com.hpe.caf.worker.documenttest
-version=1.0.0-SNAPSHOT
-groupId=com.hpe.caf.worker
-workerName=DocumentTestWorker
-artifactId=worker-documenttest
-debugPort=1234
+version: '3'
+services:
+  ${workerName}:
+    depends_on:
+        - rabbitmq
+    image: ${artifactId}:${version}
+    environment:
+      CAF_WORKER_DATASTORE_PATH: /dataStore
+      CAF_WORKER_INPUT_QUEUE: dataprocessing-fs-${workerName}-in
+      CAF_WORKER_OUTPUT_QUEUE: ${workerName}-output-1
+    volumes:
+      - dataStore:/dataStore

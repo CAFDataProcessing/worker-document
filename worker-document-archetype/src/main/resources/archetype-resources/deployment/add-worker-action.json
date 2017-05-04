@@ -1,0 +1,18 @@
+{
+  "name": "${workerName}",
+  "description": "Perform a lookup from an internal in-memory map.",
+  "order": 100,
+  "settings": {
+    "workerName": "${artifactId}",
+    "queueName": "dataprocessing-fs-${workerName}-in"
+  },
+  "typeName": "DocumentWorkerHandler",
+  "actionConditions": [{
+    "name": "Reference Lookup",
+    "additional": {
+      "type": "exists",
+      "field": "reference",
+      "notes": "reference exists: Reference Lookup"
+    }
+  }]
+}
