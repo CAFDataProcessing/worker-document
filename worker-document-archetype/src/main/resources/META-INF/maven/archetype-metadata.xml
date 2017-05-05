@@ -68,17 +68,9 @@
                     </includes>
                 </fileSet>
                 <fileSet filtered="true" encoding="UTF-8">
-                    <directory>test-configs</directory>
+                    <directory>src/main/config</directory>
                     <includes>
-                        <include>**/*DocumentWorkerConfiguration</include>
-                        <include>**/*RabbitWorkerQueueConfiguration</include>
-                    </includes>
-                </fileSet>
-                <fileSet filtered="false" encoding="UTF-8">
-                    <directory>test-configs</directory>
-                    <includes>
-                        <include>**/*FileSystemDataStoreConfiguration</include>
-                        <include>**/*RabbitConfiguration</include>
+                        <include>**/*DocumentWorkerConfiguration.js</include>
                     </includes>
                 </fileSet>
                 <fileSet encoding="UTF-8">

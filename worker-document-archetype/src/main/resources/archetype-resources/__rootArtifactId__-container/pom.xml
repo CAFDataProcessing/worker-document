@@ -38,7 +38,6 @@
         <${rootArtifactId}.container.name>${rootArtifactId}:${project.version}</${rootArtifactId}.container.name>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <test.data>${project.basedir}/test-data/input</test.data>
-        <test.configs>${project.basedir}/test-configs</test.configs>
         <maven.failsafe.version>2.19</maven.failsafe.version>
         <maven.compiler.version>3.3</maven.compiler.version>
         <fabric8.docker.maven.version>0.16.7</fabric8.docker.maven.version>
@@ -84,6 +83,55 @@
 
     <build>
         <plugins>
+            <!-- Unpack the base worker configuration files -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-dependency-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>process-config-files</id>
+                        <goals>
+                            <goal>unpack</goal>
+                        </goals>
+                        <configuration>
+                            <artifactItems>
+                                <artifactItem>
+                                    <groupId>com.github.workerframework</groupId>
+                                    <artifactId>worker-default-configs</artifactId>
+                                    <outputDirectory>${project.build.directory}/config-files</outputDirectory>
+                                    <excludes>META-INF/**,cfg*StorageServiceDataStore*</excludes>
+                                </artifactItem>
+                            </artifactItems>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <!-- Process the local configuration files -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-resources-plugin</artifactId>
+                <version>3.0.2</version>
+                <executions>
+                    <execution>
+                        <id>process-config-files</id>
+                        <phase>process-resources</phase>
+                        <goals>
+                            <goal>copy-resources</goal>
+                        </goals>
+                        <configuration>
+                            <outputDirectory>${project.build.directory}/config-files</outputDirectory>
+                            <resources>
+                                <resource>
+                                    <directory>src/main/config</directory>
+                                    <filtering>true</filtering>
+                                </resource>
+                            </resources>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+
             <!-- Plugin for compiling the test source files. -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -122,9 +170,15 @@
                         <datastore.enabled>false</datastore.enabled>
                     </systemPropertyVariables>
                     <environmentVariables>
-                        <CAF_APPNAME>test/${rootArtifactId}</CAF_APPNAME>
-                        <CAF_CONFIG_PATH>${test.configs}</CAF_CONFIG_PATH>
-                        <CAF_INTEGRATIONTESTS_FS_PATH>datastore</CAF_INTEGRATIONTESTS_FS_PATH>
+                        <CAF_APPNAME>caf/worker</CAF_APPNAME>
+                        <CAF_CONFIG_PATH>${project.build.directory}/config-files</CAF_CONFIG_PATH>
+                        <CAF_CONFIG_DECODER>JavascriptDecoder</CAF_CONFIG_DECODER>
+                        <CAF_CONFIG_ENABLE_SUBSTITUTOR>false</CAF_CONFIG_ENABLE_SUBSTITUTOR>
+                        <CAF_WORKER_DATASTORE_PATH>datastore</CAF_WORKER_DATASTORE_PATH>
+                        <CAF_RABBITMQ_PREFETCH_BUFFER>1000</CAF_RABBITMQ_PREFETCH_BUFFER>
+                        <CAF_WORKER_RETRY_LIMIT>2</CAF_WORKER_RETRY_LIMIT>
+                        <CAF_WORKER_MAX_BATCH_SIZE>2</CAF_WORKER_MAX_BATCH_SIZE>
+                        <CAF_WORKER_MAX_BATCH_TIME>5000</CAF_WORKER_MAX_BATCH_TIME>
                     </environmentVariables>
                 </configuration>
             </plugin>
@@ -231,29 +285,6 @@
                             </run>
                         </image>
 
-                        <!-- Assemble the config files from the test-configs folder to an image in /config on the host. -->
-                        <image>
-                            <alias>config</alias>
-                            <name>${project.artifactId}-test-config:${project.version}</name>
-                            <build>
-                                <maintainer>conal.smith@hpe.com</maintainer>
-                                <assembly>
-                                    <basedir>/config</basedir>
-                                    <inline>
-                                        <fileSets>
-                                            <fileSet>
-                                                <directory>test-configs</directory>
-                                                <outputDirectory>/</outputDirectory>
-                                                <includes>
-                                                    <include>*</include>
-                                                </includes>
-                                            </fileSet>
-                                        </fileSets>
-                                    </inline>
-                                </assembly>
-                            </build>
-                        </image>
-
                         <!-- Configuration for the ${rootArtifactId} image -->
                         <image>
                             <alias>${rootArtifactId}</alias>
@@ -288,6 +319,10 @@
                                                     <include>worker.yaml</include>
                                                 </includes>
                                             </fileSet>
+                                            <fileSet>
+                                                <directory>${project.build.directory}/config-files</directory>
+                                                <outputDirectory>config</outputDirectory>
+                                            </fileSet>
                                         </fileSets>
                                         <!-- Including the dependencies into the docker tar -->
                                         <dependencySets>
@@ -319,12 +354,14 @@
                                     <port>${worker.adminport}:8081</port>
                                 </ports>
                                 <env>
-                                    <CAF_APPNAME>test/${rootArtifactId}</CAF_APPNAME>
-                                    <CAF_CONFIG_PATH>/config</CAF_CONFIG_PATH>
+                                    <CAF_WORKER_DATASTORE_PATH>/srv/common/webdav</CAF_WORKER_DATASTORE_PATH>
+                                    <CAF_RABBITMQ_PREFETCH_BUFFER>1000</CAF_RABBITMQ_PREFETCH_BUFFER>
+                                    <CAF_WORKER_RETRY_LIMIT>2</CAF_WORKER_RETRY_LIMIT>
+                                    <CAF_WORKER_MAX_BATCH_SIZE>2</CAF_WORKER_MAX_BATCH_SIZE>
+                                    <CAF_WORKER_MAX_BATCH_TIME>5000</CAF_WORKER_MAX_BATCH_TIME>
                                 </env>
                                 <volumes>
                                     <from>
-                                        <image>config</image>
                                         <image>webdav</image>
                                     </from>
                                 </volumes>
