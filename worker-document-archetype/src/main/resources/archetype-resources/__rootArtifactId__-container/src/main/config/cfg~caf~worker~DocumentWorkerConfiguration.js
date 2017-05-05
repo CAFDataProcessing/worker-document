@@ -13,9 +13,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+ #set( $symbol_dollar = '$' )
 ({
     workerName: "${workerName}",
-    workerVersion: "${project.version}",
+    workerVersion: "${symbol_dollar}{project.version}",
     outputQueue: getenv("CAF_WORKER_OUTPUT_QUEUE")
             || (getenv("CAF_WORKER_BASE_QUEUE_NAME") || getenv("CAF_WORKER_NAME") || "worker") + "-out",
     failureQueue: getenv("CAF_WORKER_FAILURE_QUEUE") || undefined,
