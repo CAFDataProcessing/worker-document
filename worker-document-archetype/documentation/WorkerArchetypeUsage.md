@@ -51,6 +51,7 @@ A new Document Worker aggregator project generated from the Document Worker Arch
 - Version
 - Package
 - WorkerName
+- debugPort
 
 The following subsections provide instructions on how you can use Maven Command Line Interface (CLI), IntelliJ Integrated Development
 Environment (IDE) or NetBeans IDE to create the components of a Document Worker from the Document Worker Archetype.
@@ -67,8 +68,8 @@ Generate the new Document Worker Aggregator from the `worker-document-archetype`
 <pre>mvn archetype:generate -DarchetypeVersion=WORKER-DOCUMENT-ARCHETYPE-VERSION -DarchetypeArtifactId=worker-document-archetype -DarchetypeGroupId=com.github.cafdataprocessing</pre>
 
 The CLI will prompt you for artifactId, groupId, version (default suggestion is 1.0-SNAPSHOT), package (default suggestion is the
-groupId, you should however adjust this to include the worker's purpose) and workerName properties required for the new Document Worker
-project. See Figure 1.
+groupId, you should however adjust this to include the worker's purpose), workerName and debugPort properties required for the new
+Document Worker project. See Figure 1.
 
 ![Generate Example Worker Shared Module from CLI](images/CLIGenerateExample.png)
 *Figure 1*
@@ -103,6 +104,7 @@ Generate the new Document Worker Aggregator from the `worker-document-archetype`
 - Add each of the following properties (Alt+Insert) and replace the example values with your project specific values > Click 'Next':
 	- package : com.hpe.caf.worker.documentexample
 	- workerName : DocumentExampleWorker
+	- debugPort: 5678
 - Name the Project after its ArtifactId and specify the location of the project > Click 'Finish', e.g:
 	- Project name : worker-documentexample
 	- Project location : C:\MyWorkerProjects\worker-documentexample
@@ -127,14 +129,15 @@ Generate the new Document Worker Aggregator from the `worker-document-archetype`
 	- ArtifactId : worker-document-archetype
 	- Version : *WORKER-DOCUMENT-ARCHETYPE-VERSION*
 	- Click 'Next >'
-- Enter Project Name, Project Location, GroupId, Version and Package of your Worker project, e.g:
+- Enter Project Name, Project Location, GroupId, Version, Package and debugPort of your Worker project, e.g:
 	- Project Name : worker-documentexample
 	- Project Location : C:\MyWorkerProjects
 	- GroupId : com.hpe.caf.worker
 	- Version : 1.0.0-SNAPSHOT
 	- Package : com.hpe.caf.worker.documentexample
-- Set workerName property > Click 'Finish', e.g:
+- Set workerName and debugPort properties > Click 'Finish', e.g:
 	- workerName : DocumentExampleWorker
+	- debugPort: 5678
 
 The foundations for your new Document Worker is now set up. The generated project will contain the following submodules:
 
@@ -157,6 +160,23 @@ The default Document Worker configuration file checks for values as below;
 | threads  |  `CAF_WORKER_THREADS` | 1  |
 | maxBatchSize  |  `CAF_WORKER_MAX_BATCH_SIZE` | 2  |
 | maxBatchTime  |  `CAF_WORKER_MAX_BATCH_TIME` | 5000  |
+
+## Deployment
+
+The Document Worker Archetype will generate a `deployment` folder as part of the new project.
+
+This folder contains the following files:
+- docker-compose-&lt;workername&gt;.yml
+    - This file contains the service which can be added to the `docker-compose.yml` file in [data-processing-service-deploy](https://github.hpe.com/caf/data-processing-service-deploy). Documentation on using the `docker-compose.yml` file can be found at https://pages.github.hpe.com/caf/data-processing-service/pages/en-us/Getting-Started.
+- docker-compose-&lt;workername&gt;-debug.yml
+    - A compose file that adds additional debugging capability to the data processing service. It exposes a port so the worker may be queried externally and increases the log level.
+- add-worker-action.json
+    - This is a sample action which can be used when updating the default workflow through Processing API. The documentation on creating actions for the default workflow caf be found [here](https://pages.github.hpe.com/caf/data-processing-service/pages/en-us/Getting-Started#creating-the-action).
+
+The generated docker compose files, `docker-compose-<workername>.yml`, and `docker-compose-<workername>-debug.yml`, should be used along with the `docker-compose.yml` in [data-processing-service-deploy](https://github.hpe.com/caf/data-processing-service-deploy) by using the following command:
+```
+docker-compose -f docker-compose.yml -f docker-compose-<workername>.yml -f docker-compose-<workername>-debug.yml up -d
+```
 
 ## Further Information
 
