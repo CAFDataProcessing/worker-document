@@ -1,7 +1,7 @@
 {
   "name": "${workerName}",
   "description": "Perform a lookup from an internal in-memory map.",
-  "order": 100,
+  "order": 1100,
   "settings": {
     "workerName": "${artifactId}",
     "queueName": "dataprocessing-fs-${workerName}-in"
