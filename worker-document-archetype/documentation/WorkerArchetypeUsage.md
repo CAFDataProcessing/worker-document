@@ -172,6 +172,9 @@ This folder contains the following files:
     - A compose file that adds additional debugging capability to the data processing service. It exposes a port so the worker may be queried externally and increases the log level.
 - add-worker-action.json
     - This is a sample action which can be used when updating the default workflow through Processing API. The documentation on creating actions for the default workflow caf be found [here](https://pages.github.hpe.com/caf/data-processing-service/pages/en-us/Getting-Started#creating-the-action).
+    - The order field is set to 1100, a higher value than the existing actions on the processing rule, so that the action will occur after all currently defined actions on the processing rule.
+    - The settings property contains the action type specific properties, here being the name of the worker to use, and the queue that worker is listening to.
+    - The `actionConditions` defines the condition 'Reference Lookup'. This condition means the worker will only process documents which contain a field named 'reference'.
 
 The generated docker compose files, `docker-compose-<workername>.yml`, and `docker-compose-<workername>-debug.yml`, should be used along with the `docker-compose.yml` in [data-processing-service-deploy](https://github.hpe.com/caf/data-processing-service-deploy) by using the following command:
 ```
