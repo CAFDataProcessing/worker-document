@@ -22,7 +22,18 @@
     <requiredProperties>
         <requiredProperty key="workerName" />
         <requiredProperty key="artifactId" />
+        <requiredProperty key="debugPort" />
     </requiredProperties>
+
+    <fileSets>
+        <fileSet filtered="true" encoding="UTF-8">
+            <directory>deployment</directory>
+            <includes>
+                <include>**/*.json</include>
+                <include>**/*.yml</include>
+            </includes>
+        </fileSet>
+    </fileSets>
 
     <modules>
         <module id="${rootArtifactId}" dir="__rootArtifactId__" name="__rootArtifactId__">

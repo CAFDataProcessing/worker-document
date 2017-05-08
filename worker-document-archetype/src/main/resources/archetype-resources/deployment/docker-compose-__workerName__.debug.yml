@@ -14,10 +14,11 @@
 # limitations under the License.
 #
 
-#Fri Feb 26 10:23:57 GMT 2016
-package=com.hpe.caf.worker.documenttest
-version=1.0.0-SNAPSHOT
-groupId=com.hpe.caf.worker
-workerName=DocumentTestWorker
-artifactId=worker-documenttest
-debugPort=1234
+version: '3'
+services:
+  # Expose ${workerName} admin port so it may be queried externally and increase log level.
+  ${workerName}:
+    ports:
+      - "${debugPort}:8081"
+    environment:
+      CAF_LOG_LEVEL: DEBUG
