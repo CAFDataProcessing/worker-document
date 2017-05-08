@@ -20,9 +20,11 @@ services:
     depends_on:
         - rabbitmq
     image: ${artifactId}:${version}
+    env_file:
+      - ./rabbitmq.env
     environment:
       CAF_WORKER_DATASTORE_PATH: /dataStore
       CAF_WORKER_INPUT_QUEUE: dataprocessing-fs-${workerName}-in
-      CAF_WORKER_OUTPUT_QUEUE: ${workerName}-output-1
+      CAF_WORKER_OUTPUT_QUEUE: document-input
     volumes:
-      - dataStore:/dataStore
+      - worker-datastore:/dataStore

@@ -51,7 +51,7 @@ A new Document Worker aggregator project generated from the Document Worker Arch
 - Version
 - Package
 - WorkerName
-- debugPort
+- DebugPort
 
 The following subsections provide instructions on how you can use Maven Command Line Interface (CLI), IntelliJ Integrated Development
 Environment (IDE) or NetBeans IDE to create the components of a Document Worker from the Document Worker Archetype.
@@ -68,7 +68,7 @@ Generate the new Document Worker Aggregator from the `worker-document-archetype`
 <pre>mvn archetype:generate -DarchetypeVersion=WORKER-DOCUMENT-ARCHETYPE-VERSION -DarchetypeArtifactId=worker-document-archetype -DarchetypeGroupId=com.github.cafdataprocessing</pre>
 
 The CLI will prompt you for artifactId, groupId, version (default suggestion is 1.0-SNAPSHOT), package (default suggestion is the
-groupId, you should however adjust this to include the worker's purpose), workerName and debugPort properties required for the new
+groupId, you should however adjust this to include the worker's purpose), workerName and DebugPort properties required for the new
 Document Worker project. See Figure 1.
 
 ![Generate Example Worker Shared Module from CLI](images/CLIGenerateExample.png)
@@ -169,7 +169,7 @@ This folder contains the following files:
 - docker-compose-&lt;workername&gt;.yml
     - This file contains the service which can be added to the `docker-compose.yml` file in [data-processing-service-deploy](https://github.hpe.com/caf/data-processing-service-deploy). Documentation on using the `docker-compose.yml` file can be found at https://pages.github.hpe.com/caf/data-processing-service/pages/en-us/Getting-Started.
 - docker-compose-&lt;workername&gt;-debug.yml
-    - A compose file that adds additional debugging capability to the data processing service. It exposes a port so the worker may be queried externally and increases the log level.
+    - A compose file that adds additional debugging capability to allow the worker to be debugged. It exposes a port so the worker may be queried externally and increases the log level.
 - add-worker-action.json
     - This is a sample action which can be used when updating the default workflow through Processing API. The documentation on creating actions for the default workflow caf be found [here](https://pages.github.hpe.com/caf/data-processing-service/pages/en-us/Getting-Started#creating-the-action).
     - The order field is set to 1100, a higher value than the existing actions on the processing rule, so that the action will occur after all currently defined actions on the processing rule.

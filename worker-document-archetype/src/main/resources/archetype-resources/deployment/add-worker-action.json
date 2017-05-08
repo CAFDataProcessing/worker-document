@@ -1,6 +1,6 @@
 {
   "name": "${workerName}",
-  "description": "Perform a lookup from an internal in-memory map.",
+  "description": "[Include description here]",
   "order": 1100,
   "settings": {
     "workerName": "${artifactId}",
@@ -8,11 +8,11 @@
   },
   "typeName": "DocumentWorkerHandler",
   "actionConditions": [{
-    "name": "Reference Lookup",
+    "name": "If reference exists",
     "additional": {
       "type": "exists",
       "field": "reference",
-      "notes": "reference exists: Reference Lookup"
+      "notes": "If reference exists: Reference Lookup"
     }
   }]
 }
