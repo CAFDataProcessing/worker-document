@@ -21,7 +21,8 @@ import java.util.List;
 import java.util.Map;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class DocumentWorkerResultExpectation {
+public class DocumentWorkerResultExpectation
+{
     public Map<String, DocumentWorkerFieldChangesExpectation> fieldChanges;
     public List<DocumentWorkerFailure> failures;
 }

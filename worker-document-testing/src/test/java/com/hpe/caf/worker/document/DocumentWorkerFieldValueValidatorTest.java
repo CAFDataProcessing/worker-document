@@ -36,52 +36,62 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 import static org.testng.Assert.assertTrue;
 
-public class DocumentWorkerFieldValueValidatorTest {
+public class DocumentWorkerFieldValueValidatorTest
+{
     private static final String VALIDATION_FAILURE_MESSAGE_REGEX = "(?s).*Validation of property .+ failed.*";
 
     @Test
-    public void testStringFieldValueValid() throws Exception {
+    public void testStringFieldValueValid() throws Exception
+    {
         testStringFieldValueValidation("A string value", "A string value");
     }
 
     @Test
-    public void testNullStringFieldValueValid() throws Exception {
+    public void testNullStringFieldValueValid() throws Exception
+    {
         testStringFieldValueValidation(null, "");
     }
 
-    @Test(expectedExceptions = { AssertionError.class }, expectedExceptionsMessageRegExp = VALIDATION_FAILURE_MESSAGE_REGEX)
-    public void testStringFieldValueInvalid() throws Exception {
+    @Test(expectedExceptions = {AssertionError.class}, expectedExceptionsMessageRegExp = VALIDATION_FAILURE_MESSAGE_REGEX)
+    public void testStringFieldValueInvalid() throws Exception
+    {
         testStringFieldValueValidation("Another string value", "A different string value");
     }
 
     @Test
-    public void testBase64FieldValueValid() throws IOException {
+    public void testBase64FieldValueValid() throws IOException
+    {
         testBase64FieldValueValidation("U2FtcGxlIHRvIGJlIGJhc2U2NCBlbmNvZGVk", "U2FtcGxlIHRvIGJlIGJhc2U2NCBlbmNvZGVk");
     }
 
     @Test
-    public void testNullBase64FieldValueValid() throws IOException {
+    public void testNullBase64FieldValueValid() throws IOException
+    {
         testBase64FieldValueValidation(null, "");
     }
 
-    @Test(expectedExceptions = { AssertionError.class }, expectedExceptionsMessageRegExp = VALIDATION_FAILURE_MESSAGE_REGEX)
-    public void testBase64FieldValueInvalid() throws IOException {
+    @Test(expectedExceptions = {AssertionError.class}, expectedExceptionsMessageRegExp = VALIDATION_FAILURE_MESSAGE_REGEX)
+    public void testBase64FieldValueInvalid() throws IOException
+    {
         testBase64FieldValueValidation("QW5vdGhlciBzYW1wbGUgdG8gYmUgYmFzZTY0IGVuY29kZWQ",
-                "QSBkaWZmZXJlbnQgc2FtcGxlIHRvIGJlIGJhc2U2NCBlbmNvZGVk");
+                                       "QSBkaWZmZXJlbnQgc2FtcGxlIHRvIGJlIGJhc2U2NCBlbmNvZGVk");
     }
 
     @Test
-    public void testReferenceFieldValueValid() throws DataStoreException, IOException {
+    public void testReferenceFieldValueValid() throws DataStoreException, IOException
+    {
         testReferenceFieldValueValidation("the content of a file in storage", "the content of a file in storage");
     }
 
-    @Test(expectedExceptions = { AssertionError.class }, expectedExceptionsMessageRegExp = VALIDATION_FAILURE_MESSAGE_REGEX)
-    public void testReferenceFieldValueInvalid() throws DataStoreException, IOException {
+    @Test(expectedExceptions = {AssertionError.class}, expectedExceptionsMessageRegExp = VALIDATION_FAILURE_MESSAGE_REGEX)
+    public void testReferenceFieldValueInvalid() throws DataStoreException, IOException
+    {
         testReferenceFieldValueValidation("other content of file in storage", "different content of a file in storage");
     }
 
     @Test
-    public void testMixedEncodingsValid() throws DataStoreException, IOException {
+    public void testMixedEncodingsValid() throws DataStoreException, IOException
+    {
         final String PROPERTY_NAME = "PropertyAcceptedByValidator";
         final String ACTUAL_STORAGE_REF = "dummy-storage-ref-actual";
 
@@ -94,56 +104,60 @@ public class DocumentWorkerFieldValueValidatorTest {
         final PropertyValidator validator = getPropertyValidator(dataStore, PROPERTY_NAME, actualFieldValue, expectedFieldValue);
 
         assertTrue(validator instanceof DocumentWorkerFieldValueValidator,
-                "Expected a DocumentWorkerFieldValueValidator as we've configured a DocumentWorkerFieldValueValidator that accepts" +
-                        "the name of the property being validated");
+                   "Expected a DocumentWorkerFieldValueValidator as we've configured a DocumentWorkerFieldValueValidator that accepts"
+                   + "the name of the property being validated");
         validator.validate(PROPERTY_NAME, actualFieldValue, expectedFieldValue);
     }
 
     @Test
-    public void testAnyStringFieldValidation() throws IOException {
+    public void testAnyStringFieldValidation() throws IOException
+    {
         final DocumentWorkerFieldValue actualFieldValue = createStringFieldValue("a string value");
         final DocumentWorkerFieldValueExpectation expectedFieldValue = convert(createStringFieldValue("a string value"));
 
         final PropertyValidator validator = getPropertyValidator(mock(DataStore.class), null, actualFieldValue, expectedFieldValue);
 
         assertTrue(validator instanceof DocumentWorkerFieldValueValidator,
-                "Expected a DocumentWorkerFieldValueValidator as we've configured a DocumentWorkerFieldValueValidator that validates " +
-                        "any StringFieldValue regardless of property name");
+                   "Expected a DocumentWorkerFieldValueValidator as we've configured a DocumentWorkerFieldValueValidator that validates "
+                   + "any StringFieldValue regardless of property name");
         validator.validate(null, actualFieldValue, expectedFieldValue);
     }
 
-    private void testStringFieldValueValidation(final String actual, final String expected) throws IOException {
+    private void testStringFieldValueValidation(final String actual, final String expected) throws IOException
+    {
         final String PROPERTY_NAME = "PropertyAcceptedByValidator";
 
         final DocumentWorkerFieldValue actualFieldValue = createStringFieldValue(actual);
         final DocumentWorkerFieldValueExpectation expectedFieldValue = convert(createStringFieldValue(expected));
 
-        final PropertyValidator validator =
-                getPropertyValidator(mock(DataStore.class), PROPERTY_NAME, actualFieldValue, expectedFieldValue);
+        final PropertyValidator validator
+            = getPropertyValidator(mock(DataStore.class), PROPERTY_NAME, actualFieldValue, expectedFieldValue);
 
         assertTrue(validator instanceof DocumentWorkerFieldValueValidator,
-                "Expected a DocumentWorkerFieldValueValidator as we've configured a DocumentWorkerFieldValueValidator that accepts" +
-                        "the name of the property being validated");
+                   "Expected a DocumentWorkerFieldValueValidator as we've configured a DocumentWorkerFieldValueValidator that accepts"
+                   + "the name of the property being validated");
         validator.validate(PROPERTY_NAME, actualFieldValue, expectedFieldValue);
     }
 
-    private void testBase64FieldValueValidation(final String actual, final String expected) throws IOException {
+    private void testBase64FieldValueValidation(final String actual, final String expected) throws IOException
+    {
         final String PROPERTY_NAME = "PropertyAcceptedByValidator";
 
         final DocumentWorkerFieldValue actualFieldValue = createBase64FieldValue(actual);
         final DocumentWorkerFieldValueExpectation expectedFieldValue = convert(createBase64FieldValue(expected));
 
-        final PropertyValidator validator =
-                getPropertyValidator(mock(DataStore.class), PROPERTY_NAME, actualFieldValue, expectedFieldValue);
+        final PropertyValidator validator
+            = getPropertyValidator(mock(DataStore.class), PROPERTY_NAME, actualFieldValue, expectedFieldValue);
 
         assertTrue(validator instanceof DocumentWorkerFieldValueValidator,
-                "Expected a DocumentWorkerFieldValueValidator as we've configured a DocumentWorkerFieldValueValidator that accepts" +
-                        "the name of the property being validated");
+                   "Expected a DocumentWorkerFieldValueValidator as we've configured a DocumentWorkerFieldValueValidator that accepts"
+                   + "the name of the property being validated");
         validator.validate(PROPERTY_NAME, actualFieldValue, expectedFieldValue);
     }
 
     private void testReferenceFieldValueValidation(final String actualStoredContent, final String expectedStoredContent)
-            throws DataStoreException, IOException {
+        throws DataStoreException, IOException
+    {
         final String PROPERTY_NAME = "PropertyAcceptedByValidator";
         final String ACTUAL_STORAGE_REF = "dummy-storage-ref-actual";
 
@@ -156,52 +170,57 @@ public class DocumentWorkerFieldValueValidatorTest {
         final PropertyValidator validator = getPropertyValidator(dataStore, PROPERTY_NAME, actualFieldValue, expectedFieldValue);
 
         assertTrue(validator instanceof DocumentWorkerFieldValueValidator,
-                "Expected a DocumentWorkerFieldValueValidator as we've configured a DocumentWorkerFieldValueValidator that accepts" +
-                        "the name of the property being validated");
+                   "Expected a DocumentWorkerFieldValueValidator as we've configured a DocumentWorkerFieldValueValidator that accepts"
+                   + "the name of the property being validated");
         validator.validate(PROPERTY_NAME, actualFieldValue, expectedFieldValue);
     }
 
     private PropertyValidator getPropertyValidator(final DataStore dataStore,
                                                    final String propertyName,
                                                    final DocumentWorkerFieldValue actualFieldValue,
-                                                   final DocumentWorkerFieldValueExpectation expectedFieldValue) {
-        final DocumentWorkerFieldValueValidator validator =
-                propertyName == null ?
-                        new DocumentWorkerFieldValueValidator(dataStore, mock(TestConfiguration.class), mock(Codec.class)):
-                        new DocumentWorkerFieldValueValidator(dataStore, mock(TestConfiguration.class), mock(Codec.class), propertyName, "AnotherAcceptedPropertyName");
+                                                   final DocumentWorkerFieldValueExpectation expectedFieldValue)
+    {
+        final DocumentWorkerFieldValueValidator validator
+            = propertyName == null
+                ? new DocumentWorkerFieldValueValidator(dataStore, mock(TestConfiguration.class), mock(Codec.class))
+                : new DocumentWorkerFieldValueValidator(dataStore, mock(TestConfiguration.class), mock(Codec.class), propertyName, "AnotherAcceptedPropertyName");
 
         final ValidationSettings validationSettings = ValidationSettings.configure()
-                .customValidators(validator)
-                .build();
+            .customValidators(validator)
+            .build();
 
-        final ValidatorFactory validatorFactory =
-                new ValidatorFactory(validationSettings, null, null, TestConfiguration.createDefault(null, null, null, null));
+        final ValidatorFactory validatorFactory
+            = new ValidatorFactory(validationSettings, null, null, TestConfiguration.createDefault(null, null, null, null));
 
         return validatorFactory.create(propertyName, actualFieldValue, expectedFieldValue);
     }
 
-    private DocumentWorkerFieldValue createStringFieldValue(final String stringValue) {
+    private DocumentWorkerFieldValue createStringFieldValue(final String stringValue)
+    {
         final DocumentWorkerFieldValue fieldValue = new DocumentWorkerFieldValue();
         // Default encoding is utf8.
         fieldValue.data = stringValue;
         return fieldValue;
     }
 
-    private DocumentWorkerFieldValue createBase64FieldValue(final String base64Value) {
+    private DocumentWorkerFieldValue createBase64FieldValue(final String base64Value)
+    {
         final DocumentWorkerFieldValue fieldValue = new DocumentWorkerFieldValue();
         fieldValue.encoding = DocumentWorkerFieldEncoding.base64;
         fieldValue.data = base64Value;
         return fieldValue;
     }
 
-    private DocumentWorkerFieldValue createStorageRefFieldValue(final String storageRef) {
+    private DocumentWorkerFieldValue createStorageRefFieldValue(final String storageRef)
+    {
         final DocumentWorkerFieldValue fieldValue = new DocumentWorkerFieldValue();
         fieldValue.encoding = DocumentWorkerFieldEncoding.storage_ref;
         fieldValue.data = storageRef;
         return fieldValue;
     }
 
-    private DocumentWorkerFieldValueExpectation convert(final DocumentWorkerFieldValue fieldValue) throws IOException {
+    private DocumentWorkerFieldValueExpectation convert(final DocumentWorkerFieldValue fieldValue) throws IOException
+    {
         final DocumentWorkerFieldValueExpectation expectation = new DocumentWorkerFieldValueExpectation();
         expectation.data = fieldValue.data;
         expectation.encoding = fieldValue.encoding;
@@ -211,7 +230,8 @@ public class DocumentWorkerFieldValueValidatorTest {
         return expectation;
     }
 
-    private ContentFileTestExpectation createContentExpectation(final String content) throws IOException {
+    private ContentFileTestExpectation createContentExpectation(final String content) throws IOException
+    {
         final ContentFileTestExpectation contentExpectation = new ContentFileTestExpectation();
         contentExpectation.setExpectedContentFile(saveContentToTempFile(content));
         contentExpectation.setComparisonType(BINARY);
@@ -219,7 +239,8 @@ public class DocumentWorkerFieldValueValidatorTest {
         return contentExpectation;
     }
 
-    private String saveContentToTempFile(final String content) throws IOException {
+    private String saveContentToTempFile(final String content) throws IOException
+    {
         final File temp = File.createTempFile("contentExpectation_", ".tmp");
         temp.deleteOnExit();
         if (!Strings.isNullOrEmpty(content)) {

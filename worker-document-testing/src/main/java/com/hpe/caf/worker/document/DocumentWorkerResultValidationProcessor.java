@@ -29,41 +29,41 @@ import java.util.Map;
  * Processor for validation of the worker result, compares with the expected result in the test item.
  */
 public class DocumentWorkerResultValidationProcessor<TTestInput>
-        extends PropertyValidatingProcessor<DocumentWorkerResult, TTestInput, DocumentWorkerTestExpectation>
+    extends PropertyValidatingProcessor<DocumentWorkerResult, TTestInput, DocumentWorkerTestExpectation>
 {
-    public DocumentWorkerResultValidationProcessor(final TestConfiguration<DocumentWorkerTask,
-                                                                           DocumentWorkerResult,
-                                                                           TTestInput,
-                                                                           DocumentWorkerTestExpectation> testConfiguration,
+    public DocumentWorkerResultValidationProcessor(final TestConfiguration<DocumentWorkerTask, DocumentWorkerResult, TTestInput, DocumentWorkerTestExpectation> testConfiguration,
                                                    WorkerServices workerServices)
     {
         super(testConfiguration,
               workerServices,
               ValidationSettings.configure()
-                      .customValidators(new DocumentWorkerFieldValueValidator(workerServices.getDataStore(),
-                                                                              testConfiguration,
-                                                                              workerServices.getCodec()))
-                      .build());
+              .customValidators(new DocumentWorkerFieldValueValidator(workerServices.getDataStore(),
+                                                                      testConfiguration,
+                                                                      workerServices.getCodec()))
+              .build());
     }
 
     @Override
     protected boolean processWorkerResult(TestItem<TTestInput, DocumentWorkerTestExpectation> testItem,
                                           TaskMessage message,
-                                          DocumentWorkerResult workerResult) throws Exception {
+                                          DocumentWorkerResult workerResult) throws Exception
+    {
         return super.processWorkerResult(testItem, message, workerResult);
     }
 
     @Override
     protected boolean isCompleted(TestItem<TTestInput, DocumentWorkerTestExpectation> testItem,
                                   TaskMessage message,
-                                  DocumentWorkerResult documentWorkerResult) {
+                                  DocumentWorkerResult documentWorkerResult)
+    {
         return true;
     }
 
     @Override
     protected Map<String, Object> getExpectationMap(TestItem<TTestInput, DocumentWorkerTestExpectation> testItem,
                                                     TaskMessage message,
-                                                    DocumentWorkerResult documentWorkerResult) {
+                                                    DocumentWorkerResult documentWorkerResult)
+    {
 
         final ObjectMapper mapper = new ObjectMapper();
         mapper.registerModule(new GuavaModule());
@@ -75,11 +75,13 @@ public class DocumentWorkerResultValidationProcessor<TTestInput>
     @Override
     protected Object getValidatedObject(TestItem<TTestInput, DocumentWorkerTestExpectation> testItem,
                                         TaskMessage message,
-                                        DocumentWorkerResult documentWorkerResult) {
+                                        DocumentWorkerResult documentWorkerResult)
+    {
         return convert(documentWorkerResult);
     }
 
-    private PropertyMap convert(final DocumentWorkerResult result) {
+    private PropertyMap convert(final DocumentWorkerResult result)
+    {
         final PropertyMap propertyMap = new PropertyMap();
         if (result != null) {
             if (result.fieldChanges != null) {
@@ -92,7 +94,8 @@ public class DocumentWorkerResultValidationProcessor<TTestInput>
         return propertyMap;
     }
 
-    private PropertyMap convert(final DocumentWorkerResultExpectation result) {
+    private PropertyMap convert(final DocumentWorkerResultExpectation result)
+    {
         final PropertyMap propertyMap = new PropertyMap();
         if (result.fieldChanges != null) {
             propertyMap.put("fieldChanges", result.fieldChanges);

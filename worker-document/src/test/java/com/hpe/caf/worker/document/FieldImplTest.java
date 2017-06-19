@@ -26,13 +26,14 @@ import org.mockito.Mockito;
 import org.mockito.runners.MockitoJUnitRunner;
 
 @RunWith(MockitoJUnitRunner.class)
-public class FieldImplTest {
-
+public class FieldImplTest
+{
     /**
      * Test the fieldChanges property. Test by adding String and byte array values.
      */
     @Test
-    public void fieldChangesTest() {
+    public void fieldChangesTest()
+    {
         FieldImpl fieldImpl = createFieldImpl("NEW_FIELD");
 
         fieldImpl.add("/mnt/fs/docs/budget.doc");
@@ -44,7 +45,8 @@ public class FieldImplTest {
     }
 
     @Test
-    public void fieldChangesWithBytesTest() {
+    public void fieldChangesWithBytesTest()
+    {
         FieldImpl fieldImpl = createFieldImpl("NEW_FIELD");
 
         byte[] b = "Test Data".getBytes();
@@ -58,19 +60,21 @@ public class FieldImplTest {
     }
 
     @Test
-    public void initialFieldValueTest() {
+    public void initialFieldValueTest()
+    {
 
         //Tests the initial field values with a new field
         FieldImpl fieldImpl = createFieldImpl("NEW_FIELD");
-        Assert.assertEquals(0,fieldImpl.getValues().size());
+        Assert.assertEquals(0, fieldImpl.getValues().size());
 
         //Tests the initial field values with an already existing field 'REFERENCE'
         FieldImpl fieldImpl2 = createFieldImpl("REFERENCE");
-        Assert.assertEquals(1,fieldImpl2.getValues().size());
-        Assert.assertEquals("/mnt/fs/docs/hr policy.doc",fieldImpl2.getStringValues().get(0));
+        Assert.assertEquals(1, fieldImpl2.getValues().size());
+        Assert.assertEquals("/mnt/fs/docs/hr policy.doc", fieldImpl2.getStringValues().get(0));
     }
 
-    private FieldImpl createFieldImpl(String fileName) {
+    private FieldImpl createFieldImpl(String fileName)
+    {
         ApplicationImpl application = Mockito.mock(ApplicationImpl.class);
         DocumentImpl document = createDocument("/mnt/fs/docs/hr policy.doc", "REFERENCE", DocumentWorkerFieldEncoding.utf8, application);
         return new FieldImpl(application, document, fileName);
@@ -84,7 +88,8 @@ public class FieldImplTest {
      * @param encoding the field encoding of the DocumentWorkerTask.
      * @return
      */
-    public static DocumentImpl createDocument(String data, String fieldName, DocumentWorkerFieldEncoding encoding, ApplicationImpl application) {
+    public static DocumentImpl createDocument(String data, String fieldName, DocumentWorkerFieldEncoding encoding, ApplicationImpl application)
+    {
         DocumentWorkerFieldValue workerData = new DocumentWorkerFieldValue();
         workerData.data = data;
         workerData.encoding = encoding;
@@ -100,6 +105,6 @@ public class FieldImplTest {
 
         WorkerTaskData workerTaskData = Mockito.mock(WorkerTaskData.class);
 
-        return new DocumentImpl(application,workerTaskData,task);
+        return new DocumentImpl(application, workerTaskData, task);
     }
 }

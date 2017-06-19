@@ -31,25 +31,19 @@ import java.util.stream.Collectors;
 
 import static java.nio.file.StandardCopyOption.REPLACE_EXISTING;
 
-
 public class DocumentWorkerSaveResultProcessor<TTestInput>
-        extends OutputToFileProcessor<DocumentWorkerResult, TTestInput, DocumentWorkerTestExpectation>
+    extends OutputToFileProcessor<DocumentWorkerResult, TTestInput, DocumentWorkerTestExpectation>
 {
     private TestConfiguration configuration;
     private final WorkerServices workerServices;
 
-
-    public DocumentWorkerSaveResultProcessor(TestConfiguration<DocumentWorkerTask,
-                                                               DocumentWorkerResult,
-                                                               TTestInput,
-                                                               DocumentWorkerTestExpectation> configuration,
+    public DocumentWorkerSaveResultProcessor(TestConfiguration<DocumentWorkerTask, DocumentWorkerResult, TTestInput, DocumentWorkerTestExpectation> configuration,
                                              WorkerServices workerServices)
     {
         super(workerServices.getCodec(), configuration.getWorkerResultClass(), configuration.getTestDataFolder());
         this.configuration = configuration;
         this.workerServices = workerServices;
     }
-
 
     @Override
     protected byte[] getOutputContent(DocumentWorkerResult workerResult,
@@ -59,7 +53,6 @@ public class DocumentWorkerSaveResultProcessor<TTestInput>
         testItem.getExpectedOutputData().setResult(convert(workerResult, testItem));
         return getSerializedTestItem(testItem, configuration);
     }
-
 
     private DocumentWorkerResultExpectation convert(final DocumentWorkerResult result,
                                                     TestItem<TTestInput, DocumentWorkerTestExpectation> testItem)
@@ -74,15 +67,13 @@ public class DocumentWorkerSaveResultProcessor<TTestInput>
         return expectation;
     }
 
-
     private Map<String, DocumentWorkerFieldChangesExpectation> convert(final Map<String, DocumentWorkerFieldChanges> fieldChanges,
                                                                        final TestItem<TTestInput, DocumentWorkerTestExpectation> testItem)
     {
         return fieldChanges.entrySet().stream().collect(
-                Collectors.toMap(entry -> entry.getKey(),
-                                 entry -> convert(entry.getValue(), entry.getKey(), testItem)));
+            Collectors.toMap(entry -> entry.getKey(),
+                             entry -> convert(entry.getValue(), entry.getKey(), testItem)));
     }
-
 
     private DocumentWorkerFieldChangesExpectation convert(final DocumentWorkerFieldChanges fieldChange,
                                                           final String fieldName,
@@ -90,10 +81,9 @@ public class DocumentWorkerSaveResultProcessor<TTestInput>
     {
         final DocumentWorkerFieldChangesExpectation expectation = new DocumentWorkerFieldChangesExpectation();
         expectation.action = fieldChange.action;
-        expectation.values = fieldChange.values.stream().map(value -> convert(value, fieldName,  testItem)).collect(Collectors.toList());
+        expectation.values = fieldChange.values.stream().map(value -> convert(value, fieldName, testItem)).collect(Collectors.toList());
         return expectation;
     }
-
 
     private DocumentWorkerFieldValueExpectation convert(final DocumentWorkerFieldValue fieldValue,
                                                         final String fieldName,
@@ -111,7 +101,6 @@ public class DocumentWorkerSaveResultProcessor<TTestInput>
         return expectation;
     }
 
-
     private ContentFileTestExpectation getContentExpectation(final String storageRef,
                                                              final String fieldName,
                                                              final TestItem<TTestInput, DocumentWorkerTestExpectation> testItem)
@@ -128,7 +117,6 @@ public class DocumentWorkerSaveResultProcessor<TTestInput>
         return expectation;
     }
 
-
     protected Path saveContentFile(final TestItem<TTestInput, DocumentWorkerTestExpectation> testItem,
                                    String baseFileName,
                                    final String extension,
@@ -137,7 +125,7 @@ public class DocumentWorkerSaveResultProcessor<TTestInput>
         String outputFolder = getOutputFolder();
         if (configuration.isStoreTestCaseWithInput()) {
             final Path path = Paths.get(testItem.getTag()).getParent();
-            outputFolder =  Paths.get(configuration.getTestDataFolder(), path == null ? "" : path.toString()).toString();
+            outputFolder = Paths.get(configuration.getTestDataFolder(), path == null ? "" : path.toString()).toString();
         }
         String normalizedBaseFileName = Paths.get(FilenameUtils.normalize(baseFileName)).getFileName().toString();
         final Path contentFile = Paths.get(outputFolder, normalizedBaseFileName + "." + extension + ".content");
@@ -145,7 +133,6 @@ public class DocumentWorkerSaveResultProcessor<TTestInput>
         Files.copy(dataStream, contentFile, REPLACE_EXISTING);
         return getRelativeLocation(contentFile);
     }
-
 
     protected Path getRelativeLocation(final Path contentFile)
     {

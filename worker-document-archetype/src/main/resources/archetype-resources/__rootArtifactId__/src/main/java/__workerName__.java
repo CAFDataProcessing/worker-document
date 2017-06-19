@@ -27,8 +27,8 @@ import java.util.Map;
 /**
  * This is an example implementation of the DocumentWorker interface.
  * <p>
- * Implementing the DocumentWorker interface provides an easy way to efficiently integrate into the Data Processing pipeline.
- * Documents passing through the pipeline can be routed to the worker and enriched from an external source such as a database.
+ * Implementing the DocumentWorker interface provides an easy way to efficiently integrate into the Data Processing pipeline. Documents
+ * passing through the pipeline can be routed to the worker and enriched from an external source such as a database.
  * <p>
  * The example implementation simply does a lookup from an internal in-memory map.
  * <p>

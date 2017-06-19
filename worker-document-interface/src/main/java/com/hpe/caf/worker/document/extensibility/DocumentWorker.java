@@ -29,8 +29,8 @@ import com.hpe.caf.worker.document.model.HealthMonitor;
  * possible to pass all of the document's fields to the worker.
  * <p>
  * The Document Worker may implement the {@link BulkDocumentWorker} interface instead of implementing this interface if there would be
- * efficiency gains to be made by processing multiple documents together. The BulkDocumentWorker interface extends this interface
- * so the methods of this interface must still be implemented.
+ * efficiency gains to be made by processing multiple documents together. The BulkDocumentWorker interface extends this interface so the
+ * methods of this interface must still be implemented.
  */
 public interface DocumentWorker extends AutoCloseable
 {
