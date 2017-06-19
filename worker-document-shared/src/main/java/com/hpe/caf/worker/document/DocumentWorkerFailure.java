@@ -16,8 +16,9 @@
 package com.hpe.caf.worker.document;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
 
-@JsonInclude(JsonInclude.Include.NON_NULL)
+@JsonInclude(Include.NON_NULL)
 public final class DocumentWorkerFailure
 {
     public String failureId;
