@@ -21,7 +21,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * Input message for a Document worker.
+ * Message format for the Field Enrichment Task.
  */
 @JsonInclude(Include.NON_NULL)
 public final class DocumentWorkerTask
