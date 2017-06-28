@@ -49,6 +49,7 @@ public class ApplicationImpl implements Application
         this.failureQueue = getFailureQueue(configuration);
 
         // Register services
+        serviceLocator.register(Codec.class, codec);
         serviceLocator.register(DataStore.class, dataStore);
         serviceLocator.register(ConfigurationSource.class, configSource);
     }
