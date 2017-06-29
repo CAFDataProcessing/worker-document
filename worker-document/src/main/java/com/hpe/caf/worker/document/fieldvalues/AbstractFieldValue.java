@@ -15,26 +15,20 @@
  */
 package com.hpe.caf.worker.document.fieldvalues;
 
-import com.hpe.caf.api.worker.DataStoreException;
 import com.hpe.caf.worker.document.DocumentWorkerFieldEncoding;
 import com.hpe.caf.worker.document.DocumentWorkerFieldValue;
 import com.hpe.caf.worker.document.impl.ApplicationImpl;
 import com.hpe.caf.worker.document.impl.DocumentWorkerObjectImpl;
 import com.hpe.caf.worker.document.model.Field;
 import com.hpe.caf.worker.document.model.FieldValue;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import java.nio.ByteBuffer;
 import java.nio.charset.CharacterCodingException;
 import java.nio.charset.CharsetDecoder;
 import java.nio.charset.StandardCharsets;
-import java.util.Base64;
 import java.util.Objects;
 
 public abstract class AbstractFieldValue extends DocumentWorkerObjectImpl implements FieldValue
 {
-    private static final Logger LOG = LoggerFactory.getLogger(AbstractFieldValue.class);
     /**
      * Constructs the appropriate implementation based on the encoding of the field value.
      *
@@ -56,26 +50,8 @@ public abstract class AbstractFieldValue extends DocumentWorkerObjectImpl implem
         // Construct the appropriate concreate implementation
         switch (encoding) {
             case utf8:
-                if (data.length() > 100) {
-                    try {
-                        String reference = application.getDataStore().store(data.getBytes(), null);
-                        return new ReferenceFieldValue(application, field, reference);
-                    }
-                    catch (DataStoreException e) {
-                        LOG.error("Could not store data over the threshold in the data store.", e);
-                    }
-                }
                 return new StringFieldValue(application, field, data);
             case base64:
-                if (data.length() > 100) {
-                    try {
-                        String reference = application.getDataStore().store(data.getBytes(), null);
-                        return new ReferenceFieldValue(application, field, reference);
-                    }
-                    catch (DataStoreException e) {
-                        LOG.error("Could not store data over the threshold in the data store.", e);
-                    }
-                }
                 return new Base64FieldValue(application, field, data);
             case storage_ref:
                 return new ReferenceFieldValue(application, field, data);

@@ -15,6 +15,7 @@
  */
 package com.hpe.caf.worker.document.impl;
 
+import com.hpe.caf.api.worker.DataStoreException;
 import com.hpe.caf.worker.document.DocumentWorkerAction;
 import com.hpe.caf.worker.document.DocumentWorkerFieldChanges;
 import com.hpe.caf.worker.document.DocumentWorkerFieldEncoding;
@@ -29,9 +30,12 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.stream.Collectors;
 import org.apache.commons.codec.binary.Base64;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public final class FieldImpl extends DocumentWorkerObjectImpl implements Field
 {
+    private static final Logger LOG = LoggerFactory.getLogger(FieldImpl.class);
     private final DocumentImpl document;
 
     private final String fieldName;
@@ -52,15 +56,35 @@ public final class FieldImpl extends DocumentWorkerObjectImpl implements Field
     @Override
     public void add(String data)
     {
+        if (data.length() > 100) {
+            try {
+                String dataRef = application.getDataStore().store(data.getBytes(), null);
+                addReference(dataRef);
+                return;
+            }
+            catch (DataStoreException e) {
+                LOG.warn("Could not store data over the threshold in data store.", e);
+            }
+        }
         final DocumentWorkerFieldValue fieldValue = new DocumentWorkerFieldValue();
         fieldValue.data = data;
-
         fieldChanges.values.add(fieldValue);
     }
 
     @Override
     public void add(byte[] data)
     {
+        if (data.length > 100) {
+            try {
+                String dataRef = application.getDataStore().store(data, null);
+                addReference(dataRef);
+                return;
+            }
+            catch (DataStoreException e) {
+                LOG.warn("Could not store data over the threshold in data store.", e);
+            }
+        }
+
         final DocumentWorkerFieldValue fieldValue = new DocumentWorkerFieldValue();
         fieldValue.data = Base64.encodeBase64String(data);
         fieldValue.encoding = DocumentWorkerFieldEncoding.base64;
