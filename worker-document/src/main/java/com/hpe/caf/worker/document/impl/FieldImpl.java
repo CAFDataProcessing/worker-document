@@ -23,6 +23,8 @@ import com.hpe.caf.worker.document.DocumentWorkerFieldValue;
 import com.hpe.caf.worker.document.model.Document;
 import com.hpe.caf.worker.document.model.Field;
 import com.hpe.caf.worker.document.model.FieldValues;
+
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -58,7 +60,7 @@ public final class FieldImpl extends DocumentWorkerObjectImpl implements Field
     {
         if (data.length() > 100) {
             try {
-                String dataRef = application.getDataStore().store(data.getBytes(), null);
+                String dataRef = application.getDataStore().store(data.getBytes(StandardCharsets.UTF_8), null);
                 addReference(dataRef);
                 return;
             }
