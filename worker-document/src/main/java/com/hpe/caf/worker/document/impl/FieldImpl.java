@@ -58,9 +58,9 @@ public final class FieldImpl extends DocumentWorkerObjectImpl implements Field
     @Override
     public void add(String data)
     {
-        if (data.length() > 100) {
+        if (data != null && ( data.length() > getMaxStringSize())) {
             try {
-                String dataRef = application.getDataStore().store(data.getBytes(StandardCharsets.UTF_8), null);
+                final String dataRef = application.getDataStore().store(data.getBytes(StandardCharsets.UTF_8), null);
                 addReference(dataRef);
                 return;
             }
@@ -76,7 +76,7 @@ public final class FieldImpl extends DocumentWorkerObjectImpl implements Field
     @Override
     public void add(byte[] data)
     {
-        if (data.length > 100) {
+        if (data != null && ( data.length > getMaxStringSize())) {
             try {
                 String dataRef = application.getDataStore().store(data, null);
                 addReference(dataRef);
@@ -203,5 +203,17 @@ public final class FieldImpl extends DocumentWorkerObjectImpl implements Field
         fieldChanges.values = new ArrayList<>();
 
         return fieldChanges;
+    }
+    
+    private static long getMaxStringSize(){
+        final long defaultLimit = 128;
+        
+        if ( System.getenv("CAF_METADATA_LOCAL_STRING_SIZE_LIMIT") != null )
+        {
+            long limit = Long.getLong(System.getenv("CAF_METADATA_LOCAL_STRING_SIZE_LIMIT"));
+            return Math.max(limit, defaultLimit);
+        }
+        
+        return defaultLimit;
     }
 }
