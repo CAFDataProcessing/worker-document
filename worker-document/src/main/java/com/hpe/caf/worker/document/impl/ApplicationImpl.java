@@ -16,11 +16,13 @@
 package com.hpe.caf.worker.document.impl;
 
 import com.hpe.caf.api.Codec;
+import com.hpe.caf.api.CodecException;
 import com.hpe.caf.api.ConfigurationException;
 import com.hpe.caf.api.ConfigurationSource;
 import com.hpe.caf.api.worker.DataStore;
+import com.hpe.caf.api.worker.TaskFailedException;
 import com.hpe.caf.api.worker.WorkerException;
-import com.hpe.caf.worker.document.DocumentWorkerConfiguration;
+import com.hpe.caf.worker.document.config.DocumentWorkerConfiguration;
 import com.hpe.caf.worker.document.model.Application;
 import com.hpe.caf.worker.document.model.ServiceLocator;
 import java.util.Objects;
@@ -33,6 +35,7 @@ public class ApplicationImpl implements Application
     private final Codec codec;
     private final DocumentWorkerConfiguration configuration;
     private final BatchSizeControllerImpl batchSizeController;
+    private final InputMessageProcessorImpl inputMessageProcessor;
     private final String successQueue;
     private final String failureQueue;
 
@@ -45,6 +48,7 @@ public class ApplicationImpl implements Application
         this.codec = Objects.requireNonNull(codec);
         this.configuration = getConfiguration(configSource);
         this.batchSizeController = new BatchSizeControllerImpl(this, configuration);
+        this.inputMessageProcessor = new InputMessageProcessorImpl(this, configuration.getInputMessageProcessing());
         this.successQueue = configuration.getOutputQueue();
         this.failureQueue = getFailureQueue(configuration);
 
@@ -64,6 +68,12 @@ public class ApplicationImpl implements Application
     public BatchSizeControllerImpl getBatchSizeController()
     {
         return batchSizeController;
+    }
+
+    @Override
+    public InputMessageProcessorImpl getInputMessageProcessor()
+    {
+        return inputMessageProcessor;
     }
 
     @Override
@@ -106,6 +116,15 @@ public class ApplicationImpl implements Application
     public String getFailureQueue()
     {
         return failureQueue;
+    }
+
+    public <T> byte[] serialiseResult(final T result)
+    {
+        try {
+            return codec.serialise(result);
+        } catch (CodecException e) {
+            throw new TaskFailedException("Failed to serialise result", e);
+        }
     }
 
     /**

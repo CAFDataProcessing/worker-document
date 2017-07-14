@@ -22,12 +22,14 @@ import com.hpe.caf.worker.document.DocumentWorkerFieldValue;
 import com.hpe.caf.worker.document.model.Document;
 import com.hpe.caf.worker.document.model.Field;
 import com.hpe.caf.worker.document.model.FieldValues;
+import com.hpe.caf.worker.document.views.ReadOnlyFieldValue;
+import com.hpe.caf.worker.document.views.ReadOnlyFieldValues;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.Map;
 import java.util.Objects;
 import java.util.stream.Collectors;
+import javax.annotation.Nonnull;
 import org.apache.commons.codec.binary.Base64;
 
 public final class FieldImpl extends DocumentWorkerObjectImpl implements Field
@@ -36,7 +38,7 @@ public final class FieldImpl extends DocumentWorkerObjectImpl implements Field
 
     private final String fieldName;
 
-    private final List<DocumentWorkerFieldValue> initialFieldValues;
+    private final List<ReadOnlyFieldValue> initialFieldValues;
 
     private final DocumentWorkerFieldChanges fieldChanges;
 
@@ -112,13 +114,14 @@ public final class FieldImpl extends DocumentWorkerObjectImpl implements Field
     @Override
     public FieldValues getValues()
     {
-        final List<DocumentWorkerFieldValue> currentFieldValues = new ArrayList<>();
+        final List<ReadOnlyFieldValue> currentFieldValues = new ArrayList<>();
 
         if (fieldChanges.action == DocumentWorkerAction.add) {
             currentFieldValues.addAll(initialFieldValues);
         }
 
-        currentFieldValues.addAll(fieldChanges.values);
+        final List<ReadOnlyFieldValue> newFieldValues = ReadOnlyFieldValues.create(fieldChanges.values);
+        currentFieldValues.addAll(newFieldValues);
 
         return new FieldValuesImpl(application, this, currentFieldValues);
     }
@@ -157,19 +160,15 @@ public final class FieldImpl extends DocumentWorkerObjectImpl implements Field
             : null;
     }
 
-    private static List<DocumentWorkerFieldValue> getInitialFieldValues(final DocumentImpl document, final String fieldName)
+    @Nonnull
+    private static List<ReadOnlyFieldValue> getInitialFieldValues(final DocumentImpl document, final String fieldName)
     {
-        final Map<String, List<DocumentWorkerFieldValue>> fields = document.getDocumentWorkerTask().fields;
-
-        if (fields == null) {
-            return Collections.emptyList();
-        }
-
-        final List<DocumentWorkerFieldValue> fieldValues = fields.get(fieldName);
+        final List<ReadOnlyFieldValue> fieldValues = document.getInitialDocument().getFields().get(fieldName);
 
         return (fieldValues != null) ? fieldValues : Collections.emptyList();
     }
 
+    @Nonnull
     private static DocumentWorkerFieldChanges createFieldChanges()
     {
         final DocumentWorkerFieldChanges fieldChanges = new DocumentWorkerFieldChanges();

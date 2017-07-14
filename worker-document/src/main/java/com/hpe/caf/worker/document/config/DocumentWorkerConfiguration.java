@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.hpe.caf.worker.document;
+package com.hpe.caf.worker.document.config;
 
 import com.hpe.caf.api.worker.WorkerConfiguration;
 
@@ -48,6 +48,11 @@ public class DocumentWorkerConfiguration extends WorkerConfiguration
      * Maximum length of time (in milliseconds) to build up a batch.
      */
     private long maxBatchTime;
+
+    /**
+     * Configuration for the input message processor
+     */
+    private InputMessageConfiguration inputMessageProcessing;
 
     public DocumentWorkerConfiguration()
     {
@@ -101,5 +106,15 @@ public class DocumentWorkerConfiguration extends WorkerConfiguration
     public void setMaxBatchTime(long maxBatchTime)
     {
         this.maxBatchTime = maxBatchTime;
+    }
+
+    public InputMessageConfiguration getInputMessageProcessing()
+    {
+        return inputMessageProcessing;
+    }
+
+    public void setInputMessageProcessing(InputMessageConfiguration inputMessageProcessing)
+    {
+        this.inputMessageProcessing = inputMessageProcessing;
     }
 }

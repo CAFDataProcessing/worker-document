@@ -17,6 +17,7 @@ package com.hpe.caf.worker.document;
 
 import com.hpe.caf.api.worker.WorkerTaskData;
 import com.hpe.caf.worker.document.impl.*;
+import com.hpe.caf.worker.document.tasks.FieldEnrichmentTask;
 import java.util.*;
 import org.apache.commons.codec.binary.Base64;
 import org.junit.Assert;
@@ -105,6 +106,6 @@ public class FieldImplTest
 
         WorkerTaskData workerTaskData = Mockito.mock(WorkerTaskData.class);
 
-        return new DocumentImpl(application, workerTaskData, task);
+        return FieldEnrichmentTask.create(application, workerTaskData, task).getDocument();
     }
 }

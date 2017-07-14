@@ -16,11 +16,11 @@
 package com.hpe.caf.worker.document.fieldvalues;
 
 import com.hpe.caf.worker.document.DocumentWorkerFieldEncoding;
-import com.hpe.caf.worker.document.DocumentWorkerFieldValue;
 import com.hpe.caf.worker.document.impl.ApplicationImpl;
 import com.hpe.caf.worker.document.impl.DocumentWorkerObjectImpl;
 import com.hpe.caf.worker.document.model.Field;
 import com.hpe.caf.worker.document.model.FieldValue;
+import com.hpe.caf.worker.document.views.ReadOnlyFieldValue;
 import java.nio.ByteBuffer;
 import java.nio.charset.CharacterCodingException;
 import java.nio.charset.CharsetDecoder;
@@ -37,15 +37,15 @@ public abstract class AbstractFieldValue extends DocumentWorkerObjectImpl implem
      * @param value the object that contains the field value
      * @return an object that can be used to interrogate the field value
      */
-    public static AbstractFieldValue create(final ApplicationImpl application, final Field field, final DocumentWorkerFieldValue value)
+    public static AbstractFieldValue create(final ApplicationImpl application, final Field field, final ReadOnlyFieldValue value)
     {
         // Confirm that the arguments are not null
         Objects.requireNonNull(application);
         Objects.requireNonNull(value);
 
         // Deal with the possibility that the data or the encoding values might be null (by moving them to their defaults)
-        final String data = nullToEmpty(value.data);
-        final DocumentWorkerFieldEncoding encoding = nullToUtf8(value.encoding);
+        final String data = value.getData();
+        final DocumentWorkerFieldEncoding encoding = value.getEncoding();
 
         // Construct the appropriate concreate implementation
         switch (encoding) {
@@ -94,27 +94,5 @@ public abstract class AbstractFieldValue extends DocumentWorkerObjectImpl implem
         } catch (CharacterCodingException ex) {
             return false;
         }
-    }
-
-    /**
-     * Returns the given string if it is non-null; the empty string otherwise.
-     *
-     * @param str the string to test and possibly return
-     * @return string itself if it is non-null; "" if it is null
-     */
-    private static String nullToEmpty(final String str)
-    {
-        return (str != null) ? str : "";
-    }
-
-    /**
-     * Returns the given encoding if it is non-null; UTF-8 otherwise.
-     *
-     * @param encoding the encoding to test and possibly return
-     * @return encoding itself if it is non-null; utf8 if it is null
-     */
-    private static DocumentWorkerFieldEncoding nullToUtf8(final DocumentWorkerFieldEncoding encoding)
-    {
-        return (encoding != null) ? encoding : DocumentWorkerFieldEncoding.utf8;
     }
 }

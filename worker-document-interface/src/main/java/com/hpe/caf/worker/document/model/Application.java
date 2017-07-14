@@ -34,6 +34,16 @@ public interface Application extends DocumentWorkerObject
     BatchSizeController getBatchSizeController();
 
     /**
+     * Returns the input message processor.
+     * <p>
+     * This object controls how input messages are processed.
+     *
+     * @return the input message processor
+     */
+    @Nonnull
+    InputMessageProcessor getInputMessageProcessor();
+
+    /**
      * Returns the specified service, or {@code null} if the service has not been registered.
      * <p>
      * This method can be used to retrieve services provided by the underlying Worker Framework, such as the {@code DataStore} or

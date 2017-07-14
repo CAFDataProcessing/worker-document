@@ -42,6 +42,11 @@ public interface Fields extends DocumentWorkerObject, Iterable<Field>
     Document getDocument();
 
     /**
+     * Resets this collection of fields back to its original state, undoing any changes made to any of the fields in the collection.
+     */
+    void reset();
+
+    /**
      * Returns a sequential {@code Stream} with this field collection as its source.
      *
      * @return a sequential {@code Stream} over the collection of fields

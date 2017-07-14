@@ -15,7 +15,7 @@
  */
 package com.hpe.caf.worker.document.testing;
 
-import com.hpe.caf.worker.document.DocumentWorkerConfiguration;
+import com.hpe.caf.worker.document.config.DocumentWorkerConfiguration;
 
 /**
  * Document worker configuration builder.

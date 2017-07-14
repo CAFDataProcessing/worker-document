@@ -15,19 +15,21 @@
  */
 package com.hpe.caf.worker.document;
 
-import com.hpe.caf.worker.document.model.Document;
-import com.hpe.caf.worker.document.exceptions.DocumentWorkerTransientException;
-import com.hpe.caf.worker.document.extensibility.BulkDocumentWorker;
 import com.hpe.caf.api.worker.BulkWorkerRuntime;
 import com.hpe.caf.api.worker.InvalidTaskException;
 import com.hpe.caf.api.worker.TaskRejectedException;
 import com.hpe.caf.api.worker.WorkerResponse;
 import com.hpe.caf.api.worker.WorkerTask;
+import com.hpe.caf.worker.document.exceptions.DocumentWorkerTransientException;
+import com.hpe.caf.worker.document.extensibility.BulkDocumentWorker;
 import com.hpe.caf.worker.document.impl.ApplicationImpl;
-import com.hpe.caf.worker.document.impl.DocumentImpl;
 import com.hpe.caf.worker.document.impl.DocumentWorkerObjectImpl;
 import com.hpe.caf.worker.document.model.BatchSizeController;
+import com.hpe.caf.worker.document.model.Document;
 import com.hpe.caf.worker.document.model.Documents;
+import com.hpe.caf.worker.document.tasks.AbstractTask;
+import com.hpe.caf.worker.document.util.DocumentFunctions;
+import com.hpe.caf.worker.document.util.IteratorFunctions;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -91,11 +93,11 @@ public final class BulkDocumentMessageProcessor
         // Cycle around the documents and set RESULT_SUCCESS responses on them
         for (final BulkDocument bulkDocument : bulkDocuments) {
 
-            // Get the Document object
-            final DocumentImpl document = bulkDocument.getDocument();
+            // Get the task object
+            final AbstractTask documentWorkerTask = bulkDocument.getDocumentWorkerTask();
 
             // Create the WorkerResponse object
-            final WorkerResponse workerResponse = document.createWorkerResponse();
+            final WorkerResponse workerResponse = documentWorkerTask.createWorkerResponse();
 
             // Set the response on the WorkerTask object
             bulkDocument.getWorkerTask().setResponse(workerResponse);
@@ -130,7 +132,11 @@ public final class BulkDocumentMessageProcessor
         @Override
         public Iterator<Document> iterator()
         {
-            return new DocumentsIterator();
+            final Iterator<Document> iterator = new DocumentsIterator();
+
+            return application.getInputMessageProcessor().getProcessSubdocumentsSeparately()
+                ? createHierarchyIterator(iterator)
+                : iterator;
         }
 
         @Override
@@ -202,7 +208,7 @@ public final class BulkDocumentMessageProcessor
             }
 
             // Return the document at the current position and move the cursor on to the next position
-            return bulkDocuments.get(pos++).getDocument();
+            return bulkDocuments.get(pos++).getDocumentWorkerTask().getDocument();
         }
 
         /**
@@ -218,7 +224,7 @@ public final class BulkDocumentMessageProcessor
         {
             // Get the next valid task (loop around if there are invalid messages)
             WorkerTask workerTask;
-            DocumentWorkerTask documentWorkerTask;
+            AbstractTask documentWorkerTask;
             do {
                 // Get the next worker task
                 workerTask = getNextWorkerTask(cutoffTime);
@@ -233,11 +239,8 @@ public final class BulkDocumentMessageProcessor
 
             } while (documentWorkerTask == null);
 
-            // Construct the Document object for this document
-            final DocumentImpl document = new DocumentImpl(application, workerTask, documentWorkerTask);
-
             // Create and return the new BulkDocument object
-            return new BulkDocument(workerTask, document);
+            return new BulkDocument(workerTask, documentWorkerTask);
         }
 
         /**
@@ -266,12 +269,12 @@ public final class BulkDocumentMessageProcessor
          * @param workerTask the Worker Framework task to examine and extract the DocumentWorkerTask from
          * @return the decoded DocumentWorkerTask that was extracted from the WorkerTaskData object, or null if there was an error
          */
-        private DocumentWorkerTask getValidDocumentWorkerTask(final WorkerTask workerTask)
+        private AbstractTask getValidDocumentWorkerTask(final WorkerTask workerTask)
         {
             Objects.requireNonNull(workerTask);
 
             try {
-                return DocumentWorkerTaskFunctions.getTask(workerTask, application.getCodec());
+                return application.getInputMessageProcessor().createTask(workerTask);
             } catch (InvalidTaskException ex) {
                 workerTask.setResponse(ex);
                 return null;
@@ -280,5 +283,16 @@ public final class BulkDocumentMessageProcessor
                 return null;
             }
         }
+    }
+
+    /**
+     * Given a sequence of documents, each of which potentially contains a subdocument hierarchy, this function returns an iterator over
+     * all of the documents. For each document, it supplies the document and all of the subdocuments in its hierarchy.
+     */
+    private static Iterator<Document> createHierarchyIterator(final Iterator<Document> documentIterator)
+    {
+        return IteratorFunctions.asStream(documentIterator)
+            .flatMap(DocumentFunctions::documentNodes)
+            .iterator();
     }
 }

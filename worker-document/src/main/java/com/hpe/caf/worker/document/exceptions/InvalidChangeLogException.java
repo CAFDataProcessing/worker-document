@@ -13,24 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.hpe.caf.worker.document;
+package com.hpe.caf.worker.document.exceptions;
 
-import com.hpe.caf.api.Codec;
-import com.hpe.caf.api.CodecException;
-import com.hpe.caf.api.worker.TaskFailedException;
-
-public final class DocumentWorkerResultFunctions
+public class InvalidChangeLogException extends Exception
 {
-    private DocumentWorkerResultFunctions()
+    public InvalidChangeLogException(final String message)
     {
-    }
-
-    public static byte[] serialise(final DocumentWorkerResult result, final Codec codec)
-    {
-        try {
-            return codec.serialise(result);
-        } catch (CodecException e) {
-            throw new TaskFailedException("Failed to serialise result", e);
-        }
+        super(message);
     }
 }

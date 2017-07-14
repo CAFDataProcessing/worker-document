@@ -16,16 +16,17 @@
 package com.hpe.caf.worker.document.impl;
 
 import com.hpe.caf.worker.document.DocumentWorkerFieldChanges;
-import com.hpe.caf.worker.document.DocumentWorkerFieldValue;
 import com.hpe.caf.worker.document.model.Document;
 import com.hpe.caf.worker.document.model.Field;
 import com.hpe.caf.worker.document.model.Fields;
+import com.hpe.caf.worker.document.output.ChangesJournal;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -71,18 +72,30 @@ public final class FieldsImpl extends DocumentWorkerObjectImpl implements Fields
     }
 
     @Override
+    public void reset()
+    {
+        for (final FieldImpl field : fields.values()) {
+            field.reset();
+        }
+    }
+
+    @Override
     public Stream<Field> stream()
     {
         return createSnapshotList().stream();
     }
 
+    public boolean hasChanges()
+    {
+        return fields.values().stream().anyMatch(Field::hasChanges);
+    }
+
     /**
-     * Returns the changes made to all of the fields. Only fields which have been updated are returned. If no fields have been updated
-     * then null is returned.
+     * Records any field changes made into the specified journal.
      *
-     * @return the changes made to the fields, or null if no changes have been made
+     * @param journal the register of changes
      */
-    public Map<String, DocumentWorkerFieldChanges> getChanges()
+    public void recordChanges(final ChangesJournal journal)
     {
         final Map<String, DocumentWorkerFieldChanges> changes = new HashMap<>();
 
@@ -95,9 +108,9 @@ public final class FieldsImpl extends DocumentWorkerObjectImpl implements Fields
             }
         }
 
-        return changes.isEmpty()
-            ? null
-            : changes;
+        if (!changes.isEmpty()) {
+            journal.addFieldChanges(changes);
+        }
     }
 
     /**
@@ -124,12 +137,10 @@ public final class FieldsImpl extends DocumentWorkerObjectImpl implements Fields
             return;
         }
 
-        final Map<String, List<DocumentWorkerFieldValue>> fieldMap = document.getDocumentWorkerTask().fields;
+        final Set<String> fieldNames = document.getInitialDocument().getFields().keySet();
 
-        if (fieldMap != null) {
-            for (final String fieldName : fieldMap.keySet()) {
-                get(fieldName);
-            }
+        for (final String fieldName : fieldNames) {
+            get(fieldName);
         }
 
         allFieldsAddedToMap = true;

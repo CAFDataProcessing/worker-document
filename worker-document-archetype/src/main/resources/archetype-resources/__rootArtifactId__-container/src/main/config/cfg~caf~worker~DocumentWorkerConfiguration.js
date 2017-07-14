@@ -22,5 +22,10 @@
     failureQueue: getenv("CAF_WORKER_FAILURE_QUEUE") || undefined,
     threads: getenv("CAF_WORKER_THREADS") || 1,
     maxBatchSize: getenv("CAF_WORKER_MAX_BATCH_SIZE") || undefined,
-    maxBatchTime: getenv("CAF_WORKER_MAX_BATCH_TIME") || undefined
+    maxBatchTime: getenv("CAF_WORKER_MAX_BATCH_TIME") || undefined,
+    inputMessageProcessing: {
+        documentTasksAccepted: undefined,
+        fieldEnrichmentTasksAccepted: undefined,
+        processSubdocumentsSeparately: undefined
+    }
 });

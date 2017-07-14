@@ -28,7 +28,7 @@ public class DocumentWorkerObjectImpl implements DocumentWorkerObject
     }
 
     @Override
-    public Application getApplication()
+    public final Application getApplication()
     {
         return application;
     }

@@ -16,17 +16,17 @@
 package com.hpe.caf.worker.document;
 
 import com.hpe.caf.api.worker.WorkerTask;
-import com.hpe.caf.worker.document.impl.DocumentImpl;
+import com.hpe.caf.worker.document.tasks.AbstractTask;
 
 public final class BulkDocument
 {
     private final WorkerTask workerTask;
-    private final DocumentImpl document;
+    private final AbstractTask documentWorkerTask;
 
-    public BulkDocument(final WorkerTask workerTask, final DocumentImpl document)
+    public BulkDocument(final WorkerTask workerTask, final AbstractTask documentWorkerTask)
     {
         this.workerTask = workerTask;
-        this.document = document;
+        this.documentWorkerTask = documentWorkerTask;
     }
 
     public WorkerTask getWorkerTask()
@@ -34,8 +34,8 @@ public final class BulkDocument
         return workerTask;
     }
 
-    public DocumentImpl getDocument()
+    public AbstractTask getDocumentWorkerTask()
     {
-        return document;
+        return documentWorkerTask;
     }
 }

@@ -15,7 +15,7 @@
  */
 package com.hpe.caf.worker.document.impl;
 
-import com.hpe.caf.worker.document.DocumentWorkerConfiguration;
+import com.hpe.caf.worker.document.config.DocumentWorkerConfiguration;
 import com.hpe.caf.worker.document.model.BatchSizeController;
 
 public final class BatchSizeControllerImpl extends DocumentWorkerObjectImpl implements BatchSizeController

@@ -15,6 +15,7 @@
  */
 package com.hpe.caf.worker.document;
 
+import com.hpe.caf.worker.document.config.DocumentWorkerConfiguration;
 import com.hpe.caf.worker.document.extensibility.DocumentWorker;
 import com.hpe.caf.api.HealthResult;
 import com.hpe.caf.api.worker.InvalidTaskException;

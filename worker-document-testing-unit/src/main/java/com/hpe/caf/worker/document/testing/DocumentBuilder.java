@@ -23,6 +23,8 @@ import com.hpe.caf.worker.document.DocumentWorkerTask;
 import com.hpe.caf.worker.document.impl.ApplicationImpl;
 import com.hpe.caf.worker.document.impl.DocumentImpl;
 import com.hpe.caf.worker.document.model.Document;
+import com.hpe.caf.worker.document.tasks.AbstractTask;
+import com.hpe.caf.worker.document.tasks.FieldEnrichmentTask;
 import org.apache.commons.io.FileUtils;
 import org.mockito.Mockito;
 
@@ -143,10 +145,13 @@ public final class DocumentBuilder
         if (services == null) {
             services = TestServices.createDefault();
         }
-        final WorkerTaskData workerTaskData = Mockito.mock(WorkerTaskData.class);
 
-        final DocumentImpl document = new DocumentImpl(new ApplicationImpl(
-            services.getConfigurationSource(), services.getDataStore(), services.getCodec()), workerTaskData, workerTask);
+        final AbstractTask documentWorkerTask = FieldEnrichmentTask.create(
+            new ApplicationImpl(services.getConfigurationSource(), services.getDataStore(), services.getCodec()),
+            Mockito.mock(WorkerTaskData.class),
+            workerTask);
+
+        final DocumentImpl document = documentWorkerTask.getDocument();
 
         return document;
     }

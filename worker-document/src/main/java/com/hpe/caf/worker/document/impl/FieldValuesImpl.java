@@ -15,11 +15,11 @@
  */
 package com.hpe.caf.worker.document.impl;
 
-import com.hpe.caf.worker.document.DocumentWorkerFieldValue;
 import com.hpe.caf.worker.document.fieldvalues.AbstractFieldValue;
 import com.hpe.caf.worker.document.model.Field;
 import com.hpe.caf.worker.document.model.FieldValue;
 import com.hpe.caf.worker.document.model.FieldValues;
+import com.hpe.caf.worker.document.views.ReadOnlyFieldValue;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
@@ -32,7 +32,7 @@ public final class FieldValuesImpl extends DocumentWorkerObjectImpl implements F
     private final Field field;
     private final List<FieldValue> fieldValues;
 
-    public FieldValuesImpl(final ApplicationImpl application, final Field field, final List<DocumentWorkerFieldValue> fieldValues)
+    public FieldValuesImpl(final ApplicationImpl application, final Field field, final List<ReadOnlyFieldValue> fieldValues)
     {
         super(application);
         this.field = Objects.requireNonNull(field);
@@ -72,12 +72,12 @@ public final class FieldValuesImpl extends DocumentWorkerObjectImpl implements F
     private static List<FieldValue> createFieldValueList(
         final ApplicationImpl application,
         final Field field,
-        final List<DocumentWorkerFieldValue> fieldValues
+        final List<ReadOnlyFieldValue> fieldValues
     )
     {
-        final List<FieldValue> returnList = new ArrayList<>(fieldValues.size());
+        final ArrayList<FieldValue> returnList = new ArrayList<>(fieldValues.size());
 
-        for (final DocumentWorkerFieldValue fieldValue : fieldValues) {
+        for (final ReadOnlyFieldValue fieldValue : fieldValues) {
             returnList.add(AbstractFieldValue.create(application, field, fieldValue));
         }
 

@@ -20,14 +20,34 @@ import javax.annotation.Nonnull;
 /**
  * Represents a document being processed.
  * <p>
- * The document has fields associated with it which may be manipulated when it is processed. Additionally it may also have custom data
- * associated with it. This custom data can be used to affect how the document is processed without actually becoming metadata of the
- * document.
+ * The document has a reference and fields associated with it which may be manipulated when it is processed. Additionally it may also have
+ * custom data associated with it which can be used to affect how the document is processed without actually becoming metadata of the
+ * document. Furthermore a document may have subdocuments which can also be manipulated when it is processed.
  * <p>
  * If there is a failure processing the document then the failure information may also be stored with the document.
  */
 public interface Document extends DocumentWorkerObject
 {
+    /**
+     * Returns the reference that is associated with the document.
+     *
+     * @return the reference that is associated with the document
+     */
+    String getReference();
+
+    /**
+     * Sets the reference that should be associated with the document.
+     *
+     * @param reference the reference to be associated with the document
+     */
+    void setReference(String reference);
+
+    /**
+     * Resets the reference back to its original state, undoing any changes made to it using the
+     * {@link #setReference(String) setReference()} method.
+     */
+    void resetReference();
+
     /**
      * Gets the list of fields currently associated with the document. This includes both fields which have been added to the document and
      * fields which have been removed from the document. As it includes fields which have been removed from the document you may find that
@@ -57,10 +77,65 @@ public interface Document extends DocumentWorkerObject
     String getCustomData(String dataKey);
 
     /**
+     * Gets the collection of failures that are currently associated with the document.
+     *
+     * @return an object which can be used to access the collection of failures
+     */
+    @Nonnull
+    Failures getFailures();
+
+    /**
      * Records the specified failure on the document.
      *
-     * @param failureId a non localisable identifier related to the failure
+     * @param failureId a non-localisable identifier related to the failure
      * @param failureMessage a human readable message relating to the failure
      */
     void addFailure(String failureId, String failureMessage);
+
+    /**
+     * Returns the parent document of this document, or {@code null} if this document does not have a parent document.
+     *
+     * @return the document that is the parent of this document
+     */
+    Document getParentDocument();
+
+    /**
+     * Returns the root document of this document's hierarchy. If this document is the root document of the hierarchy then calling this
+     * method will return itself.
+     *
+     * @return the root of the document hierarchy
+     */
+    @Nonnull
+    Document getRootDocument();
+
+    /**
+     * Gets the list of subdocuments currently associated with the document.
+     * <p>
+     * Subdocuments are ordered and can be accessed by index. If a subdocument is deleted then it is immediately removed from the list,
+     * causing the indexes of the subdocuments following it to be changed.
+     *
+     * @return an object which can be used to access the collection of subdocuments
+     */
+    @Nonnull
+    Subdocuments getSubdocuments();
+
+    /**
+     * Returns true if this document currently has any child subdocuments.
+     *
+     * @return true if this document currently has any child subdocuments
+     */
+    boolean hasSubdocuments();
+
+    /**
+     * Returns true if the document has been modified from its original state.
+     *
+     * @return true if the document has been modified from its original state
+     */
+    boolean hasChanges();
+
+    /**
+     * Resets the document, and all of its subdocuments, back to its original state, undoing any modifications that have been made to the
+     * document.
+     */
+    void reset();
 }

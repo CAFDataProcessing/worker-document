@@ -25,6 +25,9 @@ import com.hpe.caf.api.worker.WorkerResponse;
 import com.hpe.caf.api.worker.WorkerTaskData;
 import com.hpe.caf.worker.document.impl.ApplicationImpl;
 import com.hpe.caf.worker.document.impl.DocumentImpl;
+import com.hpe.caf.worker.document.model.Document;
+import com.hpe.caf.worker.document.model.Subdocument;
+import com.hpe.caf.worker.document.tasks.AbstractTask;
 import java.nio.charset.StandardCharsets;
 
 /**
@@ -45,14 +48,9 @@ public final class DocumentMessageProcessor implements Worker
     private final DocumentWorker documentWorker;
 
     /**
-     * Contains all of the details of the task sent to the worker.
-     */
-    private final WorkerTaskData workerTask;
-
-    /**
      * Contains the details from the WorkerTaskData that are specific to Document Workers.
      */
-    private final DocumentWorkerTask documentWorkerTask;
+    private final AbstractTask documentWorkerTask;
 
     /**
      * Constructs the DocumentMessageProcessor object, which is used to process a single worker message.
@@ -72,26 +70,27 @@ public final class DocumentMessageProcessor implements Worker
     {
         this.application = application;
         this.documentWorker = documentWorker;
-        this.workerTask = workerTask;
-        this.documentWorkerTask = DocumentWorkerTaskFunctions.getTask(workerTask, application.getCodec());
+        this.documentWorkerTask = application.getInputMessageProcessor().createTask(workerTask);
     }
 
     @Override
     public final WorkerResponse doWork() throws InterruptedException, TaskRejectedException, InvalidTaskException
     {
-        // Construct the Document object
-        final DocumentImpl document = new DocumentImpl(application, workerTask, documentWorkerTask);
+        // Retrieve the Document object
+        final DocumentImpl document = documentWorkerTask.getDocument();
 
         // Process the document
         try {
-            documentWorker.processDocument(document);
+            processDocument(document);
         } catch (DocumentWorkerTransientException dwte) {
             throw new TaskRejectedException("Failed to process document", dwte);
+        } catch (final RuntimeException re) {
+            documentWorkerTask.handleRuntimeException(re);
         }
 
         // Create a RESULT_SUCCESS for the document
         // (RESULT_SUCCESS is used at this level even if there are failures, as the failures have been successfully returned)
-        return document.createWorkerResponse();
+        return documentWorkerTask.createWorkerResponse();
     }
 
     @Override
@@ -115,6 +114,36 @@ public final class DocumentMessageProcessor implements Worker
                                   DocumentWorkerConstants.WORKER_NAME,
                                   DocumentWorkerConstants.WORKER_API_VER,
                                   null);
+    }
+
+    /**
+     * Calls the implementation's {@link DocumentWorker#processDocument processDocument()} function with the specified document. If
+     * subdocuments are to be processed separately then the function is also called for each of the subdocuments in the document's
+     * hierarchy.
+     */
+    private void processDocument(final Document document) throws DocumentWorkerTransientException, InterruptedException
+    {
+        final boolean processSubdocumentsSeparately
+            = application.getInputMessageProcessor().getProcessSubdocumentsSeparately();
+
+        if (processSubdocumentsSeparately) {
+            processDocumentHierarchy(document);
+        } else {
+            documentWorker.processDocument(document);
+        }
+    }
+
+    /**
+     * Calls the implementation's {@link DocumentWorker#processDocument processDocument()} function for both the specified document and
+     * for all of the documents in its hierarchy.
+     */
+    private void processDocumentHierarchy(final Document document) throws DocumentWorkerTransientException, InterruptedException
+    {
+        documentWorker.processDocument(document);
+
+        for (final Subdocument subdocument : document.getSubdocuments()) {
+            processDocumentHierarchy(subdocument);
+        }
     }
 
     /**

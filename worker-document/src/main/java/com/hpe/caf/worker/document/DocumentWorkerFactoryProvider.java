@@ -26,6 +26,7 @@ import com.hpe.caf.api.worker.WorkerException;
 import com.hpe.caf.api.worker.WorkerFactory;
 import com.hpe.caf.api.worker.WorkerFactoryProvider;
 import com.hpe.caf.worker.document.impl.ApplicationImpl;
+import com.hpe.caf.worker.document.util.ServiceFunctions;
 
 /**
  * This is the main entry-point class for this module.

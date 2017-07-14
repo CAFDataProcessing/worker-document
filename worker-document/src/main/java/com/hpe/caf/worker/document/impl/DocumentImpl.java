@@ -15,110 +15,175 @@
  */
 package com.hpe.caf.worker.document.impl;
 
-import com.hpe.caf.api.worker.TaskStatus;
-import com.hpe.caf.api.worker.WorkerResponse;
-import com.hpe.caf.api.worker.WorkerTaskData;
-import com.hpe.caf.worker.document.DocumentWorkerConstants;
-import com.hpe.caf.worker.document.DocumentWorkerFailure;
-import com.hpe.caf.worker.document.DocumentWorkerResult;
-import com.hpe.caf.worker.document.DocumentWorkerResultFunctions;
-import com.hpe.caf.worker.document.DocumentWorkerTask;
 import com.hpe.caf.worker.document.model.Document;
+import com.hpe.caf.worker.document.model.Failures;
 import com.hpe.caf.worker.document.model.Field;
 import com.hpe.caf.worker.document.model.Fields;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
+import com.hpe.caf.worker.document.model.Subdocuments;
+import com.hpe.caf.worker.document.output.ChangesJournal;
+import com.hpe.caf.worker.document.tasks.AbstractTask;
+import com.hpe.caf.worker.document.util.StringFunctions;
+import com.hpe.caf.worker.document.views.ReadOnlyDocument;
 import java.util.Objects;
+import javax.annotation.Nonnull;
 
-public final class DocumentImpl extends DocumentWorkerObjectImpl implements Document
+public class DocumentImpl extends DocumentWorkerObjectImpl implements Document
 {
-    private final DocumentWorkerTask documentWorkerTask;
+    private final AbstractTask documentTask;
+
+    private final ReadOnlyDocument document;
+
+    private String reference;
 
     private final FieldsImpl fields;
 
-    private List<DocumentWorkerFailure> failures;
+    private final FailuresImpl failures;
+
+    private final SubdocumentsImpl subdocuments;
 
     public DocumentImpl(
         final ApplicationImpl application,
-        final WorkerTaskData workerTask,
-        final DocumentWorkerTask documentWorkerTask
+        final AbstractTask documentTask,
+        final ReadOnlyDocument document
     )
     {
         super(application);
-        Objects.requireNonNull(workerTask);
-        this.documentWorkerTask = Objects.requireNonNull(documentWorkerTask);
+        this.documentTask = Objects.requireNonNull(documentTask);
+        this.document = Objects.requireNonNull(document);
+        this.reference = document.getReference();
         this.fields = new FieldsImpl(application, this);
-        this.failures = null;
+        this.failures = new FailuresImpl(application, this, document.getFailures());
+        this.subdocuments = new SubdocumentsImpl(application, this, document.getSubdocuments());
     }
 
     @Override
-    public Fields getFields()
+    public final String getReference()
+    {
+        return reference;
+    }
+
+    @Override
+    public final void setReference(final String reference)
+    {
+        this.reference = reference;
+    }
+
+    @Override
+    public final void resetReference()
+    {
+        reference = getOriginalReference();
+    }
+
+    @Override
+    public final Fields getFields()
     {
         return fields;
     }
 
     @Override
-    public Field getField(String fieldName)
+    public final Field getField(String fieldName)
     {
         return fields.get(fieldName);
     }
 
     @Override
-    public String getCustomData(String dataKey)
+    public final String getCustomData(final String dataKey)
     {
-        final Map<String, String> customMap = documentWorkerTask.customData;
-        if (customMap == null) {
-            return null;
-        }
-
-        return customMap.get(dataKey);
+        return documentTask.getCustomData(dataKey);
     }
 
     @Override
-    public void addFailure(String failureId, String failureMessage)
+    public final Failures getFailures()
     {
-        if (failureId == null && failureMessage == null) {
-            return;
-        }
-
-        final DocumentWorkerFailure failure = new DocumentWorkerFailure();
-        failure.failureId = failureId;
-        failure.failureMessage = failureMessage;
-
-        if (failures == null) {
-            failures = new ArrayList<>(1);
-        }
-
-        failures.add(failure);
+        return failures;
     }
 
-    public DocumentWorkerTask getDocumentWorkerTask()
+    @Override
+    public final void addFailure(final String failureId, final String failureMessage)
     {
-        return documentWorkerTask;
+        failures.add(failureId, failureMessage);
     }
 
-    public WorkerResponse createWorkerResponse()
+    @Override
+    public Document getParentDocument()
     {
-        // Construct the DocumentWorkerResult object
-        final DocumentWorkerResult documentWorkerResult = new DocumentWorkerResult();
-        documentWorkerResult.fieldChanges = fields.getChanges();
-        documentWorkerResult.failures = failures;
+        return null;
+    }
 
-        // Select the output queue
-        final String outputQueue = (failures == null || failures.isEmpty())
-            ? application.getSuccessQueue()
-            : application.getFailureQueue();
+    @Override
+    public Document getRootDocument()
+    {
+        return this;
+    }
 
-        // Serialise the result object
-        final byte[] data = DocumentWorkerResultFunctions.serialise(documentWorkerResult, application.getCodec());
+    @Override
+    public final Subdocuments getSubdocuments()
+    {
+        return subdocuments;
+    }
 
-        // Create the WorkerResponse object
-        return new WorkerResponse(outputQueue,
-                                  TaskStatus.RESULT_SUCCESS,
-                                  data,
-                                  DocumentWorkerConstants.WORKER_NAME,
-                                  DocumentWorkerConstants.WORKER_API_VER,
-                                  null);
+    @Override
+    public final boolean hasSubdocuments()
+    {
+        return !subdocuments.isEmpty();
+    }
+
+    @Override
+    public boolean hasChanges()
+    {
+        return hasReferenceChanged()
+            || fields.hasChanges()
+            || failures.isChanged()
+            || subdocuments.hasChanges();
+    }
+
+    @Override
+    public void reset()
+    {
+        resetReference();
+        fields.reset();
+        failures.reset();
+        subdocuments.reset();
+    }
+
+    public final void recordChanges(final ChangesJournal journal)
+    {
+        // Set the reference if it has been updated
+        if (hasReferenceChanged()) {
+            journal.setReference(reference);
+        }
+
+        // Record any field changes
+        fields.recordChanges(journal);
+
+        // Record any failure changes
+        failures.recordChanges(journal);
+
+        // Record any subdocument changes
+        subdocuments.recordChanges(journal);
+    }
+
+    @Nonnull
+    public final AbstractTask getDocumentTask()
+    {
+        return documentTask;
+    }
+
+    @Nonnull
+    public final ReadOnlyDocument getInitialDocument()
+    {
+        return document;
+    }
+
+    public final String getOriginalReference()
+    {
+        return document.getReference();
+    }
+
+    private boolean hasReferenceChanged()
+    {
+        final String originalReference = getOriginalReference();
+
+        return !StringFunctions.equals(reference, originalReference);
     }
 }
