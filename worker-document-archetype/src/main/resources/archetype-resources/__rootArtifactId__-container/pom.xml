@@ -40,7 +40,7 @@
         <test.data>${project.basedir}/test-data/input</test.data>
         <maven.failsafe.version>2.19</maven.failsafe.version>
         <maven.compiler.version>3.3</maven.compiler.version>
-        <fabric8.docker.maven.version>0.16.7</fabric8.docker.maven.version>
+        <fabric8.docker.maven.version>0.20.1</fabric8.docker.maven.version>
     </properties>
 
     <!-- CAF standard worker container dependency, ${workerName} dependency. -->
@@ -205,7 +205,7 @@
                             <goal>stop</goal>
                         </goals>
                     </execution>
-                    <!-- Push the docker image for the worker to Artifactory in deploy phase -->
+                    <!-- Push the docker image for the worker to the registry in deploy phase -->
                     <execution>
                         <id>upload-docker-container</id>
                         <phase>deploy</phase>
@@ -213,7 +213,7 @@
                             <goal>push</goal>
                         </goals>
                         <configuration>
-                            <image>${rootArtifactId}</image>
+                            <filter>${rootArtifactId}</filter>
                         </configuration>
                     </execution>
                 </executions>
