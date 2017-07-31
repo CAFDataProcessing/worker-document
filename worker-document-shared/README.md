@@ -1,12 +1,12 @@
 ## worker-document-shared
-This module defines the Document Worker contract; the structure of the Request objects that Document Workers accept, and the structure of the Response objects that they return.
+This module defines the Document Worker contract: the structure of the Request objects that Document Workers accept, and the structure of the Response objects that they return.
 
-Depending on its input message processing configuration and the taskClassifier set on worker requests, a Document Worker may perform "fields enrichment" or "composite document handling".
+The structures of these Request and Response objects depend on whether a Document Worker performs "Fields Enrichment" or "Composite Document Handling".
 
 ### Fields Enrichment
 
 #### Worker Request
-This is an example of a Fields Enrichment worker request, as sent in a worker request message with "taskClassifier" set to "DocumentWorker".  It includes a set of fields which the Document Worker may use.  Different workers may require different sets of fields to be passed to them.
+This is an example of a Fields Enrichment worker request.  It includes a set of fields which the Document Worker may use.  Different workers may require different sets of fields to be passed to them.
 
     {
         "fields": {
@@ -18,7 +18,7 @@ This is an example of a Fields Enrichment worker request, as sent in a worker re
         }
     }
 
-The fields sent to the worker can either be strings, storage references or binary data. An example of each of these can seen above. The name of the book is passed by string, the picture of the book cover is binary data and is passed using base64, and the contents of the book is passed indirectly to the worker via a storage reference.
+The fields sent to the worker can either be strings, storage references or binary data. An example of each of these can be seen above. The name of the book is passed by string, the picture of the book cover is binary data and is passed using base64, and the contents of the book is passed indirectly to the worker via a storage reference.
 
 #### Worker Response
 For the sake of this example we will assume that this Document Worker is going to use the fields that have been passed to it to count the number of words in the content, the number of pages in the content, and to lookup the publishers.
@@ -35,10 +35,10 @@ This is an example response.  This response causes three new fields to be added 
 
 
 ### Composite Document Handling
-A "composite document" is a document that includes its subdocuments.
+A "composite document" is a document that includes subdocuments.
 
 #### Worker Request
-This is an example of a Composite Document worker request, as sent in a worker request message with "taskClassifier" set to "DocumentWorkerTask". It includes not only a set of fields for the document supplied but also subdocuments of this document, each subdocument having fields of its own:
+This is an example of a Composite Document worker request. It includes not only a set of fields for the document supplied but also subdocuments of this document, each subdocument having fields of its own:
 
     {
         "document": {
