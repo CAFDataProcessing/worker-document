@@ -122,7 +122,7 @@ This is an example of a Composite Document worker response. It includes the same
                 "name": "worker-familyhashing:1.0.0-12",
                 "changes": [
                     {
-                        "removeFields": ["CHILD_INFO_1_BINARY_HASH_SHA1", "CHILD_INFO_0_BINARY_HASH_SHA1"]
+                        "removeFields": ["WORD_COUNT", "PUBLISHER"]
                     },
                     {
                         "addFields": {
