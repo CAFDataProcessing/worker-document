@@ -210,7 +210,7 @@ public final class FieldImpl extends DocumentWorkerObjectImpl implements Field
         
         if ( System.getenv("CAF_METADATA_LOCAL_STRING_SIZE_LIMIT") != null )
         {
-            long limit = Long.getLong(System.getenv("CAF_METADATA_LOCAL_STRING_SIZE_LIMIT"));
+            long limit = Long.valueOf(System.getenv("CAF_METADATA_LOCAL_STRING_SIZE_LIMIT"));
             return Math.max(limit, defaultLimit);
         }
         
