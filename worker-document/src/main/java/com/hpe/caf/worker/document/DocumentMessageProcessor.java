@@ -19,7 +19,6 @@ import com.hpe.caf.worker.document.exceptions.DocumentWorkerTransientException;
 import com.hpe.caf.worker.document.extensibility.DocumentWorker;
 import com.hpe.caf.api.worker.InvalidTaskException;
 import com.hpe.caf.api.worker.TaskRejectedException;
-import com.hpe.caf.api.worker.TaskStatus;
 import com.hpe.caf.api.worker.Worker;
 import com.hpe.caf.api.worker.WorkerResponse;
 import com.hpe.caf.api.worker.WorkerTaskData;
@@ -28,7 +27,6 @@ import com.hpe.caf.worker.document.impl.DocumentImpl;
 import com.hpe.caf.worker.document.model.Document;
 import com.hpe.caf.worker.document.model.Subdocument;
 import com.hpe.caf.worker.document.tasks.AbstractTask;
-import java.nio.charset.StandardCharsets;
 
 /**
  * Uses a DocumentWorker implementation process an messages. Each instance processes just a single message.
@@ -84,8 +82,6 @@ public final class DocumentMessageProcessor implements Worker
             processDocument(document);
         } catch (DocumentWorkerTransientException dwte) {
             throw new TaskRejectedException("Failed to process document", dwte);
-        } catch (final RuntimeException re) {
-            documentWorkerTask.handleRuntimeException(re);
         }
 
         // Create a RESULT_SUCCESS for the document
@@ -108,7 +104,7 @@ public final class DocumentMessageProcessor implements Worker
     @Override
     public final WorkerResponse getGeneralFailureResult(Throwable t)
     {
-        return this.documentWorkerTask.handleGeneralFailure(t);
+        return documentWorkerTask.handleGeneralFailure(t);
     }
 
     /**

@@ -94,12 +94,6 @@ public final class FieldEnrichmentTask extends AbstractTask
                                   null);
     }
 
-    @Override
-    protected void handleRuntimeExceptionImpl(final RuntimeException re)
-    {
-        throw re;
-    }
-
     /**
      * This function appends the details of the specified exception to the specified StringBuilder.
      *
