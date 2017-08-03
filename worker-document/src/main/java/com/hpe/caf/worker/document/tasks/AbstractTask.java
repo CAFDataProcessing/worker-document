@@ -67,6 +67,19 @@ public abstract class AbstractTask
     @Nonnull
     protected abstract WorkerResponse createWorkerResponseImpl();
 
+    /**
+     * Returns appropriate WorkerResponse for the task in the event of a general task failure.
+     * @param failure Detail of the failure that occurred.
+     * @return A WorkerResponse with task appropriate failure details.
+     */
+    @Nonnull
+    public final WorkerResponse handleGeneralFailure(final Throwable failure){
+        return handleGeneralFailureImpl(failure);
+    }
+
+    @Nonnull
+    protected abstract WorkerResponse handleGeneralFailureImpl(final Throwable failure);
+
     public final void handleRuntimeException(final RuntimeException re)
     {
         handleRuntimeExceptionImpl(re);
