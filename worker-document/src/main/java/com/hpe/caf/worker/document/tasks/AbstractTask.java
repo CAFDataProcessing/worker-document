@@ -69,11 +69,13 @@ public abstract class AbstractTask
 
     /**
      * Returns appropriate WorkerResponse for the task in the event of a general task failure.
+     *
      * @param failure Detail of the failure that occurred.
      * @return A WorkerResponse with task appropriate failure details.
      */
     @Nonnull
-    public final WorkerResponse handleGeneralFailure(final Throwable failure){
+    public final WorkerResponse handleGeneralFailure(final Throwable failure)
+    {
         return handleGeneralFailureImpl(failure);
     }
 

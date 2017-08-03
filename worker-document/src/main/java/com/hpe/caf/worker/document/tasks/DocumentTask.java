@@ -120,8 +120,10 @@ public final class DocumentTask extends AbstractTask
     }
 
     @Override
-    protected WorkerResponse handleGeneralFailureImpl(final Throwable failure){
+    protected WorkerResponse handleGeneralFailureImpl(final Throwable failure)
+    {
         addFailureToDocument(failure);
+
         // Create a RESULT_SUCCESS for the document
         // (RESULT_SUCCESS is used even if there are failures, as the failures are successfully returned)
         return this.createWorkerResponse();
@@ -133,10 +135,11 @@ public final class DocumentTask extends AbstractTask
         addFailureToDocument(re);
     }
 
-    private void addFailureToDocument(final Throwable failure){
+    private void addFailureToDocument(final Throwable failure)
+    {
         document.getFailures().add(failure.getClass().getName(),
-                failure.getLocalizedMessage(),
-                failure);
+                                   failure.getLocalizedMessage(),
+                                   failure);
     }
 
     private String getChangeLogEntryName()

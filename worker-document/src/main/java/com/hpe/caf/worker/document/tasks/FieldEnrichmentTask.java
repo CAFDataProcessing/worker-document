@@ -25,7 +25,6 @@ import com.hpe.caf.worker.document.DocumentWorkerTask;
 import com.hpe.caf.worker.document.impl.ApplicationImpl;
 import com.hpe.caf.worker.document.output.DocumentWorkerResultBuilder;
 import com.hpe.caf.worker.document.views.ReadOnlyDocument;
-
 import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.Map;
@@ -85,13 +84,14 @@ public final class FieldEnrichmentTask extends AbstractTask
     }
 
     @Override
-    protected WorkerResponse handleGeneralFailureImpl(final Throwable failure){
+    protected WorkerResponse handleGeneralFailureImpl(final Throwable failure)
+    {
         return new WorkerResponse(application.getFailureQueue(),
-                TaskStatus.RESULT_EXCEPTION,
-                getExceptionData(failure),
-                DocumentWorkerConstants.WORKER_NAME,
-                DocumentWorkerConstants.WORKER_API_VER,
-                null);
+                                  TaskStatus.RESULT_EXCEPTION,
+                                  getExceptionData(failure),
+                                  DocumentWorkerConstants.WORKER_NAME,
+                                  DocumentWorkerConstants.WORKER_API_VER,
+                                  null);
     }
 
     @Override
