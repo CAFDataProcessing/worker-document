@@ -15,6 +15,7 @@
  */
 package com.hpe.caf.worker.document.impl;
 
+import com.hpe.caf.api.worker.DataStoreException;
 import com.hpe.caf.worker.document.DocumentWorkerAction;
 import com.hpe.caf.worker.document.DocumentWorkerFieldChanges;
 import com.hpe.caf.worker.document.DocumentWorkerFieldEncoding;
@@ -24,6 +25,8 @@ import com.hpe.caf.worker.document.model.Field;
 import com.hpe.caf.worker.document.model.FieldValues;
 import com.hpe.caf.worker.document.views.ReadOnlyFieldValue;
 import com.hpe.caf.worker.document.views.ReadOnlyFieldValues;
+
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -31,9 +34,12 @@ import java.util.Objects;
 import java.util.stream.Collectors;
 import javax.annotation.Nonnull;
 import org.apache.commons.codec.binary.Base64;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public final class FieldImpl extends DocumentWorkerObjectImpl implements Field
 {
+    private static final Logger LOG = LoggerFactory.getLogger(FieldImpl.class);
     private final DocumentImpl document;
 
     private final String fieldName;
@@ -54,15 +60,35 @@ public final class FieldImpl extends DocumentWorkerObjectImpl implements Field
     @Override
     public void add(String data)
     {
+        if (data != null && ( data.length() > getMaxStringSize())) {
+            try {
+                final String dataRef = application.getDataStore().store(data.getBytes(StandardCharsets.UTF_8), null);
+                addReference(dataRef);
+                return;
+            }
+            catch (DataStoreException e) {
+                LOG.warn("Could not store data over the threshold in data store.", e);
+            }
+        }
         final DocumentWorkerFieldValue fieldValue = new DocumentWorkerFieldValue();
         fieldValue.data = data;
-
         fieldChanges.values.add(fieldValue);
     }
 
     @Override
     public void add(byte[] data)
     {
+        if (data != null && ( data.length > getMaxStringSize())) {
+            try {
+                String dataRef = application.getDataStore().store(data, null);
+                addReference(dataRef);
+                return;
+            }
+            catch (DataStoreException e) {
+                LOG.warn("Could not store data over the threshold in data store.", e);
+            }
+        }
+
         final DocumentWorkerFieldValue fieldValue = new DocumentWorkerFieldValue();
         fieldValue.data = Base64.encodeBase64String(data);
         fieldValue.encoding = DocumentWorkerFieldEncoding.base64;
@@ -176,5 +202,17 @@ public final class FieldImpl extends DocumentWorkerObjectImpl implements Field
         fieldChanges.values = new ArrayList<>();
 
         return fieldChanges;
+    }
+    
+    private static long getMaxStringSize(){
+        final long defaultLimit = 128;
+        
+        if ( System.getenv("CAF_METADATA_LOCAL_STRING_SIZE_LIMIT") != null )
+        {
+            long limit = Long.valueOf(System.getenv("CAF_METADATA_LOCAL_STRING_SIZE_LIMIT"));
+            return Math.max(limit, defaultLimit);
+        }
+        
+        return defaultLimit;
     }
 }
