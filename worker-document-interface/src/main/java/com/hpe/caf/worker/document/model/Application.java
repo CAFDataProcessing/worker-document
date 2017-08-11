@@ -49,18 +49,15 @@ public interface Application extends DocumentWorkerObject
      * This method can be used to retrieve services provided by the underlying Worker Framework, such as the {@code DataStore} or
      * {@code ConfigurationSource} services.
      * <p>
-     * For example, to use the Worker Framework DataStore service:
-     * <pre>
-     * Add the following dependency to the project POM:
-     * {@code
-     * <dependency>
+     * For example, to use the Worker Framework DataStore service add the following dependency to the project POM:
+     * <pre>{@code  <dependency>
      *      <groupId>com.github.workerframework</groupId>
      *      <artifactId>worker-api</artifactId>
      *      <scope>provided</scope>
-     *  </dependency>}
+     *  </dependency>}</pre>
      *
-     * And then retrieve the service using this method:
-     * {@code DataStore dataStore = document.getApplication().getService(DataStore.class);}</pre>
+     * and then retrieve the service using this method:
+     * <pre>{@code  DataStore dataStore = document.getApplication().getService(DataStore.class);}</pre>
      *
      * @param <S> the type of the service to be returned
      * @param service the interface or abstract class representing the service
