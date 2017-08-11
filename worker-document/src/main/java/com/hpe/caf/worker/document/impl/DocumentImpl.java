@@ -164,7 +164,8 @@ public class DocumentImpl extends DocumentWorkerObjectImpl implements Document
     }
 
     @Nonnull
-    public final AbstractTask getDocumentTask()
+    @Override
+    public final AbstractTask getTask()
     {
         return documentTask;
     }

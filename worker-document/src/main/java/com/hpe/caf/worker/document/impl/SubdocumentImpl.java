@@ -32,7 +32,7 @@ public final class SubdocumentImpl extends DocumentImpl implements Subdocument
         final ReadOnlyDocument document
     )
     {
-        super(application, parent.getDocument().getDocumentTask(), document);
+        super(application, parent.getDocument().getTask(), document);
         this.parent = parent;
         this.isDeleted = false;
     }
@@ -48,7 +48,7 @@ public final class SubdocumentImpl extends DocumentImpl implements Subdocument
     @Override
     public Document getRootDocument()
     {
-        return super.getDocumentTask().getDocument();
+        return super.getTask().getDocument();
     }
 
     @Override
