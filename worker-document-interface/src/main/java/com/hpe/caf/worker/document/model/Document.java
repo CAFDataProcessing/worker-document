@@ -29,6 +29,14 @@ import javax.annotation.Nonnull;
 public interface Document extends DocumentWorkerObject
 {
     /**
+     * Returns the task that is associated with the document.
+     *
+     * @return the task that is associated with the document
+     */
+    @Nonnull
+    Task getTask();
+
+    /**
      * Returns the reference that is associated with the document.
      *
      * @return the reference that is associated with the document

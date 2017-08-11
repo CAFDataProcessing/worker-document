@@ -63,6 +63,7 @@ public interface Application extends DocumentWorkerObject
      * @param service the interface or abstract class representing the service
      * @return the service provider
      * @see ServiceLocator#getService(Class) ServiceLocator.getService()
+     * @see Task#getService(Class) Task.getService()
      */
     <S> S getService(Class<S> service);
 

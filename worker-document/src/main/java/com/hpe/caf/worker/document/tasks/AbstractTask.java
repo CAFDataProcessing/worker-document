@@ -19,14 +19,16 @@ import com.hpe.caf.api.worker.WorkerResponse;
 import com.hpe.caf.api.worker.WorkerTaskData;
 import com.hpe.caf.worker.document.impl.ApplicationImpl;
 import com.hpe.caf.worker.document.impl.DocumentImpl;
+import com.hpe.caf.worker.document.impl.DocumentWorkerObjectImpl;
+import com.hpe.caf.worker.document.model.Task;
 import com.hpe.caf.worker.document.views.ReadOnlyDocument;
 import java.util.Map;
 import java.util.Objects;
 import javax.annotation.Nonnull;
 
-public abstract class AbstractTask
+public abstract class AbstractTask extends DocumentWorkerObjectImpl implements Task
 {
-    protected final ApplicationImpl application;
+    private final WorkerTaskData workerTask;
     protected final DocumentImpl document;
     private final Map<String, String> customData;
 
@@ -37,18 +39,20 @@ public abstract class AbstractTask
         final Map<String, String> customData
     )
     {
-        Objects.requireNonNull(workerTask);
-        this.application = application;
+        super(application);
+        this.workerTask = Objects.requireNonNull(workerTask);
         this.document = new DocumentImpl(application, this, effectiveDocument);
         this.customData = customData;
     }
 
     @Nonnull
+    @Override
     public final DocumentImpl getDocument()
     {
         return document;
     }
 
+    @Override
     public final String getCustomData(final String dataKey)
     {
         if (customData == null) {
@@ -56,6 +60,14 @@ public abstract class AbstractTask
         }
 
         return customData.get(dataKey);
+    }
+
+    @Override
+    public <S> S getService(final Class<S> service)
+    {
+        return (service == WorkerTaskData.class)
+            ? (S) workerTask
+            : null;
     }
 
     @Nonnull
