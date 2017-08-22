@@ -23,13 +23,13 @@
 
     <groupId>com.github.cafdataprocessing</groupId>
     <artifactId>worker-document-archetype</artifactId>
-    <version>3.1.1-SNAPSHOT</version>
+    <version>3.1.1-71</version>
     <packaging>maven-archetype</packaging>
 
     <parent>
         <groupId>com.github.cafdataprocessing</groupId>
         <artifactId>worker-document-aggregator</artifactId>
-        <version>3.1.1-SNAPSHOT</version>
+        <version>3.1.1-71</version>
     </parent>
 
     <dependencies>
