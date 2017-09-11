@@ -15,6 +15,8 @@
  */
 package com.hpe.caf.worker.document.tasks;
 
+import com.hpe.caf.api.worker.InvalidTaskException;
+import com.hpe.caf.api.worker.TaskRejectedException;
 import com.hpe.caf.api.worker.WorkerResponse;
 import com.hpe.caf.api.worker.WorkerTaskData;
 import com.hpe.caf.worker.document.impl.ApplicationImpl;
@@ -31,6 +33,7 @@ public abstract class AbstractTask extends DocumentWorkerObjectImpl implements T
     private final WorkerTaskData workerTask;
     protected final DocumentImpl document;
     private final Map<String, String> customData;
+    private ResponseOptions responseOptions;
 
     protected AbstractTask(
         final ApplicationImpl application,
@@ -70,14 +73,25 @@ public abstract class AbstractTask extends DocumentWorkerObjectImpl implements T
             : null;
     }
 
+    @Override
+    public void setResponseOptions(String queueName, Map<String, String> customData)
+    {
+        this.responseOptions = new ResponseOptions(queueName, customData);
+    }
+
+    protected ResponseOptions getResponseOptions()
+    {
+        return this.responseOptions;
+    }
+
     @Nonnull
-    public final WorkerResponse createWorkerResponse()
+    public final WorkerResponse createWorkerResponse() throws TaskRejectedException, InvalidTaskException
     {
         return createWorkerResponseImpl();
     }
 
     @Nonnull
-    protected abstract WorkerResponse createWorkerResponseImpl();
+    protected abstract WorkerResponse createWorkerResponseImpl() throws TaskRejectedException, InvalidTaskException;
 
     /**
      * Returns appropriate WorkerResponse for the task in the event of a general task failure.
@@ -93,4 +107,36 @@ public abstract class AbstractTask extends DocumentWorkerObjectImpl implements T
 
     @Nonnull
     protected abstract WorkerResponse handleGeneralFailureImpl(final Throwable failure);
+
+    protected static class ResponseOptions
+    {
+        private final String queueName;
+        private final Map<String, String> customData;
+
+        public ResponseOptions(String queueName, Map<String, String> customData)
+        {
+            this.queueName = queueName;
+            this.customData = customData;
+        }
+
+        /**
+         * Getter for property 'queueName'.
+         *
+         * @return Value for property 'queueName'.
+         */
+        public String getQueueName()
+        {
+            return queueName;
+        }
+
+        /**
+         * Getter for property 'customData'.
+         *
+         * @return Value for property 'customData'.
+         */
+        public Map<String, String> getCustomData()
+        {
+            return customData;
+        }
+    }
 }

@@ -147,7 +147,7 @@ public final class DocumentBuilder
         }
 
         final AbstractTask documentWorkerTask = FieldEnrichmentTask.create(
-            new ApplicationImpl(services.getConfigurationSource(), services.getDataStore(), services.getCodec()),
+            new ApplicationImpl(services.getConfigurationSource(), services.getDataStore(), services.getCodec(), null),
             Mockito.mock(WorkerTaskData.class),
             workerTask);
 

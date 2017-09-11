@@ -15,13 +15,8 @@
  */
 package com.hpe.caf.worker.document.tasks;
 
-import com.hpe.caf.api.worker.TaskStatus;
-import com.hpe.caf.api.worker.WorkerResponse;
-import com.hpe.caf.api.worker.WorkerTaskData;
-import com.hpe.caf.worker.document.DocumentWorkerChange;
-import com.hpe.caf.worker.document.DocumentWorkerChangeLogEntry;
-import com.hpe.caf.worker.document.DocumentWorkerConstants;
-import com.hpe.caf.worker.document.DocumentWorkerDocumentTask;
+import com.hpe.caf.api.worker.*;
+import com.hpe.caf.worker.document.*;
 import com.hpe.caf.worker.document.changelog.ChangeLogFunctions;
 import com.hpe.caf.worker.document.changelog.MutableDocument;
 import com.hpe.caf.worker.document.config.DocumentWorkerConfiguration;
@@ -30,6 +25,9 @@ import com.hpe.caf.worker.document.impl.ApplicationImpl;
 import com.hpe.caf.worker.document.output.ChangeLogBuilder;
 import com.hpe.caf.worker.document.util.ListFunctions;
 import com.hpe.caf.worker.document.views.ReadOnlyDocument;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -37,25 +35,27 @@ import javax.annotation.Nonnull;
 
 public final class DocumentTask extends AbstractTask
 {
+    private static final Logger LOG = LoggerFactory.getLogger(DocumentTask.class);
     private final DocumentWorkerDocumentTask documentTask;
+    private final DocumentPostProcessor postProcessor;
 
     @Nonnull
     public static DocumentTask create(
-        final ApplicationImpl application,
-        final WorkerTaskData workerTask,
-        final DocumentWorkerDocumentTask documentTask
-    ) throws InvalidChangeLogException
+            final ApplicationImpl application,
+            final WorkerTaskData workerTask,
+            final DocumentWorkerDocumentTask documentTask,
+            DocumentPostProcessor postProcessor) throws InvalidChangeLogException
     {
         Objects.requireNonNull(documentTask);
 
-        return new DocumentTask(application, workerTask, documentTask);
+        return new DocumentTask(application, workerTask, documentTask, postProcessor);
     }
 
     private DocumentTask(
-        final ApplicationImpl application,
-        final WorkerTaskData workerTask,
-        final DocumentWorkerDocumentTask documentTask
-    ) throws InvalidChangeLogException
+            final ApplicationImpl application,
+            final WorkerTaskData workerTask,
+            final DocumentWorkerDocumentTask documentTask,
+            DocumentPostProcessor postProcessor) throws InvalidChangeLogException
     {
         super(application,
               workerTask,
@@ -63,6 +63,7 @@ public final class DocumentTask extends AbstractTask
               documentTask.customData);
 
         this.documentTask = documentTask;
+        this.postProcessor = postProcessor;
     }
 
     @Nonnull
@@ -80,8 +81,13 @@ public final class DocumentTask extends AbstractTask
     }
 
     @Override
-    protected WorkerResponse createWorkerResponseImpl()
+    protected WorkerResponse createWorkerResponseImpl() throws TaskRejectedException, InvalidTaskException
     {
+        if (postProcessor != null) {
+            LOG.info("Post processor is not null - will execute.");
+            postProcessor.postProcessDocument(document);
+        }
+
         // Build up the changes to add to the change log
         final ChangeLogBuilder changeLogBuilder = new ChangeLogBuilder();
         document.recordChanges(changeLogBuilder);
@@ -102,10 +108,19 @@ public final class DocumentTask extends AbstractTask
         documentWorkerResult.document = documentTask.document;
         documentWorkerResult.changeLog = changeLog;
 
+        ResponseOptions responseOptions = getResponseOptions();
+        LOG.info("Got response options - {}", responseOptions == null ? "<null>" : "not null");
         // Select the output queue
-        final String outputQueue = ChangeLogFunctions.hasFailures(changes)
-            ? application.getFailureQueue()
-            : application.getSuccessQueue();
+        // TODO: If an output queue is set on the task, the failure queue is not supported. This is temporary.
+        String outputQueue = ChangeLogFunctions.hasFailures(changes) ? application.getFailureQueue()
+                : application.getSuccessQueue();
+
+        if (responseOptions != null) {
+            outputQueue = responseOptions.getQueueName();
+            documentWorkerResult.customData = responseOptions.getCustomData();
+        }
+
+        LOG.info("Response queue name - {}", outputQueue);
 
         // Serialise the result object
         final byte[] data = application.serialiseResult(documentWorkerResult);
@@ -127,7 +142,19 @@ public final class DocumentTask extends AbstractTask
                 failure);
         // Create a RESULT_SUCCESS for the document
         // (RESULT_SUCCESS is used even if there are failures, as the failures are successfully returned)
-        return this.createWorkerResponse();
+        try {
+            return this.createWorkerResponse();
+        }
+        catch (TaskRejectedException e) {
+            //TODO: Add proper exception handling.
+            e.printStackTrace();
+            throw new UnsupportedOperationException("Failed to run post-processing script on general failure. This is not yet supported.", e);
+        }
+        catch (InvalidTaskException e) {
+            //TODO: Add proper exception handling.
+            e.printStackTrace();
+            throw new UnsupportedOperationException("Failed to run post-processing script on general failure. This is not yet supported.", e);
+        }
     }
 
     private String getChangeLogEntryName()

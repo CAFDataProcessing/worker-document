@@ -16,6 +16,7 @@
 package com.hpe.caf.worker.document.model;
 
 import javax.annotation.Nonnull;
+import java.util.Map;
 
 /**
  * Represents the document processing task.
@@ -64,4 +65,6 @@ public interface Task extends DocumentWorkerObject
      * @see Application#getService(Class) Application.getService()
      */
     <S> S getService(Class<S> service);
+
+    void setResponseOptions(String queueName, Map<String, String> customData);
 }

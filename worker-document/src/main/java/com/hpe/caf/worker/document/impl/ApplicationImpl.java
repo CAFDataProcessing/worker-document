@@ -22,6 +22,7 @@ import com.hpe.caf.api.ConfigurationSource;
 import com.hpe.caf.api.worker.DataStore;
 import com.hpe.caf.api.worker.TaskFailedException;
 import com.hpe.caf.api.worker.WorkerException;
+import com.hpe.caf.worker.document.DocumentPostProcessor;
 import com.hpe.caf.worker.document.config.DocumentWorkerConfiguration;
 import com.hpe.caf.worker.document.model.Application;
 import com.hpe.caf.worker.document.model.ServiceLocator;
@@ -39,7 +40,7 @@ public class ApplicationImpl implements Application
     private final String successQueue;
     private final String failureQueue;
 
-    public ApplicationImpl(final ConfigurationSource configSource, final DataStore dataStore, final Codec codec)
+    public ApplicationImpl(final ConfigurationSource configSource, final DataStore dataStore, final Codec codec, DocumentPostProcessor postProcessor)
         throws WorkerException
     {
         this.serviceLocator = new ServiceLocatorImpl(this);
@@ -48,7 +49,7 @@ public class ApplicationImpl implements Application
         this.codec = Objects.requireNonNull(codec);
         this.configuration = getConfiguration(configSource);
         this.batchSizeController = new BatchSizeControllerImpl(this, configuration);
-        this.inputMessageProcessor = new InputMessageProcessorImpl(this, configuration.getInputMessageProcessing());
+        this.inputMessageProcessor = new InputMessageProcessorImpl(this, postProcessor, configuration.getInputMessageProcessing());
         this.successQueue = configuration.getOutputQueue();
         this.failureQueue = getFailureQueue(configuration);
 

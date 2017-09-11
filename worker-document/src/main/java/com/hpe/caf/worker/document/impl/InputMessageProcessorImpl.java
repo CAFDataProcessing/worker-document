@@ -21,6 +21,7 @@ import com.hpe.caf.api.DecodeMethod;
 import com.hpe.caf.api.worker.InvalidTaskException;
 import com.hpe.caf.api.worker.TaskRejectedException;
 import com.hpe.caf.api.worker.WorkerTaskData;
+import com.hpe.caf.worker.document.DocumentPostProcessor;
 import com.hpe.caf.worker.document.DocumentWorkerConstants;
 import com.hpe.caf.worker.document.DocumentWorkerDocumentTask;
 import com.hpe.caf.worker.document.DocumentWorkerTask;
@@ -47,17 +48,19 @@ public class InputMessageProcessorImpl extends DocumentWorkerObjectImpl implemen
     private static final boolean DEFAULT_FIELD_ENRICHMENT_TASKS_ACCEPTED = true;
     private static final boolean DEFAULT_PROCESS_SUBDOCUMENTS_SEPARATELY = true;
 
+    private final DocumentPostProcessor postProcessor;
     private boolean documentTasksAccepted;
     private boolean fieldEnrichmentTasksAccepted;
     private boolean processSubdocumentsSeparately;
 
     public InputMessageProcessorImpl(
         final ApplicationImpl application,
+        final DocumentPostProcessor postProcessor,
         final InputMessageConfiguration configuration
     )
     {
         super(application);
-
+        this.postProcessor = postProcessor;
         this.documentTasksAccepted = (configuration == null)
             ? DEFAULT_DOCUMENT_TASKS_ACCEPTED
             : BooleanFunctions.valueOf(configuration.getDocumentTasksAccepted(), DEFAULT_DOCUMENT_TASKS_ACCEPTED);
@@ -136,7 +139,7 @@ public class InputMessageProcessorImpl extends DocumentWorkerObjectImpl implemen
             final DocumentWorkerDocumentTask documentWorkerDocumentTask
                 = TaskValidator.deserialiseAndValidateTask(codec, DocumentWorkerDocumentTask.class, data);
             try {
-                return DocumentTask.create(application, workerTask, documentWorkerDocumentTask);
+                return DocumentTask.create(application, workerTask, documentWorkerDocumentTask, postProcessor);
             } catch (InvalidChangeLogException ex) {
                 throw new InvalidTaskException("Invalid change log", ex);
             }
