@@ -79,7 +79,7 @@ public abstract class AbstractTask extends DocumentWorkerObjectImpl implements T
         this.responseOptions = new ResponseOptions(queueName, customData);
     }
 
-    protected ResponseOptions getResponseOptions()
+    public ResponseOptions getResponseOptions()
     {
         return this.responseOptions;
     }
@@ -108,7 +108,7 @@ public abstract class AbstractTask extends DocumentWorkerObjectImpl implements T
     @Nonnull
     protected abstract WorkerResponse handleGeneralFailureImpl(final Throwable failure);
 
-    protected static class ResponseOptions
+    public static class ResponseOptions
     {
         private final String queueName;
         private final Map<String, String> customData;
