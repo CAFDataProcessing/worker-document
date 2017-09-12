@@ -22,6 +22,7 @@ import com.hpe.caf.api.worker.WorkerTaskData;
 import com.hpe.caf.worker.document.impl.ApplicationImpl;
 import com.hpe.caf.worker.document.impl.DocumentImpl;
 import com.hpe.caf.worker.document.impl.DocumentWorkerObjectImpl;
+import com.hpe.caf.worker.document.model.ResponseOptions;
 import com.hpe.caf.worker.document.model.Task;
 import com.hpe.caf.worker.document.views.ReadOnlyDocument;
 import java.util.Map;
@@ -107,36 +108,4 @@ public abstract class AbstractTask extends DocumentWorkerObjectImpl implements T
 
     @Nonnull
     protected abstract WorkerResponse handleGeneralFailureImpl(final Throwable failure);
-
-    public static class ResponseOptions
-    {
-        private final String queueName;
-        private final Map<String, String> customData;
-
-        public ResponseOptions(String queueName, Map<String, String> customData)
-        {
-            this.queueName = queueName;
-            this.customData = customData;
-        }
-
-        /**
-         * Getter for property 'queueName'.
-         *
-         * @return Value for property 'queueName'.
-         */
-        public String getQueueName()
-        {
-            return queueName;
-        }
-
-        /**
-         * Getter for property 'customData'.
-         *
-         * @return Value for property 'customData'.
-         */
-        public Map<String, String> getCustomData()
-        {
-            return customData;
-        }
-    }
 }

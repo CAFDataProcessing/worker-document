@@ -67,4 +67,6 @@ public interface Task extends DocumentWorkerObject
     <S> S getService(Class<S> service);
 
     void setResponseOptions(String queueName, Map<String, String> customData);
+
+    ResponseOptions getResponseOptions();
 }
