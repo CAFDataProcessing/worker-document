@@ -22,6 +22,7 @@ import com.hpe.caf.worker.document.changelog.MutableDocument;
 import com.hpe.caf.worker.document.config.DocumentWorkerConfiguration;
 import com.hpe.caf.worker.document.exceptions.InvalidChangeLogException;
 import com.hpe.caf.worker.document.impl.ApplicationImpl;
+import com.hpe.caf.worker.document.model.ResponseOptions;
 import com.hpe.caf.worker.document.output.ChangeLogBuilder;
 import com.hpe.caf.worker.document.util.ListFunctions;
 import com.hpe.caf.worker.document.views.ReadOnlyDocument;
