@@ -17,11 +17,20 @@ package com.hpe.caf.worker.document.model;
 
 import java.util.Map;
 
+/**
+ * Class containing additional worker response properties.
+ * This class is immutable.
+ */
 public class ResponseOptions
 {
     private final String queueName;
     private final Map<String, String> customData;
 
+    /**#
+     * Constructs the class.
+     * @param queueName The queue name to be used in response.
+     * @param customData The custom data to add to the response message.
+     */
     public ResponseOptions(String queueName, Map<String, String> customData)
     {
         this.queueName = queueName;
@@ -29,9 +38,9 @@ public class ResponseOptions
     }
 
     /**
-     * Getter for property 'queueName'.
+     * Gets the queue name.
      *
-     * @return Value for property 'queueName'.
+     * @return The queue name.
      */
     public String getQueueName()
     {
@@ -39,9 +48,9 @@ public class ResponseOptions
     }
 
     /**
-     * Getter for property 'customData'.
+     * Gets the custom data.
      *
-     * @return Value for property 'customData'.
+     * @return The custom data map.
      */
     public Map<String, String> getCustomData()
     {
