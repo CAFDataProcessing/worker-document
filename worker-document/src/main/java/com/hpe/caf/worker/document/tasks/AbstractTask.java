@@ -86,13 +86,13 @@ public abstract class AbstractTask extends DocumentWorkerObjectImpl implements T
     }
 
     @Nonnull
-    public final WorkerResponse createWorkerResponse() throws TaskRejectedException, InvalidTaskException
+    public final WorkerResponse createWorkerResponse()
     {
         return createWorkerResponseImpl();
     }
 
     @Nonnull
-    protected abstract WorkerResponse createWorkerResponseImpl() throws TaskRejectedException, InvalidTaskException;
+    protected abstract WorkerResponse createWorkerResponseImpl();
 
     /**
      * Returns appropriate WorkerResponse for the task in the event of a general task failure.

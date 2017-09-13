@@ -45,18 +45,18 @@ public final class DocumentTask extends AbstractTask
             final ApplicationImpl application,
             final WorkerTaskData workerTask,
             final DocumentWorkerDocumentTask documentTask,
-            DocumentPostProcessor postProcessor) throws InvalidChangeLogException
+            DocumentPostProcessorFactory postProcessorFactory) throws InvalidChangeLogException, TaskRejectedException
     {
         Objects.requireNonNull(documentTask);
 
-        return new DocumentTask(application, workerTask, documentTask, postProcessor);
+        return new DocumentTask(application, workerTask, documentTask, postProcessorFactory);
     }
 
     private DocumentTask(
             final ApplicationImpl application,
             final WorkerTaskData workerTask,
             final DocumentWorkerDocumentTask documentTask,
-            DocumentPostProcessor postProcessor) throws InvalidChangeLogException
+            DocumentPostProcessorFactory postProcessorFactory) throws InvalidChangeLogException, TaskRejectedException
     {
         super(application,
               workerTask,
@@ -64,7 +64,7 @@ public final class DocumentTask extends AbstractTask
               documentTask.customData);
 
         this.documentTask = documentTask;
-        this.postProcessor = postProcessor;
+        this.postProcessor = postProcessorFactory.create(document);
     }
 
     @Nonnull
@@ -82,7 +82,7 @@ public final class DocumentTask extends AbstractTask
     }
 
     @Override
-    protected WorkerResponse createWorkerResponseImpl() throws TaskRejectedException, InvalidTaskException
+    protected WorkerResponse createWorkerResponseImpl()
     {
         if (postProcessor != null) {
             LOG.info("Post processor is not null - will execute.");
@@ -139,23 +139,11 @@ public final class DocumentTask extends AbstractTask
     protected WorkerResponse handleGeneralFailureImpl(final Throwable failure)
     {
         document.getFailures().add(failure.getClass().getName(),
-                failure.getLocalizedMessage(),
-                failure);
+                                   failure.getLocalizedMessage(),
+                                   failure);
         // Create a RESULT_SUCCESS for the document
         // (RESULT_SUCCESS is used even if there are failures, as the failures are successfully returned)
-        try {
-            return this.createWorkerResponse();
-        }
-        catch (TaskRejectedException e) {
-            //TODO: Add proper exception handling.
-            e.printStackTrace();
-            throw new UnsupportedOperationException("Failed to run post-processing script on general failure. This is not yet supported.", e);
-        }
-        catch (InvalidTaskException e) {
-            //TODO: Add proper exception handling.
-            e.printStackTrace();
-            throw new UnsupportedOperationException("Failed to run post-processing script on general failure. This is not yet supported.", e);
-        }
+        return this.createWorkerResponse();
     }
 
     private String getChangeLogEntryName()

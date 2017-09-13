@@ -16,13 +16,7 @@
 
 package com.hpe.caf.worker.document;
 
-import com.google.common.base.Strings;
-import com.hpe.caf.api.worker.DataStore;
-import com.hpe.caf.api.worker.DataStoreException;
-import com.hpe.caf.api.worker.InvalidTaskException;
-import com.hpe.caf.api.worker.TaskRejectedException;
 import com.hpe.caf.worker.document.model.Document;
-import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -30,51 +24,36 @@ import javax.script.Invocable;
 import javax.script.ScriptEngine;
 import javax.script.ScriptEngineManager;
 import javax.script.ScriptException;
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.Objects;
 
+/**
+ * Implementation of {@link DocumentPostProcessor} which executes a Java Script for post-processing.
+ */
 public class JavaScriptDocumentPostProcessor implements DocumentPostProcessor
 {
     private static final Logger LOG = LoggerFactory.getLogger(JavaScriptDocumentPostProcessor.class);
 
-    private final Object syncObj = new Object();
-    private String cachedScript;
-    private String cachedScriptReference;
+    private final String postProcessingScript;
+
+    public JavaScriptDocumentPostProcessor(String postProcessingScript)
+    {
+        this.postProcessingScript = postProcessingScript;
+    }
 
     @Override
-    public void postProcessDocument(Document document) throws TaskRejectedException, InvalidTaskException
+    public void postProcessDocument(Document document)
     {
-        LOG.info("Executing post-processing - checking if script is provided... ");
-        String postProcessingScriptReference = document.getCustomData("POST_PROCESSING_SCRIPT");
-        if (!Strings.isNullOrEmpty(postProcessingScriptReference)) {
-            LOG.info("Executing post-processing - script was provided... ");
-            final ScriptEngineManager engineManager = new ScriptEngineManager();
-            final ScriptEngine engine = engineManager.getEngineByName("nashorn");
-            synchronized (syncObj) {
-                if (!Objects.equals(cachedScriptReference, postProcessingScriptReference)) {
-                    DataStore dataStore = document.getApplication().getService(DataStore.class);
-
-                        try (InputStream stream = dataStore.retrieve(postProcessingScriptReference)) {
-                            cachedScript = IOUtils.toString(stream);
-                            cachedScriptReference = postProcessingScriptReference;
-                        }
-                        catch (DataStoreException | IOException e) {
-                            LOG.error("Could not retrieve post-processing script from DataStore.", e);
-                            throw new TaskRejectedException("Could not retrieve post-processing script from DataStore.", e);
-                        }
-                }
-            }
-            try {
-                engine.eval(cachedScript);
-                final Invocable invocable = (Invocable) engine;
-                invocable.invokeFunction("processDocument", document);
-                LOG.info("Executing post-processing - finished... ");
-            }
-            catch (ScriptException | NoSuchMethodException e) {
-                LOG.error("Could not execute the post-processing script", e);
-                throw new InvalidTaskException("Could not execute the post-processing script.", e);
-            }
+        LOG.trace("Executing post-processing script.");
+        final ScriptEngineManager engineManager = new ScriptEngineManager();
+        final ScriptEngine engine = engineManager.getEngineByName("nashorn");
+        try {
+            engine.eval(postProcessingScript);
+            final Invocable invocable = (Invocable) engine;
+            invocable.invokeFunction("processDocument", document);
+            LOG.trace("Executed post-processing script. ");
+        }
+        catch (ScriptException | NoSuchMethodException e) {
+            LOG.error("Could not execute the post-processing script", e);
         }
     }
 }
+

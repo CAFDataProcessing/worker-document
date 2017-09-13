@@ -20,7 +20,15 @@ import com.hpe.caf.api.worker.InvalidTaskException;
 import com.hpe.caf.api.worker.TaskRejectedException;
 import com.hpe.caf.worker.document.model.Document;
 
+/**
+ * An interface a document post-processor.
+ * The {@code postProcessDocument} will be called when core processing of a document is finished.
+ */
 public interface DocumentPostProcessor
 {
-    void postProcessDocument(Document document) throws TaskRejectedException, InvalidTaskException;
+    /**
+     * Method called after core document processing by a worker is finished.
+     * @param document A document processed by a worker.
+     */
+    void postProcessDocument(Document document);
 }
