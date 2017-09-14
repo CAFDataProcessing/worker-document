@@ -22,7 +22,6 @@ import com.hpe.caf.api.ConfigurationSource;
 import com.hpe.caf.api.worker.DataStore;
 import com.hpe.caf.api.worker.TaskFailedException;
 import com.hpe.caf.api.worker.WorkerException;
-import com.hpe.caf.worker.document.DocumentPostProcessor;
 import com.hpe.caf.worker.document.DocumentPostProcessorFactory;
 import com.hpe.caf.worker.document.config.DocumentWorkerConfiguration;
 import com.hpe.caf.worker.document.model.Application;

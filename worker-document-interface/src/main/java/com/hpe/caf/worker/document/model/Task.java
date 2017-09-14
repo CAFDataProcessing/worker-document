@@ -66,7 +66,16 @@ public interface Task extends DocumentWorkerObject
      */
     <S> S getService(Class<S> service);
 
+    /**
+     * Allows to set additional response options for this task.
+     * @param queueName Queue name to post response message to.
+     * @param customData Custom data to set on a response message.
+     */
     void setResponseOptions(String queueName, Map<String, String> customData);
 
+    /**
+     * Retrieves additional response options for this task.
+     * @return Response options if there are any or {@code null}.
+     */
     ResponseOptions getResponseOptions();
 }

@@ -37,10 +37,6 @@
             <version>${project.version}</version>
         </dependency>
         <dependency>
-            <groupId>com.github.workerframework</groupId>
-            <artifactId>worker-api</artifactId>
-        </dependency>
-        <dependency>
             <groupId>com.github.cafapi.util</groupId>
             <artifactId>util-moduleloader</artifactId>
         </dependency>

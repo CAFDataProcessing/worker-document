@@ -29,6 +29,11 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.HashMap;
 
+/**
+ * Responsible for creating of {@link DocumentPostProcessor}.
+ * At the moment, this class will create a {@link JavaScriptDocumentPostProcessor} if
+ * postProcessingScript custom data is provided, otherwise {@code null}.
+ */
 public class DocumentPostProcessorFactory
 {
     private static final Logger LOG = LoggerFactory.getLogger(DocumentPostProcessorFactory.class);
@@ -39,7 +44,7 @@ public class DocumentPostProcessorFactory
     public DocumentPostProcessor create(Document document) throws TaskRejectedException
     {
         LOG.info("Executing post-processing - checking if script is provided... ");
-        String postProcessingScriptReference = document.getCustomData("POST_PROCESSING_SCRIPT");
+        String postProcessingScriptReference = document.getCustomData(PostProcessingConstants.POST_PROCESSING_SCRIPT_CUSTOM_DATA);
         if (!Strings.isNullOrEmpty(postProcessingScriptReference)) {
             String postProcessingScript;
             synchronized (syncObj) {

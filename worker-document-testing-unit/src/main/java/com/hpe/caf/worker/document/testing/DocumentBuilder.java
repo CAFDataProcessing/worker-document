@@ -146,6 +146,7 @@ public final class DocumentBuilder
             services = TestServices.createDefault();
         }
 
+        // Post processor is not a part of document. Factory intentionally set to null in the ApplicationImpl constructor.
         final AbstractTask documentWorkerTask = FieldEnrichmentTask.create(
             new ApplicationImpl(services.getConfigurationSource(), services.getDataStore(), services.getCodec(), null),
             Mockito.mock(WorkerTaskData.class),

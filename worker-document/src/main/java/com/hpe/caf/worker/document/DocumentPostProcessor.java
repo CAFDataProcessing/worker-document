@@ -16,8 +16,6 @@
 
 package com.hpe.caf.worker.document;
 
-import com.hpe.caf.api.worker.InvalidTaskException;
-import com.hpe.caf.api.worker.TaskRejectedException;
 import com.hpe.caf.worker.document.model.Document;
 
 /**
