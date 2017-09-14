@@ -97,21 +97,8 @@ public final class BulkDocumentMessageProcessor
             final AbstractTask documentWorkerTask = bulkDocument.getDocumentWorkerTask();
 
             // Create the WorkerResponse object
-            final WorkerResponse workerResponse;
-            try {
-                workerResponse = documentWorkerTask.createWorkerResponse();
-            }
-            catch (TaskRejectedException e) {
-                //TODO: Review the exception handling here
-                bulkDocument.getWorkerTask().setResponse(e);
-                continue;
-            }
-            catch (InvalidTaskException e) {
-                //TODO: Review the exception handling here
-                bulkDocument.getWorkerTask().setResponse(e);
-                continue;
+            final WorkerResponse workerResponse = documentWorkerTask.createWorkerResponse();
 
-            }
             // Set the response on the WorkerTask object
             bulkDocument.getWorkerTask().setResponse(workerResponse);
         }
