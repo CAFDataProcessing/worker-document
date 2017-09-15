@@ -16,6 +16,7 @@
 
 package com.hpe.caf.worker.document;
 
+import com.hpe.caf.worker.document.exceptions.PostProcessingFailedException;
 import com.hpe.caf.worker.document.model.Document;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -40,7 +41,7 @@ public class JavaScriptDocumentPostProcessor implements DocumentPostProcessor
     }
 
     @Override
-    public void postProcessDocument(Document document)
+    public void postProcessDocument(Document document) throws PostProcessingFailedException
     {
         LOG.trace("Executing post-processing script.");
         final ScriptEngineManager engineManager = new ScriptEngineManager();
@@ -52,7 +53,7 @@ public class JavaScriptDocumentPostProcessor implements DocumentPostProcessor
             LOG.trace("Executed post-processing script. ");
         }
         catch (ScriptException | NoSuchMethodException e) {
-            LOG.error("Could not execute the post-processing script", e);
+            throw new PostProcessingFailedException("Could not execute the post-processing script", e);
         }
     }
 }

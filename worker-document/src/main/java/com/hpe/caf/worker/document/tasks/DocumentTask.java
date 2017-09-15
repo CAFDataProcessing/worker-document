@@ -21,6 +21,7 @@ import com.hpe.caf.worker.document.changelog.ChangeLogFunctions;
 import com.hpe.caf.worker.document.changelog.MutableDocument;
 import com.hpe.caf.worker.document.config.DocumentWorkerConfiguration;
 import com.hpe.caf.worker.document.exceptions.InvalidChangeLogException;
+import com.hpe.caf.worker.document.exceptions.PostProcessingFailedException;
 import com.hpe.caf.worker.document.impl.ApplicationImpl;
 import com.hpe.caf.worker.document.model.ResponseOptions;
 import com.hpe.caf.worker.document.output.ChangeLogBuilder;
@@ -86,7 +87,12 @@ public final class DocumentTask extends AbstractTask
     {
         if (postProcessor != null) {
             LOG.info("Post processor is not null - will execute.");
-            postProcessor.postProcessDocument(document);
+            try {
+                postProcessor.postProcessDocument(document);
+            }
+            catch (PostProcessingFailedException e) {
+                LOG.error("Failed to execute post-processing on a document.", e);
+            }
         }
 
         // Build up the changes to add to the change log

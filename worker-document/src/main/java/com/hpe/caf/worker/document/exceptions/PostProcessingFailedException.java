@@ -13,21 +13,20 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
-package com.hpe.caf.worker.document;
-
-import com.hpe.caf.worker.document.exceptions.PostProcessingFailedException;
-import com.hpe.caf.worker.document.model.Document;
+package com.hpe.caf.worker.document.exceptions;
 
 /**
- * An interface a document post-processor.
- * The {@code postProcessDocument} will be called when core processing of a document is finished.
+ * Exception thrown when a document post-processing fails.
  */
-public interface DocumentPostProcessor
+public class PostProcessingFailedException extends Exception
 {
-    /**
-     * Method called after core document processing by a worker is finished.
-     * @param document A document processed by a worker.
-     */
-    void postProcessDocument(Document document) throws PostProcessingFailedException;
+    public PostProcessingFailedException(final String message)
+    {
+        super(message);
+    }
+
+    public PostProcessingFailedException(final String message, final Throwable cause)
+    {
+        super(message, cause);
+    }
 }
