@@ -20,19 +20,21 @@ import com.hpe.caf.api.worker.WorkerTaskData;
 import com.hpe.caf.worker.document.impl.ApplicationImpl;
 import com.hpe.caf.worker.document.impl.DocumentImpl;
 import com.hpe.caf.worker.document.impl.DocumentWorkerObjectImpl;
+import com.hpe.caf.worker.document.model.Application;
 import com.hpe.caf.worker.document.model.ResponseOptions;
 import com.hpe.caf.worker.document.model.Task;
 import com.hpe.caf.worker.document.views.ReadOnlyDocument;
+
+import javax.annotation.Nonnull;
 import java.util.Map;
 import java.util.Objects;
-import javax.annotation.Nonnull;
 
 public abstract class AbstractTask extends DocumentWorkerObjectImpl implements Task
 {
     private final WorkerTaskData workerTask;
     protected final DocumentImpl document;
     private final Map<String, String> customData;
-    private ResponseOptions responseOptions;
+    private final ResponseOptions responseOptions;
 
     protected AbstractTask(
         final ApplicationImpl application,
@@ -44,6 +46,7 @@ public abstract class AbstractTask extends DocumentWorkerObjectImpl implements T
         super(application);
         this.workerTask = Objects.requireNonNull(workerTask);
         this.document = new DocumentImpl(application, this, effectiveDocument);
+        this.responseOptions = new ResponseOptionsImpl(this);
         this.customData = customData;
     }
 
@@ -72,12 +75,7 @@ public abstract class AbstractTask extends DocumentWorkerObjectImpl implements T
             : null;
     }
 
-    @Override
-    public void setResponseOptions(String queueName, Map<String, String> customData)
-    {
-        this.responseOptions = new ResponseOptions(queueName, customData);
-    }
-
+    @Nonnull
     public ResponseOptions getResponseOptions()
     {
         return this.responseOptions;
@@ -106,4 +104,58 @@ public abstract class AbstractTask extends DocumentWorkerObjectImpl implements T
 
     @Nonnull
     protected abstract WorkerResponse handleGeneralFailureImpl(final Throwable failure);
+
+    private static class ResponseOptionsImpl implements ResponseOptions
+    {
+        private String queueName;
+        private Map<String, String> customData;
+        private final Task parentTask;
+        private final Application application;
+
+        private ResponseOptionsImpl(Task parentTask)
+        {
+            this.parentTask = parentTask;
+            this.application = parentTask.getApplication();
+        }
+
+        public String getQueueName()
+        {
+            return queueName;
+        }
+
+        @Override
+        public void setQueueName(String queueName)
+        {
+            this.queueName = queueName;
+        }
+
+        /**
+         * Gets the custom data.
+         *
+         * @return The custom data map.
+         */
+        public Map<String, String> getCustomData()
+        {
+            return customData;
+        }
+
+        @Override
+        public void setCustomData(Map<String, String> customData)
+        {
+            this.customData = customData;
+        }
+
+        @Override
+        public Task getTask()
+        {
+            return parentTask;
+        }
+
+        @Nonnull
+        @Override
+        public Application getApplication()
+        {
+            return application;
+        }
+    }
 }

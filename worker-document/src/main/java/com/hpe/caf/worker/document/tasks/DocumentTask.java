@@ -15,8 +15,16 @@
  */
 package com.hpe.caf.worker.document.tasks;
 
-import com.hpe.caf.api.worker.*;
-import com.hpe.caf.worker.document.*;
+import com.hpe.caf.api.worker.TaskRejectedException;
+import com.hpe.caf.api.worker.TaskStatus;
+import com.hpe.caf.api.worker.WorkerResponse;
+import com.hpe.caf.api.worker.WorkerTaskData;
+import com.hpe.caf.worker.document.DocumentPostProcessor;
+import com.hpe.caf.worker.document.DocumentPostProcessorFactory;
+import com.hpe.caf.worker.document.DocumentWorkerChange;
+import com.hpe.caf.worker.document.DocumentWorkerChangeLogEntry;
+import com.hpe.caf.worker.document.DocumentWorkerConstants;
+import com.hpe.caf.worker.document.DocumentWorkerDocumentTask;
 import com.hpe.caf.worker.document.changelog.ChangeLogFunctions;
 import com.hpe.caf.worker.document.changelog.MutableDocument;
 import com.hpe.caf.worker.document.config.DocumentWorkerConfiguration;
@@ -30,10 +38,10 @@ import com.hpe.caf.worker.document.views.ReadOnlyDocument;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javax.annotation.Nonnull;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
-import javax.annotation.Nonnull;
 
 public final class DocumentTask extends AbstractTask
 {
@@ -116,18 +124,20 @@ public final class DocumentTask extends AbstractTask
         documentWorkerResult.changeLog = changeLog;
 
         ResponseOptions responseOptions = getResponseOptions();
-        LOG.info("Got response options - {}", responseOptions == null ? "<null>" : "not null");
         // Select the output queue
-        // TODO: If an output queue is set on the task, the failure queue is not supported. This is temporary.
+        // TODO: ResponseOptions queue name will override the queue set below. This means that failure queue will
+        // not be used in case of failures. This is correct behaviour but we might want to add ability
+        // to set a failure queue on response options.
         String outputQueue = ChangeLogFunctions.hasFailures(changes) ? application.getFailureQueue()
                 : application.getSuccessQueue();
 
-        if (responseOptions != null) {
+        if (responseOptions.getQueueName() != null) {
             outputQueue = responseOptions.getQueueName();
-            documentWorkerResult.customData = responseOptions.getCustomData();
         }
 
-        LOG.info("Response queue name - {}", outputQueue);
+        documentWorkerResult.customData = responseOptions.getCustomData();
+
+        LOG.trace("Response queue name - {}", outputQueue);
 
         // Serialise the result object
         final byte[] data = application.serialiseResult(documentWorkerResult);

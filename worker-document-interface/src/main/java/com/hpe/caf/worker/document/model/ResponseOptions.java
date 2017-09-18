@@ -18,42 +18,38 @@ package com.hpe.caf.worker.document.model;
 import java.util.Map;
 
 /**
- * Class containing additional worker response properties.
- * This class is immutable.
+ * Interface for additional worker response properties.
  */
-public class ResponseOptions
+public interface ResponseOptions extends DocumentWorkerObject
 {
-    private final String queueName;
-    private final Map<String, String> customData;
-
-    /**#
-     * Constructs the class.
-     * @param queueName The queue name to be used in response.
-     * @param customData The custom data to add to the response message.
-     */
-    public ResponseOptions(String queueName, Map<String, String> customData)
-    {
-        this.queueName = queueName;
-        this.customData = customData;
-    }
-
     /**
-     * Gets the queue name.
-     *
+     * Gets the queue name that will be used when a worker sends response message.
      * @return The queue name.
      */
-    public String getQueueName()
-    {
-        return queueName;
-    }
+    String getQueueName();
+
+    /**
+     * Sets the queue name to use when a worker sends response message.
+     * This queue will override queue name specified in the configuration.
+     * @param queueName The queue name.
+     */
+    void setQueueName(String queueName);
 
     /**
      * Gets the custom data.
-     *
-     * @return The custom data map.
+     * @return The custom data map which contains additional information for a document worker task.
      */
-    public Map<String, String> getCustomData()
-    {
-        return customData;
-    }
+    Map<String, String> getCustomData();
+
+    /**
+     * Sets the custom data.
+     * @param customData Custom data which contains additional information for a document worker task.
+     */
+    void setCustomData(Map<String, String> customData);
+
+    /**
+     * Returns a parent {@link Task} instance.
+     * @return Parent {@link Task} instance.
+     */
+    Task getTask();
 }
