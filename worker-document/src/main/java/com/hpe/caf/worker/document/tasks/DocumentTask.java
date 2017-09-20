@@ -54,7 +54,7 @@ public final class DocumentTask extends AbstractTask
             final ApplicationImpl application,
             final WorkerTaskData workerTask,
             final DocumentWorkerDocumentTask documentTask,
-            DocumentPostProcessorFactory postProcessorFactory) throws InvalidChangeLogException, TaskRejectedException
+            final DocumentPostProcessorFactory postProcessorFactory) throws InvalidChangeLogException, TaskRejectedException
     {
         Objects.requireNonNull(documentTask);
 

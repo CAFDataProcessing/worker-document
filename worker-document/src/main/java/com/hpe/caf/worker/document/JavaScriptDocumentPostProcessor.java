@@ -41,7 +41,7 @@ public class JavaScriptDocumentPostProcessor implements DocumentPostProcessor
     }
 
     @Override
-    public void postProcessDocument(Document document) throws PostProcessingFailedException
+    public void postProcessDocument(final Document document) throws PostProcessingFailedException
     {
         LOG.trace("Executing post-processing script.");
         final ScriptEngineManager engineManager = new ScriptEngineManager();

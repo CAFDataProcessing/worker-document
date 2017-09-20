@@ -29,5 +29,5 @@ public interface DocumentPostProcessor
      * Method called after core document processing by a worker is finished.
      * @param document A document processed by a worker.
      */
-    void postProcessDocument(Document document) throws PostProcessingFailedException;
+    void postProcessDocument(final Document document) throws PostProcessingFailedException;
 }

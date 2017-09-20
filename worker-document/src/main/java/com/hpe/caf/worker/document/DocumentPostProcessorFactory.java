@@ -41,10 +41,10 @@ public class DocumentPostProcessorFactory
 
     private final HashMap<String, String> cachedScripts = new HashMap<>();
 
-    public DocumentPostProcessor create(Document document) throws TaskRejectedException
+    public DocumentPostProcessor create(final Document document) throws TaskRejectedException
     {
         LOG.info("Executing post-processing - checking if script is provided... ");
-        String postProcessingScriptReference = document.getCustomData(DocumentWorkerConstants.POST_PROCESSING_SCRIPT_CUSTOM_DATA);
+        final String postProcessingScriptReference = document.getCustomData(DocumentWorkerConstants.POST_PROCESSING_SCRIPT_CUSTOM_DATA);
         if (!Strings.isNullOrEmpty(postProcessingScriptReference)) {
             String postProcessingScript;
             synchronized (syncObj) {
@@ -59,9 +59,9 @@ public class DocumentPostProcessorFactory
         return null;
     }
 
-    private static String retrieveScript(String reference, Document document) throws TaskRejectedException
+    private static String retrieveScript(final String reference, final Document document) throws TaskRejectedException
     {
-        DataStore dataStore = document.getApplication().getService(DataStore.class);
+        final DataStore dataStore = document.getApplication().getService(DataStore.class);
 
         try (InputStream stream = dataStore.retrieve(reference)) {
             return IOUtils.toString(stream);
