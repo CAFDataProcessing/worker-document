@@ -94,7 +94,7 @@ public final class DocumentTask extends AbstractTask
     protected WorkerResponse createWorkerResponseImpl()
     {
         if (postProcessor != null) {
-            LOG.info("Post processor is not null - will execute.");
+            LOG.trace("Post processor is not null - will execute.");
             try {
                 postProcessor.postProcessDocument(document);
             }

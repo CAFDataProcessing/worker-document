@@ -48,8 +48,8 @@ public interface ResponseOptions extends DocumentWorkerObject
     void setCustomData(Map<String, String> customData);
 
     /**
-     * Returns a parent {@link Task} instance.
-     * @return Parent {@link Task} instance.
+     * Returns a {@link Task} that is associated with this object.
+     * @return a {@link Task} that is associated with this object.
      */
     Task getTask();
 }
