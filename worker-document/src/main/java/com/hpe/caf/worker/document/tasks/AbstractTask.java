@@ -75,6 +75,7 @@ public abstract class AbstractTask extends DocumentWorkerObjectImpl implements T
     }
 
     @Nonnull
+    @Override
     public ResponseOptions getResponseOptions()
     {
         return this.responseOptions;
