@@ -57,14 +57,13 @@ public final class DocumentTask extends AbstractTask
     {
         Objects.requireNonNull(documentTask);
 
-        return new DocumentTask(application, workerTask, documentTask, application.getPostProcessorFactory());
+        return new DocumentTask(application, workerTask, documentTask);
     }
 
     private DocumentTask(
         final ApplicationImpl application,
         final WorkerTaskData workerTask,
-        final DocumentWorkerDocumentTask documentTask,
-        DocumentPostProcessorFactory postProcessorFactory
+        final DocumentWorkerDocumentTask documentTask
     ) throws InvalidChangeLogException, TaskRejectedException
     {
         super(application,
@@ -73,7 +72,7 @@ public final class DocumentTask extends AbstractTask
               documentTask.customData);
 
         this.documentTask = documentTask;
-        this.postProcessor = postProcessorFactory.create(document);
+        this.postProcessor = application.getPostProcessorFactory().create(document);
     }
 
     @Nonnull
