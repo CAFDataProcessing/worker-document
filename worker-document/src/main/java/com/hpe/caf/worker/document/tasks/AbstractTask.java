@@ -20,7 +20,7 @@ import com.hpe.caf.api.worker.WorkerTaskData;
 import com.hpe.caf.worker.document.impl.ApplicationImpl;
 import com.hpe.caf.worker.document.impl.DocumentImpl;
 import com.hpe.caf.worker.document.impl.DocumentWorkerObjectImpl;
-import com.hpe.caf.worker.document.model.Application;
+import com.hpe.caf.worker.document.impl.ResponseOptionsImpl;
 import com.hpe.caf.worker.document.model.ResponseOptions;
 import com.hpe.caf.worker.document.model.Task;
 import com.hpe.caf.worker.document.views.ReadOnlyDocument;
@@ -32,7 +32,7 @@ public abstract class AbstractTask extends DocumentWorkerObjectImpl implements T
 {
     private final WorkerTaskData workerTask;
     protected final DocumentImpl document;
-    protected final ResponseOptions responseOptions;
+    protected final ResponseOptionsImpl responseOptions;
     private final Map<String, String> customData;
 
     protected AbstractTask(
@@ -45,7 +45,7 @@ public abstract class AbstractTask extends DocumentWorkerObjectImpl implements T
         super(application);
         this.workerTask = Objects.requireNonNull(workerTask);
         this.document = new DocumentImpl(application, this, effectiveDocument);
-        this.responseOptions = new ResponseOptionsImpl(this);
+        this.responseOptions = new ResponseOptionsImpl(application, this);
         this.customData = customData;
     }
 
@@ -104,60 +104,4 @@ public abstract class AbstractTask extends DocumentWorkerObjectImpl implements T
 
     @Nonnull
     protected abstract WorkerResponse handleGeneralFailureImpl(final Throwable failure);
-
-    private static class ResponseOptionsImpl implements ResponseOptions
-    {
-        private String queueName;
-        private Map<String, String> customData;
-        private final Task parentTask;
-        private final Application application;
-
-        private ResponseOptionsImpl(Task parentTask)
-        {
-            this.parentTask = parentTask;
-            this.application = parentTask.getApplication();
-        }
-
-        @Override
-        public String getQueueName()
-        {
-            return queueName;
-        }
-
-        @Override
-        public void setQueueName(String queueName)
-        {
-            this.queueName = queueName;
-        }
-
-        /**
-         * Gets the custom data.
-         *
-         * @return The custom data map.
-         */
-        @Override
-        public Map<String, String> getCustomData()
-        {
-            return customData;
-        }
-
-        @Override
-        public void setCustomData(Map<String, String> customData)
-        {
-            this.customData = customData;
-        }
-
-        @Override
-        public Task getTask()
-        {
-            return parentTask;
-        }
-
-        @Nonnull
-        @Override
-        public Application getApplication()
-        {
-            return application;
-        }
-    }
 }
