@@ -42,9 +42,8 @@ public final class DocumentWorkerFactoryProvider implements WorkerFactoryProvide
     public WorkerFactory getWorkerFactory(final ConfigurationSource configSource, final DataStore dataStore, final Codec codec)
         throws WorkerException
     {
-        final DocumentPostProcessorFactory postProcessorFactory = new DocumentPostProcessorFactory();
         // Construct the application object
-        final ApplicationImpl application = new ApplicationImpl(configSource, dataStore, codec, postProcessorFactory);
+        final ApplicationImpl application = new ApplicationImpl(configSource, dataStore, codec);
 
         // Construct the DocumentWorker implementation object
         final DocumentWorker documentWorker = createDocumentWorker(application);

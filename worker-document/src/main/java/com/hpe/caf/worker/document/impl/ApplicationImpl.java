@@ -36,13 +36,12 @@ public class ApplicationImpl implements Application
     private final Codec codec;
     private final DocumentWorkerConfiguration configuration;
     private final BatchSizeControllerImpl batchSizeController;
+    private final DocumentPostProcessorFactory postProcessorFactory;
     private final InputMessageProcessorImpl inputMessageProcessor;
     private final String successQueue;
     private final String failureQueue;
-    private final DocumentPostProcessorFactory postProcessorFactory;
 
-    public ApplicationImpl(final ConfigurationSource configSource, final DataStore dataStore, final Codec codec,
-                           final DocumentPostProcessorFactory postProcessorFactory)
+    public ApplicationImpl(final ConfigurationSource configSource, final DataStore dataStore, final Codec codec)
         throws WorkerException
     {
         this.serviceLocator = new ServiceLocatorImpl(this);
@@ -51,7 +50,7 @@ public class ApplicationImpl implements Application
         this.codec = Objects.requireNonNull(codec);
         this.configuration = getConfiguration(configSource);
         this.batchSizeController = new BatchSizeControllerImpl(this, configuration);
-        this.postProcessorFactory = postProcessorFactory;
+        this.postProcessorFactory = new DocumentPostProcessorFactory();
         this.inputMessageProcessor = new InputMessageProcessorImpl(this, configuration.getInputMessageProcessing());
         this.successQueue = configuration.getOutputQueue();
         this.failureQueue = getFailureQueue(configuration);
@@ -122,11 +121,6 @@ public class ApplicationImpl implements Application
         return failureQueue;
     }
 
-    /**
-     * Getter for property 'postProcessorFactory'.
-     *
-     * @return Value for property 'postProcessorFactory'.
-     */
     public DocumentPostProcessorFactory getPostProcessorFactory()
     {
         return postProcessorFactory;
