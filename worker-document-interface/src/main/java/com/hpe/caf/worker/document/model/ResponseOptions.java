@@ -19,43 +19,51 @@ import java.util.Map;
 import javax.annotation.Nonnull;
 
 /**
- * Interface for additional worker response properties.
+ * Used for customizing the response to the document processing task.
+ * <p>
+ * Not all response options are applicible to all types of tasks.
  */
 public interface ResponseOptions extends DocumentWorkerObject
 {
     /**
-     * Gets the queue name that will be used when a worker sends response message.
+     * Returns the queue name set by {@link #setQueueName setQueueName()}, or {@code null} if {@code setQueueName()} has not been used.
+     * <p>
+     * If {@code null} is returned then the default queue set in the configuration is used.
      *
-     * @return The queue name
+     * @return the queue name set on this {@code ResponseOptions} object
      */
     String getQueueName();
 
     /**
-     * Sets the queue name to use when a worker sends response message. This queue will override queue name specified in the
-     * configuration.
+     * Sets the name of the queue where the worker should send the response to this document processing task. This queue will override the
+     * default queue name specified in the configuration. It is used even if the document contains failures.
+     * <p>
+     * Passing {@code null} to this method revokes any queue name override previously set and means that the response queue selection will
+     * once again be based on the configuration.
      *
-     * @param queueName queue name that will override one specified in the configuration
+     * @param queueName the queue where the response message should be sent
      */
     void setQueueName(String queueName);
 
     /**
-     * Gets the custom datamap which contains additional information for a document worker task.
+     * Returns the custom data that will be sent as a part of the response to this message. It is set using the
+     * {@link #setCustomData setCustomData()} method.
      *
-     * @return custom data map which contains additional information for a document worker task
+     * @return the custom data to be sent as part of the response
      */
     Map<String, String> getCustomData();
 
     /**
-     * Sets the custom data which contains additional information for a document worker task.
+     * Sets the custom data which will be sent as part of the response to this document processing task.
      *
-     * @param customData custom data which contains additional information for a document worker task
+     * @param customData the custom data which will be sent with the response
      */
     void setCustomData(Map<String, String> customData);
 
     /**
-     * Returns a {@link Task} that is associated with this object.
+     * Returns the task that this response customization object is associated with.
      *
-     * @return a {@link Task} that is associated with this object.
+     * @return the task that this response customization object is associated with
      */
     @Nonnull
     Task getTask();
