@@ -18,6 +18,8 @@ package com.hpe.caf.worker.document.impl;
 import com.hpe.caf.worker.document.model.ResponseOptions;
 import com.hpe.caf.worker.document.model.Task;
 import com.hpe.caf.worker.document.tasks.AbstractTask;
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.Map;
 import javax.annotation.Nonnull;
 
@@ -34,6 +36,8 @@ public final class ResponseOptionsImpl extends DocumentWorkerObjectImpl implemen
     {
         super(application);
         this.task = task;
+        this.queueName = null;
+        this.customData = null;
     }
 
     @Override
@@ -57,7 +61,9 @@ public final class ResponseOptionsImpl extends DocumentWorkerObjectImpl implemen
     @Override
     public void setCustomData(final Map<String, String> customData)
     {
-        this.customData = customData;
+        this.customData = (customData == null || customData.isEmpty())
+            ? null
+            : Collections.unmodifiableMap(new HashMap<>(customData));
     }
 
     @Nonnull
