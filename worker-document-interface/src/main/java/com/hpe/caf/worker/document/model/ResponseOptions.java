@@ -15,6 +15,7 @@
  */
 package com.hpe.caf.worker.document.model;
 
+import javax.annotation.Nonnull;
 import java.util.Map;
 
 /**
@@ -24,26 +25,30 @@ public interface ResponseOptions extends DocumentWorkerObject
 {
     /**
      * Gets the queue name that will be used when a worker sends response message.
-     * @return The queue name.
+     *
+     * @return The queue name
      */
     String getQueueName();
 
     /**
      * Sets the queue name to use when a worker sends response message.
      * This queue will override queue name specified in the configuration.
-     * @param queueName The queue name.
+     *
+     * @param queueName queue name that will override one specified in the configuration
      */
     void setQueueName(String queueName);
 
     /**
-     * Gets the custom data.
-     * @return The custom data map which contains additional information for a document worker task.
+     * Gets the custom datamap which contains additional information for a document worker task.
+     *
+     * @return custom data map which contains additional information for a document worker task
      */
     Map<String, String> getCustomData();
 
     /**
-     * Sets the custom data.
-     * @param customData Custom data which contains additional information for a document worker task.
+     * Sets the custom data which contains additional information for a document worker task.
+     *
+     * @param customData custom data which contains additional information for a document worker task
      */
     void setCustomData(Map<String, String> customData);
 
@@ -51,5 +56,6 @@ public interface ResponseOptions extends DocumentWorkerObject
      * Returns a {@link Task} that is associated with this object.
      * @return a {@link Task} that is associated with this object.
      */
+    @Nonnull
     Task getTask();
 }

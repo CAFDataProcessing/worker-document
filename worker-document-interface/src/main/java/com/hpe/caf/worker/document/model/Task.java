@@ -67,7 +67,8 @@ public interface Task extends DocumentWorkerObject
 
     /**
      * Retrieves additional response options for this task.
-     * @return Response options if there are any or {@code null}.
+     *
+     * @return additional response options for this task.
      */
     @Nonnull
     ResponseOptions getResponseOptions();

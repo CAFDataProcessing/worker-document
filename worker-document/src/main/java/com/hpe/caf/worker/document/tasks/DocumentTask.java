@@ -53,12 +53,11 @@ public final class DocumentTask extends AbstractTask
     public static DocumentTask create(
             final ApplicationImpl application,
             final WorkerTaskData workerTask,
-            final DocumentWorkerDocumentTask documentTask,
-            final DocumentPostProcessorFactory postProcessorFactory) throws InvalidChangeLogException, TaskRejectedException
+            final DocumentWorkerDocumentTask documentTask) throws InvalidChangeLogException, TaskRejectedException
     {
         Objects.requireNonNull(documentTask);
 
-        return new DocumentTask(application, workerTask, documentTask, postProcessorFactory);
+        return new DocumentTask(application, workerTask, documentTask, application.getPostProcessorFactory());
     }
 
     private DocumentTask(
@@ -123,7 +122,7 @@ public final class DocumentTask extends AbstractTask
         documentWorkerResult.document = documentTask.document;
         documentWorkerResult.changeLog = changeLog;
 
-        ResponseOptions responseOptions = getResponseOptions();
+        final ResponseOptions responseOptions = getResponseOptions();
         // Select the output queue
         // TODO: ResponseOptions queue name will override the queue set below. This means that failure queue will
         // not be used in case of failures. This is correct behaviour but we might want to add ability
@@ -154,9 +153,7 @@ public final class DocumentTask extends AbstractTask
     @Override
     protected WorkerResponse handleGeneralFailureImpl(final Throwable failure)
     {
-        document.getFailures().add(failure.getClass().getName(),
-                                   failure.getLocalizedMessage(),
-                                   failure);
+        document.getFailures().add(failure.getClass().getName(), failure.getLocalizedMessage(), failure);
         // Create a RESULT_SUCCESS for the document
         // (RESULT_SUCCESS is used even if there are failures, as the failures are successfully returned)
         return this.createWorkerResponse();

@@ -118,6 +118,7 @@ public abstract class AbstractTask extends DocumentWorkerObjectImpl implements T
             this.application = parentTask.getApplication();
         }
 
+        @Override
         public String getQueueName()
         {
             return queueName;
@@ -134,6 +135,7 @@ public abstract class AbstractTask extends DocumentWorkerObjectImpl implements T
          *
          * @return The custom data map.
          */
+        @Override
         public Map<String, String> getCustomData()
         {
             return customData;

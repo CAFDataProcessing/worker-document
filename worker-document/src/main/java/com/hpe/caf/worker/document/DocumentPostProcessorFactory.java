@@ -16,7 +16,6 @@
 
 package com.hpe.caf.worker.document;
 
-import com.google.common.base.Strings;
 import com.hpe.caf.api.worker.DataStore;
 import com.hpe.caf.api.worker.DataStoreException;
 import com.hpe.caf.api.worker.TaskRejectedException;
@@ -27,6 +26,7 @@ import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 
 /**
@@ -45,7 +45,7 @@ public class DocumentPostProcessorFactory
     {
         LOG.info("Executing post-processing - checking if script is provided... ");
         final String postProcessingScriptReference = document.getCustomData(DocumentWorkerConstants.POST_PROCESSING_SCRIPT_CUSTOM_DATA);
-        if (!Strings.isNullOrEmpty(postProcessingScriptReference)) {
+        if (postProcessingScriptReference != null && !postProcessingScriptReference.isEmpty()) {
             String postProcessingScript;
             synchronized (syncObj) {
                 postProcessingScript = cachedScripts.get(postProcessingScriptReference);
@@ -63,8 +63,8 @@ public class DocumentPostProcessorFactory
     {
         final DataStore dataStore = document.getApplication().getService(DataStore.class);
 
-        try (InputStream stream = dataStore.retrieve(reference)) {
-            return IOUtils.toString(stream);
+        try (final InputStream stream = dataStore.retrieve(reference)) {
+            return IOUtils.toString(stream, StandardCharsets.UTF_8);
         }
         catch (DataStoreException | IOException e) {
             LOG.error("Could not retrieve post-processing script from DataStore.", e);

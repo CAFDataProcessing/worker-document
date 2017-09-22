@@ -35,7 +35,7 @@ public class JavaScriptDocumentPostProcessor implements DocumentPostProcessor
 
     private final String postProcessingScript;
 
-    public JavaScriptDocumentPostProcessor(String postProcessingScript)
+    public JavaScriptDocumentPostProcessor(final String postProcessingScript)
     {
         this.postProcessingScript = postProcessingScript;
     }
