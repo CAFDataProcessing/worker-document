@@ -31,14 +31,13 @@ import com.hpe.caf.worker.document.tasks.AbstractTask;
 import com.hpe.caf.worker.document.tasks.DocumentTask;
 import com.hpe.caf.worker.document.tasks.FieldEnrichmentTask;
 import com.hpe.caf.worker.document.util.BooleanFunctions;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
+import java.util.Set;
 import javax.annotation.Nonnull;
 import javax.validation.ConstraintViolation;
 import javax.validation.Validation;
 import javax.validation.Validator;
-import java.util.Set;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class InputMessageProcessorImpl extends DocumentWorkerObjectImpl implements InputMessageProcessor
 {
@@ -53,23 +52,23 @@ public class InputMessageProcessorImpl extends DocumentWorkerObjectImpl implemen
     private boolean processSubdocumentsSeparately;
 
     public InputMessageProcessorImpl(
-            final ApplicationImpl application,
-            final InputMessageConfiguration configuration
+        final ApplicationImpl application,
+        final InputMessageConfiguration configuration
     )
     {
         super(application);
 
         this.documentTasksAccepted = (configuration == null)
-                ? DEFAULT_DOCUMENT_TASKS_ACCEPTED
-                : BooleanFunctions.valueOf(configuration.getDocumentTasksAccepted(), DEFAULT_DOCUMENT_TASKS_ACCEPTED);
+            ? DEFAULT_DOCUMENT_TASKS_ACCEPTED
+            : BooleanFunctions.valueOf(configuration.getDocumentTasksAccepted(), DEFAULT_DOCUMENT_TASKS_ACCEPTED);
 
         this.fieldEnrichmentTasksAccepted = (configuration == null)
-                ? DEFAULT_FIELD_ENRICHMENT_TASKS_ACCEPTED
-                : BooleanFunctions.valueOf(configuration.getFieldEnrichmentTasksAccepted(), DEFAULT_FIELD_ENRICHMENT_TASKS_ACCEPTED);
+            ? DEFAULT_FIELD_ENRICHMENT_TASKS_ACCEPTED
+            : BooleanFunctions.valueOf(configuration.getFieldEnrichmentTasksAccepted(), DEFAULT_FIELD_ENRICHMENT_TASKS_ACCEPTED);
 
         this.processSubdocumentsSeparately = (configuration == null)
-                ? DEFAULT_PROCESS_SUBDOCUMENTS_SEPARATELY
-                : BooleanFunctions.valueOf(configuration.getProcessSubdocumentsSeparately(), DEFAULT_PROCESS_SUBDOCUMENTS_SEPARATELY);
+            ? DEFAULT_PROCESS_SUBDOCUMENTS_SEPARATELY
+            : BooleanFunctions.valueOf(configuration.getProcessSubdocumentsSeparately(), DEFAULT_PROCESS_SUBDOCUMENTS_SEPARATELY);
     }
 
     @Override
@@ -118,7 +117,7 @@ public class InputMessageProcessorImpl extends DocumentWorkerObjectImpl implemen
      */
     @Nonnull
     public AbstractTask createTask(final WorkerTaskData workerTask)
-            throws InvalidTaskException, TaskRejectedException
+        throws InvalidTaskException, TaskRejectedException
     {
         // Get the encoding scheme to use to decode the DocumentWorkerTask
         final Codec codec = application.getCodec();
@@ -130,12 +129,12 @@ public class InputMessageProcessorImpl extends DocumentWorkerObjectImpl implemen
         if (fieldEnrichmentTasksAccepted && workerName.equals(classifier)) {
             final byte[] data = validateVersionAndData(workerTask, DocumentWorkerConstants.WORKER_API_VER);
             final DocumentWorkerTask documentWorkerTask
-                    = TaskValidator.deserialiseAndValidateTask(codec, DocumentWorkerTask.class, data);
+                = TaskValidator.deserialiseAndValidateTask(codec, DocumentWorkerTask.class, data);
             return FieldEnrichmentTask.create(application, workerTask, documentWorkerTask);
         } else if (documentTasksAccepted && DocumentWorkerConstants.DOCUMENT_TASK_NAME.equals(classifier)) {
             final byte[] data = validateVersionAndData(workerTask, DocumentWorkerConstants.DOCUMENT_TASK_API_VER);
             final DocumentWorkerDocumentTask documentWorkerDocumentTask
-                    = TaskValidator.deserialiseAndValidateTask(codec, DocumentWorkerDocumentTask.class, data);
+                = TaskValidator.deserialiseAndValidateTask(codec, DocumentWorkerDocumentTask.class, data);
             try {
                 return DocumentTask.create(application, workerTask, documentWorkerDocumentTask);
             } catch (InvalidChangeLogException ex) {
@@ -148,7 +147,7 @@ public class InputMessageProcessorImpl extends DocumentWorkerObjectImpl implemen
 
     @Nonnull
     private static byte[] validateVersionAndData(final WorkerTaskData workerTask, final int workerApiVersion)
-            throws InvalidTaskException, TaskRejectedException
+        throws InvalidTaskException, TaskRejectedException
     {
         final int version = workerTask.getVersion();
         if (workerApiVersion < version) {
@@ -178,7 +177,7 @@ public class InputMessageProcessorImpl extends DocumentWorkerObjectImpl implemen
          */
         @Nonnull
         public static <T> T deserialiseAndValidateTask(final Codec codec, final Class<T> taskType, final byte[] data)
-                throws InvalidTaskException
+            throws InvalidTaskException
         {
             final T documentWorkerTask;
             try {

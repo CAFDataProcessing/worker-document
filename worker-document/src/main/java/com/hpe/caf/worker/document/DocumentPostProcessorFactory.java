@@ -13,26 +13,23 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.hpe.caf.worker.document;
 
 import com.hpe.caf.api.worker.DataStore;
 import com.hpe.caf.api.worker.DataStoreException;
 import com.hpe.caf.api.worker.TaskRejectedException;
 import com.hpe.caf.worker.document.model.Document;
-import org.apache.commons.io.IOUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
+import org.apache.commons.io.IOUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
- * Responsible for creating of {@link DocumentPostProcessor}.
- * At the moment, this class will create a {@link JavaScriptDocumentPostProcessor} if
- * postProcessingScript custom data is provided, otherwise {@code null}.
+ * Responsible for creating of {@link DocumentPostProcessor}. At the moment, this class will create a
+ * {@link JavaScriptDocumentPostProcessor} if postProcessingScript custom data is provided, otherwise {@code null}.
  */
 public class DocumentPostProcessorFactory
 {
@@ -65,8 +62,7 @@ public class DocumentPostProcessorFactory
 
         try (final InputStream stream = dataStore.retrieve(reference)) {
             return IOUtils.toString(stream, StandardCharsets.UTF_8);
-        }
-        catch (DataStoreException | IOException e) {
+        } catch (DataStoreException | IOException e) {
             LOG.error("Could not retrieve post-processing script from DataStore.", e);
             throw new TaskRejectedException("Could not retrieve post-processing script from DataStore.", e);
         }

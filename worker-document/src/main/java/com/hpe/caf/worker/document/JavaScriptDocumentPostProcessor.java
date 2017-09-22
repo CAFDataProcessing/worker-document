@@ -13,18 +13,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.hpe.caf.worker.document;
 
 import com.hpe.caf.worker.document.exceptions.PostProcessingFailedException;
 import com.hpe.caf.worker.document.model.Document;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import javax.script.Invocable;
 import javax.script.ScriptEngine;
 import javax.script.ScriptEngineManager;
 import javax.script.ScriptException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Implementation of {@link DocumentPostProcessor} which executes a Java Script for post-processing.
@@ -51,10 +49,8 @@ public class JavaScriptDocumentPostProcessor implements DocumentPostProcessor
             final Invocable invocable = (Invocable) engine;
             invocable.invokeFunction("processDocument", document);
             LOG.trace("Executed post-processing script. ");
-        }
-        catch (ScriptException | NoSuchMethodException e) {
+        } catch (ScriptException | NoSuchMethodException e) {
             throw new PostProcessingFailedException("Could not execute the post-processing script", e);
         }
     }
 }
-

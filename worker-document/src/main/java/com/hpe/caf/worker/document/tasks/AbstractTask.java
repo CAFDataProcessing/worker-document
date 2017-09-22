@@ -24,10 +24,9 @@ import com.hpe.caf.worker.document.model.Application;
 import com.hpe.caf.worker.document.model.ResponseOptions;
 import com.hpe.caf.worker.document.model.Task;
 import com.hpe.caf.worker.document.views.ReadOnlyDocument;
-
-import javax.annotation.Nonnull;
 import java.util.Map;
 import java.util.Objects;
+import javax.annotation.Nonnull;
 
 public abstract class AbstractTask extends DocumentWorkerObjectImpl implements Task
 {

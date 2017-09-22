@@ -35,13 +35,12 @@ import com.hpe.caf.worker.document.model.ResponseOptions;
 import com.hpe.caf.worker.document.output.ChangeLogBuilder;
 import com.hpe.caf.worker.document.util.ListFunctions;
 import com.hpe.caf.worker.document.views.ReadOnlyDocument;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import javax.annotation.Nonnull;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import javax.annotation.Nonnull;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public final class DocumentTask extends AbstractTask
 {
@@ -51,9 +50,10 @@ public final class DocumentTask extends AbstractTask
 
     @Nonnull
     public static DocumentTask create(
-            final ApplicationImpl application,
-            final WorkerTaskData workerTask,
-            final DocumentWorkerDocumentTask documentTask) throws InvalidChangeLogException, TaskRejectedException
+        final ApplicationImpl application,
+        final WorkerTaskData workerTask,
+        final DocumentWorkerDocumentTask documentTask
+    ) throws InvalidChangeLogException, TaskRejectedException
     {
         Objects.requireNonNull(documentTask);
 
@@ -61,10 +61,11 @@ public final class DocumentTask extends AbstractTask
     }
 
     private DocumentTask(
-            final ApplicationImpl application,
-            final WorkerTaskData workerTask,
-            final DocumentWorkerDocumentTask documentTask,
-            DocumentPostProcessorFactory postProcessorFactory) throws InvalidChangeLogException, TaskRejectedException
+        final ApplicationImpl application,
+        final WorkerTaskData workerTask,
+        final DocumentWorkerDocumentTask documentTask,
+        DocumentPostProcessorFactory postProcessorFactory
+    ) throws InvalidChangeLogException, TaskRejectedException
     {
         super(application,
               workerTask,
@@ -96,8 +97,7 @@ public final class DocumentTask extends AbstractTask
             LOG.trace("Post processor is not null - will execute.");
             try {
                 postProcessor.postProcessDocument(document);
-            }
-            catch (PostProcessingFailedException e) {
+            } catch (PostProcessingFailedException e) {
                 LOG.error("Failed to execute post-processing on a document.", e);
             }
         }
@@ -123,12 +123,14 @@ public final class DocumentTask extends AbstractTask
         documentWorkerResult.changeLog = changeLog;
 
         final ResponseOptions responseOptions = getResponseOptions();
+
         // Select the output queue
         // TODO: ResponseOptions queue name will override the queue set below. This means that failure queue will
         // not be used in case of failures. This is correct behaviour but we might want to add ability
         // to set a failure queue on response options.
-        String outputQueue = ChangeLogFunctions.hasFailures(changes) ? application.getFailureQueue()
-                : application.getSuccessQueue();
+        String outputQueue = ChangeLogFunctions.hasFailures(changes)
+            ? application.getFailureQueue()
+            : application.getSuccessQueue();
 
         if (responseOptions.getQueueName() != null) {
             outputQueue = responseOptions.getQueueName();
@@ -153,7 +155,9 @@ public final class DocumentTask extends AbstractTask
     @Override
     protected WorkerResponse handleGeneralFailureImpl(final Throwable failure)
     {
-        document.getFailures().add(failure.getClass().getName(), failure.getLocalizedMessage(), failure);
+        document.getFailures().add(failure.getClass().getName(),
+                failure.getLocalizedMessage(),
+                failure);
         // Create a RESULT_SUCCESS for the document
         // (RESULT_SUCCESS is used even if there are failures, as the failures are successfully returned)
         return this.createWorkerResponse();

@@ -15,8 +15,8 @@
  */
 package com.hpe.caf.worker.document.model;
 
-import javax.annotation.Nonnull;
 import java.util.Map;
+import javax.annotation.Nonnull;
 
 /**
  * Interface for additional worker response properties.
@@ -31,8 +31,8 @@ public interface ResponseOptions extends DocumentWorkerObject
     String getQueueName();
 
     /**
-     * Sets the queue name to use when a worker sends response message.
-     * This queue will override queue name specified in the configuration.
+     * Sets the queue name to use when a worker sends response message. This queue will override queue name specified in the
+     * configuration.
      *
      * @param queueName queue name that will override one specified in the configuration
      */
@@ -54,6 +54,7 @@ public interface ResponseOptions extends DocumentWorkerObject
 
     /**
      * Returns a {@link Task} that is associated with this object.
+     *
      * @return a {@link Task} that is associated with this object.
      */
     @Nonnull

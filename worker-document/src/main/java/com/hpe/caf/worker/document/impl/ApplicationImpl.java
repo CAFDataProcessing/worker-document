@@ -26,7 +26,6 @@ import com.hpe.caf.worker.document.DocumentPostProcessorFactory;
 import com.hpe.caf.worker.document.config.DocumentWorkerConfiguration;
 import com.hpe.caf.worker.document.model.Application;
 import com.hpe.caf.worker.document.model.ServiceLocator;
-
 import java.util.Objects;
 
 public class ApplicationImpl implements Application
