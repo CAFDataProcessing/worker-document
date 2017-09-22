@@ -121,22 +121,10 @@ public final class DocumentTask extends AbstractTask
         final DocumentWorkerDocumentTask documentWorkerResult = new DocumentWorkerDocumentTask();
         documentWorkerResult.document = documentTask.document;
         documentWorkerResult.changeLog = changeLog;
-
-        final ResponseOptions responseOptions = getResponseOptions();
+        documentWorkerResult.customData = responseOptions.getCustomData();
 
         // Select the output queue
-        // TODO: ResponseOptions queue name will override the queue set below. This means that failure queue will
-        // not be used in case of failures. This is correct behaviour but we might want to add ability
-        // to set a failure queue on response options.
-        String outputQueue = ChangeLogFunctions.hasFailures(changes)
-            ? application.getFailureQueue()
-            : application.getSuccessQueue();
-
-        if (responseOptions.getQueueName() != null) {
-            outputQueue = responseOptions.getQueueName();
-        }
-
-        documentWorkerResult.customData = responseOptions.getCustomData();
+        final String outputQueue = getOutputQueue(changes);
 
         LOG.trace("Response queue name - {}", outputQueue);
 
@@ -169,5 +157,18 @@ public final class DocumentTask extends AbstractTask
         final String changeLogEntryName = config.getWorkerName() + ":" + config.getWorkerVersion();
 
         return changeLogEntryName;
+    }
+
+    private String getOutputQueue(final List<DocumentWorkerChange> changes)
+    {
+        final String queueNameOverride = responseOptions.getQueueName();
+
+        if (queueNameOverride == null) {
+            return ChangeLogFunctions.hasFailures(changes)
+                ? application.getFailureQueue()
+                : application.getSuccessQueue();
+        } else {
+            return queueNameOverride;
+        }
     }
 }

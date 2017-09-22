@@ -32,8 +32,8 @@ public abstract class AbstractTask extends DocumentWorkerObjectImpl implements T
 {
     private final WorkerTaskData workerTask;
     protected final DocumentImpl document;
+    protected final ResponseOptions responseOptions;
     private final Map<String, String> customData;
-    private final ResponseOptions responseOptions;
 
     protected AbstractTask(
         final ApplicationImpl application,
