@@ -15,24 +15,19 @@
  */
 package com.hpe.caf.worker.document;
 
+import com.hpe.caf.worker.document.exceptions.PostProcessingFailedException;
+import com.hpe.caf.worker.document.model.Document;
+
 /**
- * DocumentWorkerConstants constants including API version and the name of the worker.
+ * An interface a document post-processor. The {@code postProcessDocument} will be called when core processing of a document is finished.
  */
-public final class DocumentWorkerConstants
+public interface DocumentPostProcessor
 {
-    public static final String WORKER_NAME = "DocumentWorker";
-    public static final int WORKER_API_VER = 1;
-
-    public static final String DOCUMENT_TASK_NAME = "DocumentWorkerTask";
-    public static final int DOCUMENT_TASK_API_VER = 1;
-
     /**
-     * Custom data setting for the post processing JavaScript.
-     * The setting value is expected to be a data store reference.
+     * Method called after core document processing by a worker is finished.
+     *
+     * @param document a document processed by a worker
+     * @throws PostProcessingFailedException when post-processor fails
      */
-    public static final String POST_PROCESSING_SCRIPT_CUSTOM_DATA = "postProcessingScript";
-
-    private DocumentWorkerConstants()
-    {
-    }
+    void postProcessDocument(final Document document) throws PostProcessingFailedException;
 }

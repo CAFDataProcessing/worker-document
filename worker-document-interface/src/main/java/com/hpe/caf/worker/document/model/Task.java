@@ -64,4 +64,12 @@ public interface Task extends DocumentWorkerObject
      * @see Application#getService(Class) Application.getService()
      */
     <S> S getService(Class<S> service);
+
+    /**
+     * Returns an object which can be used to customise the response to the document processing task.
+     *
+     * @return the response customization object for this task
+     */
+    @Nonnull
+    ResponseOptions getResponseOptions();
 }

@@ -15,9 +15,11 @@
  */
 package com.hpe.caf.worker.document.tasks;
 
+import com.hpe.caf.api.worker.TaskRejectedException;
 import com.hpe.caf.api.worker.TaskStatus;
 import com.hpe.caf.api.worker.WorkerResponse;
 import com.hpe.caf.api.worker.WorkerTaskData;
+import com.hpe.caf.worker.document.DocumentPostProcessor;
 import com.hpe.caf.worker.document.DocumentWorkerChange;
 import com.hpe.caf.worker.document.DocumentWorkerChangeLogEntry;
 import com.hpe.caf.worker.document.DocumentWorkerConstants;
@@ -26,6 +28,7 @@ import com.hpe.caf.worker.document.changelog.ChangeLogFunctions;
 import com.hpe.caf.worker.document.changelog.MutableDocument;
 import com.hpe.caf.worker.document.config.DocumentWorkerConfiguration;
 import com.hpe.caf.worker.document.exceptions.InvalidChangeLogException;
+import com.hpe.caf.worker.document.exceptions.PostProcessingFailedException;
 import com.hpe.caf.worker.document.impl.ApplicationImpl;
 import com.hpe.caf.worker.document.output.ChangeLogBuilder;
 import com.hpe.caf.worker.document.util.ListFunctions;
@@ -34,17 +37,21 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import javax.annotation.Nonnull;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public final class DocumentTask extends AbstractTask
 {
+    private static final Logger LOG = LoggerFactory.getLogger(DocumentTask.class);
     private final DocumentWorkerDocumentTask documentTask;
+    private final DocumentPostProcessor postProcessor;
 
     @Nonnull
     public static DocumentTask create(
         final ApplicationImpl application,
         final WorkerTaskData workerTask,
         final DocumentWorkerDocumentTask documentTask
-    ) throws InvalidChangeLogException
+    ) throws InvalidChangeLogException, TaskRejectedException
     {
         Objects.requireNonNull(documentTask);
 
@@ -55,7 +62,7 @@ public final class DocumentTask extends AbstractTask
         final ApplicationImpl application,
         final WorkerTaskData workerTask,
         final DocumentWorkerDocumentTask documentTask
-    ) throws InvalidChangeLogException
+    ) throws InvalidChangeLogException, TaskRejectedException
     {
         super(application,
               workerTask,
@@ -63,6 +70,7 @@ public final class DocumentTask extends AbstractTask
               documentTask.customData);
 
         this.documentTask = documentTask;
+        this.postProcessor = application.getPostProcessorFactory().create(document);
     }
 
     @Nonnull
@@ -82,6 +90,15 @@ public final class DocumentTask extends AbstractTask
     @Override
     protected WorkerResponse createWorkerResponseImpl()
     {
+        if (postProcessor != null) {
+            LOG.trace("Post processor is not null - will execute.");
+            try {
+                postProcessor.postProcessDocument(document);
+            } catch (PostProcessingFailedException e) {
+                LOG.error("Failed to execute post-processing on a document.", e);
+            }
+        }
+
         // Build up the changes to add to the change log
         final ChangeLogBuilder changeLogBuilder = new ChangeLogBuilder();
         document.recordChanges(changeLogBuilder);
@@ -101,11 +118,12 @@ public final class DocumentTask extends AbstractTask
         final DocumentWorkerDocumentTask documentWorkerResult = new DocumentWorkerDocumentTask();
         documentWorkerResult.document = documentTask.document;
         documentWorkerResult.changeLog = changeLog;
+        documentWorkerResult.customData = responseOptions.getCustomData();
 
         // Select the output queue
-        final String outputQueue = ChangeLogFunctions.hasFailures(changes)
-            ? application.getFailureQueue()
-            : application.getSuccessQueue();
+        final String outputQueue = getOutputQueue(changes);
+
+        LOG.trace("Response queue name - {}", outputQueue);
 
         // Serialise the result object
         final byte[] data = application.serialiseResult(documentWorkerResult);
@@ -136,5 +154,18 @@ public final class DocumentTask extends AbstractTask
         final String changeLogEntryName = config.getWorkerName() + ":" + config.getWorkerVersion();
 
         return changeLogEntryName;
+    }
+
+    private String getOutputQueue(final List<DocumentWorkerChange> changes)
+    {
+        final String queueNameOverride = responseOptions.getQueueName();
+
+        if (queueNameOverride == null) {
+            return ChangeLogFunctions.hasFailures(changes)
+                ? application.getFailureQueue()
+                : application.getSuccessQueue();
+        } else {
+            return queueNameOverride;
+        }
     }
 }
