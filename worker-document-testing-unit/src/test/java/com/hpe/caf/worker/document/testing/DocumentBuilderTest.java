@@ -16,9 +16,10 @@
 package com.hpe.caf.worker.document.testing;
 
 import com.hpe.caf.api.worker.WorkerException;
+import com.hpe.caf.worker.document.DocumentWorkerDocument;
+import com.hpe.caf.worker.document.DocumentWorkerDocumentTask;
 import com.hpe.caf.worker.document.DocumentWorkerFieldEncoding;
 import com.hpe.caf.worker.document.DocumentWorkerFieldValue;
-import com.hpe.caf.worker.document.DocumentWorkerTask;
 import com.hpe.caf.worker.document.model.Document;
 import com.hpe.caf.worker.document.model.Field;
 import com.hpe.caf.worker.document.model.FieldValue;
@@ -77,11 +78,12 @@ public class DocumentBuilderTest
         assertThat(value, is("value2-2"));
     }
 
-    private static DocumentWorkerTask createTestTask()
+    private static DocumentWorkerDocumentTask createTestTask()
     {
-        DocumentWorkerTask task = new DocumentWorkerTask();
+        DocumentWorkerDocumentTask task = new DocumentWorkerDocumentTask();
+        task.document = new DocumentWorkerDocument();
 
-        task.fields = new HashMap<String, List<DocumentWorkerFieldValue>>()
+        task.document.fields = new HashMap<String, List<DocumentWorkerFieldValue>>()
         {
             {
                 put("field1",
@@ -127,8 +129,8 @@ public class DocumentBuilderTest
     @Test
     public void testBuildDocumentWithFieldsMap() throws Exception
     {
-        DocumentWorkerTask task = createTestTask();
-        Document document = DocumentBuilder.configure().withFields(task.fields).build();
+        DocumentWorkerDocumentTask task = createTestTask();
+        Document document = DocumentBuilder.configure().withFields(task.document.fields).build();
         assertDocumentFields(document);
     }
 

@@ -19,7 +19,13 @@ import com.hpe.caf.api.worker.DataStore;
 import com.hpe.caf.api.worker.DataStoreException;
 import com.hpe.caf.worker.document.exceptions.DocumentWorkerTransientException;
 import com.hpe.caf.worker.document.extensibility.DocumentWorker;
-import com.hpe.caf.worker.document.model.*;
+import com.hpe.caf.worker.document.model.Document;
+import com.hpe.caf.worker.document.model.Field;
+import com.hpe.caf.worker.document.model.FieldValue;
+import com.hpe.caf.worker.document.model.FieldValues;
+import com.hpe.caf.worker.document.model.HealthMonitor;
+import com.hpe.caf.worker.document.model.Subdocument;
+import com.hpe.caf.worker.document.model.Subdocuments;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -84,6 +90,11 @@ public class TestDocumentWorker implements DocumentWorker
 
         for (FieldValue fieldValue : fieldValues) {
             field.add(fieldValue.getStringValue());
+        }
+        final Subdocuments subdocuments = document.getSubdocuments();
+        for (int index = 0; index < subdocuments.size(); index++) {
+            final Subdocument subdocument = subdocuments.get(index);
+            processDocument(subdocument);
         }
     }
 }
