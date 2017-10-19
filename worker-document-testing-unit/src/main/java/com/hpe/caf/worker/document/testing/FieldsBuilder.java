@@ -38,7 +38,7 @@ public class FieldsBuilder
      * @param fields the fields
      * @param parentBuilder the parent builder
      */
-    protected FieldsBuilder(final Map<String, List<DocumentWorkerFieldValue>> fields, final DocumentBuilder parentBuilder)
+    FieldsBuilder(final Map<String, List<DocumentWorkerFieldValue>> fields, final DocumentBuilder parentBuilder)
     {
         this.fields = Objects.requireNonNull(fields);
         this.parentBuilder = parentBuilder;

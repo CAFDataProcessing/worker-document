@@ -18,18 +18,22 @@ package com.hpe.caf.worker.document.testing;
 import com.fasterxml.jackson.dataformat.yaml.YAMLMapper;
 import com.hpe.caf.api.worker.WorkerException;
 import com.hpe.caf.api.worker.WorkerTaskData;
+import com.hpe.caf.worker.document.DocumentWorkerDocument;
+import com.hpe.caf.worker.document.DocumentWorkerDocumentTask;
 import com.hpe.caf.worker.document.DocumentWorkerFieldValue;
 import com.hpe.caf.worker.document.DocumentWorkerTask;
+import com.hpe.caf.worker.document.exceptions.InvalidChangeLogException;
 import com.hpe.caf.worker.document.impl.ApplicationImpl;
 import com.hpe.caf.worker.document.impl.DocumentImpl;
 import com.hpe.caf.worker.document.model.Document;
 import com.hpe.caf.worker.document.tasks.AbstractTask;
-import com.hpe.caf.worker.document.tasks.FieldEnrichmentTask;
+import com.hpe.caf.worker.document.tasks.DocumentTask;
 import org.apache.commons.io.FileUtils;
 import org.mockito.Mockito;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -46,12 +50,15 @@ import java.util.Map;
  */
 public final class DocumentBuilder
 {
-    private final DocumentWorkerTask workerTask;
+    private final DocumentWorkerDocumentTask workerTask;
     private TestServices services;
 
-    private DocumentBuilder(final DocumentWorkerTask workerTask)
+    private DocumentBuilder(DocumentWorkerDocumentTask workerTask)
     {
         this.workerTask = workerTask;
+        if (workerTask.document == null) {
+            workerTask.document = new DocumentWorkerDocument();
+        }
     }
 
     /**
@@ -61,23 +68,35 @@ public final class DocumentBuilder
      */
     public static DocumentBuilder configure()
     {
-        return new DocumentBuilder(new DocumentWorkerTask());
+        return new DocumentBuilder(new DocumentWorkerDocumentTask());
     }
 
     /**
      * Configures a new Document using a file with JSON or YAML-serialized Document Worker task
      *
      * @param path File path
-     * @return Document builder.
-     * @throws IOException An issue with accessing a file.
+     * @return current Document builder
+     * @throws IOException An issue with accessing a file
      */
     public static DocumentBuilder fromFile(final String path) throws IOException
     {
         final YAMLMapper mapper = new YAMLMapper();
 
         final byte[] bytes = FileUtils.readFileToByteArray(new File(path));
-        final DocumentWorkerTask workerTask = mapper.readValue(bytes, DocumentWorkerTask.class);
+        final DocumentWorkerDocumentTask workerTask = mapper.readValue(bytes, DocumentWorkerDocumentTask.class);
         return new DocumentBuilder(workerTask);
+    }
+
+    /**
+     * Specifies a reference value for the document being built.
+     *
+     * @param reference reference value for the document being built
+     * @return current Document builder
+     */
+    public DocumentBuilder withReference(String reference)
+    {
+        workerTask.document.reference = reference;
+        return this;
     }
 
     /**
@@ -88,7 +107,7 @@ public final class DocumentBuilder
      */
     public DocumentBuilder withFields(final Map<String, List<DocumentWorkerFieldValue>> fields)
     {
-        workerTask.fields = fields;
+        workerTask.document.fields = fields;
         return this;
     }
 
@@ -99,10 +118,10 @@ public final class DocumentBuilder
      */
     public FieldsBuilder withFields()
     {
-        if (workerTask.fields == null) {
-            workerTask.fields = new HashMap<>();
+        if (workerTask.document.fields == null) {
+            workerTask.document.fields = new HashMap<>();
         }
-        return new FieldsBuilder(workerTask.fields, this);
+        return new FieldsBuilder(workerTask.document.fields, this);
     }
 
     /**
@@ -115,8 +134,31 @@ public final class DocumentBuilder
         if (workerTask.customData == null) {
             workerTask.customData = new HashMap<>();
         }
-
         return new CustomDataBuilder(workerTask.customData, this);
+    }
+
+    /**
+     * Configures sub-documents for this Document.
+     * <p>
+     * Each document can have a sub-documents. When documentBuilders are supplied,
+     * they will be used to build sub-documents associated with this document.
+     *
+     * @param documentBuilders sub-document builders
+     * @return current Document builder
+     */
+    public DocumentBuilder withSubDocuments(DocumentBuilder... documentBuilders)
+    {
+        if (documentBuilders == null) {
+            return this;
+        }
+        if (workerTask.document.subdocuments == null) {
+            workerTask.document.subdocuments = new ArrayList<>(documentBuilders.length);
+        }
+        for (DocumentBuilder documentBuilder : documentBuilders) {
+            final DocumentWorkerDocumentTask subDocumentTask = documentBuilder.workerTask;
+            workerTask.document.subdocuments.add(subDocumentTask.document);
+        }
+        return this;
     }
 
     /**
@@ -125,8 +167,8 @@ public final class DocumentBuilder
      * Those services will be supplied to a Document implementation and will be available to a worker.
      *
      * @see TestServices
-     * @param testServices Services to use.
-     * @return Document builder.
+     * @param testServices Services to use
+     * @return current Document builder
      */
     public DocumentBuilder withServices(final TestServices testServices)
     {
@@ -138,19 +180,26 @@ public final class DocumentBuilder
      * Constructs a configured Document instance.
      *
      * @return Document
-     * @throws WorkerException If construction of a Document object fails.
+     * @throws WorkerException if construction of a Document object fails
      */
     public Document build() throws WorkerException
     {
         if (services == null) {
             services = TestServices.createDefault();
         }
-
-        final AbstractTask documentWorkerTask = FieldEnrichmentTask.create(
-            new ApplicationImpl(services.getConfigurationSource(), services.getDataStore(), services.getCodec()),
-            Mockito.mock(WorkerTaskData.class),
-            workerTask);
-
+        final AbstractTask documentWorkerTask;
+        try {
+            documentWorkerTask = DocumentTask.create(
+                    new ApplicationImpl(services.getConfigurationSource(), services.getDataStore(), services.getCodec()),
+                    Mockito.mock(WorkerTaskData.class), workerTask);
+        }
+        catch (InvalidChangeLogException e) {
+            //TODO: either introduce new (runtime) exception or change the signature.
+            // I don't think we want to throw checked exceptions from the tests.
+            // It's not something we can handle. If there's an exception, the test is misconfigured
+            // and the test code needs to be fixed.
+            throw new RuntimeException("Failed to create document worker task.", e);
+        }
         final DocumentImpl document = documentWorkerTask.getDocument();
 
         return document;
