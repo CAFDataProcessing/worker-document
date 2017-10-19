@@ -55,48 +55,38 @@ public class TestDocumentWorker implements DocumentWorker
         DataStore dataStore = document.getApplication().getService(DataStore.class);
         //String storageReference = document.getCustomData(CustomDataStorageReference);
         String storageReference = document.getField(CustomDataStorageReference).getValues().stream().findFirst().get().getReference();
-
         int words = 0;
-
         try (InputStream inputFile = dataStore.retrieve(storageReference)) {
             Scanner s = new Scanner(inputFile);
-
             while (s.hasNext("\\w+")) {
                 String word = s.next("\\w+");
                 words++;
             }
-        } catch (DataStoreException | IOException e) {
+        }
+        catch (DataStoreException | IOException e) {
             throw new DocumentWorkerTransientException(e);
         }
-
         List<String> stringValues = document.getField(FieldsTitle).getStringValues();
         String titleField = stringValues.get(0);
-
         String[] split = titleField.split("\\s");
-
         document.getField(ResultTitleFieldWordCount).add(String.valueOf(split.length));
         document.getField(ResultContentFieldWordCount).add(String.valueOf(words));
-
         String fieldValueToAdd = document.getCustomData(CustomDataFieldValueToAdd);
         document.getField(CustomDataFieldValueToAdd).add(fieldValueToAdd);
-
         document.getField(FieldToDelete).clear();
         Field field = document.getField(FieldToRemoveValue);
         FieldValues values = field.getValues();
         field.clear();
         List<FieldValue> fieldValues = values.stream()
-            .filter(v -> !v.getStringValue().equals(FieldValueToRemove))
-            .collect(Collectors.toList());
-
+                .filter(v -> !v.getStringValue().equals(FieldValueToRemove))
+                .collect(Collectors.toList());
         for (FieldValue fieldValue : fieldValues) {
             field.add(fieldValue.getStringValue());
         }
-        if (document.hasSubdocuments()) {
-            final Subdocuments subdocuments = document.getSubdocuments();
-            for (int index = 0; index < subdocuments.size(); index++) {
-                final Subdocument subdocument = subdocuments.get(index);
-                processDocument(subdocument);
-            }
+        final Subdocuments subdocuments = document.getSubdocuments();
+        for (int index = 0; index < subdocuments.size(); index++) {
+            final Subdocument subdocument = subdocuments.get(index);
+            processDocument(subdocument);
         }
     }
 }
