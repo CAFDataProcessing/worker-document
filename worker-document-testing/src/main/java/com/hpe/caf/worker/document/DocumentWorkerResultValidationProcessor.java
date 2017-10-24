@@ -37,9 +37,9 @@ public class DocumentWorkerResultValidationProcessor<TTestInput>
         super(testConfiguration,
               workerServices,
               ValidationSettings.configure()
-              .customValidators(new DocumentWorkerFieldValueValidator(workerServices.getDataStore(),
-                                                                      testConfiguration,
-                                                                      workerServices.getCodec()))
+              .customValidators(new DocumentWorkerFieldChangesValidator(new DocumentWorkerFieldValueValidator(workerServices.getDataStore(),
+                                                                                                              testConfiguration,
+                                                                                                              workerServices.getCodec())))
               .build());
     }
 
