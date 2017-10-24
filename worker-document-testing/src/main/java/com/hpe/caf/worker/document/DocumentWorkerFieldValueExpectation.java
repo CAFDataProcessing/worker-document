@@ -18,10 +18,13 @@ package com.hpe.caf.worker.document;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.hpe.caf.worker.testing.ContentFileTestExpectation;
 
+import java.util.Map;
+
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class DocumentWorkerFieldValueExpectation
 {
-    public String data;
+    public Map<String, String> additionalData;
     public ContentFileTestExpectation content;
+    public String data;
     public DocumentWorkerFieldEncoding encoding;
 }
