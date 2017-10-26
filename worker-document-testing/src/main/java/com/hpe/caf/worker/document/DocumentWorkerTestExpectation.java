@@ -21,7 +21,6 @@ package com.hpe.caf.worker.document;
  */
 public class DocumentWorkerTestExpectation
 {
-
     private DocumentWorkerResultExpectation result;
 
     public DocumentWorkerTestExpectation()
