@@ -276,7 +276,7 @@
                             <name>${${rootArtifactId}.container.name}</name>
                             <build>
                                 <maintainer>conal.smith@hpe.com</maintainer>
-                                <from>cafapi/opensuse-jre8:1.1</from>
+                                <from>cafapi/opensuse-jre8:1.2</from>
                                 <labels>
                                     <caf.worker-document-framework.version>${caf.worker-document-framework.version}</caf.worker-document-framework.version>
                                 </labels>
