@@ -40,6 +40,19 @@ public class DocumentPostProcessorFactory
 
     public DocumentPostProcessor create(final Document document) throws TaskRejectedException
     {
+        LOG.info("Executing post-processing - checking if script is provided... ");
+        final String postProcessingScriptReference = document.getCustomData(DocumentWorkerConstants.POST_PROCESSING_SCRIPT_CUSTOM_DATA);
+        if (postProcessingScriptReference != null && !postProcessingScriptReference.isEmpty()) {
+            String postProcessingScript;
+            synchronized (syncObj) {
+                postProcessingScript = cachedScripts.get(postProcessingScriptReference);
+                if (postProcessingScript == null) {
+                    postProcessingScript = retrieveScript(postProcessingScriptReference, document);
+                    cachedScripts.put(postProcessingScriptReference, postProcessingScript);
+                }
+            }
+            return new JavaScriptDocumentPostProcessor(postProcessingScript);
+        }
         return null;
     }
 
