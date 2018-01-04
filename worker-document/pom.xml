@@ -33,6 +33,11 @@
     <dependencies>
         <dependency>
             <groupId>com.github.cafdataprocessing</groupId>
+            <artifactId>worker-document-lib</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.github.cafdataprocessing</groupId>
             <artifactId>worker-document-shared</artifactId>
             <version>${project.version}</version>
         </dependency>
