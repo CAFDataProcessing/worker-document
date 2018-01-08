@@ -11,7 +11,7 @@ Below is an illustration showing the communication between a document-worker and
 ## Modules
 
 ### worker-document-utility
-This repository defines the public classes that facilitate the creation of mutable and read only document objects.The project can be found in [worker-document-utility](worker-document-utility).
+This repository defines the public classes that facilitate the creation of mutable and read only document objects. The project can be found in [worker-document-utility](worker-document-utility).
 
 ### worker-document
 
