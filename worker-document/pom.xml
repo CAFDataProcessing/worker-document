@@ -33,7 +33,7 @@
     <dependencies>
         <dependency>
             <groupId>com.github.cafdataprocessing</groupId>
-            <artifactId>worker-document-lib</artifactId>
+            <artifactId>worker-document-utility</artifactId>
             <version>${project.version}</version>
         </dependency>
         <dependency>
