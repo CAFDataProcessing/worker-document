@@ -22,7 +22,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.github.cafdataprocessing</groupId>
-    <artifactId>worker-document-lib</artifactId>
+    <artifactId>worker-document-utility</artifactId>
 
     <parent>
         <groupId>com.github.cafdataprocessing</groupId>
