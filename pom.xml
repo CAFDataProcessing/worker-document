@@ -82,6 +82,7 @@
     </developers>
 
     <modules>
+        <module>worker-document-utility</module>
         <module>worker-document</module>
         <module>worker-document-archetype</module>
         <module>worker-document-interface</module>
