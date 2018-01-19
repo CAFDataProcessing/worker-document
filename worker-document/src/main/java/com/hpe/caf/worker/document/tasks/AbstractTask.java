@@ -20,8 +20,6 @@ import com.hpe.caf.api.worker.WorkerTaskData;
 import com.hpe.caf.worker.document.impl.ApplicationImpl;
 import com.hpe.caf.worker.document.impl.DocumentImpl;
 import com.hpe.caf.worker.document.impl.DocumentWorkerObjectImpl;
-import com.hpe.caf.worker.document.impl.ResponseOptionsImpl;
-import com.hpe.caf.worker.document.model.ResponseOptions;
 import com.hpe.caf.worker.document.model.Task;
 import com.hpe.caf.worker.document.views.ReadOnlyDocument;
 import java.util.Map;
@@ -32,7 +30,6 @@ public abstract class AbstractTask extends DocumentWorkerObjectImpl implements T
 {
     private final WorkerTaskData workerTask;
     protected final DocumentImpl document;
-    protected final ResponseOptionsImpl responseOptions;
     private final Map<String, String> customData;
 
     protected AbstractTask(
@@ -45,7 +42,6 @@ public abstract class AbstractTask extends DocumentWorkerObjectImpl implements T
         super(application);
         this.workerTask = Objects.requireNonNull(workerTask);
         this.document = new DocumentImpl(application, this, effectiveDocument);
-        this.responseOptions = new ResponseOptionsImpl(application, this);
         this.customData = customData;
     }
 
@@ -72,13 +68,6 @@ public abstract class AbstractTask extends DocumentWorkerObjectImpl implements T
         return (service == WorkerTaskData.class)
             ? (S) workerTask
             : null;
-    }
-
-    @Nonnull
-    @Override
-    public ResponseOptions getResponseOptions()
-    {
-        return this.responseOptions;
     }
 
     @Nonnull
