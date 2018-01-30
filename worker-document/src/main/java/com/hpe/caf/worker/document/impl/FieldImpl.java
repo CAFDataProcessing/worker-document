@@ -142,6 +142,27 @@ public final class FieldImpl extends DocumentWorkerObjectImpl implements Field
     }
 
     @Override
+    public void set(String data)
+    {
+        clear();
+        add(data);
+    }
+
+    @Override
+    public void set(byte[] data)
+    {
+        clear();
+        add(data);
+    }
+
+    @Override
+    public void setReference(String dataRef)
+    {
+        clear();
+        addReference(dataRef);
+    }
+    
+    @Override
     public void reset()
     {
         fieldChanges.action = DocumentWorkerAction.add;
