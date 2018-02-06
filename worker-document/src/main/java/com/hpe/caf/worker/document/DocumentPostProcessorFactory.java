@@ -41,7 +41,7 @@ public class DocumentPostProcessorFactory
     public DocumentPostProcessor create(final Document document) throws TaskRejectedException
     {
         LOG.info("Executing post-processing - checking if script is provided... ");
-        final String postProcessingScriptReference = document.getCustomData(DocumentWorkerConstants.POST_PROCESSING_SCRIPT_CUSTOM_DATA);
+        final String postProcessingScriptReference = document.getCustomData("postProcessingScript");
         if (postProcessingScriptReference != null && !postProcessingScriptReference.isEmpty()) {
             String postProcessingScript;
             synchronized (syncObj) {
