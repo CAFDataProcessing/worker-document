@@ -141,8 +141,8 @@ public final class DocumentTask extends AbstractTask
     protected WorkerResponse handleGeneralFailureImpl(final Throwable failure)
     {
         document.getFailures().add(failure.getClass().getName(),
-                failure.getLocalizedMessage(),
-                failure);
+                                   failure.getLocalizedMessage(),
+                                   failure);
         // Create a RESULT_SUCCESS for the document
         // (RESULT_SUCCESS is used even if there are failures, as the failures are successfully returned)
         return this.createWorkerResponse();

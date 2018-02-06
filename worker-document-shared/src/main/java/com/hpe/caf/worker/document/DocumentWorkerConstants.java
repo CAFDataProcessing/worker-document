@@ -27,8 +27,7 @@ public final class DocumentWorkerConstants
     public static final int DOCUMENT_TASK_API_VER = 1;
 
     /**
-     * Custom data setting for the post processing JavaScript.
-     * The setting value is expected to be a data store reference.
+     * Custom data setting for the post processing JavaScript. The setting value is expected to be a data store reference.
      */
     public static final String POST_PROCESSING_SCRIPT_CUSTOM_DATA = "postProcessingScript";
 

@@ -161,7 +161,7 @@ public final class FieldImpl extends DocumentWorkerObjectImpl implements Field
         clear();
         addReference(dataRef);
     }
-    
+
     @Override
     public void reset()
     {

@@ -140,8 +140,8 @@ public final class DocumentBuilder
     /**
      * Configures sub-documents for this Document.
      * <p>
-     * Each document can have a sub-documents. When documentBuilders are supplied,
-     * they will be used to build sub-documents associated with this document.
+     * Each document can have a sub-documents. When documentBuilders are supplied, they will be used to build sub-documents associated
+     * with this document.
      *
      * @param documentBuilders sub-document builders
      * @return current Document builder
@@ -190,10 +190,9 @@ public final class DocumentBuilder
         final AbstractTask documentWorkerTask;
         try {
             documentWorkerTask = DocumentTask.create(
-                    new ApplicationImpl(services.getConfigurationSource(), services.getDataStore(), services.getCodec()),
-                    Mockito.mock(WorkerTaskData.class), workerTask);
-        }
-        catch (InvalidChangeLogException e) {
+                new ApplicationImpl(services.getConfigurationSource(), services.getDataStore(), services.getCodec()),
+                Mockito.mock(WorkerTaskData.class), workerTask);
+        } catch (InvalidChangeLogException e) {
             //TODO: either introduce new (runtime) exception or change the signature.
             // I don't think we want to throw checked exceptions from the tests.
             // It's not something we can handle. If there's an exception, the test is misconfigured

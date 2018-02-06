@@ -123,6 +123,7 @@ public class DocumentWorkerFieldValueValidator extends CustomPropertyValidator
 
     /**
      * Compares a DocumentWorkerFieldValue with an expected value and indicates if they can be considered equal.
+     *
      * @param actual the document worker field value to check.
      * @param expected expectation that the document worker field value should meet to be considered equal.
      * @return whether the actual field value matched the expectation.
@@ -147,10 +148,10 @@ public class DocumentWorkerFieldValueValidator extends CustomPropertyValidator
 
     /**
      * Retrieves ReferencedData object for data on provided DocumentWorkerFieldValue.
+     *
      * @param actual DocumentWorkerFieldValue to get ReferencedData for.
      * @return ReferencedData representation of data on {@code actual}.
-     * @throws DataStoreException if there is a failure retrieving data from data store when setting on ReferencedData
-     * object.
+     * @throws DataStoreException if there is a failure retrieving data from data store when setting on ReferencedData object.
      * @throws IOException if there is a failure marshalling field value to bytes.
      */
     protected ReferencedData getReferencedData(final DocumentWorkerFieldValue actual) throws DataStoreException, IOException
@@ -162,11 +163,11 @@ public class DocumentWorkerFieldValueValidator extends CustomPropertyValidator
 
     /**
      * Returns byte array representation of data on provided {@code value}.
+     *
      * @param value field value to convert data for.
-     * @return byte array representation of data on passed field value. If data was a storage reference the actual data
-     * will have been retrieved from storage and converted to byte array.
-     * @throws DataStoreException if there is a failure retrieving data from data store when setting on ReferencedData
-     * object.
+     * @return byte array representation of data on passed field value. If data was a storage reference the actual data will have been
+     * retrieved from storage and converted to byte array.
+     * @throws DataStoreException if there is a failure retrieving data from data store when setting on ReferencedData object.
      * @throws IOException if there is a failure marshalling field value to bytes.
      */
     protected byte[] getBytes(final DocumentWorkerFieldValue value) throws DataStoreException, IOException
@@ -189,6 +190,7 @@ public class DocumentWorkerFieldValueValidator extends CustomPropertyValidator
 
     /**
      * Returns an empty {@code String} if {@code str} is null otherwise returns {@code str}.
+     *
      * @param str value to check for null and potentially return.
      * @return empty string if {@code str} was null otherwise {@code str} unchanged.
      */
@@ -199,9 +201,9 @@ public class DocumentWorkerFieldValueValidator extends CustomPropertyValidator
 
     /**
      * Returns encoding as utf8 if {@code encoding} provided is null otherwise returns {@code encoding}.
+     *
      * @param encoding value to check for null and potentially return.
-     * @return if {@code encoding} is null then {@code DocumentWorkerFieldEncoding.utf8} or {@code encoding} if it
-     * was not null.
+     * @return if {@code encoding} is null then {@code DocumentWorkerFieldEncoding.utf8} or {@code encoding} if it was not null.
      */
     protected static DocumentWorkerFieldEncoding nullToUtf8(final DocumentWorkerFieldEncoding encoding)
     {

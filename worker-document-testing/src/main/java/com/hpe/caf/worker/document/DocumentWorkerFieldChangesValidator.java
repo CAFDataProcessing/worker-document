@@ -27,18 +27,18 @@ public class DocumentWorkerFieldChangesValidator extends CustomPropertyValidator
     {
         this.fieldValueValidator = fieldValueValidator;
     }
+
     @Override
     public boolean canValidate(String propertyName, Object sourcePropertyValue, Object validatorPropertyValue)
     {
         return tryToConvert(sourcePropertyValue, DocumentWorkerFieldChanges.class) != null && tryToConvert(validatorPropertyValue, DocumentWorkerFieldChangesExpectation.class) != null;
     }
 
-    private  <T> T tryToConvert(Object value, Class<T> classToConvert)
+    private <T> T tryToConvert(Object value, Class<T> classToConvert)
     {
         try {
             return mapper.convertValue(value, classToConvert);
-        }
-        catch (IllegalArgumentException e) {
+        } catch (IllegalArgumentException e) {
             return null;
         }
     }
@@ -68,7 +68,9 @@ public class DocumentWorkerFieldChangesValidator extends CustomPropertyValidator
                     break;
                 }
             }
-            if (!isValid) return false;
+            if (!isValid) {
+                return false;
+            }
         }
         return true;
     }

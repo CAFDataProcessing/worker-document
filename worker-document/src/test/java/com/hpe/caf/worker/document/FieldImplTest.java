@@ -73,13 +73,13 @@ public class FieldImplTest
         Assert.assertEquals(1, fieldImpl2.getValues().size());
         Assert.assertEquals("/mnt/fs/docs/hr policy.doc", fieldImpl2.getStringValues().get(0));
     }
-    
+
     @Test
     public void fieldSetTest()
     {
         FieldImpl fieldImpl = createFieldImpl("NEW_FIELD");
         fieldImpl.add("Old value");
-        
+
         String newValue = "Cleared all values and added new one";
         fieldImpl.set(newValue);
 
@@ -95,7 +95,7 @@ public class FieldImplTest
     {
         FieldImpl fieldImpl = createFieldImpl("NEW_FIELD");
         fieldImpl.add("Old value".getBytes());
-        
+
         byte[] newValue = "Cleared all values and added new one".getBytes();
         fieldImpl.set(newValue);
 
@@ -111,7 +111,7 @@ public class FieldImplTest
     {
         FieldImpl fieldImpl = createFieldImpl("NEW_FIELD");
         fieldImpl.addReference("Old reference");
-        
+
         String newReference = "Cleared all values and added new reference";
         fieldImpl.setReference(newReference);
 
@@ -121,7 +121,7 @@ public class FieldImplTest
         Assert.assertEquals(DocumentWorkerFieldEncoding.storage_ref, fieldChanges.values.get(0).encoding);
         Assert.assertEquals(DocumentWorkerAction.replace, fieldChanges.action);
     }
-    
+
     private FieldImpl createFieldImpl(String fileName)
     {
         ApplicationImpl application = Mockito.mock(ApplicationImpl.class);

@@ -81,7 +81,7 @@ public class TestDocumentWorkerTest
 
     @Test
     public void testHierarchicalTestDocumentWorkerCountWordsInContentAndTitle()
-            throws DocumentWorkerTransientException, InterruptedException, DataStoreException, WorkerException, CodecException, IOException
+        throws DocumentWorkerTransientException, InterruptedException, DataStoreException, WorkerException, CodecException, IOException
     {
         TestServices testServices = TestServices.createDefault();
         final String testContent = "The quick brown fox jumps over the lazy dog";
@@ -95,7 +95,32 @@ public class TestDocumentWorkerTest
         String reference = testServices.getDataStore().store(testContent.getBytes(), null);
 
         Document testDocument = DocumentBuilder.configure()
-                .withReference("0")
+            .withReference("0")
+            .withServices(testServices)
+            .withCustomData().add(TestDocumentWorker.CustomDataFieldValueToAdd, expectedAddedFieldValue)
+            .documentBuilder()
+            .withFields()
+            .addFieldValue(TestDocumentWorker.CustomDataStorageReference, reference, DocumentWorkerFieldEncoding.storage_ref)
+            .addFieldValue(TestDocumentWorker.FieldsTitle, testTitle)
+            .addField(TestDocumentWorker.FieldToRemoveValue)
+            .addValue(fieldValueToStay)
+            .addValue(TestDocumentWorker.FieldValueToRemove).then()
+            .addFieldValue(TestDocumentWorker.FieldToDelete, "some-data").documentBuilder()
+            .withSubDocuments(
+                DocumentBuilder.configure()
+                .withReference("0/0")
+                .withServices(testServices)
+                .withCustomData().add(TestDocumentWorker.CustomDataFieldValueToAdd, expectedAddedFieldValue)
+                .documentBuilder()
+                .withFields()
+                .addFieldValue(TestDocumentWorker.CustomDataStorageReference, reference, DocumentWorkerFieldEncoding.storage_ref)
+                .addFieldValue(TestDocumentWorker.FieldsTitle, testTitle)
+                .addField(TestDocumentWorker.FieldToRemoveValue)
+                .addValue(fieldValueToStay)
+                .addValue(TestDocumentWorker.FieldValueToRemove).then()
+                .addFieldValue(TestDocumentWorker.FieldToDelete, "some-data").documentBuilder(),
+                DocumentBuilder.configure()
+                .withReference("0/1")
                 .withServices(testServices)
                 .withCustomData().add(TestDocumentWorker.CustomDataFieldValueToAdd, expectedAddedFieldValue)
                 .documentBuilder()
@@ -106,33 +131,8 @@ public class TestDocumentWorkerTest
                 .addValue(fieldValueToStay)
                 .addValue(TestDocumentWorker.FieldValueToRemove).then()
                 .addFieldValue(TestDocumentWorker.FieldToDelete, "some-data").documentBuilder()
-                .withSubDocuments(
-                        DocumentBuilder.configure()
-                                .withReference("0/0")
-                                .withServices(testServices)
-                                .withCustomData().add(TestDocumentWorker.CustomDataFieldValueToAdd, expectedAddedFieldValue)
-                                .documentBuilder()
-                                .withFields()
-                                .addFieldValue(TestDocumentWorker.CustomDataStorageReference, reference, DocumentWorkerFieldEncoding.storage_ref)
-                                .addFieldValue(TestDocumentWorker.FieldsTitle, testTitle)
-                                .addField(TestDocumentWorker.FieldToRemoveValue)
-                                .addValue(fieldValueToStay)
-                                .addValue(TestDocumentWorker.FieldValueToRemove).then()
-                                .addFieldValue(TestDocumentWorker.FieldToDelete, "some-data").documentBuilder(),
-                        DocumentBuilder.configure()
-                                .withReference("0/1")
-                                .withServices(testServices)
-                                .withCustomData().add(TestDocumentWorker.CustomDataFieldValueToAdd, expectedAddedFieldValue)
-                                .documentBuilder()
-                                .withFields()
-                                .addFieldValue(TestDocumentWorker.CustomDataStorageReference, reference, DocumentWorkerFieldEncoding.storage_ref)
-                                .addFieldValue(TestDocumentWorker.FieldsTitle, testTitle)
-                                .addField(TestDocumentWorker.FieldToRemoveValue)
-                                .addValue(fieldValueToStay)
-                                .addValue(TestDocumentWorker.FieldValueToRemove).then()
-                                .addFieldValue(TestDocumentWorker.FieldToDelete, "some-data").documentBuilder()
-                )
-                .build();//create document
+            )
+            .build();//create document
 
         TestDocumentWorker worker = new TestDocumentWorker();
         worker.processDocument(testDocument);
