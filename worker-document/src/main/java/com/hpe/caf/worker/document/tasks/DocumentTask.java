@@ -118,7 +118,7 @@ public final class DocumentTask extends AbstractTask
         final DocumentWorkerDocumentTask documentWorkerResult = new DocumentWorkerDocumentTask();
         documentWorkerResult.document = documentTask.document;
         documentWorkerResult.changeLog = changeLog;
-        documentWorkerResult.customData = responseOptions.getCustomData();
+        documentWorkerResult.customData = response.getCustomData();
 
         // Select the output queue
         final String outputQueue = getOutputQueue(changes);
@@ -158,7 +158,7 @@ public final class DocumentTask extends AbstractTask
 
     private String getOutputQueue(final List<DocumentWorkerChange> changes)
     {
-        final String queueNameOverride = responseOptions.getQueueNameOverride();
+        final String queueNameOverride = response.getQueueNameOverride();
 
         if (queueNameOverride == null) {
             return ChangeLogFunctions.hasFailures(changes)

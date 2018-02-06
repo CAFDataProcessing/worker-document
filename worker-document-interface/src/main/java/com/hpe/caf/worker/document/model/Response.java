@@ -23,7 +23,7 @@ import javax.annotation.Nonnull;
  * <p>
  * Not all response options are applicible to all types of tasks.
  */
-public interface ResponseOptions extends DocumentWorkerObject
+public interface Response extends DocumentWorkerObject
 {
     /**
      * Returns the queue name set by {@link #setQueueNameOverride setQueueNameOverride()}, or {@code null} if
@@ -31,7 +31,7 @@ public interface ResponseOptions extends DocumentWorkerObject
      * <p>
      * If {@code null} is returned then the default queue set in the configuration is used.
      *
-     * @return the queue name set on this {@code ResponseOptions} object
+     * @return the queue name set on this {@code Response} object
      */
     String getQueueNameOverride();
 

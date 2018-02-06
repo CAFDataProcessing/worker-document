@@ -71,5 +71,5 @@ public interface Task extends DocumentWorkerObject
      * @return the response customization object for this task
      */
     @Nonnull
-    ResponseOptions getResponseOptions();
+    Response getResponse();
 }
