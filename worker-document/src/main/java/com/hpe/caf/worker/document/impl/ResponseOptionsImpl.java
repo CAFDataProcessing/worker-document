@@ -26,7 +26,7 @@ import javax.annotation.Nonnull;
 public final class ResponseOptionsImpl extends DocumentWorkerObjectImpl implements ResponseOptions
 {
     private final AbstractTask task;
-    private String queueName;
+    private String queueNameOverride;
     private Map<String, String> customData;
 
     public ResponseOptionsImpl(
@@ -36,20 +36,20 @@ public final class ResponseOptionsImpl extends DocumentWorkerObjectImpl implemen
     {
         super(application);
         this.task = task;
-        this.queueName = null;
+        this.queueNameOverride = null;
         this.customData = null;
     }
 
     @Override
-    public String getQueueName()
+    public String getQueueNameOverride()
     {
-        return queueName;
+        return queueNameOverride;
     }
 
     @Override
-    public void setQueueName(final String queueName)
+    public void setQueueNameOverride(final String queueName)
     {
-        this.queueName = queueName;
+        this.queueNameOverride = queueName;
     }
 
     @Override

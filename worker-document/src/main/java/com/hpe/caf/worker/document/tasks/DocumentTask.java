@@ -158,7 +158,7 @@ public final class DocumentTask extends AbstractTask
 
     private String getOutputQueue(final List<DocumentWorkerChange> changes)
     {
-        final String queueNameOverride = responseOptions.getQueueName();
+        final String queueNameOverride = responseOptions.getQueueNameOverride();
 
         if (queueNameOverride == null) {
             return ChangeLogFunctions.hasFailures(changes)

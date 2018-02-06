@@ -26,13 +26,14 @@ import javax.annotation.Nonnull;
 public interface ResponseOptions extends DocumentWorkerObject
 {
     /**
-     * Returns the queue name set by {@link #setQueueName setQueueName()}, or {@code null} if {@code setQueueName()} has not been used.
+     * Returns the queue name set by {@link #setQueueNameOverride setQueueNameOverride()}, or {@code null} if
+     * {@code setQueueNameOverride()} has not been used.
      * <p>
      * If {@code null} is returned then the default queue set in the configuration is used.
      *
      * @return the queue name set on this {@code ResponseOptions} object
      */
-    String getQueueName();
+    String getQueueNameOverride();
 
     /**
      * Sets the name of the queue where the worker should send the response to this document processing task. This queue will override the
@@ -43,7 +44,7 @@ public interface ResponseOptions extends DocumentWorkerObject
      *
      * @param queueName the queue where the response message should be sent
      */
-    void setQueueName(String queueName);
+    void setQueueNameOverride(String queueName);
 
     /**
      * Returns the custom data that will be sent as a part of the response to this message. It is set using the
