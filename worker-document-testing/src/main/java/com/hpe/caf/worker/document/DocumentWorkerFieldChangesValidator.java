@@ -23,18 +23,19 @@ public class DocumentWorkerFieldChangesValidator extends CustomPropertyValidator
     private final DocumentWorkerFieldValueValidator fieldValueValidator;
     private final ObjectMapper mapper = new ObjectMapper();
 
-    public DocumentWorkerFieldChangesValidator(DocumentWorkerFieldValueValidator fieldValueValidator)
+    public DocumentWorkerFieldChangesValidator(final DocumentWorkerFieldValueValidator fieldValueValidator)
     {
         this.fieldValueValidator = fieldValueValidator;
     }
 
     @Override
-    public boolean canValidate(String propertyName, Object sourcePropertyValue, Object validatorPropertyValue)
+    public boolean canValidate(final String propertyName, final Object sourcePropertyValue, final Object validatorPropertyValue)
     {
-        return tryToConvert(sourcePropertyValue, DocumentWorkerFieldChanges.class) != null && tryToConvert(validatorPropertyValue, DocumentWorkerFieldChangesExpectation.class) != null;
+        return tryToConvert(sourcePropertyValue, DocumentWorkerFieldChanges.class) != null
+            && tryToConvert(validatorPropertyValue, DocumentWorkerFieldChangesExpectation.class) != null;
     }
 
-    private <T> T tryToConvert(Object value, Class<T> classToConvert)
+    private <T> T tryToConvert(final Object value, final Class<T> classToConvert)
     {
         try {
             return mapper.convertValue(value, classToConvert);
@@ -44,10 +45,12 @@ public class DocumentWorkerFieldChangesValidator extends CustomPropertyValidator
     }
 
     @Override
-    protected boolean isValid(Object testedPropertyValue, Object validatorPropertyValue)
+    protected boolean isValid(final Object testedPropertyValue, final Object validatorPropertyValue)
     {
-        DocumentWorkerFieldChanges testedFieldChanges = tryToConvert(testedPropertyValue, DocumentWorkerFieldChanges.class);
-        DocumentWorkerFieldChangesExpectation validatorFieldChanges = tryToConvert(validatorPropertyValue, DocumentWorkerFieldChangesExpectation.class);
+        final DocumentWorkerFieldChanges testedFieldChanges = tryToConvert(testedPropertyValue, DocumentWorkerFieldChanges.class);
+        final DocumentWorkerFieldChangesExpectation validatorFieldChanges
+            = tryToConvert(validatorPropertyValue, DocumentWorkerFieldChangesExpectation.class);
+
         if (testedFieldChanges.values == null && validatorFieldChanges == null) {
             return true;
         }
@@ -60,9 +63,10 @@ public class DocumentWorkerFieldChangesValidator extends CustomPropertyValidator
         if (testedFieldChanges.values.size() != validatorFieldChanges.values.size()) {
             return false;
         }
-        for (DocumentWorkerFieldValue testedValue : testedFieldChanges.values) {
+
+        for (final DocumentWorkerFieldValue testedValue : testedFieldChanges.values) {
             boolean isValid = false;
-            for (DocumentWorkerFieldValueExpectation validatorValue : validatorFieldChanges.values) {
+            for (final DocumentWorkerFieldValueExpectation validatorValue : validatorFieldChanges.values) {
                 if (fieldValueValidator.isValid(testedValue, validatorValue)) {
                     isValid = true;
                     break;

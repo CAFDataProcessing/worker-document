@@ -32,7 +32,7 @@ public class DocumentWorkerTestExpectation
         return result;
     }
 
-    public void setResult(DocumentWorkerResultExpectation result)
+    public void setResult(final DocumentWorkerResultExpectation result)
     {
         this.result = result;
     }

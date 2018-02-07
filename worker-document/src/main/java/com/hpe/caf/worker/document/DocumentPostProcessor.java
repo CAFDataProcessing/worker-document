@@ -29,5 +29,5 @@ public interface DocumentPostProcessor
      * @param document a document processed by a worker
      * @throws PostProcessingFailedException when post-processor fails
      */
-    void postProcessDocument(final Document document) throws PostProcessingFailedException;
+    void postProcessDocument(Document document) throws PostProcessingFailedException;
 }

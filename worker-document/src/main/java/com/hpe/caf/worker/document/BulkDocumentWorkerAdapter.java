@@ -38,7 +38,7 @@ public final class BulkDocumentWorkerAdapter extends DocumentWorkerAdapter imple
     }
 
     @Override
-    public void processTasks(BulkWorkerRuntime runtime) throws InterruptedException
+    public void processTasks(final BulkWorkerRuntime runtime) throws InterruptedException
     {
         final BulkDocumentMessageProcessor messageProcessor
             = new BulkDocumentMessageProcessor(application, bulkDocumentWorker, runtime);

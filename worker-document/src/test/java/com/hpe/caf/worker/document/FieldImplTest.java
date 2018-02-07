@@ -35,11 +35,11 @@ public class FieldImplTest
     @Test
     public void fieldChangesTest()
     {
-        FieldImpl fieldImpl = createFieldImpl("NEW_FIELD");
+        final FieldImpl fieldImpl = createFieldImpl("NEW_FIELD");
 
         fieldImpl.add("/mnt/fs/docs/budget.doc");
 
-        DocumentWorkerFieldChanges fieldChanges = fieldImpl.getChanges();
+        final DocumentWorkerFieldChanges fieldChanges = fieldImpl.getChanges();
 
         Assert.assertEquals("/mnt/fs/docs/budget.doc", fieldChanges.values.get(0).data);
         Assert.assertEquals(DocumentWorkerAction.add, fieldChanges.action);
@@ -48,13 +48,13 @@ public class FieldImplTest
     @Test
     public void fieldChangesWithBytesTest()
     {
-        FieldImpl fieldImpl = createFieldImpl("NEW_FIELD");
+        final FieldImpl fieldImpl = createFieldImpl("NEW_FIELD");
 
-        byte[] b = "Test Data".getBytes();
+        final byte[] b = "Test Data".getBytes();
 
         fieldImpl.add(b);
 
-        DocumentWorkerFieldChanges fieldChanges = fieldImpl.getChanges();
+        final DocumentWorkerFieldChanges fieldChanges = fieldImpl.getChanges();
 
         Assert.assertEquals(Base64.encodeBase64String(b), fieldChanges.values.get(0).data);
         Assert.assertEquals(DocumentWorkerFieldEncoding.base64, fieldChanges.values.get(0).encoding);
@@ -63,13 +63,12 @@ public class FieldImplTest
     @Test
     public void initialFieldValueTest()
     {
-
         //Tests the initial field values with a new field
-        FieldImpl fieldImpl = createFieldImpl("NEW_FIELD");
+        final FieldImpl fieldImpl = createFieldImpl("NEW_FIELD");
         Assert.assertEquals(0, fieldImpl.getValues().size());
 
         //Tests the initial field values with an already existing field 'REFERENCE'
-        FieldImpl fieldImpl2 = createFieldImpl("REFERENCE");
+        final FieldImpl fieldImpl2 = createFieldImpl("REFERENCE");
         Assert.assertEquals(1, fieldImpl2.getValues().size());
         Assert.assertEquals("/mnt/fs/docs/hr policy.doc", fieldImpl2.getStringValues().get(0));
     }
@@ -77,13 +76,13 @@ public class FieldImplTest
     @Test
     public void fieldSetTest()
     {
-        FieldImpl fieldImpl = createFieldImpl("NEW_FIELD");
+        final FieldImpl fieldImpl = createFieldImpl("NEW_FIELD");
         fieldImpl.add("Old value");
 
-        String newValue = "Cleared all values and added new one";
+        final String newValue = "Cleared all values and added new one";
         fieldImpl.set(newValue);
 
-        DocumentWorkerFieldChanges fieldChanges = fieldImpl.getChanges();
+        final DocumentWorkerFieldChanges fieldChanges = fieldImpl.getChanges();
 
         Assert.assertEquals(newValue, fieldChanges.values.get(0).data);
         Assert.assertEquals(null, fieldChanges.values.get(0).encoding);
@@ -93,13 +92,13 @@ public class FieldImplTest
     @Test
     public void fieldSetWithBytesTest()
     {
-        FieldImpl fieldImpl = createFieldImpl("NEW_FIELD");
+        final FieldImpl fieldImpl = createFieldImpl("NEW_FIELD");
         fieldImpl.add("Old value".getBytes());
 
-        byte[] newValue = "Cleared all values and added new one".getBytes();
+        final byte[] newValue = "Cleared all values and added new one".getBytes();
         fieldImpl.set(newValue);
 
-        DocumentWorkerFieldChanges fieldChanges = fieldImpl.getChanges();
+        final DocumentWorkerFieldChanges fieldChanges = fieldImpl.getChanges();
 
         Assert.assertEquals(Base64.encodeBase64String(newValue), fieldChanges.values.get(0).data);
         Assert.assertEquals(DocumentWorkerFieldEncoding.base64, fieldChanges.values.get(0).encoding);
@@ -109,23 +108,25 @@ public class FieldImplTest
     @Test
     public void fieldSetReferenceTest()
     {
-        FieldImpl fieldImpl = createFieldImpl("NEW_FIELD");
+        final FieldImpl fieldImpl = createFieldImpl("NEW_FIELD");
         fieldImpl.addReference("Old reference");
 
-        String newReference = "Cleared all values and added new reference";
+        final String newReference = "Cleared all values and added new reference";
         fieldImpl.setReference(newReference);
 
-        DocumentWorkerFieldChanges fieldChanges = fieldImpl.getChanges();
+        final DocumentWorkerFieldChanges fieldChanges = fieldImpl.getChanges();
 
         Assert.assertEquals(newReference, fieldChanges.values.get(0).data);
         Assert.assertEquals(DocumentWorkerFieldEncoding.storage_ref, fieldChanges.values.get(0).encoding);
         Assert.assertEquals(DocumentWorkerAction.replace, fieldChanges.action);
     }
 
-    private FieldImpl createFieldImpl(String fileName)
+    private FieldImpl createFieldImpl(final String fileName)
     {
-        ApplicationImpl application = Mockito.mock(ApplicationImpl.class);
-        DocumentImpl document = createDocument("/mnt/fs/docs/hr policy.doc", "REFERENCE", DocumentWorkerFieldEncoding.utf8, application);
+        final ApplicationImpl application = Mockito.mock(ApplicationImpl.class);
+        final DocumentImpl document
+            = createDocument("/mnt/fs/docs/hr policy.doc", "REFERENCE", DocumentWorkerFieldEncoding.utf8, application);
+
         return new FieldImpl(application, document, fileName);
     }
 
@@ -137,22 +138,27 @@ public class FieldImplTest
      * @param encoding the field encoding of the DocumentWorkerTask.
      * @return
      */
-    public static DocumentImpl createDocument(String data, String fieldName, DocumentWorkerFieldEncoding encoding, ApplicationImpl application)
+    public static DocumentImpl createDocument(
+        final String data,
+        final String fieldName,
+        final DocumentWorkerFieldEncoding encoding,
+        final ApplicationImpl application
+    )
     {
-        DocumentWorkerFieldValue workerData = new DocumentWorkerFieldValue();
+        final DocumentWorkerFieldValue workerData = new DocumentWorkerFieldValue();
         workerData.data = data;
         workerData.encoding = encoding;
 
-        List<DocumentWorkerFieldValue> workerDataList = new ArrayList<>();
+        final List<DocumentWorkerFieldValue> workerDataList = new ArrayList<>();
         workerDataList.add(workerData);
 
-        Map<String, List<DocumentWorkerFieldValue>> fields = new HashMap<>();
+        final Map<String, List<DocumentWorkerFieldValue>> fields = new HashMap<>();
         fields.put(fieldName, workerDataList);
 
-        DocumentWorkerTask task = new DocumentWorkerTask();
+        final DocumentWorkerTask task = new DocumentWorkerTask();
         task.fields = fields;
 
-        WorkerTaskData workerTaskData = Mockito.mock(WorkerTaskData.class);
+        final WorkerTaskData workerTaskData = Mockito.mock(WorkerTaskData.class);
 
         return FieldEnrichmentTask.create(application, workerTaskData, task).getDocument();
     }

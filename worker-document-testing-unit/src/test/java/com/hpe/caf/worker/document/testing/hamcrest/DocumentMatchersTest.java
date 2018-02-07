@@ -31,7 +31,7 @@ public class DocumentMatchersTest
     @Test
     public void containsStringValueTest() throws Exception
     {
-        Document document = DocumentBuilder.configure().withFields()
+        final Document document = DocumentBuilder.configure().withFields()
             .addFieldValues(FIELD_NAME, "value1", "value2").documentBuilder().build();
 
         assertThat(document, containsStringFieldValue(FIELD_NAME, is("value2")));
@@ -42,10 +42,10 @@ public class DocumentMatchersTest
     @Test
     public void containsByteValueTest() throws Exception
     {
-        byte[] bytes = new byte[]{1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
-        byte[] expectedBytes = new byte[]{1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
+        final byte[] bytes = new byte[]{1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
+        final byte[] expectedBytes = new byte[]{1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
 
-        Document document = DocumentBuilder.configure().withFields()
+        final Document document = DocumentBuilder.configure().withFields()
             .addFieldValue(FIELD_NAME, bytes).documentBuilder().build();
 
         assertThat(document, containsByteValue(FIELD_NAME, is(bytes)));
@@ -57,7 +57,7 @@ public class DocumentMatchersTest
     @Test
     public void containsReferenceTest() throws Exception
     {
-        Document document = DocumentBuilder.configure()
+        final Document document = DocumentBuilder.configure()
             .withFields()
             .addFieldValue(FIELD_NAME, "my-reference", DocumentWorkerFieldEncoding.storage_ref)
             .documentBuilder()

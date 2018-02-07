@@ -81,7 +81,7 @@ public class DocumentImpl extends DocumentWorkerObjectImpl implements Document
     }
 
     @Override
-    public final Field getField(String fieldName)
+    public final Field getField(final String fieldName)
     {
         return fields.get(fieldName);
     }

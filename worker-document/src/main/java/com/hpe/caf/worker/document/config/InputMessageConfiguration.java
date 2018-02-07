@@ -41,7 +41,7 @@ public final class InputMessageConfiguration
         return documentTasksAccepted;
     }
 
-    public void setDocumentTasksAccepted(Boolean documentTasksAccepted)
+    public void setDocumentTasksAccepted(final Boolean documentTasksAccepted)
     {
         this.documentTasksAccepted = documentTasksAccepted;
     }
@@ -51,7 +51,7 @@ public final class InputMessageConfiguration
         return fieldEnrichmentTasksAccepted;
     }
 
-    public void setFieldEnrichmentTasksAccepted(Boolean fieldEnrichmentTasksAccepted)
+    public void setFieldEnrichmentTasksAccepted(final Boolean fieldEnrichmentTasksAccepted)
     {
         this.fieldEnrichmentTasksAccepted = fieldEnrichmentTasksAccepted;
     }
@@ -61,7 +61,7 @@ public final class InputMessageConfiguration
         return processSubdocumentsSeparately;
     }
 
-    public void setProcessSubdocumentsSeparately(Boolean processSubdocumentsSeparately)
+    public void setProcessSubdocumentsSeparately(final Boolean processSubdocumentsSeparately)
     {
         this.processSubdocumentsSeparately = processSubdocumentsSeparately;
     }

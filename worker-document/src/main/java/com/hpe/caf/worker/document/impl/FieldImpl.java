@@ -52,7 +52,7 @@ public final class FieldImpl extends DocumentWorkerObjectImpl implements Field
     }
 
     @Override
-    public void add(String data)
+    public void add(final String data)
     {
         final DocumentWorkerFieldValue fieldValue = new DocumentWorkerFieldValue();
         fieldValue.data = data;
@@ -61,7 +61,7 @@ public final class FieldImpl extends DocumentWorkerObjectImpl implements Field
     }
 
     @Override
-    public void add(byte[] data)
+    public void add(final byte[] data)
     {
         final DocumentWorkerFieldValue fieldValue = new DocumentWorkerFieldValue();
         fieldValue.data = Base64.encodeBase64String(data);
@@ -71,7 +71,7 @@ public final class FieldImpl extends DocumentWorkerObjectImpl implements Field
     }
 
     @Override
-    public void addReference(String dataRef)
+    public void addReference(final String dataRef)
     {
         final DocumentWorkerFieldValue fieldValue = new DocumentWorkerFieldValue();
         fieldValue.data = dataRef;
@@ -142,21 +142,21 @@ public final class FieldImpl extends DocumentWorkerObjectImpl implements Field
     }
 
     @Override
-    public void set(String data)
+    public void set(final String data)
     {
         clear();
         add(data);
     }
 
     @Override
-    public void set(byte[] data)
+    public void set(final byte[] data)
     {
         clear();
         add(data);
     }
 
     @Override
-    public void setReference(String dataRef)
+    public void setReference(final String dataRef)
     {
         clear();
         addReference(dataRef);

@@ -102,7 +102,7 @@ public final class DocumentMessageProcessor implements Worker
     }
 
     @Override
-    public final WorkerResponse getGeneralFailureResult(Throwable t)
+    public final WorkerResponse getGeneralFailureResult(final Throwable t)
     {
         return documentWorkerTask.handleGeneralFailure(t);
     }

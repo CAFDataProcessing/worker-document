@@ -49,13 +49,13 @@ public final class BatchSizeControllerImpl extends DocumentWorkerObjectImpl impl
     }
 
     @Override
-    public void setMaximumBatchSize(int maxBatchSize)
+    public void setMaximumBatchSize(final int maxBatchSize)
     {
         this.maxBatchSize = (maxBatchSize > 0) ? maxBatchSize : DEFAULT_MAXIMUM_BATCH_SIZE;
     }
 
     @Override
-    public void setMaximumBatchTime(long maxBatchTime)
+    public void setMaximumBatchTime(final long maxBatchTime)
     {
         this.maxBatchTime = (maxBatchTime > 0) ? maxBatchTime : DEFAULT_MAXIMUM_BATCH_TIME;
     }

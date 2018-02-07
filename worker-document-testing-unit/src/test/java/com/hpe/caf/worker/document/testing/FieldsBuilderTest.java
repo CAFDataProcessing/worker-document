@@ -31,8 +31,8 @@ public class FieldsBuilderTest
     @Test
     public void testAddFieldValue() throws Exception
     {
-        Map<String, List<DocumentWorkerFieldValue>> map = new HashMap<>();
-        FieldsBuilder builder = new FieldsBuilder(map, null);
+        final Map<String, List<DocumentWorkerFieldValue>> map = new HashMap<>();
+        final FieldsBuilder builder = new FieldsBuilder(map, null);
 
         builder
             .addFieldValue("field1", "value1")
@@ -40,13 +40,13 @@ public class FieldsBuilderTest
             .addFieldValue("field2", "value3", DocumentWorkerFieldEncoding.storage_ref);
 
         assertThat(map, hasKey("field1"));
-        List<DocumentWorkerFieldValue> valueList = map.get("field1");
+        final List<DocumentWorkerFieldValue> valueList = map.get("field1");
         assertThat(valueList, hasSize(1));
         assertThat(valueList.get(0).data, is("value1"));
         assertThat(valueList.get(0).encoding, nullValue());
 
         assertThat(map, hasKey("field2"));
-        List<DocumentWorkerFieldValue> valueList2 = map.get("field2");
+        final List<DocumentWorkerFieldValue> valueList2 = map.get("field2");
         assertThat(valueList2, hasSize(2));
         assertThat(valueList2.get(0).data, is("value2"));
         assertThat(valueList2.get(0).encoding, nullValue());
@@ -57,27 +57,27 @@ public class FieldsBuilderTest
     @Test
     public void testAddBase64FieldValue() throws Exception
     {
-        Map<String, List<DocumentWorkerFieldValue>> map = new HashMap<>();
-        FieldsBuilder builder = new FieldsBuilder(map, null);
+        final Map<String, List<DocumentWorkerFieldValue>> map = new HashMap<>();
+        final FieldsBuilder builder = new FieldsBuilder(map, null);
 
-        String testContent = UUID.randomUUID().toString();
+        final String testContent = UUID.randomUUID().toString();
 
         builder.addFieldValue("field1", testContent.getBytes());
 
         assertThat(map.size(), is(1));
 
-        List<DocumentWorkerFieldValue> field1 = map.get("field1");
+        final List<DocumentWorkerFieldValue> field1 = map.get("field1");
         assertThat(field1, notNullValue());
         assertThat(field1, hasSize(1));
-        DocumentWorkerFieldValue documentWorkerFieldValue = field1.get(0);
+        final DocumentWorkerFieldValue documentWorkerFieldValue = field1.get(0);
         assertThat(new String(Base64.decodeBase64(documentWorkerFieldValue.data)), is(testContent));
     }
 
     @Test
     public void testConfigureMultivalueFieldUsingFieldValueInnerBuilder() throws Exception
     {
-        Map<String, List<DocumentWorkerFieldValue>> map = new HashMap<>();
-        FieldsBuilder builder = new FieldsBuilder(map, null);
+        final Map<String, List<DocumentWorkerFieldValue>> map = new HashMap<>();
+        final FieldsBuilder builder = new FieldsBuilder(map, null);
 
         builder.addField("field1")
             .addValue("value1", null)

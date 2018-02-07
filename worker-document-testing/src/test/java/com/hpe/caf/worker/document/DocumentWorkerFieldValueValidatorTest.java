@@ -178,10 +178,10 @@ public class DocumentWorkerFieldValueValidatorTest
                                                    final DocumentWorkerFieldValue actualFieldValue,
                                                    final DocumentWorkerFieldValueExpectation expectedFieldValue)
     {
-        final DocumentWorkerFieldValueValidator validator
-            = propertyName == null
-                ? new DocumentWorkerFieldValueValidator(dataStore, mock(TestConfiguration.class), mock(Codec.class))
-                : new DocumentWorkerFieldValueValidator(dataStore, mock(TestConfiguration.class), mock(Codec.class), propertyName, "AnotherAcceptedPropertyName");
+        final DocumentWorkerFieldValueValidator validator = (propertyName == null)
+            ? new DocumentWorkerFieldValueValidator(dataStore, mock(TestConfiguration.class), mock(Codec.class))
+            : new DocumentWorkerFieldValueValidator(dataStore, mock(TestConfiguration.class), mock(Codec.class),
+                                                    propertyName, "AnotherAcceptedPropertyName");
 
         final ValidationSettings validationSettings = ValidationSettings.configure()
             .customValidators(validator)

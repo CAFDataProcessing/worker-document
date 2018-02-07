@@ -39,7 +39,7 @@ public final class HealthMonitorImpl extends DocumentWorkerObjectImpl implements
     }
 
     @Override
-    public void reportUnhealthy(String message)
+    public void reportUnhealthy(final String message)
     {
         // If there has already been an unhealthy report then discard this new one (i.e. we assume it is better to return the original)
         if (healthResult != null) {

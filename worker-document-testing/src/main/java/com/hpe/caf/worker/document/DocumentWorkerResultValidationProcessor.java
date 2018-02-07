@@ -30,38 +30,39 @@ import java.util.Map;
 public class DocumentWorkerResultValidationProcessor<TTestInput>
     extends PropertyValidatingProcessor<DocumentWorkerResult, TTestInput, DocumentWorkerTestExpectation>
 {
-    public DocumentWorkerResultValidationProcessor(final TestConfiguration<DocumentWorkerTask, DocumentWorkerResult, TTestInput, DocumentWorkerTestExpectation> testConfiguration,
-                                                   WorkerServices workerServices)
+    public DocumentWorkerResultValidationProcessor(
+        final TestConfiguration<DocumentWorkerTask, DocumentWorkerResult, TTestInput, DocumentWorkerTestExpectation> testConfiguration,
+        final WorkerServices workerServices
+    )
     {
         super(testConfiguration,
               workerServices,
-              ValidationSettings.configure()
-              .customValidators(new DocumentWorkerFieldChangesValidator(new DocumentWorkerFieldValueValidator(workerServices.getDataStore(),
-                                                                                                              testConfiguration,
-                                                                                                              workerServices.getCodec())))
-              .build());
+              ValidationSettings.configure().customValidators(
+                  new DocumentWorkerFieldChangesValidator(new DocumentWorkerFieldValueValidator(workerServices.getDataStore(),
+                                                                                                testConfiguration,
+                                                                                                workerServices.getCodec()))).build());
     }
 
     @Override
-    protected boolean processWorkerResult(TestItem<TTestInput, DocumentWorkerTestExpectation> testItem,
-                                          TaskMessage message,
-                                          DocumentWorkerResult workerResult) throws Exception
+    protected boolean processWorkerResult(final TestItem<TTestInput, DocumentWorkerTestExpectation> testItem,
+                                          final TaskMessage message,
+                                          final DocumentWorkerResult workerResult) throws Exception
     {
         return super.processWorkerResult(testItem, message, workerResult);
     }
 
     @Override
-    protected boolean isCompleted(TestItem<TTestInput, DocumentWorkerTestExpectation> testItem,
-                                  TaskMessage message,
-                                  DocumentWorkerResult documentWorkerResult)
+    protected boolean isCompleted(final TestItem<TTestInput, DocumentWorkerTestExpectation> testItem,
+                                  final TaskMessage message,
+                                  final DocumentWorkerResult documentWorkerResult)
     {
         return true;
     }
 
     @Override
-    protected Map<String, Object> getExpectationMap(TestItem<TTestInput, DocumentWorkerTestExpectation> testItem,
-                                                    TaskMessage message,
-                                                    DocumentWorkerResult documentWorkerResult)
+    protected Map<String, Object> getExpectationMap(final TestItem<TTestInput, DocumentWorkerTestExpectation> testItem,
+                                                    final TaskMessage message,
+                                                    final DocumentWorkerResult documentWorkerResult)
     {
 
         final ObjectMapper mapper = new ObjectMapper();
@@ -72,9 +73,9 @@ public class DocumentWorkerResultValidationProcessor<TTestInput>
     }
 
     @Override
-    protected Object getValidatedObject(TestItem<TTestInput, DocumentWorkerTestExpectation> testItem,
-                                        TaskMessage message,
-                                        DocumentWorkerResult documentWorkerResult)
+    protected Object getValidatedObject(final TestItem<TTestInput, DocumentWorkerTestExpectation> testItem,
+                                        final TaskMessage message,
+                                        final DocumentWorkerResult documentWorkerResult)
     {
         return convert(documentWorkerResult);
     }

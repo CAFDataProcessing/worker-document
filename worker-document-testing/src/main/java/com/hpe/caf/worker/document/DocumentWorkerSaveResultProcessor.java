@@ -32,11 +32,13 @@ import org.apache.commons.io.FilenameUtils;
 public class DocumentWorkerSaveResultProcessor<TTestInput>
     extends OutputToFileProcessor<DocumentWorkerResult, TTestInput, DocumentWorkerTestExpectation>
 {
-    private TestConfiguration configuration;
+    private final TestConfiguration configuration;
     private final WorkerServices workerServices;
 
-    public DocumentWorkerSaveResultProcessor(TestConfiguration<DocumentWorkerTask, DocumentWorkerResult, TTestInput, DocumentWorkerTestExpectation> configuration,
-                                             WorkerServices workerServices)
+    public DocumentWorkerSaveResultProcessor(
+        final TestConfiguration<DocumentWorkerTask, DocumentWorkerResult, TTestInput, DocumentWorkerTestExpectation> configuration,
+        final WorkerServices workerServices
+    )
     {
         super(workerServices.getCodec(), configuration.getWorkerResultClass(), configuration.getTestDataFolder());
         this.configuration = configuration;
@@ -44,16 +46,16 @@ public class DocumentWorkerSaveResultProcessor<TTestInput>
     }
 
     @Override
-    protected byte[] getOutputContent(DocumentWorkerResult workerResult,
-                                      TaskMessage message,
-                                      TestItem<TTestInput, DocumentWorkerTestExpectation> testItem) throws Exception
+    protected byte[] getOutputContent(final DocumentWorkerResult workerResult,
+                                      final TaskMessage message,
+                                      final TestItem<TTestInput, DocumentWorkerTestExpectation> testItem) throws Exception
     {
         testItem.getExpectedOutputData().setResult(convert(workerResult, testItem));
         return getSerializedTestItem(testItem, configuration);
     }
 
     private DocumentWorkerResultExpectation convert(final DocumentWorkerResult result,
-                                                    TestItem<TTestInput, DocumentWorkerTestExpectation> testItem)
+                                                    final TestItem<TTestInput, DocumentWorkerTestExpectation> testItem)
     {
         final DocumentWorkerResultExpectation expectation = new DocumentWorkerResultExpectation();
         if (result.fieldChanges != null) {
@@ -116,7 +118,7 @@ public class DocumentWorkerSaveResultProcessor<TTestInput>
     }
 
     protected Path saveContentFile(final TestItem<TTestInput, DocumentWorkerTestExpectation> testItem,
-                                   String baseFileName,
+                                   final String baseFileName,
                                    final String extension,
                                    final InputStream dataStream) throws IOException
     {
@@ -125,7 +127,7 @@ public class DocumentWorkerSaveResultProcessor<TTestInput>
             final Path path = Paths.get(testItem.getTag()).getParent();
             outputFolder = Paths.get(configuration.getTestDataFolder(), path == null ? "" : path.toString()).toString();
         }
-        String normalizedBaseFileName = Paths.get(FilenameUtils.normalize(baseFileName)).getFileName().toString();
+        final String normalizedBaseFileName = Paths.get(FilenameUtils.normalize(baseFileName)).getFileName().toString();
         final Path contentFile = Paths.get(outputFolder, normalizedBaseFileName + "." + extension + ".content");
         Files.deleteIfExists(contentFile);
         Files.copy(dataStream, contentFile, REPLACE_EXISTING);

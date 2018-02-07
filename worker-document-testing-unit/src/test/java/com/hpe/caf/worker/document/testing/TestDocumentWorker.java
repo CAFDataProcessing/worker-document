@@ -44,50 +44,50 @@ public class TestDocumentWorker implements DocumentWorker
     public static final String FieldValueToRemove = "FieldValueToRemove";
 
     @Override
-    public void checkHealth(HealthMonitor healthMonitor)
+    public void checkHealth(final HealthMonitor healthMonitor)
     {
     }
 
     @Override
-    public void processDocument(Document document) throws InterruptedException, DocumentWorkerTransientException
+    public void processDocument(final Document document) throws InterruptedException, DocumentWorkerTransientException
     {
-        DataStore dataStore = document.getApplication().getService(DataStore.class);
+        final DataStore dataStore = document.getApplication().getService(DataStore.class);
         //String storageReference = document.getCustomData(CustomDataStorageReference);
-        String storageReference = document.getField(CustomDataStorageReference).getValues().stream().findFirst().get().getReference();
+        final String storageReference = document.getField(CustomDataStorageReference).getValues().stream().findFirst().get().getReference();
 
         int words = 0;
 
-        try (InputStream inputFile = dataStore.retrieve(storageReference)) {
+        try (final InputStream inputFile = dataStore.retrieve(storageReference)) {
             Scanner s = new Scanner(inputFile);
 
             while (s.hasNext("\\w+")) {
-                String word = s.next("\\w+");
+                final String word = s.next("\\w+");
                 words++;
             }
-        } catch (DataStoreException | IOException e) {
+        } catch (final DataStoreException | IOException e) {
             throw new DocumentWorkerTransientException(e);
         }
 
-        List<String> stringValues = document.getField(FieldsTitle).getStringValues();
-        String titleField = stringValues.get(0);
+        final List<String> stringValues = document.getField(FieldsTitle).getStringValues();
+        final String titleField = stringValues.get(0);
 
-        String[] split = titleField.split("\\s");
+        final String[] split = titleField.split("\\s");
 
         document.getField(ResultTitleFieldWordCount).add(String.valueOf(split.length));
         document.getField(ResultContentFieldWordCount).add(String.valueOf(words));
 
-        String fieldValueToAdd = document.getCustomData(CustomDataFieldValueToAdd);
+        final String fieldValueToAdd = document.getCustomData(CustomDataFieldValueToAdd);
         document.getField(CustomDataFieldValueToAdd).add(fieldValueToAdd);
 
         document.getField(FieldToDelete).clear();
-        Field field = document.getField(FieldToRemoveValue);
-        FieldValues values = field.getValues();
+        final Field field = document.getField(FieldToRemoveValue);
+        final FieldValues values = field.getValues();
         field.clear();
-        List<FieldValue> fieldValues = values.stream()
+        final List<FieldValue> fieldValues = values.stream()
             .filter(v -> !v.getStringValue().equals(FieldValueToRemove))
             .collect(Collectors.toList());
 
-        for (FieldValue fieldValue : fieldValues) {
+        for (final FieldValue fieldValue : fieldValues) {
             field.add(fieldValue.getStringValue());
         }
         final Subdocuments subdocuments = document.getSubdocuments();

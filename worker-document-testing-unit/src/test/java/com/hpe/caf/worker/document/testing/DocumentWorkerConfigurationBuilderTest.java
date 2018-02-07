@@ -24,7 +24,7 @@ public class DocumentWorkerConfigurationBuilderTest
     @Test
     public void buildTest() throws Exception
     {
-        DocumentWorkerConfiguration configuration = DocumentWorkerConfigurationBuilder.configure()
+        final DocumentWorkerConfiguration configuration = DocumentWorkerConfigurationBuilder.configure()
             .withMaxBatchSize(5)
             .withMaxBatchTime(100)
             .withOutputQueue("out-queue")

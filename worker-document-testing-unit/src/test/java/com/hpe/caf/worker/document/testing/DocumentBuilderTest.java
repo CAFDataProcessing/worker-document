@@ -39,7 +39,7 @@ import org.junit.Test;
 
 public class DocumentBuilderTest
 {
-    private static void assertDocumentFields(Document document)
+    private static void assertDocumentFields(final Document document)
     {
         // ***************************
         // * Assertions for "field1"
@@ -78,7 +78,7 @@ public class DocumentBuilderTest
 
     private static DocumentWorkerDocumentTask createTestTask()
     {
-        DocumentWorkerDocumentTask task = new DocumentWorkerDocumentTask();
+        final DocumentWorkerDocumentTask task = new DocumentWorkerDocumentTask();
         task.document = new DocumentWorkerDocument();
 
         task.document.fields = new HashMap<String, List<DocumentWorkerFieldValue>>()
@@ -116,7 +116,7 @@ public class DocumentBuilderTest
         return task;
     }
 
-    private static DocumentWorkerFieldValue createValue(String data, DocumentWorkerFieldEncoding encoding)
+    private static DocumentWorkerFieldValue createValue(final String data, final DocumentWorkerFieldEncoding encoding)
     {
         DocumentWorkerFieldValue value = new DocumentWorkerFieldValue();
         value.data = data;
@@ -135,7 +135,7 @@ public class DocumentBuilderTest
     @Test
     public void testWithFieldBuilder() throws Exception
     {
-        Document document = DocumentBuilder.configure().withFields()
+        final Document document = DocumentBuilder.configure().withFields()
             .addField("field1").addValue("value1-1").addValue("value1-2").then()
             .addField("field2")
             .addValue(Base64.encodeBase64String("value2-1".getBytes()), DocumentWorkerFieldEncoding.base64)
@@ -147,16 +147,16 @@ public class DocumentBuilderTest
     @Test
     public void testFromJsonFile() throws URISyntaxException, IOException, WorkerException
     {
-        URL resource = this.getClass().getResource("/test-task.json");
-        Document document = DocumentBuilder.fromFile(Paths.get(new URI(resource.toString())).toString()).build();
+        final URL resource = this.getClass().getResource("/test-task.json");
+        final Document document = DocumentBuilder.fromFile(Paths.get(new URI(resource.toString())).toString()).build();
         assertDocumentFields(document);
     }
 
     @Test
     public void testFromYamlFile() throws URISyntaxException, IOException, WorkerException
     {
-        URL resource = this.getClass().getResource("/test-task.yaml");
-        Document document = DocumentBuilder.fromFile(Paths.get(new URI(resource.toString())).toString()).build();
+        final URL resource = this.getClass().getResource("/test-task.yaml");
+        final Document document = DocumentBuilder.fromFile(Paths.get(new URI(resource.toString())).toString()).build();
         assertDocumentFields(document);
     }
 }

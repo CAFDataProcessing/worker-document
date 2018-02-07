@@ -62,7 +62,7 @@ public class DocumentWorkerConfiguration extends WorkerConfiguration
         return outputQueue;
     }
 
-    public void setOutputQueue(String outputQueue)
+    public void setOutputQueue(final String outputQueue)
     {
         this.outputQueue = outputQueue;
     }
@@ -72,7 +72,7 @@ public class DocumentWorkerConfiguration extends WorkerConfiguration
         return failureQueue;
     }
 
-    public void setFailureQueue(String failureQueue)
+    public void setFailureQueue(final String failureQueue)
     {
         this.failureQueue = failureQueue;
     }
@@ -82,7 +82,7 @@ public class DocumentWorkerConfiguration extends WorkerConfiguration
         return threads;
     }
 
-    public void setThreads(int threads)
+    public void setThreads(final int threads)
     {
         this.threads = threads;
     }
@@ -92,7 +92,7 @@ public class DocumentWorkerConfiguration extends WorkerConfiguration
         return maxBatchSize;
     }
 
-    public void setMaxBatchSize(int maxBatchSize)
+    public void setMaxBatchSize(final int maxBatchSize)
     {
         this.maxBatchSize = maxBatchSize;
     }
@@ -102,7 +102,7 @@ public class DocumentWorkerConfiguration extends WorkerConfiguration
         return maxBatchTime;
     }
 
-    public void setMaxBatchTime(long maxBatchTime)
+    public void setMaxBatchTime(final long maxBatchTime)
     {
         this.maxBatchTime = maxBatchTime;
     }
@@ -112,7 +112,7 @@ public class DocumentWorkerConfiguration extends WorkerConfiguration
         return inputMessageProcessing;
     }
 
-    public void setInputMessageProcessing(InputMessageConfiguration inputMessageProcessing)
+    public void setInputMessageProcessing(final InputMessageConfiguration inputMessageProcessing)
     {
         this.inputMessageProcessing = inputMessageProcessing;
     }

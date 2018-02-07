@@ -30,18 +30,20 @@ import java.util.*;
  */
 public class DocumentWorkerResultPreparationProvider implements TestItemProvider
 {
-
-    private final TestConfiguration<DocumentWorkerTask, DocumentWorkerResult, DocumentWorkerTestInput, DocumentWorkerTestExpectation> configuration;
+    private final TestConfiguration<
+        DocumentWorkerTask, DocumentWorkerResult, DocumentWorkerTestInput, DocumentWorkerTestExpectation> configuration;
     private final String inputPath;
     private final String expectedPath;
     private final String globPattern;
     private final boolean includeSubFolders;
 
-    public DocumentWorkerResultPreparationProvider(final TestConfiguration<DocumentWorkerTask, DocumentWorkerResult, DocumentWorkerTestInput, DocumentWorkerTestExpectation> configuration)
+    public DocumentWorkerResultPreparationProvider(
+        final TestConfiguration<DocumentWorkerTask, DocumentWorkerResult, DocumentWorkerTestInput, DocumentWorkerTestExpectation> config
+    )
     {
-        this.configuration = configuration;
-        this.inputPath = configuration.getTestDocumentsFolder();
-        this.expectedPath = configuration.getTestDataFolder();
+        this.configuration = config;
+        this.inputPath = config.getTestDocumentsFolder();
+        this.expectedPath = config.getTestDataFolder();
         this.globPattern = "regex:^(?!.*[.](content|testcase)$).*$";
         this.includeSubFolders = true;
     }
@@ -49,7 +51,6 @@ public class DocumentWorkerResultPreparationProvider implements TestItemProvider
     @Override
     public Collection<TestItem> getItems() throws Exception
     {
-
         final List<Path> files = getFiles(Paths.get(inputPath));
         final List<TestItem> testItems = new ArrayList<>(files.size());
         for (final Path inputFile : files) {

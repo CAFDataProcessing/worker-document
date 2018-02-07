@@ -35,7 +35,7 @@ public final class ServiceLocatorImpl extends DocumentWorkerObjectImpl implement
     }
 
     @Override
-    public <S> S getService(Class<S> service)
+    public <S> S getService(final Class<S> service)
     {
         return (S) serviceMap.get(service);
     }

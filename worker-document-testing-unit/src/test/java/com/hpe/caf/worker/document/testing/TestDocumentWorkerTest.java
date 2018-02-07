@@ -35,7 +35,7 @@ public class TestDocumentWorkerTest
     public void testTestDocumentWorkerCountWordsInContentAndTitle()
         throws DocumentWorkerTransientException, InterruptedException, DataStoreException, WorkerException, CodecException, IOException
     {
-        TestServices testServices = TestServices.createDefault();
+        final TestServices testServices = TestServices.createDefault();
         final String testContent = "The quick brown fox jumps over the lazy dog";
 
         final String testTitle = "My test document title";
@@ -44,9 +44,9 @@ public class TestDocumentWorkerTest
 
         // Store testContent in data store
         // Prepare document with reference
-        String reference = testServices.getDataStore().store(testContent.getBytes(), null);
+        final String reference = testServices.getDataStore().store(testContent.getBytes(), null);
 
-        Document testDocument = DocumentBuilder.configure()
+        final Document testDocument = DocumentBuilder.configure()
             .withServices(testServices)
             .withCustomData().add(TestDocumentWorker.CustomDataFieldValueToAdd, expectedAddedFieldValue)
             .documentBuilder()
@@ -58,11 +58,11 @@ public class TestDocumentWorkerTest
             .addValue(TestDocumentWorker.FieldValueToRemove).then()
             .addFieldValue(TestDocumentWorker.FieldToDelete, "some-data").documentBuilder().build();//create document
 
-        TestDocumentWorker worker = new TestDocumentWorker();
+        final TestDocumentWorker worker = new TestDocumentWorker();
         worker.processDocument(testDocument);
 
-        int testContentCount = testContent.split("\\s").length;
-        int testTitleCount = testTitle.split("\\s").length;
+        final int testContentCount = testContent.split("\\s").length;
+        final int testTitleCount = testTitle.split("\\s").length;
 
         assertThat(testDocument.getField(TestDocumentWorker.ResultContentFieldWordCount).getStringValues(),
                    hasItem(String.valueOf(testContentCount)));
@@ -72,7 +72,7 @@ public class TestDocumentWorkerTest
                    hasItem(expectedAddedFieldValue));
 
         assertThat(testDocument.getField(TestDocumentWorker.FieldToDelete).hasValues(), is(false));
-        List<String> stringValues = testDocument.getField(TestDocumentWorker.FieldToRemoveValue).getStringValues();
+        final List<String> stringValues = testDocument.getField(TestDocumentWorker.FieldToRemoveValue).getStringValues();
         assertThat(stringValues.size(), is(1));
         assertThat(stringValues.get(0), is(fieldValueToStay));
     }
@@ -81,7 +81,7 @@ public class TestDocumentWorkerTest
     public void testHierarchicalTestDocumentWorkerCountWordsInContentAndTitle()
         throws DocumentWorkerTransientException, InterruptedException, DataStoreException, WorkerException, CodecException, IOException
     {
-        TestServices testServices = TestServices.createDefault();
+        final TestServices testServices = TestServices.createDefault();
         final String testContent = "The quick brown fox jumps over the lazy dog";
 
         final String testTitle = "My test document title";
@@ -90,9 +90,9 @@ public class TestDocumentWorkerTest
 
         // Store testContent in data store
         // Prepare document with reference
-        String reference = testServices.getDataStore().store(testContent.getBytes(), null);
+        final String reference = testServices.getDataStore().store(testContent.getBytes(), null);
 
-        Document testDocument = DocumentBuilder.configure()
+        final Document testDocument = DocumentBuilder.configure()
             .withReference("0")
             .withServices(testServices)
             .withCustomData().add(TestDocumentWorker.CustomDataFieldValueToAdd, expectedAddedFieldValue)
@@ -132,16 +132,22 @@ public class TestDocumentWorkerTest
             )
             .build();//create document
 
-        TestDocumentWorker worker = new TestDocumentWorker();
+        final TestDocumentWorker worker = new TestDocumentWorker();
         worker.processDocument(testDocument);
 
         assertDocument(testContent, testTitle, expectedAddedFieldValue, fieldValueToStay, testDocument);
     }
 
-    private static void assertDocument(String testContent, String testTitle, String expectedAddedFieldValue, String fieldValueToStay, Document testDocument)
+    private static void assertDocument(
+        final String testContent,
+        final String testTitle,
+        final String expectedAddedFieldValue,
+        final String fieldValueToStay,
+        final Document testDocument
+    )
     {
-        int testContentCount = testContent.split("\\s").length;
-        int testTitleCount = testTitle.split("\\s").length;
+        final int testContentCount = testContent.split("\\s").length;
+        final int testTitleCount = testTitle.split("\\s").length;
 
         assertThat(testDocument.getField(TestDocumentWorker.ResultContentFieldWordCount).getStringValues(),
                    hasItem(String.valueOf(testContentCount)));
@@ -151,7 +157,7 @@ public class TestDocumentWorkerTest
                    hasItem(expectedAddedFieldValue));
 
         assertThat(testDocument.getField(TestDocumentWorker.FieldToDelete).hasValues(), is(false));
-        List<String> stringValues = testDocument.getField(TestDocumentWorker.FieldToRemoveValue).getStringValues();
+        final List<String> stringValues = testDocument.getField(TestDocumentWorker.FieldToRemoveValue).getStringValues();
         assertThat(stringValues.size(), is(1));
         assertThat(stringValues.get(0), is(fieldValueToStay));
         if (testDocument.hasSubdocuments()) {

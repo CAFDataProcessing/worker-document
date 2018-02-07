@@ -67,17 +67,18 @@ public class DocumentWorkerFieldValueValidator extends CustomPropertyValidator
     }
 
     @Override
-    public boolean canValidate(String propertyName, Object sourcePropertyValue, Object validatorPropertyValue)
+    public boolean canValidate(final String propertyName, final Object sourcePropertyValue, final Object validatorPropertyValue)
     {
         final boolean nameCheckPassed = recognizedPropertyNames.isEmpty()
             || (propertyName != null && recognizedPropertyNames.contains(propertyName));
+
         return nameCheckPassed
             && isDocumentWorkerFieldValue(sourcePropertyValue)
             && isDocumentWorkerFieldValueExpectation(validatorPropertyValue);
     }
 
     @Override
-    protected boolean isValid(Object testedPropertyValue, Object validatorPropertyValue)
+    protected boolean isValid(final Object testedPropertyValue, final Object validatorPropertyValue)
     {
         if (testedPropertyValue == null && validatorPropertyValue == null) {
             return true;
@@ -132,11 +133,11 @@ public class DocumentWorkerFieldValueValidator extends CustomPropertyValidator
     protected boolean equal(final DocumentWorkerFieldValue actual, final DocumentWorkerFieldValueExpectation expected)
         throws DataStoreException, IOException
     {
-        DocumentWorkerFieldEncoding expectedValueEncoding = nullToUtf8(expected.encoding);
+        final DocumentWorkerFieldEncoding expectedValueEncoding = nullToUtf8(expected.encoding);
         if (expectedValueEncoding == DocumentWorkerFieldEncoding.storage_ref) {
             return referencedDataValidator.isValid(getReferencedData(actual), expected.content);
         }
-        Object actualValue
+        final Object actualValue
             = nullToUtf8(actual.encoding) == expectedValueEncoding
             ? nullToEmpty(actual.data)
             : expectedValueEncoding == DocumentWorkerFieldEncoding.base64

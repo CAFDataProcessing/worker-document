@@ -68,9 +68,9 @@ public abstract class IsDocumentContainingFieldValue<T> extends TypeSafeDiagnosi
         return false;
     }
 
-    protected abstract void describeActual(final T fieldValue, Description description);
+    protected abstract void describeActual(T fieldValue, Description description);
 
-    protected abstract T getFieldValue(final FieldValue fieldValue, final DocumentWorkerFieldEncoding encoding);
+    protected abstract T getFieldValue(FieldValue fieldValue, DocumentWorkerFieldEncoding encoding);
 
     @Override
     public void describeTo(final Description description)

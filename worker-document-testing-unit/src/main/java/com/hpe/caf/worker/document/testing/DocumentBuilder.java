@@ -52,7 +52,7 @@ public final class DocumentBuilder
     private final DocumentWorkerDocumentTask workerTask;
     private TestServices services;
 
-    private DocumentBuilder(DocumentWorkerDocumentTask workerTask)
+    private DocumentBuilder(final DocumentWorkerDocumentTask workerTask)
     {
         this.workerTask = workerTask;
         if (workerTask.document == null) {
@@ -92,7 +92,7 @@ public final class DocumentBuilder
      * @param reference reference value for the document being built
      * @return current Document builder
      */
-    public DocumentBuilder withReference(String reference)
+    public DocumentBuilder withReference(final String reference)
     {
         workerTask.document.reference = reference;
         return this;
@@ -145,7 +145,7 @@ public final class DocumentBuilder
      * @param documentBuilders sub-document builders
      * @return current Document builder
      */
-    public DocumentBuilder withSubDocuments(DocumentBuilder... documentBuilders)
+    public DocumentBuilder withSubDocuments(final DocumentBuilder... documentBuilders)
     {
         if (documentBuilders == null) {
             return this;

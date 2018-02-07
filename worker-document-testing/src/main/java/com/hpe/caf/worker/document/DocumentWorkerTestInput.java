@@ -20,7 +20,6 @@ package com.hpe.caf.worker.document;
  */
 public class DocumentWorkerTestInput
 {
-
     /**
      * DocumentWorkerTask read in from the yaml test case and used as an input of test work to the worker.
      */
@@ -35,7 +34,7 @@ public class DocumentWorkerTestInput
         return task;
     }
 
-    public void setTask(DocumentWorkerTask task)
+    public void setTask(final DocumentWorkerTask task)
     {
         this.task = task;
     }

@@ -81,7 +81,7 @@ public class DocumentWorkerAdapter implements WorkerFactory
     }
 
     @Override
-    public Worker getWorker(WorkerTaskData workerTask)
+    public Worker getWorker(final WorkerTaskData workerTask)
         throws TaskRejectedException, InvalidTaskException
     {
         return new DocumentMessageProcessor(application, documentWorker, workerTask);

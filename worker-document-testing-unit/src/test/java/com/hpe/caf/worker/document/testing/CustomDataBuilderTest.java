@@ -27,8 +27,8 @@ public class CustomDataBuilderTest
     @Test
     public void testAdd() throws Exception
     {
-        Map<String, String> map = new HashMap<>();
-        CustomDataBuilder builder = new CustomDataBuilder(map, null);
+        final Map<String, String> map = new HashMap<>();
+        final CustomDataBuilder builder = new CustomDataBuilder(map, null);
 
         builder.add("data-1", "value-1").add("data-2", "value-2");
 
