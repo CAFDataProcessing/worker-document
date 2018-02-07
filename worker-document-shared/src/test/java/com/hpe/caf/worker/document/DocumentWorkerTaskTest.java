@@ -25,13 +25,13 @@ public final class DocumentWorkerTaskTest
     @Test
     public void testDocumentWorkerSerializationTest() throws Exception
     {
-        DocumentWorkerTask testTask = new DocumentWorkerTask();
+        final DocumentWorkerTask testTask = new DocumentWorkerTask();
         testTask.fields = new HashMap<>();
         testTask.fields.put("Name", createDataList("base64 encoding", DocumentWorkerFieldEncoding.base64));
 
-        String testString = serialiseTask(testTask);
+        final String testString = serialiseTask(testTask);
 
-        String expectedJson
+        final String expectedJson
             = "{`fields`:{`Name`:[{`data`:`base64 encoding`,`encoding`:`base64`}]}}"
             .replace('`', '"');
 
@@ -41,13 +41,13 @@ public final class DocumentWorkerTaskTest
     @Test
     public void testDocumentWorkerSerializationTest1() throws Exception
     {
-        DocumentWorkerTask testTask = new DocumentWorkerTask();
+        final DocumentWorkerTask testTask = new DocumentWorkerTask();
         testTask.fields = new HashMap<>();
         testTask.fields.put("Name", createDataList("utf8 encoding", DocumentWorkerFieldEncoding.utf8));
 
-        String testString = serialiseTask(testTask);
+        final String testString = serialiseTask(testTask);
 
-        String expectedJson
+        final String expectedJson
             = "{`fields`:{`Name`:[{`data`:`utf8 encoding`,`encoding`:`utf8`}]}}"
             .replace('`', '"');
 
@@ -57,13 +57,13 @@ public final class DocumentWorkerTaskTest
     @Test
     public void testDocumentWorkerSerializationTest2() throws Exception
     {
-        DocumentWorkerTask testTask = new DocumentWorkerTask();
+        final DocumentWorkerTask testTask = new DocumentWorkerTask();
         testTask.fields = new HashMap<>();
         testTask.fields.put("Name", createDataList("null encoding"));
 
-        String testString = serialiseTask(testTask);
+        final String testString = serialiseTask(testTask);
 
-        String expectedJson
+        final String expectedJson
             = "{`fields`:{`Name`:[{`data`:`null encoding`}]}}"
             .replace('`', '"');
 
@@ -77,9 +77,9 @@ public final class DocumentWorkerTaskTest
             = "{`fields`:{`Name`:[{`data`:`base64 encoding`,`encoding`:`base64`}]}}"
             .replace('`', '"');
 
-        DocumentWorkerTask dsTestTask = deserialiseTask(jsonString);
+        final DocumentWorkerTask dsTestTask = deserialiseTask(jsonString);
 
-        DocumentWorkerFieldValue dataOb = dsTestTask.fields.get("Name").get(0);
+        final DocumentWorkerFieldValue dataOb = dsTestTask.fields.get("Name").get(0);
 
         assertEquals("base64 encoding", dataOb.data);
         assertEquals(DocumentWorkerFieldEncoding.base64, dataOb.encoding);
@@ -92,9 +92,9 @@ public final class DocumentWorkerTaskTest
             = "{`fields`:{`Name`:[{`data`:`utf8 encoding`,`encoding`:`utf8`}]}}"
             .replace('`', '"');
 
-        DocumentWorkerTask dsTestTask = deserialiseTask(jsonString);
+        final DocumentWorkerTask dsTestTask = deserialiseTask(jsonString);
 
-        DocumentWorkerFieldValue dataOb = dsTestTask.fields.get("Name").get(0);
+        final DocumentWorkerFieldValue dataOb = dsTestTask.fields.get("Name").get(0);
 
         assertEquals("utf8 encoding", dataOb.data);
         assertEquals(DocumentWorkerFieldEncoding.utf8, dataOb.encoding);
@@ -107,9 +107,9 @@ public final class DocumentWorkerTaskTest
             = "{`fields`:{`Name`:[{`data`:`null encoding`}]}}"
             .replace('`', '"');
 
-        DocumentWorkerTask dsTestTask = deserialiseTask(jsonString);
+        final DocumentWorkerTask dsTestTask = deserialiseTask(jsonString);
 
-        DocumentWorkerFieldValue dataOb = dsTestTask.fields.get("Name").get(0);
+        final DocumentWorkerFieldValue dataOb = dsTestTask.fields.get("Name").get(0);
 
         assertEquals("null encoding", dataOb.data);
         assertEquals(null, dataOb.encoding);

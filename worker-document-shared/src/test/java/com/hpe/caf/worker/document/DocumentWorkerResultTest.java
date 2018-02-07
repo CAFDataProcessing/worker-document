@@ -27,15 +27,15 @@ public final class DocumentWorkerResultTest
     @Test
     public void testDocumentWorkerSerializationTest() throws Exception
     {
-        DocumentWorkerResult testResult = new DocumentWorkerResult();
+        final DocumentWorkerResult testResult = new DocumentWorkerResult();
         testResult.fieldChanges = new HashMap<>();
         testResult.fieldChanges.put(
             "fieldName", createFieldChanges(
                 DocumentWorkerAction.add, createDataList("Deserialization Test")));
 
-        String testString = serialiseResult(testResult);
+        final String testString = serialiseResult(testResult);
 
-        String expectedJson
+        final String expectedJson
             = "{`fieldChanges`:{`fieldName`:{`action`:`add`,`values`:[{`data`:`Deserialization Test`}]}}}"
             .replace('`', '"');
 
@@ -45,20 +45,20 @@ public final class DocumentWorkerResultTest
     @Test
     public void testDocumentWorkerSerializationTest1() throws Exception
     {
-        DocumentWorkerResult testResult = new DocumentWorkerResult();
+        final DocumentWorkerResult testResult = new DocumentWorkerResult();
         testResult.fieldChanges = new HashMap<>();
         testResult.fieldChanges.put(
             "fieldName", createFieldChanges(
                 DocumentWorkerAction.add, createDataList("Deserialization Test")));
 
-        DocumentWorkerFailure failure = new DocumentWorkerFailure();
+        final DocumentWorkerFailure failure = new DocumentWorkerFailure();
         failure.failureId = "123456";
         failure.failureMessage = "Test of Failure Feature with null Stack Trace";
         testResult.failures = new ArrayList<>();
         testResult.failures.add(failure);
-        String testString = serialiseResult(testResult);
+        final String testString = serialiseResult(testResult);
 
-        String expectedJson
+        final String expectedJson
             = ("{`fieldChanges`:{`fieldName`:{`action`:`add`,`values`:[{`data`:`Deserialization Test`}]}},"
             + "`failures`:[{`failureId`:`123456`,`failureMessage`:`Test of Failure Feature with null Stack Trace`}]}")
             .replace('`', '"');
@@ -69,21 +69,21 @@ public final class DocumentWorkerResultTest
     @Test
     public void testDocumentWorkerSerializationTest2() throws Exception
     {
-        DocumentWorkerResult testResult = new DocumentWorkerResult();
+        final DocumentWorkerResult testResult = new DocumentWorkerResult();
         testResult.fieldChanges = new HashMap<>();
         testResult.fieldChanges.put(
             "fieldName", createFieldChanges(
                 DocumentWorkerAction.add, createDataList("Deserialization Test")));
 
-        DocumentWorkerFailure failure = new DocumentWorkerFailure();
+        final DocumentWorkerFailure failure = new DocumentWorkerFailure();
         failure.failureId = "123456";
         failure.failureMessage = "Test of Failure Feature with Stack Trace";
         failure.failureStack = "This is a Test with a failure Stack Trace";
         testResult.failures = new ArrayList<>();
         testResult.failures.add(failure);
-        String testString = serialiseResult(testResult);
+        final String testString = serialiseResult(testResult);
 
-        String expectedJson
+        final String expectedJson
             = ("{`fieldChanges`:{`fieldName`:{`action`:`add`,`values`:[{`data`:`Deserialization Test`}]}},"
             + "`failures`:[{`failureId`:`123456`,`failureMessage`:`Test of Failure Feature with Stack Trace`,"
             + "`failureStack`:`This is a Test with a failure Stack Trace`}]}")
@@ -95,15 +95,15 @@ public final class DocumentWorkerResultTest
     @Test
     public void testDocumentWorkerSerializationTest3() throws Exception
     {
-        DocumentWorkerResult testResult = new DocumentWorkerResult();
+        final DocumentWorkerResult testResult = new DocumentWorkerResult();
         testResult.fieldChanges = new HashMap<>();
         testResult.fieldChanges.put(
             "fieldName", createFieldChanges(
                 DocumentWorkerAction.add, createDataList("Deserialization Test", DocumentWorkerFieldEncoding.utf8)));
 
-        String testString = serialiseResult(testResult);
+        final String testString = serialiseResult(testResult);
 
-        String expectedJson
+        final String expectedJson
             = "{`fieldChanges`:{`fieldName`:{`action`:`add`,`values`:[{`data`:`Deserialization Test`,`encoding`:`utf8`}]}}}"
             .replace('`', '"');
 
@@ -117,10 +117,10 @@ public final class DocumentWorkerResultTest
             = "{`fieldChanges`:{`fieldName`:{`action`:`add`,`values`:[{`data`:`Deserialization Test`,`encoding`:`utf8`}]}}}"
             .replace('`', '"');
 
-        DocumentWorkerResult dsTestResult = deserialiseResult(jsonString);
+        final DocumentWorkerResult dsTestResult = deserialiseResult(jsonString);
 
-        DocumentWorkerFieldChanges changeOb = dsTestResult.fieldChanges.get("fieldName");
-        DocumentWorkerFieldValue recoveredData = changeOb.values.get(0);
+        final DocumentWorkerFieldChanges changeOb = dsTestResult.fieldChanges.get("fieldName");
+        final DocumentWorkerFieldValue recoveredData = changeOb.values.get(0);
 
         assertEquals(DocumentWorkerAction.add, changeOb.action);
         assertEquals("Deserialization Test", recoveredData.data);
@@ -135,11 +135,11 @@ public final class DocumentWorkerResultTest
             + "`failures`:[{`failureId`:`123456`,`failureMessage`:`Test of Failure Feature with Stack Trace`}]}")
             .replace('`', '"');
 
-        DocumentWorkerResult dsTestResult = deserialiseResult(jsonString);
+        final DocumentWorkerResult dsTestResult = deserialiseResult(jsonString);
 
-        DocumentWorkerFieldChanges changeOb = dsTestResult.fieldChanges.get("fieldName");
-        DocumentWorkerFieldValue recoveredData = changeOb.values.get(0);
-        List<DocumentWorkerFailure> failure = dsTestResult.failures;
+        final DocumentWorkerFieldChanges changeOb = dsTestResult.fieldChanges.get("fieldName");
+        final DocumentWorkerFieldValue recoveredData = changeOb.values.get(0);
+        final List<DocumentWorkerFailure> failure = dsTestResult.failures;
 
         assertEquals(DocumentWorkerAction.add, changeOb.action);
         assertEquals("Deserialization Test", recoveredData.data);
@@ -157,11 +157,11 @@ public final class DocumentWorkerResultTest
             + "`failureStack`:`This is a Test with a failure Stack Trace`}]}")
             .replace('`', '"');
 
-        DocumentWorkerResult dsTestResult = deserialiseResult(jsonString);
+        final DocumentWorkerResult dsTestResult = deserialiseResult(jsonString);
 
-        DocumentWorkerFieldChanges changeOb = dsTestResult.fieldChanges.get("fieldName");
-        DocumentWorkerFieldValue recoveredData = changeOb.values.get(0);
-        List<DocumentWorkerFailure> failure = dsTestResult.failures;
+        final DocumentWorkerFieldChanges changeOb = dsTestResult.fieldChanges.get("fieldName");
+        final DocumentWorkerFieldValue recoveredData = changeOb.values.get(0);
+        final List<DocumentWorkerFailure> failure = dsTestResult.failures;
 
         assertEquals(DocumentWorkerAction.add, changeOb.action);
         assertEquals("Deserialization Test", recoveredData.data);
@@ -178,10 +178,10 @@ public final class DocumentWorkerResultTest
             = "{`fieldChanges`:{`fieldName`:{`action`:`add`,`values`:[{`data`:`Deserialization Test`}]}}}"
             .replace('`', '"');
 
-        DocumentWorkerResult dsTestResult = deserialiseResult(jsonString);
+        final DocumentWorkerResult dsTestResult = deserialiseResult(jsonString);
 
-        DocumentWorkerFieldChanges changeOb = dsTestResult.fieldChanges.get("fieldName");
-        DocumentWorkerFieldValue recoveredData = changeOb.values.get(0);
+        final DocumentWorkerFieldChanges changeOb = dsTestResult.fieldChanges.get("fieldName");
+        final DocumentWorkerFieldValue recoveredData = changeOb.values.get(0);
 
         assertEquals(DocumentWorkerAction.add, changeOb.action);
         assertEquals("Deserialization Test", recoveredData.data);

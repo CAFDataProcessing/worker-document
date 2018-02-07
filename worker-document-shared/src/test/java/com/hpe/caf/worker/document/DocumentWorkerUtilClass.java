@@ -27,74 +27,74 @@ public final class DocumentWorkerUtilClass
     {
     }
 
-    static DocumentWorkerFieldValue createData(String data, DocumentWorkerFieldEncoding encoding)
+    static DocumentWorkerFieldValue createData(final String data, final DocumentWorkerFieldEncoding encoding)
     {
-        DocumentWorkerFieldValue documentWorkerFieldValue = new DocumentWorkerFieldValue();
+        final DocumentWorkerFieldValue documentWorkerFieldValue = new DocumentWorkerFieldValue();
         documentWorkerFieldValue.data = data;
         documentWorkerFieldValue.encoding = encoding;
         return documentWorkerFieldValue;
     }
 
-    static DocumentWorkerFieldValue createData(String data)
+    static DocumentWorkerFieldValue createData(final String data)
     {
-        DocumentWorkerFieldValue documentWorkerFieldValue = new DocumentWorkerFieldValue();
+        final DocumentWorkerFieldValue documentWorkerFieldValue = new DocumentWorkerFieldValue();
         documentWorkerFieldValue.data = data;
         return documentWorkerFieldValue;
     }
 
-    static List<DocumentWorkerFieldValue> createDataList(String data, DocumentWorkerFieldEncoding encoding)
+    static List<DocumentWorkerFieldValue> createDataList(final String data, final DocumentWorkerFieldEncoding encoding)
     {
-        List<DocumentWorkerFieldValue> documentWorkerFieldValueList = new ArrayList<>();
-        DocumentWorkerFieldValue documentWorkerFieldValue = createData(data, encoding);
+        final List<DocumentWorkerFieldValue> documentWorkerFieldValueList = new ArrayList<>();
+        final DocumentWorkerFieldValue documentWorkerFieldValue = createData(data, encoding);
         documentWorkerFieldValueList.add(documentWorkerFieldValue);
         return documentWorkerFieldValueList;
     }
 
-    static List<DocumentWorkerFieldValue> createDataList(String data)
+    static List<DocumentWorkerFieldValue> createDataList(final String data)
     {
-        List<DocumentWorkerFieldValue> documentWorkerFieldValueList = new ArrayList<>();
-        DocumentWorkerFieldValue documentWorkerFieldValue = createData(data);
+        final List<DocumentWorkerFieldValue> documentWorkerFieldValueList = new ArrayList<>();
+        final DocumentWorkerFieldValue documentWorkerFieldValue = createData(data);
         documentWorkerFieldValueList.add(documentWorkerFieldValue);
         return documentWorkerFieldValueList;
     }
 
-    static DocumentWorkerFieldChanges createFieldChanges(DocumentWorkerAction action, List<DocumentWorkerFieldValue> values)
+    static DocumentWorkerFieldChanges createFieldChanges(final DocumentWorkerAction action, final List<DocumentWorkerFieldValue> values)
     {
-        DocumentWorkerFieldChanges documentWorkerFieldChanges = new DocumentWorkerFieldChanges();
+        final DocumentWorkerFieldChanges documentWorkerFieldChanges = new DocumentWorkerFieldChanges();
         documentWorkerFieldChanges.action = action;
         documentWorkerFieldChanges.values = values;
         return documentWorkerFieldChanges;
     }
 
-    static String serialiseTask(DocumentWorkerTask testTask) throws CodecException
+    static String serialiseTask(final DocumentWorkerTask testTask) throws CodecException
     {
-        JsonCodec jsonCodec = new JsonCodec();
-        byte[] testByteArray = jsonCodec.serialise(testTask);
-        String testString = new String(testByteArray, StandardCharsets.UTF_8);
+        final JsonCodec jsonCodec = new JsonCodec();
+        final byte[] testByteArray = jsonCodec.serialise(testTask);
+        final String testString = new String(testByteArray, StandardCharsets.UTF_8);
         return testString;
     }
 
-    static DocumentWorkerTask deserialiseTask(String jsonString) throws CodecException
+    static DocumentWorkerTask deserialiseTask(final String jsonString) throws CodecException
     {
-        JsonCodec jsonCodec = new JsonCodec();
-        byte[] testByteArray = jsonString.getBytes(StandardCharsets.UTF_8);
-        DocumentWorkerTask dsTestTask = jsonCodec.deserialise(testByteArray, DocumentWorkerTask.class);
+        final JsonCodec jsonCodec = new JsonCodec();
+        final byte[] testByteArray = jsonString.getBytes(StandardCharsets.UTF_8);
+        final DocumentWorkerTask dsTestTask = jsonCodec.deserialise(testByteArray, DocumentWorkerTask.class);
         return dsTestTask;
     }
 
-    static String serialiseResult(DocumentWorkerResult testResult) throws CodecException
+    static String serialiseResult(final DocumentWorkerResult testResult) throws CodecException
     {
-        JsonCodec jsonCodec = new JsonCodec();
-        byte[] testByteArray = jsonCodec.serialise(testResult);
-        String testString = new String(testByteArray, StandardCharsets.UTF_8);
+        final JsonCodec jsonCodec = new JsonCodec();
+        final byte[] testByteArray = jsonCodec.serialise(testResult);
+        final String testString = new String(testByteArray, StandardCharsets.UTF_8);
         return testString;
     }
 
-    static DocumentWorkerResult deserialiseResult(String jsonString) throws CodecException
+    static DocumentWorkerResult deserialiseResult(final String jsonString) throws CodecException
     {
-        JsonCodec jsonCodec = new JsonCodec();
-        byte[] testByteArray = jsonString.getBytes(StandardCharsets.UTF_8);
-        DocumentWorkerResult dsTestResult = jsonCodec.deserialise(testByteArray, DocumentWorkerResult.class);
+        final JsonCodec jsonCodec = new JsonCodec();
+        final byte[] testByteArray = jsonString.getBytes(StandardCharsets.UTF_8);
+        final DocumentWorkerResult dsTestResult = jsonCodec.deserialise(testByteArray, DocumentWorkerResult.class);
         return dsTestResult;
     }
 }
