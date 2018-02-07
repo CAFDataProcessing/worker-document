@@ -86,8 +86,8 @@ public interface FieldValue extends DocumentWorkerObject
      * <p>
      * At the end of the method either the stream will be successfully opened, or an exception will have been thrown.
      *
-     * @return a new InputStream for the field value
-     * @throws IOException if the field value cannot be retrieved
+     * @return a new InputStream for the field value data
+     * @throws IOException if the field value data cannot be retrieved
      */
     InputStream openInputStream() throws IOException;
 }
