@@ -28,15 +28,14 @@ import com.hpe.caf.worker.document.impl.DocumentImpl;
 import com.hpe.caf.worker.document.model.Document;
 import com.hpe.caf.worker.document.tasks.AbstractTask;
 import com.hpe.caf.worker.document.tasks.DocumentTask;
-import org.apache.commons.io.FileUtils;
-import org.mockito.Mockito;
-
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import org.apache.commons.io.FileUtils;
+import org.mockito.Mockito;
 
 /**
  * Document Worker "Document" object builder / configurator.

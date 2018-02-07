@@ -17,7 +17,6 @@ package com.hpe.caf.worker.document;
 
 import static com.hpe.caf.worker.document.DocumentWorkerUtilClass.*;
 import java.util.HashMap;
-
 import org.junit.*;
 import static org.junit.Assert.assertEquals;
 

@@ -15,9 +15,9 @@
  */
 package com.hpe.caf.worker.document.impl;
 
+import com.hpe.caf.worker.document.model.ServiceLocator;
 import java.util.HashMap;
 import java.util.Map;
-import com.hpe.caf.worker.document.model.ServiceLocator;
 
 public final class ServiceLocatorImpl extends DocumentWorkerObjectImpl implements ServiceLocator
 {

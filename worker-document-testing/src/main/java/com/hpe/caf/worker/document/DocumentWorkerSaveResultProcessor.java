@@ -19,17 +19,15 @@ import com.hpe.caf.api.worker.DataStoreException;
 import com.hpe.caf.api.worker.TaskMessage;
 import com.hpe.caf.worker.testing.*;
 import com.hpe.caf.worker.testing.data.ContentComparisonType;
-import org.apache.commons.io.FilenameUtils;
-
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import static java.nio.file.StandardCopyOption.REPLACE_EXISTING;
 import java.util.Map;
 import java.util.stream.Collectors;
-
-import static java.nio.file.StandardCopyOption.REPLACE_EXISTING;
+import org.apache.commons.io.FilenameUtils;
 
 public class DocumentWorkerSaveResultProcessor<TTestInput>
     extends OutputToFileProcessor<DocumentWorkerResult, TTestInput, DocumentWorkerTestExpectation>

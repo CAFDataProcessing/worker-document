@@ -25,11 +25,10 @@ import com.hpe.caf.worker.testing.*;
 import com.hpe.caf.worker.testing.validation.CustomPropertyValidator;
 import com.hpe.caf.worker.testing.validation.ReferenceDataValidator;
 import com.hpe.caf.worker.testing.validation.ValuePropertyValidator;
-import org.apache.commons.io.IOUtils;
-
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.util.*;
+import org.apache.commons.io.IOUtils;
 
 /**
  * A property validator that validates individual DocumentWorkerFieldValue instances.

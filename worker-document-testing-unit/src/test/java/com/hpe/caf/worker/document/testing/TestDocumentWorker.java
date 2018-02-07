@@ -26,7 +26,6 @@ import com.hpe.caf.worker.document.model.FieldValues;
 import com.hpe.caf.worker.document.model.HealthMonitor;
 import com.hpe.caf.worker.document.model.Subdocument;
 import com.hpe.caf.worker.document.model.Subdocuments;
-
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;

@@ -17,12 +17,11 @@ package com.hpe.caf.worker.document.testing;
 
 import com.hpe.caf.worker.document.DocumentWorkerFieldEncoding;
 import com.hpe.caf.worker.document.DocumentWorkerFieldValue;
-import org.apache.commons.codec.binary.Base64;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import org.apache.commons.codec.binary.Base64;
 
 /**
  * The Document Fields builder.

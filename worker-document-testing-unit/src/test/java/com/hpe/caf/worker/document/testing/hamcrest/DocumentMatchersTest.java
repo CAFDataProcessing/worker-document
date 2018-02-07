@@ -18,12 +18,11 @@ package com.hpe.caf.worker.document.testing.hamcrest;
 import com.hpe.caf.worker.document.DocumentWorkerFieldEncoding;
 import com.hpe.caf.worker.document.model.Document;
 import com.hpe.caf.worker.document.testing.DocumentBuilder;
-import org.junit.Test;
-
 import static com.hpe.caf.worker.document.testing.hamcrest.DocumentMatchers.*;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.is;
+import org.junit.Test;
 
 public class DocumentMatchersTest
 {

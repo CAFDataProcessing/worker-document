@@ -22,19 +22,17 @@ import com.hpe.caf.api.worker.DataStoreException;
 import com.hpe.caf.worker.testing.ContentFileTestExpectation;
 import com.hpe.caf.worker.testing.TestConfiguration;
 import com.hpe.caf.worker.testing.configuration.ValidationSettings;
+import static com.hpe.caf.worker.testing.data.ContentComparisonType.BINARY;
 import com.hpe.caf.worker.testing.validation.PropertyValidator;
 import com.hpe.caf.worker.testing.validation.ValidatorFactory;
-import org.testng.annotations.Test;
-
 import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-
-import static com.hpe.caf.worker.testing.data.ContentComparisonType.BINARY;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 import static org.testng.Assert.assertTrue;
+import org.testng.annotations.Test;
 
 public class DocumentWorkerFieldValueValidatorTest
 {

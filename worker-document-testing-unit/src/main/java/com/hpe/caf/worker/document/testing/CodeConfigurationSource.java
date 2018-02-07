@@ -17,7 +17,6 @@ package com.hpe.caf.worker.document.testing;
 
 import com.hpe.caf.api.ConfigurationException;
 import com.hpe.caf.api.ConfigurationSource;
-
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;

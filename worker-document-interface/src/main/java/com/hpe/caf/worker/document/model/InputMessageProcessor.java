@@ -15,8 +15,8 @@
  */
 package com.hpe.caf.worker.document.model;
 
-import com.hpe.caf.worker.document.extensibility.DocumentWorker;
 import com.hpe.caf.worker.document.extensibility.BulkDocumentWorker;
+import com.hpe.caf.worker.document.extensibility.DocumentWorker;
 
 /**
  * Used for controlling how messages that are received from the input queue are processed.

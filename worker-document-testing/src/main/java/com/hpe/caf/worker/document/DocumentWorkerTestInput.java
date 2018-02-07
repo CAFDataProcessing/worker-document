@@ -15,9 +15,6 @@
  */
 package com.hpe.caf.worker.document;
 
-import com.hpe.caf.worker.document.DocumentWorkerTask;
-import com.hpe.caf.worker.testing.FileTestInputData;
-
 /**
  * DocumentExampleWorkerTestInput is a component of test item, and contains a worker task used to provide test work to a worker.
  */

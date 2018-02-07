@@ -17,10 +17,9 @@ package com.hpe.caf.worker.document.testing.hamcrest;
 
 import com.hpe.caf.worker.document.DocumentWorkerFieldEncoding;
 import com.hpe.caf.worker.document.model.FieldValue;
+import java.util.Arrays;
 import org.hamcrest.Description;
 import org.hamcrest.Matcher;
-
-import java.util.Arrays;
 
 /**
  * Document byte field value matcher

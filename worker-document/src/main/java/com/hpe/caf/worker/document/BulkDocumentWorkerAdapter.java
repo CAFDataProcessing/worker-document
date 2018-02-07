@@ -15,9 +15,9 @@
  */
 package com.hpe.caf.worker.document;
 
-import com.hpe.caf.worker.document.extensibility.BulkDocumentWorker;
 import com.hpe.caf.api.worker.BulkWorker;
 import com.hpe.caf.api.worker.BulkWorkerRuntime;
+import com.hpe.caf.worker.document.extensibility.BulkDocumentWorker;
 import com.hpe.caf.worker.document.impl.ApplicationImpl;
 
 /**

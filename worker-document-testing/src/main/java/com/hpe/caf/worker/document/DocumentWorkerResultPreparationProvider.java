@@ -18,7 +18,6 @@ package com.hpe.caf.worker.document;
 import com.hpe.caf.worker.testing.TestConfiguration;
 import com.hpe.caf.worker.testing.TestItem;
 import com.hpe.caf.worker.testing.TestItemProvider;
-
 import java.io.IOException;
 import java.nio.file.DirectoryStream;
 import java.nio.file.Files;

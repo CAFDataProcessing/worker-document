@@ -22,7 +22,6 @@ import com.hpe.caf.worker.testing.*;
 import com.hpe.caf.worker.testing.configuration.ValidationSettings;
 import com.hpe.caf.worker.testing.validation.PropertyMap;
 import com.hpe.caf.worker.testing.validation.PropertyValidatingProcessor;
-
 import java.util.Map;
 
 /**

@@ -15,17 +15,17 @@
  */
 package com.hpe.caf.worker.document;
 
-import com.hpe.caf.worker.document.extensibility.DocumentWorkerFactory;
-import com.hpe.caf.worker.document.extensibility.DocumentWorker;
-import com.hpe.caf.worker.document.extensibility.BulkDocumentWorker;
-import com.hpe.caf.worker.document.model.Application;
 import com.hpe.caf.api.Codec;
 import com.hpe.caf.api.ConfigurationSource;
 import com.hpe.caf.api.worker.DataStore;
 import com.hpe.caf.api.worker.WorkerException;
 import com.hpe.caf.api.worker.WorkerFactory;
 import com.hpe.caf.api.worker.WorkerFactoryProvider;
+import com.hpe.caf.worker.document.extensibility.BulkDocumentWorker;
+import com.hpe.caf.worker.document.extensibility.DocumentWorker;
+import com.hpe.caf.worker.document.extensibility.DocumentWorkerFactory;
 import com.hpe.caf.worker.document.impl.ApplicationImpl;
+import com.hpe.caf.worker.document.model.Application;
 import com.hpe.caf.worker.document.util.ServiceFunctions;
 
 /**
