@@ -83,6 +83,7 @@ public final class FailuresImpl extends DocumentWorkerObjectImpl implements Fail
         newFailures.clear();
     }
 
+    @Nonnull
     @Override
     public Document getDocument()
     {
@@ -103,6 +104,7 @@ public final class FailuresImpl extends DocumentWorkerObjectImpl implements Fail
             && (ignoreOriginalFailures || originalFailures.isEmpty());
     }
 
+    @Nonnull
     @Override
     public Iterator<Failure> iterator()
     {
@@ -123,6 +125,7 @@ public final class FailuresImpl extends DocumentWorkerObjectImpl implements Fail
             + newFailures.size();
     }
 
+    @Nonnull
     @Override
     public Stream<Failure> stream()
     {

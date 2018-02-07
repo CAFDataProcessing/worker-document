@@ -53,6 +53,7 @@ public final class SubdocumentsImpl extends DocumentWorkerObjectImpl implements 
         this.newSubdocuments = new ArrayList<>();
     }
 
+    @Nonnull
     @Override
     public Subdocument add(final String reference)
     {
@@ -76,6 +77,7 @@ public final class SubdocumentsImpl extends DocumentWorkerObjectImpl implements 
      * @param index index of the subdocument to return
      * @return the subdocument at the specified position
      */
+    @Nonnull
     @Override
     public Subdocument get(final int index)
     {
@@ -100,6 +102,7 @@ public final class SubdocumentsImpl extends DocumentWorkerObjectImpl implements 
         return retrieveSubdocument(pos);
     }
 
+    @Nonnull
     @Override
     public DocumentImpl getDocument()
     {
@@ -113,6 +116,7 @@ public final class SubdocumentsImpl extends DocumentWorkerObjectImpl implements 
             && newSubdocuments.stream().allMatch(subdocument -> subdocument.isDeleted());
     }
 
+    @Nonnull
     @Override
     public Iterator<Subdocument> iterator()
     {
@@ -167,6 +171,7 @@ public final class SubdocumentsImpl extends DocumentWorkerObjectImpl implements 
         return (int) totalCount;
     }
 
+    @Nonnull
     @Override
     public Stream<Subdocument> stream()
     {

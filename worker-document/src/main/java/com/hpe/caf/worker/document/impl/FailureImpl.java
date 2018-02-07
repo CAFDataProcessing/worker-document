@@ -19,6 +19,7 @@ import com.hpe.caf.worker.document.model.Document;
 import com.hpe.caf.worker.document.model.Failure;
 import com.hpe.caf.worker.document.views.ReadOnlyFailure;
 import java.util.Objects;
+import javax.annotation.Nonnull;
 
 public final class FailureImpl extends DocumentWorkerObjectImpl implements Failure
 {
@@ -36,6 +37,7 @@ public final class FailureImpl extends DocumentWorkerObjectImpl implements Failu
         this.failure = Objects.requireNonNull(failure);
     }
 
+    @Nonnull
     @Override
     public Document getDocument()
     {

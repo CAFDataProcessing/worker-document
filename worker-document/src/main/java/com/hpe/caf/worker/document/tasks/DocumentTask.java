@@ -87,6 +87,7 @@ public final class DocumentTask extends AbstractTask
         return ReadOnlyDocument.create(effectiveDocument);
     }
 
+    @Nonnull
     @Override
     protected WorkerResponse createWorkerResponseImpl()
     {
@@ -137,6 +138,7 @@ public final class DocumentTask extends AbstractTask
                                   null);
     }
 
+    @Nonnull
     @Override
     protected WorkerResponse handleGeneralFailureImpl(final Throwable failure)
     {
@@ -148,6 +150,7 @@ public final class DocumentTask extends AbstractTask
         return this.createWorkerResponse();
     }
 
+    @Nonnull
     private String getChangeLogEntryName()
     {
         final DocumentWorkerConfiguration config = application.getConfiguration();

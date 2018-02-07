@@ -29,6 +29,7 @@ import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
+import javax.annotation.Nonnull;
 
 public final class FieldsImpl extends DocumentWorkerObjectImpl implements Fields
 {
@@ -46,6 +47,7 @@ public final class FieldsImpl extends DocumentWorkerObjectImpl implements Fields
         this.allFieldsAddedToMap = false;
     }
 
+    @Nonnull
     @Override
     public Field get(final String fieldName)
     {
@@ -59,12 +61,14 @@ public final class FieldsImpl extends DocumentWorkerObjectImpl implements Fields
         return field;
     }
 
+    @Nonnull
     @Override
     public Document getDocument()
     {
         return document;
     }
 
+    @Nonnull
     @Override
     public Iterator<Field> iterator()
     {
@@ -79,6 +83,7 @@ public final class FieldsImpl extends DocumentWorkerObjectImpl implements Fields
         }
     }
 
+    @Nonnull
     @Override
     public Stream<Field> stream()
     {
@@ -116,6 +121,7 @@ public final class FieldsImpl extends DocumentWorkerObjectImpl implements Fields
     /**
      * Returns a list of all the fields that currently make up the fields collection
      */
+    @Nonnull
     private List<Field> createSnapshotList()
     {
         // Ensure that all fields have been added to the internal collection

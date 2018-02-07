@@ -19,6 +19,7 @@ import com.hpe.caf.worker.document.impl.ApplicationImpl;
 import com.hpe.caf.worker.document.model.Field;
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
+import javax.annotation.Nonnull;
 
 public abstract class NonReferenceFieldValue extends AbstractFieldValue
 {
@@ -27,6 +28,7 @@ public abstract class NonReferenceFieldValue extends AbstractFieldValue
         super(application, field);
     }
 
+    @Nonnull
     @Override
     public final String getReference()
     {
@@ -39,6 +41,7 @@ public abstract class NonReferenceFieldValue extends AbstractFieldValue
         return false;
     }
 
+    @Nonnull
     @Override
     public InputStream openInputStream()
     {

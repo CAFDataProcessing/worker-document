@@ -59,6 +59,7 @@ public final class FieldEnrichmentTask extends AbstractTask
         super(application, workerTask, effectiveDocument, customData);
     }
 
+    @Nonnull
     @Override
     protected WorkerResponse createWorkerResponseImpl()
     {
@@ -83,6 +84,7 @@ public final class FieldEnrichmentTask extends AbstractTask
                                   null);
     }
 
+    @Nonnull
     @Override
     protected WorkerResponse handleGeneralFailureImpl(final Throwable failure)
     {
@@ -120,6 +122,7 @@ public final class FieldEnrichmentTask extends AbstractTask
      * @param t the Throwable from the Worker
      * @return a byte array that contains the exception details
      */
+    @Nonnull
     private static byte[] getExceptionData(final Throwable t)
     {
         final String exceptionString = getExceptionStackTrace(t);
@@ -133,6 +136,7 @@ public final class FieldEnrichmentTask extends AbstractTask
      * @param t the exception to build a stack trace from
      * @return stack trace constructed from exception
      */
+    @Nonnull
     private static String getExceptionStackTrace(final Throwable t)
     {
         // Build up exception detail from stack trace

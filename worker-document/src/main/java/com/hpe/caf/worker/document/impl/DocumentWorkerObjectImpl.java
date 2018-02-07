@@ -17,6 +17,7 @@ package com.hpe.caf.worker.document.impl;
 
 import com.hpe.caf.worker.document.model.Application;
 import com.hpe.caf.worker.document.model.DocumentWorkerObject;
+import javax.annotation.Nonnull;
 
 public class DocumentWorkerObjectImpl implements DocumentWorkerObject
 {
@@ -27,6 +28,7 @@ public class DocumentWorkerObjectImpl implements DocumentWorkerObject
         this.application = application;
     }
 
+    @Nonnull
     @Override
     public final Application getApplication()
     {

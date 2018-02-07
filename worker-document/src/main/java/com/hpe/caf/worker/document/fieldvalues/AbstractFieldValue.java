@@ -26,6 +26,7 @@ import java.nio.charset.CharacterCodingException;
 import java.nio.charset.CharsetDecoder;
 import java.nio.charset.StandardCharsets;
 import java.util.Objects;
+import javax.annotation.Nonnull;
 
 public abstract class AbstractFieldValue extends DocumentWorkerObjectImpl implements FieldValue
 {
@@ -37,6 +38,7 @@ public abstract class AbstractFieldValue extends DocumentWorkerObjectImpl implem
      * @param value the object that contains the field value
      * @return an object that can be used to interrogate the field value
      */
+    @Nonnull
     public static AbstractFieldValue create(final ApplicationImpl application, final Field field, final ReadOnlyFieldValue value)
     {
         // Confirm that the arguments are not null
@@ -68,12 +70,14 @@ public abstract class AbstractFieldValue extends DocumentWorkerObjectImpl implem
         this.field = field;
     }
 
+    @Nonnull
     @Override
     public Field getField()
     {
         return field;
     }
 
+    @Nonnull
     @Override
     public String getStringValue()
     {

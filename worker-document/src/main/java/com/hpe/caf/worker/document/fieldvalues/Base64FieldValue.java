@@ -18,6 +18,7 @@ package com.hpe.caf.worker.document.fieldvalues;
 import com.hpe.caf.worker.document.impl.ApplicationImpl;
 import com.hpe.caf.worker.document.model.Field;
 import java.util.Objects;
+import javax.annotation.Nonnull;
 import org.apache.commons.codec.binary.Base64;
 
 public final class Base64FieldValue extends NonReferenceFieldValue
@@ -30,6 +31,7 @@ public final class Base64FieldValue extends NonReferenceFieldValue
         this.data = Base64.decodeBase64(Objects.requireNonNull(data));
     }
 
+    @Nonnull
     @Override
     public byte[] getValue()
     {

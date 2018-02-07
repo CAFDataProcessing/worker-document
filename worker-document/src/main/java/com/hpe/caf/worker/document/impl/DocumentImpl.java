@@ -74,12 +74,14 @@ public class DocumentImpl extends DocumentWorkerObjectImpl implements Document
         reference = getOriginalReference();
     }
 
+    @Nonnull
     @Override
     public final Fields getFields()
     {
         return fields;
     }
 
+    @Nonnull
     @Override
     public final Field getField(final String fieldName)
     {
@@ -92,6 +94,7 @@ public class DocumentImpl extends DocumentWorkerObjectImpl implements Document
         return documentTask.getCustomData(dataKey);
     }
 
+    @Nonnull
     @Override
     public final Failures getFailures()
     {
@@ -110,12 +113,14 @@ public class DocumentImpl extends DocumentWorkerObjectImpl implements Document
         return null;
     }
 
+    @Nonnull
     @Override
     public Document getRootDocument()
     {
         return this;
     }
 
+    @Nonnull
     @Override
     public final Subdocuments getSubdocuments()
     {

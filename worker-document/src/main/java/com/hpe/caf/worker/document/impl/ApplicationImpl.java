@@ -27,6 +27,7 @@ import com.hpe.caf.worker.document.config.DocumentWorkerConfiguration;
 import com.hpe.caf.worker.document.model.Application;
 import com.hpe.caf.worker.document.model.ServiceLocator;
 import java.util.Objects;
+import javax.annotation.Nonnull;
 
 public class ApplicationImpl implements Application
 {
@@ -61,18 +62,21 @@ public class ApplicationImpl implements Application
         serviceLocator.register(ConfigurationSource.class, configSource);
     }
 
+    @Nonnull
     @Override
     public Application getApplication()
     {
         return this;
     }
 
+    @Nonnull
     @Override
     public BatchSizeControllerImpl getBatchSizeController()
     {
         return batchSizeController;
     }
 
+    @Nonnull
     @Override
     public InputMessageProcessorImpl getInputMessageProcessor()
     {
@@ -85,22 +89,26 @@ public class ApplicationImpl implements Application
         return serviceLocator.getService(service);
     }
 
+    @Nonnull
     @Override
     public ServiceLocator getServiceLocator()
     {
         return serviceLocator;
     }
 
+    @Nonnull
     public ConfigurationSource getConfigSource()
     {
         return configSource;
     }
 
+    @Nonnull
     public DataStore getDataStore()
     {
         return dataStore;
     }
 
+    @Nonnull
     public Codec getCodec()
     {
         return codec;
@@ -121,6 +129,7 @@ public class ApplicationImpl implements Application
         return failureQueue;
     }
 
+    @Nonnull
     public DocumentPostProcessorFactory getPostProcessorFactory()
     {
         return postProcessorFactory;

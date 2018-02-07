@@ -89,5 +89,6 @@ public interface FieldValue extends DocumentWorkerObject
      * @return a new InputStream for the field value data
      * @throws IOException if the field value data cannot be retrieved
      */
+    @Nonnull
     InputStream openInputStream() throws IOException;
 }

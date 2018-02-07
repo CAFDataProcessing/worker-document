@@ -26,6 +26,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Stream;
+import javax.annotation.Nonnull;
 
 public final class FieldValuesImpl extends DocumentWorkerObjectImpl implements FieldValues
 {
@@ -39,6 +40,7 @@ public final class FieldValuesImpl extends DocumentWorkerObjectImpl implements F
         this.fieldValues = createFieldValueList(application, field, fieldValues);
     }
 
+    @Nonnull
     @Override
     public Field getField()
     {
@@ -51,6 +53,7 @@ public final class FieldValuesImpl extends DocumentWorkerObjectImpl implements F
         return fieldValues.isEmpty();
     }
 
+    @Nonnull
     @Override
     public Iterator<FieldValue> iterator()
     {
@@ -63,12 +66,14 @@ public final class FieldValuesImpl extends DocumentWorkerObjectImpl implements F
         return fieldValues.size();
     }
 
+    @Nonnull
     @Override
     public Stream<FieldValue> stream()
     {
         return fieldValues.stream();
     }
 
+    @Nonnull
     private static List<FieldValue> createFieldValueList(
         final ApplicationImpl application,
         final Field field,

@@ -21,6 +21,7 @@ import com.hpe.caf.worker.document.model.Field;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Objects;
+import javax.annotation.Nonnull;
 
 public final class ReferenceFieldValue extends AbstractFieldValue
 {
@@ -32,12 +33,14 @@ public final class ReferenceFieldValue extends AbstractFieldValue
         this.data = Objects.requireNonNull(data);
     }
 
+    @Nonnull
     @Override
     public String getReference()
     {
         return data;
     }
 
+    @Nonnull
     @Override
     public byte[] getValue()
     {
@@ -50,6 +53,7 @@ public final class ReferenceFieldValue extends AbstractFieldValue
         return true;
     }
 
+    @Nonnull
     @Override
     public InputStream openInputStream() throws IOException
     {

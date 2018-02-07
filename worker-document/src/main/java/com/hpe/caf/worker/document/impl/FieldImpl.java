@@ -87,18 +87,21 @@ public final class FieldImpl extends DocumentWorkerObjectImpl implements Field
         fieldChanges.values.clear();
     }
 
+    @Nonnull
     @Override
     public Document getDocument()
     {
         return document;
     }
 
+    @Nonnull
     @Override
     public String getName()
     {
         return fieldName;
     }
 
+    @Nonnull
     @Override
     public List<String> getStringValues()
     {
@@ -111,6 +114,7 @@ public final class FieldImpl extends DocumentWorkerObjectImpl implements Field
         return Collections.unmodifiableList(stringValueList);
     }
 
+    @Nonnull
     @Override
     public FieldValues getValues()
     {

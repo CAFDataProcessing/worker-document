@@ -37,6 +37,7 @@ import java.util.NoSuchElementException;
 import java.util.Objects;
 import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
+import javax.annotation.Nonnull;
 
 public final class BulkDocumentMessageProcessor
 {
@@ -129,6 +130,7 @@ public final class BulkDocumentMessageProcessor
             return isBatchClosed;
         }
 
+        @Nonnull
         @Override
         public Iterator<Document> iterator()
         {
@@ -139,6 +141,7 @@ public final class BulkDocumentMessageProcessor
                 : iterator;
         }
 
+        @Nonnull
         @Override
         public Stream<Document> stream()
         {
@@ -169,7 +172,7 @@ public final class BulkDocumentMessageProcessor
             }
 
             // Get the next document for the batch
-            BulkDocument bulkDocument;
+            final BulkDocument bulkDocument;
             if (currentBatchSize == 0) {
                 // Get the first document of the batch within the batch timeframe
                 final long initialEndTime = System.currentTimeMillis() + maxBatchTime;
@@ -289,6 +292,7 @@ public final class BulkDocumentMessageProcessor
      * Given a sequence of documents, each of which potentially contains a subdocument hierarchy, this function returns an iterator over
      * all of the documents. For each document, it supplies the document and all of the subdocuments in its hierarchy.
      */
+    @Nonnull
     private static Iterator<Document> createHierarchyIterator(final Iterator<Document> documentIterator)
     {
         return IteratorFunctions.asStream(documentIterator)
