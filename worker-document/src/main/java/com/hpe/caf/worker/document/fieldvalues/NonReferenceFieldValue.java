@@ -17,6 +17,8 @@ package com.hpe.caf.worker.document.fieldvalues;
 
 import com.hpe.caf.worker.document.impl.ApplicationImpl;
 import com.hpe.caf.worker.document.model.Field;
+import java.io.ByteArrayInputStream;
+import java.io.InputStream;
 
 public abstract class NonReferenceFieldValue extends AbstractFieldValue
 {
@@ -35,5 +37,13 @@ public abstract class NonReferenceFieldValue extends AbstractFieldValue
     public final boolean isReference()
     {
         return false;
+    }
+
+    @Override
+    public InputStream openInputStream()
+    {
+        final byte[] data = getValue();
+
+        return new ByteArrayInputStream(data);
     }
 }
