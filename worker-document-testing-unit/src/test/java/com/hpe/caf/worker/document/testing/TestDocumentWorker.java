@@ -58,10 +58,10 @@ public class TestDocumentWorker implements DocumentWorker
         int words = 0;
 
         try (final InputStream inputFile = dataStore.retrieve(storageReference)) {
-            Scanner s = new Scanner(inputFile);
+            final Scanner s = new Scanner(inputFile);
 
             while (s.hasNext("\\w+")) {
-                final String word = s.next("\\w+");
+                s.next("\\w+");
                 words++;
             }
         } catch (final DataStoreException | IOException e) {
