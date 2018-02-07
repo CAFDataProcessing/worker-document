@@ -25,10 +25,6 @@ public class DocumentWorkerTestInput
      */
     private DocumentWorkerTask task;
 
-    public DocumentWorkerTestInput()
-    {
-    }
-
     public DocumentWorkerTask getTask()
     {
         return task;

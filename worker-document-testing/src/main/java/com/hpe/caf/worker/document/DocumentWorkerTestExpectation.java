@@ -23,10 +23,6 @@ public class DocumentWorkerTestExpectation
 {
     private DocumentWorkerResultExpectation result;
 
-    public DocumentWorkerTestExpectation()
-    {
-    }
-
     public DocumentWorkerResultExpectation getResult()
     {
         return result;

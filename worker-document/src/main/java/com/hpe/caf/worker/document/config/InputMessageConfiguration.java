@@ -32,10 +32,6 @@ public final class InputMessageConfiguration
      */
     private Boolean processSubdocumentsSeparately;
 
-    public InputMessageConfiguration()
-    {
-    }
-
     public Boolean getDocumentTasksAccepted()
     {
         return documentTasksAccepted;

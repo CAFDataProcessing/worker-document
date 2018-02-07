@@ -53,10 +53,6 @@ public class DocumentWorkerConfiguration extends WorkerConfiguration
      */
     private InputMessageConfiguration inputMessageProcessing;
 
-    public DocumentWorkerConfiguration()
-    {
-    }
-
     public String getOutputQueue()
     {
         return outputQueue;
