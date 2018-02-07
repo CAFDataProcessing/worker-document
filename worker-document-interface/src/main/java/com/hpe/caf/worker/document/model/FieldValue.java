@@ -15,6 +15,8 @@
  */
 package com.hpe.caf.worker.document.model;
 
+import java.io.IOException;
+import java.io.InputStream;
 import javax.annotation.Nonnull;
 
 /**
@@ -80,11 +82,12 @@ public interface FieldValue extends DocumentWorkerObject
     boolean isStringValue();
 
     /**
-     * TODO: All methods so far only work for either value or reference - we should have a getData() method that works regardless (i.e.
-     * goes of to storage if it has to). Need to work out what the signature for such a method should be. It could be quite large so
-     * should it return byte[], ByteArrayOutputStream, something else? Should it throw InteruptedException / IOException etc.?
+     * Opens an InputStream for the field value.
+     * <p>
+     * At the end of the method either the stream will be successfully opened, or an exception will have been thrown.
      *
-     * @return the actual data value
+     * @return a new InputStream for the field value data
+     * @throws IOException if the field value data cannot be retrieved
      */
-    //(byte[] or what) getData() throws (what);
+    InputStream openInputStream() throws IOException;
 }
