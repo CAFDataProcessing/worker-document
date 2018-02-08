@@ -139,7 +139,7 @@ public class ApplicationImpl implements Application
     {
         try {
             return codec.serialise(result);
-        } catch (CodecException e) {
+        } catch (final CodecException e) {
             throw new TaskFailedException("Failed to serialise result", e);
         }
     }
@@ -155,7 +155,7 @@ public class ApplicationImpl implements Application
     {
         try {
             return configSource.getConfiguration(DocumentWorkerConfiguration.class);
-        } catch (ConfigurationException ce) {
+        } catch (final ConfigurationException ce) {
             throw new WorkerException("Failed to construct DocumentWorkerConfiguration object", ce);
         }
     }

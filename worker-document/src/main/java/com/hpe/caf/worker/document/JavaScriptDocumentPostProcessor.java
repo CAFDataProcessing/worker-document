@@ -49,7 +49,7 @@ public class JavaScriptDocumentPostProcessor implements DocumentPostProcessor
             final Invocable invocable = (Invocable) engine;
             invocable.invokeFunction("processDocument", document);
             LOG.trace("Executed post-processing script. ");
-        } catch (ScriptException | NoSuchMethodException e) {
+        } catch (final ScriptException | NoSuchMethodException e) {
             throw new PostProcessingFailedException("Could not execute the post-processing script", e);
         }
     }

@@ -80,7 +80,7 @@ public final class DocumentMessageProcessor implements Worker
         // Process the document
         try {
             processDocument(document);
-        } catch (DocumentWorkerTransientException dwte) {
+        } catch (final DocumentWorkerTransientException dwte) {
             throw new TaskRejectedException("Failed to process document", dwte);
         }
 

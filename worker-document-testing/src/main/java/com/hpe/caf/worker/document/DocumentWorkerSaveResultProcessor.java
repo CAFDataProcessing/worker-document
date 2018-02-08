@@ -111,7 +111,7 @@ public class DocumentWorkerSaveResultProcessor<TTestInput>
             expectation.setExpectedContentFile(contentFile.toString());
             expectation.setComparisonType(ContentComparisonType.BINARY);
             expectation.setExpectedSimilarityPercentage(100);
-        } catch (DataStoreException | IOException e) {
+        } catch (final DataStoreException | IOException e) {
             System.out.print("Failed To get data stream :" + e.toString());
         }
         return expectation;

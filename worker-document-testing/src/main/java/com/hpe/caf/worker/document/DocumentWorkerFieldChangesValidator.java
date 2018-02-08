@@ -39,7 +39,7 @@ public class DocumentWorkerFieldChangesValidator extends CustomPropertyValidator
     {
         try {
             return mapper.convertValue(value, classToConvert);
-        } catch (IllegalArgumentException e) {
+        } catch (final IllegalArgumentException e) {
             return null;
         }
     }

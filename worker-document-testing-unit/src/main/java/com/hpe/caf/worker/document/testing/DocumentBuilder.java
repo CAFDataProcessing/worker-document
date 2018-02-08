@@ -191,7 +191,7 @@ public final class DocumentBuilder
             documentWorkerTask = DocumentTask.create(
                 new ApplicationImpl(services.getConfigurationSource(), services.getDataStore(), services.getCodec()),
                 Mockito.mock(WorkerTaskData.class), workerTask);
-        } catch (InvalidChangeLogException e) {
+        } catch (final InvalidChangeLogException e) {
             //TODO: either introduce new (runtime) exception or change the signature.
             // I don't think we want to throw checked exceptions from the tests.
             // It's not something we can handle. If there's an exception, the test is misconfigured

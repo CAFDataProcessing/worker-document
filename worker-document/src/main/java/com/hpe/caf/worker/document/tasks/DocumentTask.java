@@ -95,7 +95,7 @@ public final class DocumentTask extends AbstractTask
             LOG.trace("Post processor is not null - will execute.");
             try {
                 postProcessor.postProcessDocument(document);
-            } catch (PostProcessingFailedException e) {
+            } catch (final PostProcessingFailedException e) {
                 LOG.error("Failed to execute post-processing on a document.", e);
             }
         }

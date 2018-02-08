@@ -79,7 +79,7 @@ public final class BulkDocumentMessageProcessor
         // Attempt to process the documents
         try {
             bulkDocumentWorker.processDocuments(documents);
-        } catch (DocumentWorkerTransientException dwte) {
+        } catch (final DocumentWorkerTransientException dwte) {
 
             // Reject all the documents in the batch
             final TaskRejectedException tre = new TaskRejectedException("Failed to process document", dwte);
@@ -259,7 +259,7 @@ public final class BulkDocumentMessageProcessor
 
             try {
                 return bulkWorkerRuntime.getNextWorkerTask(maxWaitTime);
-            } catch (InterruptedException ex) {
+            } catch (final InterruptedException ex) {
                 Thread.currentThread().interrupt();
                 return null;
             }
@@ -278,10 +278,10 @@ public final class BulkDocumentMessageProcessor
 
             try {
                 return application.getInputMessageProcessor().createTask(workerTask);
-            } catch (InvalidTaskException ex) {
+            } catch (final InvalidTaskException ex) {
                 workerTask.setResponse(ex);
                 return null;
-            } catch (TaskRejectedException ex) {
+            } catch (final TaskRejectedException ex) {
                 workerTask.setResponse(ex);
                 return null;
             }

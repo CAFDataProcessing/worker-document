@@ -62,7 +62,7 @@ public class DocumentPostProcessorFactory
 
         try (final InputStream stream = dataStore.retrieve(reference)) {
             return IOUtils.toString(stream, StandardCharsets.UTF_8);
-        } catch (DataStoreException | IOException e) {
+        } catch (final DataStoreException | IOException e) {
             LOG.error("Could not retrieve post-processing script from DataStore.", e);
             throw new TaskRejectedException("Could not retrieve post-processing script from DataStore.", e);
         }

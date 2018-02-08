@@ -92,7 +92,7 @@ public class DocumentWorkerFieldValueValidator extends CustomPropertyValidator
             final DocumentWorkerFieldValueExpectation validatorValue
                 = convert(DocumentWorkerFieldValueExpectation.class, validatorPropertyValue);
             return testedValue != null && validatorValue != null && equal(testedValue, validatorValue);
-        } catch (DataStoreException | IOException e) {
+        } catch (final DataStoreException | IOException e) {
             return false;
         }
     }
@@ -115,7 +115,7 @@ public class DocumentWorkerFieldValueValidator extends CustomPropertyValidator
         if (value instanceof LinkedHashMap) {
             try {
                 return mapper.convertValue(value, type);
-            } catch (IllegalArgumentException e) {
+            } catch (final IllegalArgumentException e) {
             }
         }
         return null;

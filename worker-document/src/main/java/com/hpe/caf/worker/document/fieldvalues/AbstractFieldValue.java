@@ -95,7 +95,7 @@ public abstract class AbstractFieldValue extends DocumentWorkerObjectImpl implem
         try {
             utfDecoder.decode(byteBuffer);
             return true;
-        } catch (CharacterCodingException ex) {
+        } catch (final CharacterCodingException ex) {
             return false;
         }
     }

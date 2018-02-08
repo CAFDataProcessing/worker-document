@@ -137,7 +137,7 @@ public class InputMessageProcessorImpl extends DocumentWorkerObjectImpl implemen
                 = TaskValidator.deserialiseAndValidateTask(codec, DocumentWorkerDocumentTask.class, data);
             try {
                 return DocumentTask.create(application, workerTask, documentWorkerDocumentTask);
-            } catch (InvalidChangeLogException ex) {
+            } catch (final InvalidChangeLogException ex) {
                 throw new InvalidTaskException("Invalid change log", ex);
             }
         } else {
@@ -182,7 +182,7 @@ public class InputMessageProcessorImpl extends DocumentWorkerObjectImpl implemen
             final T documentWorkerTask;
             try {
                 documentWorkerTask = codec.deserialise(data, taskType, DecodeMethod.STRICT);
-            } catch (CodecException e) {
+            } catch (final CodecException e) {
                 throw new InvalidTaskException("Invalid input message", e);
             }
 

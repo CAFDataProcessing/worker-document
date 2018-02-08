@@ -70,7 +70,7 @@ public class DocumentWorkerResultPreparationProvider implements TestItemProvider
                     fileNames.add(path);
                 }
             }
-        } catch (IOException e) {
+        } catch (final IOException e) {
             System.out.println(e);
             throw e;
         }
@@ -92,7 +92,7 @@ public class DocumentWorkerResultPreparationProvider implements TestItemProvider
     {
         try {
             return configuration.getSerializer().readValue(inputFile.toFile(), configuration.getWorkerTaskClass());
-        } catch (IOException e) {
+        } catch (final IOException e) {
             e.printStackTrace();
             throw new AssertionError("Failed to deserialize inputFile task: " + inputFile + ". Message: " + e.getMessage());
         }
