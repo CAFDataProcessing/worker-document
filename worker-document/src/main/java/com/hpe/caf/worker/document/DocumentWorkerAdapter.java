@@ -26,6 +26,7 @@ import com.hpe.caf.worker.document.config.DocumentWorkerConfiguration;
 import com.hpe.caf.worker.document.extensibility.DocumentWorker;
 import com.hpe.caf.worker.document.impl.ApplicationImpl;
 import com.hpe.caf.worker.document.impl.HealthMonitorImpl;
+import javax.annotation.Nonnull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -87,6 +88,7 @@ public class DocumentWorkerAdapter implements WorkerFactory
         return new DocumentMessageProcessor(application, documentWorker, workerTask);
     }
 
+    @Nonnull
     @Override
     public WorkerConfiguration getWorkerConfiguration()
     {

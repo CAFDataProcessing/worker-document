@@ -114,6 +114,7 @@ public class ApplicationImpl implements Application
         return codec;
     }
 
+    @Nonnull
     public DocumentWorkerConfiguration getConfiguration()
     {
         return configuration;
@@ -150,6 +151,7 @@ public class ApplicationImpl implements Application
      * @return the DocumentWorkerConfiguration object
      * @throws WorkerException if there is a problem creating the configuration object
      */
+    @Nonnull
     private static DocumentWorkerConfiguration getConfiguration(final ConfigurationSource configSource)
         throws WorkerException
     {
