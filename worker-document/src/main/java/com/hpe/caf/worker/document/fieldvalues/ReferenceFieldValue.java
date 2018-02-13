@@ -15,9 +15,9 @@
  */
 package com.hpe.caf.worker.document.fieldvalues;
 
-import com.hpe.caf.api.worker.DataStoreException;
 import com.hpe.caf.worker.document.impl.ApplicationImpl;
 import com.hpe.caf.worker.document.model.Field;
+import com.hpe.caf.worker.document.util.DataStoreFunctions;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Objects;
@@ -57,10 +57,6 @@ public final class ReferenceFieldValue extends AbstractFieldValue
     @Override
     public InputStream openInputStream() throws IOException
     {
-        try {
-            return application.getDataStore().retrieve(data);
-        } catch (final DataStoreException ex) {
-            throw new IOException(ex);
-        }
+        return DataStoreFunctions.openInputStream(application.getDataStore(), data);
     }
 }
