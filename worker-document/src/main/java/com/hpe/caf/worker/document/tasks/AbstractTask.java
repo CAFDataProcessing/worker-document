@@ -141,7 +141,7 @@ public abstract class AbstractTask extends DocumentWorkerObjectImpl implements T
     }
 
     @Nonnull
-    protected abstract WorkerResponse handleGeneralFailureImpl(final Throwable failure);
+    protected abstract WorkerResponse handleGeneralFailureImpl(Throwable failure);
 
     /**
      * Load the customization scripts and if there is an exception then try to determine if it is a transient issue.
