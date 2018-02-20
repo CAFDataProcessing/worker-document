@@ -28,7 +28,7 @@ public interface BulkDocumentWorker extends DocumentWorker
      *
      * @param documents the batch of documents to be processed
      * @throws InterruptedException if any thread has interrupted the current thread
-     * @throws DocumentWorkerTransientException if the documents could not be processed
+     * @throws DocumentWorkerTransientException if the documents could not be processed due to a transient issue
      */
     void processDocuments(Documents documents) throws InterruptedException, DocumentWorkerTransientException;
 }
