@@ -72,7 +72,7 @@ public final class DocumentMessageProcessor implements Worker
     }
 
     @Override
-    public final WorkerResponse doWork() throws InterruptedException, TaskRejectedException, InvalidTaskException
+    public final WorkerResponse doWork() throws InterruptedException, TaskRejectedException
     {
         // Retrieve the Document object
         final DocumentImpl document = documentWorkerTask.getDocument();
