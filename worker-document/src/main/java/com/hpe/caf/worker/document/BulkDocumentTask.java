@@ -18,12 +18,12 @@ package com.hpe.caf.worker.document;
 import com.hpe.caf.api.worker.WorkerTask;
 import com.hpe.caf.worker.document.tasks.AbstractTask;
 
-public final class BulkDocument
+public final class BulkDocumentTask
 {
     private final WorkerTask workerTask;
     private final AbstractTask documentWorkerTask;
 
-    public BulkDocument(final WorkerTask workerTask, final AbstractTask documentWorkerTask)
+    public BulkDocumentTask(final WorkerTask workerTask, final AbstractTask documentWorkerTask)
     {
         this.workerTask = workerTask;
         this.documentWorkerTask = documentWorkerTask;

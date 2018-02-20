@@ -27,9 +27,9 @@ import com.hpe.caf.worker.document.impl.DocumentWorkerObjectImpl;
 import com.hpe.caf.worker.document.model.BatchSizeController;
 import com.hpe.caf.worker.document.model.Document;
 import com.hpe.caf.worker.document.model.Documents;
+import com.hpe.caf.worker.document.model.InputMessageProcessor;
 import com.hpe.caf.worker.document.tasks.AbstractTask;
 import com.hpe.caf.worker.document.util.DocumentFunctions;
-import com.hpe.caf.worker.document.util.IteratorFunctions;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -47,8 +47,10 @@ public final class BulkDocumentMessageProcessor
 
     private final int maxBatchSize;
     private final long maxBatchTime;
+    private final boolean processSubdocumentsSeparately;
 
-    private final List<BulkDocument> bulkDocuments;
+    private final List<BulkDocumentTask> bulkDocumentTasks;
+    private final List<Document> documentBatch;
     private boolean isBatchClosed;
     private long batchEndTime;
 
@@ -66,7 +68,11 @@ public final class BulkDocumentMessageProcessor
         this.maxBatchSize = batchSizeController.getMaximumBatchSize();
         this.maxBatchTime = batchSizeController.getMaximumBatchTime();
 
-        this.bulkDocuments = new ArrayList<>();
+        final InputMessageProcessor inputMessageProcessor = application.getInputMessageProcessor();
+        this.processSubdocumentsSeparately = inputMessageProcessor.getProcessSubdocumentsSeparately();
+
+        this.bulkDocumentTasks = new ArrayList<>();
+        this.documentBatch = new ArrayList<>();
         this.isBatchClosed = false;
         this.batchEndTime = 0;
     }
@@ -81,27 +87,27 @@ public final class BulkDocumentMessageProcessor
             bulkDocumentWorker.processDocuments(documents);
         } catch (final DocumentWorkerTransientException dwte) {
 
-            // Reject all the documents in the batch
+            // Reject all the tasks in the batch
             final TaskRejectedException tre = new TaskRejectedException("Failed to process document", dwte);
-            for (final BulkDocument bulkDocument : bulkDocuments) {
-                bulkDocument.getWorkerTask().setResponse(tre);
+            for (final BulkDocumentTask bulkDocumentTask : bulkDocumentTasks) {
+                bulkDocumentTask.getWorkerTask().setResponse(tre);
             }
 
             // Exit the method - all documents have been rejected
             return;
         }
 
-        // Cycle around the documents and set RESULT_SUCCESS responses on them
-        for (final BulkDocument bulkDocument : bulkDocuments) {
+        // Cycle around the tasks and set RESULT_SUCCESS responses on them
+        for (final BulkDocumentTask bulkDocumentTask : bulkDocumentTasks) {
 
             // Get the task object
-            final AbstractTask documentWorkerTask = bulkDocument.getDocumentWorkerTask();
+            final AbstractTask documentWorkerTask = bulkDocumentTask.getDocumentWorkerTask();
 
             // Create the WorkerResponse object
             final WorkerResponse workerResponse = documentWorkerTask.createWorkerResponse();
 
             // Set the response on the WorkerTask object
-            bulkDocument.getWorkerTask().setResponse(workerResponse);
+            bulkDocumentTask.getWorkerTask().setResponse(workerResponse);
         }
     }
 
@@ -121,7 +127,7 @@ public final class BulkDocumentMessageProcessor
         @Override
         public int currentSize()
         {
-            return bulkDocuments.size();
+            return documentBatch.size();
         }
 
         @Override
@@ -134,11 +140,7 @@ public final class BulkDocumentMessageProcessor
         @Override
         public Iterator<Document> iterator()
         {
-            final Iterator<Document> iterator = new DocumentsIterator();
-
-            return application.getInputMessageProcessor().getProcessSubdocumentsSeparately()
-                ? createHierarchyIterator(iterator)
-                : iterator;
+            return new DocumentsIterator();
         }
 
         @Nonnull
@@ -159,7 +161,7 @@ public final class BulkDocumentMessageProcessor
         @Override
         public boolean hasNext()
         {
-            final int currentBatchSize = bulkDocuments.size();
+            final int currentBatchSize = documentBatch.size();
 
             // Just return true if we have already retrieved the document at this position
             if (pos < currentBatchSize) {
@@ -172,31 +174,40 @@ public final class BulkDocumentMessageProcessor
             }
 
             // Get the next document for the batch
-            final BulkDocument bulkDocument;
+            final BulkDocumentTask bulkDocumentTask;
             if (currentBatchSize == 0) {
                 // Get the first document of the batch within the batch timeframe
                 final long initialEndTime = System.currentTimeMillis() + maxBatchTime;
 
-                bulkDocument = getNextBulkDocument(initialEndTime);
+                bulkDocumentTask = getNextBulkDocumentTask(initialEndTime);
 
                 // Start the batch timer now that the first document has been retrieved
                 batchEndTime = System.currentTimeMillis() + maxBatchTime;
             } else if (currentBatchSize >= maxBatchSize) {
                 // The maximum batch size has been reached so don't attempt to retrieve any more documents
-                bulkDocument = null;
+                bulkDocumentTask = null;
             } else {
                 // Get the next document within the allowed timeframe
-                bulkDocument = getNextBulkDocument(batchEndTime);
+                bulkDocumentTask = getNextBulkDocumentTask(batchEndTime);
             }
 
             // If a document wasn't returned then close the batch
-            if (bulkDocument == null) {
+            if (bulkDocumentTask == null) {
                 isBatchClosed = true;
                 return false;
             }
 
-            // Add the document to the collection
-            bulkDocuments.add(bulkDocument);
+            // Add the document task to the collection
+            bulkDocumentTasks.add(bulkDocumentTask);
+
+            // Add the documents in the task to the batch
+            final Document rootDocument = bulkDocumentTask.getDocumentWorkerTask().getDocument();
+
+            if (processSubdocumentsSeparately) {
+                DocumentFunctions.documentNodes(rootDocument).forEachOrdered(documentBatch::add);
+            } else {
+                documentBatch.add(rootDocument);
+            }
 
             // Return that there is another element which can be retrieved
             return true;
@@ -211,11 +222,11 @@ public final class BulkDocumentMessageProcessor
             }
 
             // Return the document at the current position and move the cursor on to the next position
-            return bulkDocuments.get(pos++).getDocumentWorkerTask().getDocument();
+            return documentBatch.get(pos++);
         }
 
         /**
-         * Retrieves the next document to be processed, or null if no document could be retrieved before the specified cut-off time.
+         * Retrieves the next document task to be processed, or null if no task could be retrieved before the specified cut-off time.
          * <p>
          * If the thread is interrupted then it will return null immediately. Any invalid tasks encountered are skipped (after setting an
          * appropriate response on them).
@@ -223,7 +234,7 @@ public final class BulkDocumentMessageProcessor
          * @param cutoffTime the cut-off time, specified in milliseconds since the Unix epoch
          * @return the next document to be processed
          */
-        private BulkDocument getNextBulkDocument(final long cutoffTime)
+        private BulkDocumentTask getNextBulkDocumentTask(final long cutoffTime)
         {
             // Get the next valid task (loop around if there are invalid messages)
             WorkerTask workerTask;
@@ -242,8 +253,8 @@ public final class BulkDocumentMessageProcessor
 
             } while (documentWorkerTask == null);
 
-            // Create and return the new BulkDocument object
-            return new BulkDocument(workerTask, documentWorkerTask);
+            // Create and return the new BulkDocumentTask object
+            return new BulkDocumentTask(workerTask, documentWorkerTask);
         }
 
         /**
@@ -286,17 +297,5 @@ public final class BulkDocumentMessageProcessor
                 return null;
             }
         }
-    }
-
-    /**
-     * Given a sequence of documents, each of which potentially contains a subdocument hierarchy, this function returns an iterator over
-     * all of the documents. For each document, it supplies the document and all of the subdocuments in its hierarchy.
-     */
-    @Nonnull
-    private static Iterator<Document> createHierarchyIterator(final Iterator<Document> documentIterator)
-    {
-        return IteratorFunctions.asStream(documentIterator)
-            .flatMap(DocumentFunctions::documentNodes)
-            .iterator();
     }
 }
