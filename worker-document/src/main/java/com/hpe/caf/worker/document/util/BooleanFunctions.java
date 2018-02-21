@@ -31,10 +31,10 @@ public final class BooleanFunctions
      * Returns the value of the specified {@link Boolean} if it is non-null, or the specified default value if it is null.
      *
      * @param bool the value to be tested
-     * @param def a value to return if if bool has no value
+     * @param def a value to return if bool has no value
      * @return the value of bool or the specified default if it is null
      */
-    public static boolean valueOf(final Boolean bool, boolean def)
+    public static boolean valueOf(final Boolean bool, final boolean def)
     {
         return (bool == null)
             ? def
