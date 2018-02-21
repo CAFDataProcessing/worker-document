@@ -173,40 +173,28 @@ public final class BulkDocumentMessageProcessor
                 return false;
             }
 
-            // Get the next document for the batch
-            final BulkDocumentTask bulkDocumentTask;
+            // Try to add more documents to the batch if the batch size and time has not already been reached
+            final boolean moreDocumentsAdded;
             if (currentBatchSize == 0) {
-                // Get the first document of the batch within the batch timeframe
+                // Add the first document to the batch within the batch timeframe
                 final long initialEndTime = System.currentTimeMillis() + maxBatchTime;
 
-                bulkDocumentTask = getNextBulkDocumentTask(initialEndTime);
+                moreDocumentsAdded = tryAddMoreDocumentsToBatch(initialEndTime);
 
                 // Start the batch timer now that the first document has been retrieved
                 batchEndTime = System.currentTimeMillis() + maxBatchTime;
             } else if (currentBatchSize >= maxBatchSize) {
                 // The maximum batch size has been reached so don't attempt to retrieve any more documents
-                bulkDocumentTask = null;
+                moreDocumentsAdded = false;
             } else {
-                // Get the next document within the allowed timeframe
-                bulkDocumentTask = getNextBulkDocumentTask(batchEndTime);
+                // Add the next document within the allowed timeframe
+                moreDocumentsAdded = tryAddMoreDocumentsToBatch(batchEndTime);
             }
 
             // If a document wasn't returned then close the batch
-            if (bulkDocumentTask == null) {
+            if (!moreDocumentsAdded) {
                 isBatchClosed = true;
                 return false;
-            }
-
-            // Add the document task to the collection
-            bulkDocumentTasks.add(bulkDocumentTask);
-
-            // Add the documents in the task to the batch
-            final Document rootDocument = bulkDocumentTask.getDocumentWorkerTask().getDocument();
-
-            if (processSubdocumentsSeparately) {
-                DocumentFunctions.documentNodes(rootDocument).forEachOrdered(documentBatch::add);
-            } else {
-                documentBatch.add(rootDocument);
             }
 
             // Return that there is another element which can be retrieved
@@ -223,6 +211,40 @@ public final class BulkDocumentMessageProcessor
 
             // Return the document at the current position and move the cursor on to the next position
             return documentBatch.get(pos++);
+        }
+
+        /**
+         * Tries to add more documents to the batch, if that can be done before the specified cut-off time.
+         * <p>
+         * If the thread is interrupted then it will return false immediately.
+         *
+         * @param cutoffTime the cut-off time, specified in milliseconds since the Unix epoch
+         * @return true if documents were successfully added to the batch; false if they were not
+         */
+        private boolean tryAddMoreDocumentsToBatch(final long cutoffTime)
+        {
+            // Get the next task to add to the batch
+            final BulkDocumentTask bulkDocumentTask = getNextBulkDocumentTask(cutoffTime);
+
+            // If a task hasn't been returned then return that no document could be added to the batch
+            if (bulkDocumentTask == null) {
+                return false;
+            }
+
+            // Add the document task to the collection
+            bulkDocumentTasks.add(bulkDocumentTask);
+
+            // Add the documents in the task to the batch
+            final Document rootDocument = bulkDocumentTask.getDocumentWorkerTask().getDocument();
+
+            if (processSubdocumentsSeparately) {
+                DocumentFunctions.documentNodes(rootDocument).forEachOrdered(documentBatch::add);
+            } else {
+                documentBatch.add(rootDocument);
+            }
+
+            // Return that a document has been added to the batch
+            return true;
         }
 
         /**
