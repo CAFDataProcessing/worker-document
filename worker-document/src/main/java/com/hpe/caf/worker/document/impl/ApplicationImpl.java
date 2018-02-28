@@ -22,7 +22,6 @@ import com.hpe.caf.api.ConfigurationSource;
 import com.hpe.caf.api.worker.DataStore;
 import com.hpe.caf.api.worker.TaskFailedException;
 import com.hpe.caf.api.worker.WorkerException;
-import com.hpe.caf.worker.document.DocumentPostProcessorFactory;
 import com.hpe.caf.worker.document.config.DocumentWorkerConfiguration;
 import com.hpe.caf.worker.document.model.Application;
 import com.hpe.caf.worker.document.model.ServiceLocator;
@@ -38,7 +37,6 @@ public class ApplicationImpl implements Application
     private final Codec codec;
     private final DocumentWorkerConfiguration configuration;
     private final BatchSizeControllerImpl batchSizeController;
-    private final DocumentPostProcessorFactory postProcessorFactory;
     private final InputMessageProcessorImpl inputMessageProcessor;
     private final JavaScriptManager javaScriptManager;
     private final String successQueue;
@@ -53,7 +51,6 @@ public class ApplicationImpl implements Application
         this.codec = Objects.requireNonNull(codec);
         this.configuration = getConfiguration(configSource);
         this.batchSizeController = new BatchSizeControllerImpl(this, configuration);
-        this.postProcessorFactory = new DocumentPostProcessorFactory();
         this.inputMessageProcessor = new InputMessageProcessorImpl(this, configuration.getInputMessageProcessing());
         this.javaScriptManager = new JavaScriptManager(configuration.getScriptCaching());
         this.successQueue = configuration.getOutputQueue();
@@ -137,12 +134,6 @@ public class ApplicationImpl implements Application
     public String getFailureQueue()
     {
         return failureQueue;
-    }
-
-    @Nonnull
-    public DocumentPostProcessorFactory getPostProcessorFactory()
-    {
-        return postProcessorFactory;
     }
 
     public <T> byte[] serialiseResult(final T result)

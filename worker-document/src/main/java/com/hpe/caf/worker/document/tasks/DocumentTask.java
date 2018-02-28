@@ -15,11 +15,9 @@
  */
 package com.hpe.caf.worker.document.tasks;
 
-import com.hpe.caf.api.worker.TaskRejectedException;
 import com.hpe.caf.api.worker.TaskStatus;
 import com.hpe.caf.api.worker.WorkerResponse;
 import com.hpe.caf.api.worker.WorkerTaskData;
-import com.hpe.caf.worker.document.DocumentPostProcessor;
 import com.hpe.caf.worker.document.DocumentWorkerChange;
 import com.hpe.caf.worker.document.DocumentWorkerChangeLogEntry;
 import com.hpe.caf.worker.document.DocumentWorkerConstants;
@@ -30,7 +28,6 @@ import com.hpe.caf.worker.document.changelog.MutableDocument;
 import com.hpe.caf.worker.document.config.DocumentWorkerConfiguration;
 import com.hpe.caf.worker.document.exceptions.InvalidChangeLogException;
 import com.hpe.caf.worker.document.exceptions.InvalidScriptException;
-import com.hpe.caf.worker.document.exceptions.PostProcessingFailedException;
 import com.hpe.caf.worker.document.impl.ApplicationImpl;
 import com.hpe.caf.worker.document.impl.ScriptImpl;
 import com.hpe.caf.worker.document.output.ChangeLogBuilder;
@@ -41,21 +38,17 @@ import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 import javax.annotation.Nonnull;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 public final class DocumentTask extends AbstractTask
 {
-    private static final Logger LOG = LoggerFactory.getLogger(DocumentTask.class);
     private final DocumentWorkerDocumentTask documentTask;
-    private final DocumentPostProcessor postProcessor;
 
     @Nonnull
     public static DocumentTask create(
         final ApplicationImpl application,
         final WorkerTaskData workerTask,
         final DocumentWorkerDocumentTask documentTask
-    ) throws InvalidChangeLogException, InvalidScriptException, TaskRejectedException
+    ) throws InvalidChangeLogException, InvalidScriptException
     {
         Objects.requireNonNull(documentTask);
 
@@ -66,7 +59,7 @@ public final class DocumentTask extends AbstractTask
         final ApplicationImpl application,
         final WorkerTaskData workerTask,
         final DocumentWorkerDocumentTask documentTask
-    ) throws InvalidChangeLogException, InvalidScriptException, TaskRejectedException
+    ) throws InvalidChangeLogException, InvalidScriptException
     {
         super(application,
               workerTask,
@@ -75,7 +68,6 @@ public final class DocumentTask extends AbstractTask
               documentTask.scripts);
 
         this.documentTask = documentTask;
-        this.postProcessor = application.getPostProcessorFactory().create(document);
     }
 
     @Nonnull
@@ -96,15 +88,6 @@ public final class DocumentTask extends AbstractTask
     @Override
     protected WorkerResponse createWorkerResponseImpl()
     {
-        if (postProcessor != null) {
-            LOG.trace("Post processor is not null - will execute.");
-            try {
-                postProcessor.postProcessDocument(document);
-            } catch (final PostProcessingFailedException e) {
-                LOG.error("Failed to execute post-processing on a document.", e);
-            }
-        }
-
         // Build up the changes to add to the change log
         final ChangeLogBuilder changeLogBuilder = new ChangeLogBuilder();
         document.recordChanges(changeLogBuilder);
@@ -135,8 +118,6 @@ public final class DocumentTask extends AbstractTask
 
         // Select the output queue
         final String outputQueue = getOutputQueue(changes);
-
-        LOG.trace("Response queue name - {}", outputQueue);
 
         // Serialise the result object
         final byte[] data = application.serialiseResult(documentWorkerResult);
