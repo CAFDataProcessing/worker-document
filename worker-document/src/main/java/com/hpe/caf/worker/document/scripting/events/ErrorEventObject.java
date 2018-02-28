@@ -13,20 +13,19 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.hpe.caf.worker.document;
+package com.hpe.caf.worker.document.scripting.events;
 
-/**
- * DocumentWorkerConstants constants including API version and the name of the worker.
- */
-public final class DocumentWorkerConstants
+import com.hpe.caf.worker.document.model.Task;
+
+public final class ErrorEventObject extends TaskEventObject
 {
-    public static final String WORKER_NAME = "DocumentWorker";
-    public static final int WORKER_API_VER = 1;
+    public final RuntimeException error;
+    public boolean handled;
 
-    public static final String DOCUMENT_TASK_NAME = "DocumentWorkerTask";
-    public static final int DOCUMENT_TASK_API_VER = 2;
-
-    private DocumentWorkerConstants()
+    public ErrorEventObject(final Task task, final RuntimeException error)
     {
+        super(task);
+        this.error = error;
+        this.handled = false;
     }
 }

@@ -166,3 +166,37 @@ This is an example of a Composite Document worker response. It includes the same
             }
         ]	
     }
+
+
+### Custom Document Scripts
+
+The composite document format also supports running custom scripts when documents are being processed.
+
+Scripts may be specified inline using the `script` key, or alternatively references to external scripts may be specified using the `storageRef` or `url` keys.
+
+    {
+        "document": {
+            "reference": "some-reference",
+            "fields": {
+                "TITLE":     [{"data": "A Christmas Carol"}],
+                "AUTHOR":    [{"data": "Charles Dickens"}],
+                ...
+            }
+        },
+        "scripts": [
+            {
+                "name": "resetDocumentOnError.js",
+                "script": "function onError(document, error) { document.getField('ERROR').add(error); }"
+            },
+            {
+                "name": "workflow.js",
+                "storageRef": "/Scripts/WorkflowScript.js"
+            },
+            {
+                "name": "trackDocuments.js",
+                "url": "http://scriptserver/trackDocuments.js"
+            }
+        ]
+    }
+
+Any scripts specified in the request are also automatically added to the response message.

@@ -26,6 +26,7 @@ import com.hpe.caf.worker.document.DocumentWorkerDocumentTask;
 import com.hpe.caf.worker.document.DocumentWorkerTask;
 import com.hpe.caf.worker.document.config.InputMessageConfiguration;
 import com.hpe.caf.worker.document.exceptions.InvalidChangeLogException;
+import com.hpe.caf.worker.document.exceptions.InvalidScriptException;
 import com.hpe.caf.worker.document.model.InputMessageProcessor;
 import com.hpe.caf.worker.document.tasks.AbstractTask;
 import com.hpe.caf.worker.document.tasks.DocumentTask;
@@ -139,6 +140,8 @@ public class InputMessageProcessorImpl extends DocumentWorkerObjectImpl implemen
                 return DocumentTask.create(application, workerTask, documentWorkerDocumentTask);
             } catch (final InvalidChangeLogException ex) {
                 throw new InvalidTaskException("Invalid change log", ex);
+            } catch (InvalidScriptException ex) {
+                throw new InvalidTaskException("Invalid script", ex);
             }
         } else {
             throw new InvalidTaskException("Task of type " + classifier + " found on queue for " + workerName);

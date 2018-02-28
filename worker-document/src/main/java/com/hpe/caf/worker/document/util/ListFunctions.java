@@ -51,4 +51,28 @@ public final class ListFunctions
             return returnList;
         }
     }
+
+    /**
+     * Returns the specified list if is contains any elements, or {@code null} if the list is empty.
+     *
+     * @param <T> the type of elements
+     * @param list the list to be checked
+     * @return the specified list or null if it is empty
+     */
+    public static <T> List<T> emptyToNull(final List<T> list)
+    {
+        return isNullOrEmpty(list) ? null : list;
+    }
+
+    /**
+     * Returns true if the specified list is {@code null} or contains no elements.
+     *
+     * @param <T> the type of elements
+     * @param list the list to be checked
+     * @return true if the list if null or contains no elements
+     */
+    public static <T> boolean isNullOrEmpty(final List<T> list)
+    {
+        return list == null || list.isEmpty();
+    }
 }

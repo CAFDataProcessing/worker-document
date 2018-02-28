@@ -26,4 +26,5 @@ public final class DocumentWorkerDocumentTask
     public DocumentWorkerDocument document;
     public List<DocumentWorkerChangeLogEntry> changeLog;
     public Map<String, String> customData;
+    public List<DocumentWorkerScript> scripts;
 }

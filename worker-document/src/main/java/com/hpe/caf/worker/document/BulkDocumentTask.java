@@ -16,17 +16,21 @@
 package com.hpe.caf.worker.document;
 
 import com.hpe.caf.api.worker.WorkerTask;
+import com.hpe.caf.worker.document.model.Document;
 import com.hpe.caf.worker.document.tasks.AbstractTask;
+import java.util.List;
 
 public final class BulkDocumentTask
 {
     private final WorkerTask workerTask;
     private final AbstractTask documentWorkerTask;
+    private List<Document> documents;
 
     public BulkDocumentTask(final WorkerTask workerTask, final AbstractTask documentWorkerTask)
     {
         this.workerTask = workerTask;
         this.documentWorkerTask = documentWorkerTask;
+        this.documents = null;
     }
 
     public WorkerTask getWorkerTask()
@@ -37,5 +41,15 @@ public final class BulkDocumentTask
     public AbstractTask getDocumentWorkerTask()
     {
         return documentWorkerTask;
+    }
+
+    public List<Document> getDocuments()
+    {
+        return documents;
+    }
+
+    public void setDocuments(final List<Document> documents)
+    {
+        this.documents = documents;
     }
 }

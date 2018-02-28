@@ -24,18 +24,22 @@ import com.hpe.caf.worker.document.DocumentWorkerChange;
 import com.hpe.caf.worker.document.DocumentWorkerChangeLogEntry;
 import com.hpe.caf.worker.document.DocumentWorkerConstants;
 import com.hpe.caf.worker.document.DocumentWorkerDocumentTask;
+import com.hpe.caf.worker.document.DocumentWorkerScript;
 import com.hpe.caf.worker.document.changelog.ChangeLogFunctions;
 import com.hpe.caf.worker.document.changelog.MutableDocument;
 import com.hpe.caf.worker.document.config.DocumentWorkerConfiguration;
 import com.hpe.caf.worker.document.exceptions.InvalidChangeLogException;
+import com.hpe.caf.worker.document.exceptions.InvalidScriptException;
 import com.hpe.caf.worker.document.exceptions.PostProcessingFailedException;
 import com.hpe.caf.worker.document.impl.ApplicationImpl;
+import com.hpe.caf.worker.document.impl.ScriptImpl;
 import com.hpe.caf.worker.document.output.ChangeLogBuilder;
 import com.hpe.caf.worker.document.util.ListFunctions;
 import com.hpe.caf.worker.document.views.ReadOnlyDocument;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 import javax.annotation.Nonnull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -51,7 +55,7 @@ public final class DocumentTask extends AbstractTask
         final ApplicationImpl application,
         final WorkerTaskData workerTask,
         final DocumentWorkerDocumentTask documentTask
-    ) throws InvalidChangeLogException, TaskRejectedException
+    ) throws InvalidChangeLogException, InvalidScriptException, TaskRejectedException
     {
         Objects.requireNonNull(documentTask);
 
@@ -62,12 +66,13 @@ public final class DocumentTask extends AbstractTask
         final ApplicationImpl application,
         final WorkerTaskData workerTask,
         final DocumentWorkerDocumentTask documentTask
-    ) throws InvalidChangeLogException, TaskRejectedException
+    ) throws InvalidChangeLogException, InvalidScriptException, TaskRejectedException
     {
         super(application,
               workerTask,
               createEffectiveDocument(documentTask),
-              documentTask.customData);
+              documentTask.customData,
+              documentTask.scripts);
 
         this.documentTask = documentTask;
         this.postProcessor = application.getPostProcessorFactory().create(document);
@@ -115,11 +120,18 @@ public final class DocumentTask extends AbstractTask
         final ArrayList<DocumentWorkerChangeLogEntry> changeLog = ListFunctions.copy(documentTask.changeLog, 1);
         changeLog.add(changeLogEntry);
 
+        // Get the installed scripts to include them in the response
+        final List<DocumentWorkerScript> installedScripts = scripts.streamImpls()
+            .filter(ScriptImpl::shouldIncludeInResponse)
+            .map(ScriptImpl::toDocumentWorkerScript)
+            .collect(Collectors.toList());
+
         // Construct the DocumentWorkerDocumentTask object
         final DocumentWorkerDocumentTask documentWorkerResult = new DocumentWorkerDocumentTask();
         documentWorkerResult.document = documentTask.document;
         documentWorkerResult.changeLog = changeLog;
         documentWorkerResult.customData = response.getCustomData();
+        documentWorkerResult.scripts = ListFunctions.emptyToNull(installedScripts);
 
         // Select the output queue
         final String outputQueue = getOutputQueue(changes);
@@ -129,12 +141,15 @@ public final class DocumentTask extends AbstractTask
         // Serialise the result object
         final byte[] data = application.serialiseResult(documentWorkerResult);
 
+        // If the response message includes any scripts then it is in the v2 message format
+        final int resultMessageVersion = (documentWorkerResult.scripts == null) ? 1 : 2;
+
         // Create the WorkerResponse object
         return new WorkerResponse(outputQueue,
                                   TaskStatus.RESULT_SUCCESS,
                                   data,
                                   DocumentWorkerConstants.DOCUMENT_TASK_NAME,
-                                  DocumentWorkerConstants.DOCUMENT_TASK_API_VER,
+                                  resultMessageVersion,
                                   null);
     }
 
@@ -145,6 +160,7 @@ public final class DocumentTask extends AbstractTask
         document.getFailures().add(failure.getClass().getName(),
                                    failure.getLocalizedMessage(),
                                    failure);
+
         // Create a RESULT_SUCCESS for the document
         // (RESULT_SUCCESS is used even if there are failures, as the failures are successfully returned)
         return this.createWorkerResponse();

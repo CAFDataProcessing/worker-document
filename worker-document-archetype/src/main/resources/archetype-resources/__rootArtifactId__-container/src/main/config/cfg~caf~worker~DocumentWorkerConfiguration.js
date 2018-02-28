@@ -27,5 +27,15 @@
         documentTasksAccepted: undefined,
         fieldEnrichmentTasksAccepted: undefined,
         processSubdocumentsSeparately: undefined
+    },
+    scriptCaching: {
+        staticScriptCache: {
+            maximumSize: getenv("CAF_WORKER_STATIC_SCRIPT_CACHE_SIZE") || undefined,
+            expireAfterAccess: getenv("CAF_WORKER_STATIC_SCRIPT_CACHE_DURATION") || undefined
+        },
+        dynamicScriptCache: {
+            maximumSize: getenv("CAF_WORKER_DYNAMIC_SCRIPT_CACHE_SIZE") || undefined,
+            expireAfterWrite: getenv("CAF_WORKER_DYNAMIC_SCRIPT_CACHE_DURATION") || undefined
+        }
     }
 });

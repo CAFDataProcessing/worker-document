@@ -160,6 +160,10 @@ The default Document Worker configuration file checks for values as below;
 | threads  |  `CAF_WORKER_THREADS` | 1  |
 | maxBatchSize  |  `CAF_WORKER_MAX_BATCH_SIZE` | 2  |
 | maxBatchTime  |  `CAF_WORKER_MAX_BATCH_TIME` | 5000  |
+| staticScriptCache.maximumSize |  `CAF_WORKER_STATIC_SCRIPT_CACHE_SIZE` | 50 |
+| staticScriptCache.expireAfterAccess |  `CAF_WORKER_STATIC_SCRIPT_CACHE_DURATION` | 1800 (30 minutes) |
+| dynamicScriptCache.maximumSize |  `CAF_WORKER_DYNAMIC_SCRIPT_CACHE_SIZE` | 50 |
+| dynamicScriptCache.expireAfterWrite |  `CAF_WORKER_DYNAMIC_SCRIPT_CACHE_DURATION` | 1800 (30 minutes) |
 
 ## Deployment
 

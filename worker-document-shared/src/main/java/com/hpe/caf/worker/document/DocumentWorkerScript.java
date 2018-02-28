@@ -15,18 +15,15 @@
  */
 package com.hpe.caf.worker.document;
 
-/**
- * DocumentWorkerConstants constants including API version and the name of the worker.
- */
-public final class DocumentWorkerConstants
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
+
+@JsonInclude(Include.NON_NULL)
+public final class DocumentWorkerScript
 {
-    public static final String WORKER_NAME = "DocumentWorker";
-    public static final int WORKER_API_VER = 1;
+    public String name;
 
-    public static final String DOCUMENT_TASK_NAME = "DocumentWorkerTask";
-    public static final int DOCUMENT_TASK_API_VER = 2;
-
-    private DocumentWorkerConstants()
-    {
-    }
+    public String script;
+    public String storageRef;
+    public String url;
 }

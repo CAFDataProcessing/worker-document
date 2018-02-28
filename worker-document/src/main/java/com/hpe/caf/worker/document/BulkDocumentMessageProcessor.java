@@ -97,17 +97,32 @@ public final class BulkDocumentMessageProcessor
             return;
         }
 
-        // Cycle around the tasks and set RESULT_SUCCESS responses on them
+        // Cycle around the tasks and set the responses on them
         for (final BulkDocumentTask bulkDocumentTask : bulkDocumentTasks) {
 
-            // Get the task object
+            // Get the task objects
             final AbstractTask documentWorkerTask = bulkDocumentTask.getDocumentWorkerTask();
+            final WorkerTask workerTask = bulkDocumentTask.getWorkerTask();
 
-            // Create the WorkerResponse object
-            final WorkerResponse workerResponse = documentWorkerTask.createWorkerResponse();
+            try {
+                // Raise the onAfterProcessDocument and onAfterProcessTask events
+                for (final Document document : bulkDocumentTask.getDocuments()) {
+                    documentWorkerTask.raiseAfterProcessDocumentEvent(document);
+                }
 
-            // Set the response on the WorkerTask object
-            bulkDocumentTask.getWorkerTask().setResponse(workerResponse);
+                documentWorkerTask.raiseAfterProcessTaskEvent();
+
+                // Create the WorkerResponse object
+                final WorkerResponse workerResponse = documentWorkerTask.createWorkerResponse();
+
+                // Set the response on the WorkerTask object
+                workerTask.setResponse(workerResponse);
+
+            } catch (final DocumentWorkerTransientException ex) {
+
+                // Reject the task as a transient exception was thrown from one of its event handlers
+                workerTask.setResponse(new TaskRejectedException("Failed to process task after scripts", ex));
+            }
         }
     }
 
@@ -223,28 +238,53 @@ public final class BulkDocumentMessageProcessor
          */
         private boolean tryAddMoreDocumentsToBatch(final long cutoffTime)
         {
-            // Get the next task to add to the batch
-            final BulkDocumentTask bulkDocumentTask = getNextBulkDocumentTask(cutoffTime);
+            for (;;) {
+                // Get the next task to add to the batch
+                final BulkDocumentTask bulkDocumentTask = getNextBulkDocumentTask(cutoffTime);
 
-            // If a task hasn't been returned then return that no document could be added to the batch
-            if (bulkDocumentTask == null) {
-                return false;
+                // If a task hasn't been returned then return that no document could be added to the batch
+                if (bulkDocumentTask == null) {
+                    return false;
+                }
+
+                try {
+                    // Load the task's customization scripts and raise its onProcessTask event
+                    final AbstractTask task = bulkDocumentTask.getDocumentWorkerTask();
+                    task.loadScripts();
+                    task.raiseProcessTaskEvent();
+
+                    // Get the documents from the task that should be added to the batch
+                    final List<Document> documentsToAdd = getDocumentsToAddToBatch(task);
+
+                    // Add the task to the collection
+                    bulkDocumentTask.setDocuments(documentsToAdd);
+                    bulkDocumentTasks.add(bulkDocumentTask);
+
+                    // If there are documents to add to the batch then add them and return, otherwise try the next task
+                    if (!documentsToAdd.isEmpty()) {
+                        documentBatch.addAll(documentsToAdd);
+                        return true;
+                    }
+
+                } catch (final DocumentWorkerTransientException ex) {
+
+                    // Reject the task as a transient exception was thrown from one of its event handlers
+                    bulkDocumentTask.getWorkerTask().setResponse(
+                        new TaskRejectedException("Failed to process task before scripts", ex));
+
+                    // Since a transient exception has occurred I'm going to close the batch rather than trying the next task
+                    return false;
+
+                } catch (final InterruptedException ex) {
+                    // Since the thread has been interrupted I think the correct thing to do is to not set any response on the task at
+                    // all. This is in line with what happens when an InterruptedException is throw from the worker's processDocuments()
+                    // method.
+
+                    // Reinterrupt the thread
+                    Thread.currentThread().interrupt();
+                    return false;
+                }
             }
-
-            // Add the document task to the collection
-            bulkDocumentTasks.add(bulkDocumentTask);
-
-            // Add the documents in the task to the batch
-            final Document rootDocument = bulkDocumentTask.getDocumentWorkerTask().getDocument();
-
-            if (processSubdocumentsSeparately) {
-                DocumentFunctions.documentNodes(rootDocument).forEachOrdered(documentBatch::add);
-            } else {
-                documentBatch.add(rootDocument);
-            }
-
-            // Return that a document has been added to the batch
-            return true;
         }
 
         /**
@@ -319,5 +359,73 @@ public final class BulkDocumentMessageProcessor
                 return null;
             }
         }
+    }
+
+    /**
+     * Returns the documents from the specified task that should be added to the batch. The documents are returned in a prepared state
+     * (i.e. the onBeforeProcessDocument and onProcessDocument events have already been raised for them).
+     *
+     * @param task the task that contains the documents to be added
+     * @return the list of documents from the specified task that should be added to the batch
+     * @throws DocumentWorkerTransientException if a transient issue has occurs when processing any of the event handlers
+     * @throws InterruptedException if the thread is interrupted
+     */
+    private List<Document> getDocumentsToAddToBatch(final AbstractTask task)
+        throws DocumentWorkerTransientException, InterruptedException
+    {
+        // Create a list to hold the documents that will be added to the batch
+        final ArrayList<Document> documentsToAdd = new ArrayList<>();
+
+        // Check whether the documents in the task are being processed separately
+        if (processSubdocumentsSeparately) {
+            // Get the root document
+            final Document rootDocument = task.getDocument();
+
+            // Cycle around all the documents in the task and try to add them to the list
+            final Iterable<Document> allDocuments = DocumentFunctions.documentNodes(rootDocument)::iterator;
+
+            for (final Document document : allDocuments) {
+                if (prepareToAddDocumentToBatch(task, document)) {
+                    documentsToAdd.add(document);
+                }
+            }
+        } else {
+            // Get the root document
+            final Document rootDocument = task.getDocument();
+
+            // Check whether it should be added to the batch
+            if (prepareToAddDocumentToBatch(task, rootDocument)) {
+                documentsToAdd.add(rootDocument);
+            }
+        }
+
+        // Return the documents that should be added to the batch
+        return documentsToAdd;
+    }
+
+    /**
+     * Prepares the specified document to be added to the batch of documents. Returns false if it shouldn't be added.
+     *
+     * @param task the task that contains the document
+     * @param document the document to be prepared
+     * @return true if the document was successfully prepared and should be added to the batch; false if it should not be
+     * @throws DocumentWorkerTransientException if the document could not be prepared due to a transient issue
+     * @throws InterruptedException if the thread is interrupted
+     */
+    private static boolean prepareToAddDocumentToBatch(final AbstractTask task, final Document document)
+        throws DocumentWorkerTransientException, InterruptedException
+    {
+        // Raise the onBeforeProcessDocument event and check the cancellation flag
+        final boolean cancel = task.raiseBeforeProcessDocumentEvent(document);
+
+        if (cancel) {
+            return false;
+        }
+
+        // Raise onProcessDocument event
+        task.raiseProcessDocumentEvent(document);
+
+        // Return that the document can now be added to the batch
+        return true;
     }
 }
