@@ -50,9 +50,9 @@ public interface Script extends DocumentWorkerObject
     String getName();
 
     /**
-     * This property allows for intra-script communication. When the customization script is loaded it may define a global variable named
-     * "thisScriptObject". This property can be used to access the contents of that global variable, which could be an object of any type,
-     * including a function. If the script is not loaded, or if the global variable is not set by the script, then {@code null} is
+     * This property allows for communication between scripts. When the customization script is loaded it may define a global variable
+     * named "thisScriptObject". This property can be used to access the contents of that global variable, which could be an object of any
+     * type, including a function. If the script is not loaded, or if the global variable is not set by the script, then {@code null} is
      * returned.
      *
      * @return an object that the script has elected to expose, or {@code null} if the script is not loaded or does not expose an object
