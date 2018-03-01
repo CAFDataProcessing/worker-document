@@ -53,6 +53,11 @@ public class DocumentWorkerConfiguration extends WorkerConfiguration
      */
     private InputMessageConfiguration inputMessageProcessing;
 
+    /**
+     * Configuration for script caching
+     */
+    private ScriptCachingConfiguration scriptCaching;
+
     public String getOutputQueue()
     {
         return outputQueue;
@@ -111,5 +116,15 @@ public class DocumentWorkerConfiguration extends WorkerConfiguration
     public void setInputMessageProcessing(final InputMessageConfiguration inputMessageProcessing)
     {
         this.inputMessageProcessing = inputMessageProcessing;
+    }
+
+    public ScriptCachingConfiguration getScriptCaching()
+    {
+        return scriptCaching;
+    }
+
+    public void setScriptCaching(final ScriptCachingConfiguration scriptCaching)
+    {
+        this.scriptCaching = scriptCaching;
     }
 }

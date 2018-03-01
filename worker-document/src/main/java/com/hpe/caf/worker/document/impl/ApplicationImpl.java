@@ -26,6 +26,7 @@ import com.hpe.caf.worker.document.DocumentPostProcessorFactory;
 import com.hpe.caf.worker.document.config.DocumentWorkerConfiguration;
 import com.hpe.caf.worker.document.model.Application;
 import com.hpe.caf.worker.document.model.ServiceLocator;
+import com.hpe.caf.worker.document.scripting.JavaScriptManager;
 import java.util.Objects;
 import javax.annotation.Nonnull;
 
@@ -39,6 +40,7 @@ public class ApplicationImpl implements Application
     private final BatchSizeControllerImpl batchSizeController;
     private final DocumentPostProcessorFactory postProcessorFactory;
     private final InputMessageProcessorImpl inputMessageProcessor;
+    private final JavaScriptManager javaScriptManager;
     private final String successQueue;
     private final String failureQueue;
 
@@ -53,6 +55,7 @@ public class ApplicationImpl implements Application
         this.batchSizeController = new BatchSizeControllerImpl(this, configuration);
         this.postProcessorFactory = new DocumentPostProcessorFactory();
         this.inputMessageProcessor = new InputMessageProcessorImpl(this, configuration.getInputMessageProcessing());
+        this.javaScriptManager = new JavaScriptManager(configuration.getScriptCaching());
         this.successQueue = configuration.getOutputQueue();
         this.failureQueue = getFailureQueue(configuration);
 
@@ -118,6 +121,12 @@ public class ApplicationImpl implements Application
     public DocumentWorkerConfiguration getConfiguration()
     {
         return configuration;
+    }
+
+    @Nonnull
+    public JavaScriptManager getJavaScriptManager()
+    {
+        return javaScriptManager;
     }
 
     public String getSuccessQueue()

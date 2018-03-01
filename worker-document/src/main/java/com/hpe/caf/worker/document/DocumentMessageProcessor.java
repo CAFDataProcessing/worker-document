@@ -23,7 +23,6 @@ import com.hpe.caf.api.worker.WorkerTaskData;
 import com.hpe.caf.worker.document.exceptions.DocumentWorkerTransientException;
 import com.hpe.caf.worker.document.extensibility.DocumentWorker;
 import com.hpe.caf.worker.document.impl.ApplicationImpl;
-import com.hpe.caf.worker.document.impl.DocumentImpl;
 import com.hpe.caf.worker.document.model.Document;
 import com.hpe.caf.worker.document.model.Subdocument;
 import com.hpe.caf.worker.document.tasks.AbstractTask;
@@ -74,12 +73,24 @@ public final class DocumentMessageProcessor implements Worker
     @Override
     public final WorkerResponse doWork() throws InterruptedException, TaskRejectedException
     {
-        // Retrieve the Document object
-        final DocumentImpl document = documentWorkerTask.getDocument();
-
-        // Process the document
         try {
-            processDocument(document);
+            try {
+                // Load the customization scripts
+                documentWorkerTask.loadScripts();
+
+                // Process the task
+                processTask();
+
+            } catch (final RuntimeException ex) {
+
+                // Raise the onError event
+                final boolean handled = documentWorkerTask.raiseOnErrorEvent(ex);
+
+                // Re-throw the exception if it was not handled
+                if (!handled) {
+                    throw ex;
+                }
+            }
         } catch (final DocumentWorkerTransientException dwte) {
             throw new TaskRejectedException("Failed to process document", dwte);
         }
@@ -112,16 +123,26 @@ public final class DocumentMessageProcessor implements Worker
      * subdocuments are to be processed separately then the function is also called for each of the subdocuments in the document's
      * hierarchy.
      */
-    private void processDocument(final Document document) throws DocumentWorkerTransientException, InterruptedException
+    private void processTask() throws DocumentWorkerTransientException, InterruptedException
     {
+        // Raise the onProcessTask event
+        documentWorkerTask.raiseProcessTaskEvent();
+
+        // Retrieve the document
+        final Document document = documentWorkerTask.getDocument();
+
+        // Process the document (or documents if subdocuments are being treated separately)
         final boolean processSubdocumentsSeparately
             = application.getInputMessageProcessor().getProcessSubdocumentsSeparately();
 
         if (processSubdocumentsSeparately) {
             processDocumentHierarchy(document);
         } else {
-            documentWorker.processDocument(document);
+            processDocument(document);
         }
+
+        // Raise the onAfterProcessTask event
+        documentWorkerTask.raiseAfterProcessTaskEvent();
     }
 
     /**
@@ -130,10 +151,31 @@ public final class DocumentMessageProcessor implements Worker
      */
     private void processDocumentHierarchy(final Document document) throws DocumentWorkerTransientException, InterruptedException
     {
-        documentWorker.processDocument(document);
+        processDocument(document);
 
         for (final Subdocument subdocument : document.getSubdocuments()) {
             processDocumentHierarchy(subdocument);
         }
+    }
+
+    /**
+     * Calls the customization scripts, and if none of them have set the cancellation flag then calls the implementation's
+     * {@link DocumentWorker#processDocument processDocument()} function.
+     */
+    private void processDocument(final Document document) throws DocumentWorkerTransientException, InterruptedException
+    {
+        // Raise the onBeforeProcessDocument event and check the cancellation flag
+        if (documentWorkerTask.raiseBeforeProcessDocumentEvent(document)) {
+            return;
+        }
+
+        // Raise the onProcessDocument event
+        documentWorkerTask.raiseProcessDocumentEvent(document);
+
+        // Proceed to process the document
+        documentWorker.processDocument(document);
+
+        // Raise the onAfterProcessDocument event
+        documentWorkerTask.raiseAfterProcessDocumentEvent(document);
     }
 }

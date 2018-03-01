@@ -43,6 +43,16 @@ public interface Task extends DocumentWorkerObject
     Document getDocument();
 
     /**
+     * Gets the list of customization scripts associated with this task.
+     * <p>
+     * Scripts are ordered and can be accessed by index.
+     *
+     * @return an object which can be used to access the list of scripts
+     */
+    @Nonnull
+    Scripts getScripts();
+
+    /**
      * Returns the specified task-level service, or {@code null} if the service has not been registered.
      * <p>
      * This method can be used to access task-level services that are provided by the underlying Worker Framework but not exposed by the

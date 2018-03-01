@@ -23,6 +23,7 @@ import com.hpe.caf.worker.document.DocumentWorkerFailure;
 import com.hpe.caf.worker.document.DocumentWorkerResult;
 import com.hpe.caf.worker.document.DocumentWorkerTask;
 import com.hpe.caf.worker.document.impl.ApplicationImpl;
+import com.hpe.caf.worker.document.impl.ScriptImpl;
 import com.hpe.caf.worker.document.output.DocumentWorkerResultBuilder;
 import com.hpe.caf.worker.document.views.ReadOnlyDocument;
 import java.nio.charset.StandardCharsets;
@@ -68,6 +69,11 @@ public final class FieldEnrichmentTask extends AbstractTask
         document.recordChanges(responseBuilder);
 
         final DocumentWorkerResult documentWorkerResult = responseBuilder.toDocumentWorkerResult();
+
+        // Check that no customization scripts have been installed (as this response format doesn't support them)
+        if (scripts.streamImpls().anyMatch(ScriptImpl::shouldIncludeInResponse)) {
+            throw new UnsupportedOperationException();
+        }
 
         // Select the output queue
         final String outputQueue = getOutputQueue(documentWorkerResult.failures);
