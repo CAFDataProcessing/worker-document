@@ -70,6 +70,11 @@ public final class FieldEnrichmentTask extends AbstractTask
 
         final DocumentWorkerResult documentWorkerResult = responseBuilder.toDocumentWorkerResult();
 
+        // Check that no custom data has been added to the response (as this response format doesn't support it)
+        if (!response.getCustomData().asMap().isEmpty()) {
+            throw new UnsupportedOperationException();
+        }
+
         // Check that no customization scripts have been installed (as this response format doesn't support them)
         if (scripts.streamImpls().anyMatch(ScriptImpl::shouldIncludeInResponse)) {
             throw new UnsupportedOperationException();

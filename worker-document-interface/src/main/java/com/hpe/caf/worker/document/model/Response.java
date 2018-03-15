@@ -15,7 +15,6 @@
  */
 package com.hpe.caf.worker.document.model;
 
-import java.util.Map;
 import javax.annotation.Nonnull;
 
 /**
@@ -47,19 +46,12 @@ public interface Response extends DocumentWorkerObject
     void setQueueNameOverride(String queueName);
 
     /**
-     * Returns the custom data that will be sent as a part of the response to this message. It is set using the
-     * {@link #setCustomData setCustomData()} method.
+     * Returns an object which can be used to manipulate the custom data that will be sent as a part of the response.
      *
-     * @return the custom data to be sent as part of the response
+     * @return the object that can be used to access or update the custom data in the response
      */
-    Map<String, String> getCustomData();
-
-    /**
-     * Sets the custom data which will be sent as part of the response to this document processing task.
-     *
-     * @param customData the custom data which will be sent with the response
-     */
-    void setCustomData(Map<String, String> customData);
+    @Nonnull
+    ResponseCustomData getCustomData();
 
     /**
      * Returns the task that this response customization object is associated with.
