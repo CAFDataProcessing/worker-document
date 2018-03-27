@@ -18,16 +18,13 @@ package com.hpe.caf.worker.document.impl;
 import com.hpe.caf.worker.document.model.Response;
 import com.hpe.caf.worker.document.model.Task;
 import com.hpe.caf.worker.document.tasks.AbstractTask;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Map;
 import javax.annotation.Nonnull;
 
 public final class ResponseImpl extends DocumentWorkerObjectImpl implements Response
 {
     private final AbstractTask task;
     private String queueNameOverride;
-    private Map<String, String> customData;
+    private final ResponseCustomDataImpl customData;
 
     public ResponseImpl(
         final ApplicationImpl application,
@@ -37,7 +34,7 @@ public final class ResponseImpl extends DocumentWorkerObjectImpl implements Resp
         super(application);
         this.task = task;
         this.queueNameOverride = null;
-        this.customData = null;
+        this.customData = new ResponseCustomDataImpl(application, this);
     }
 
     @Override
@@ -52,18 +49,11 @@ public final class ResponseImpl extends DocumentWorkerObjectImpl implements Resp
         this.queueNameOverride = queueName;
     }
 
+    @Nonnull
     @Override
-    public Map<String, String> getCustomData()
+    public ResponseCustomDataImpl getCustomData()
     {
         return customData;
-    }
-
-    @Override
-    public void setCustomData(final Map<String, String> customData)
-    {
-        this.customData = (customData == null || customData.isEmpty())
-            ? null
-            : Collections.unmodifiableMap(new HashMap<>(customData));
     }
 
     @Nonnull

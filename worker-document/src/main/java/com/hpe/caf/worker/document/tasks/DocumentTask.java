@@ -32,6 +32,7 @@ import com.hpe.caf.worker.document.impl.ApplicationImpl;
 import com.hpe.caf.worker.document.impl.ScriptImpl;
 import com.hpe.caf.worker.document.output.ChangeLogBuilder;
 import com.hpe.caf.worker.document.util.ListFunctions;
+import com.hpe.caf.worker.document.util.MapFunctions;
 import com.hpe.caf.worker.document.views.ReadOnlyDocument;
 import java.util.ArrayList;
 import java.util.List;
@@ -113,7 +114,7 @@ public final class DocumentTask extends AbstractTask
         final DocumentWorkerDocumentTask documentWorkerResult = new DocumentWorkerDocumentTask();
         documentWorkerResult.document = documentTask.document;
         documentWorkerResult.changeLog = changeLog;
-        documentWorkerResult.customData = response.getCustomData();
+        documentWorkerResult.customData = MapFunctions.emptyToNull(response.getCustomData().asMap());
         documentWorkerResult.scripts = ListFunctions.emptyToNull(installedScripts);
 
         // Select the output queue
