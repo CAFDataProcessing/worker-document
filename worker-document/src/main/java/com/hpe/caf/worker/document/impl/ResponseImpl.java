@@ -23,8 +23,9 @@ import javax.annotation.Nonnull;
 public final class ResponseImpl extends DocumentWorkerObjectImpl implements Response
 {
     private final AbstractTask task;
-    private String queueNameOverride;
     private final ResponseCustomDataImpl customData;
+    private final ResponseQueueImpl failureQueue;
+    private final ResponseQueueImpl successQueue;
 
     public ResponseImpl(
         final ApplicationImpl application,
@@ -33,20 +34,9 @@ public final class ResponseImpl extends DocumentWorkerObjectImpl implements Resp
     {
         super(application);
         this.task = task;
-        this.queueNameOverride = null;
         this.customData = new ResponseCustomDataImpl(application, this);
-    }
-
-    @Override
-    public String getQueueNameOverride()
-    {
-        return queueNameOverride;
-    }
-
-    @Override
-    public void setQueueNameOverride(final String queueName)
-    {
-        this.queueNameOverride = queueName;
+        this.failureQueue = new ResponseQueueImpl(application, this, application.getFailureQueue());
+        this.successQueue = new ResponseQueueImpl(application, this, application.getSuccessQueue());
     }
 
     @Nonnull
@@ -58,8 +48,27 @@ public final class ResponseImpl extends DocumentWorkerObjectImpl implements Resp
 
     @Nonnull
     @Override
+    public ResponseQueueImpl getFailureQueue()
+    {
+        return failureQueue;
+    }
+
+    @Nonnull
+    @Override
+    public ResponseQueueImpl getSuccessQueue()
+    {
+        return successQueue;
+    }
+
+    @Nonnull
+    @Override
     public Task getTask()
     {
         return task;
+    }
+
+    public String getOutputQueue(final boolean hasFailures)
+    {
+        return (hasFailures ? failureQueue : successQueue).getQueueName();
     }
 }

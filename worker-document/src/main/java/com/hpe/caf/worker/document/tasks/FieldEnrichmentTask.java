@@ -25,6 +25,7 @@ import com.hpe.caf.worker.document.DocumentWorkerTask;
 import com.hpe.caf.worker.document.impl.ApplicationImpl;
 import com.hpe.caf.worker.document.impl.ScriptImpl;
 import com.hpe.caf.worker.document.output.DocumentWorkerResultBuilder;
+import com.hpe.caf.worker.document.util.ListFunctions;
 import com.hpe.caf.worker.document.views.ReadOnlyDocument;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
@@ -168,8 +169,6 @@ public final class FieldEnrichmentTask extends AbstractTask
 
     private String getOutputQueue(final List<DocumentWorkerFailure> failures)
     {
-        return (failures == null || failures.isEmpty())
-            ? application.getSuccessQueue()
-            : application.getFailureQueue();
+        return response.getOutputQueue(!ListFunctions.isNullOrEmpty(failures));
     }
 }

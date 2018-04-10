@@ -25,33 +25,30 @@ import javax.annotation.Nonnull;
 public interface Response extends DocumentWorkerObject
 {
     /**
-     * Returns the queue name set by {@link #setQueueNameOverride setQueueNameOverride()}, or {@code null} if
-     * {@code setQueueNameOverride()} has not been used.
-     * <p>
-     * If {@code null} is returned then the default queue set in the configuration is used.
-     *
-     * @return the queue name set on this {@code Response} object
-     */
-    String getQueueNameOverride();
-
-    /**
-     * Sets the name of the queue where the worker should send the response to this document processing task. This queue will override the
-     * default queue name specified in the configuration. It is used even if the document contains failures.
-     * <p>
-     * Passing {@code null} to this method revokes any queue name override previously set and means that the response queue selection will
-     * once again be based on the configuration.
-     *
-     * @param queueName the queue where the response message should be sent
-     */
-    void setQueueNameOverride(String queueName);
-
-    /**
      * Returns an object which can be used to manipulate the custom data that will be sent as a part of the response.
      *
      * @return the object that can be used to access or update the custom data in the response
      */
     @Nonnull
     ResponseCustomData getCustomData();
+
+    /**
+     * Returns the queue that the response will be published to if any failures are newly added to the document or to any of its
+     * subdocuments. Failures can be added to a document using the {@link Document#addFailure Document.addFailure()} method or one of the
+     * {@link Failures#add Failures.add()} methods.
+     *
+     * @return the queue that will be used if the response contains failures
+     */
+    @Nonnull
+    ResponseQueue getFailureQueue();
+
+    /**
+     * Returns the queue that the response will be published to if it does not contain any new failures.
+     *
+     * @return the queue that will be used if the response is successful
+     */
+    @Nonnull
+    ResponseQueue getSuccessQueue();
 
     /**
      * Returns the task that this response customization object is associated with.
