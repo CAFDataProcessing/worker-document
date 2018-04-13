@@ -28,8 +28,6 @@ import javax.script.ScriptException;
  * <p>
  * The customization script may or may not be installed. If it is installed then it will be included in the response message. If the
  * response message is sent to another Document Worker then it will automatically be loaded by that worker before the task is processed.
- * The customization script may be uninstalled in order to prevent it from being included in the response message. Note that a
- * customization script which has been uninstalled can still be loaded.
  */
 public interface Script extends DocumentWorkerObject
 {

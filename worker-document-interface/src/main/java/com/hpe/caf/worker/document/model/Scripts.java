@@ -24,8 +24,8 @@ import javax.annotation.Nonnull;
 public interface Scripts extends DocumentWorkerObject, Iterable<Script>
 {
     /**
-     * Creates a new uninitialized customization script and appends it to the end of this list. The newly created script is installed but
-     * it is not loaded, so it can be adjusted without having to first unload it.
+     * Creates a new uninitialized customization script and appends it to the end of this list. The newly created script is not installed
+     * and it is not loaded, so it can be adjusted without having to first unload it.
      *
      * @return the newly created script
      */
@@ -34,7 +34,7 @@ public interface Scripts extends DocumentWorkerObject, Iterable<Script>
 
     /**
      * Creates a new uninitialized customization script and inserts it at the specified position in this list. The newly created script is
-     * installed but it is not loaded, so it can be adjusted without having to first unload it.
+     * not installed and it is not loaded, so it can be adjusted without having to first unload it.
      *
      * @param index index at which the newly created script is to be inserted
      * @return the newly created script

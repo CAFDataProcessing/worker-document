@@ -55,7 +55,7 @@ public final class ScriptImpl extends DocumentWorkerObjectImpl implements Script
         this.lastKnownIndex = 0;
         this.name = null;
         this.scriptSpec = null;
-        this.isInstalled = true;
+        this.isInstalled = false;
         this.loadedScriptBindings = null;
     }
 
