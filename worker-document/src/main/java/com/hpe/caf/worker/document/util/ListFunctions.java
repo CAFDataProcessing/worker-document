@@ -45,7 +45,7 @@ public final class ListFunctions
         if (list == null) {
             return new ArrayList<>(extraCapacity);
         } else {
-            final ArrayList returnList = new ArrayList<>(list.size() + extraCapacity);
+            final ArrayList<T> returnList = new ArrayList<>(list.size() + extraCapacity);
             returnList.addAll(list);
 
             return returnList;
