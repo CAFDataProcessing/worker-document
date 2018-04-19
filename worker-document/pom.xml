@@ -32,6 +32,10 @@
 
     <dependencies>
         <dependency>
+            <groupId>com.github.cafapi</groupId>
+            <artifactId>caf-api</artifactId>
+        </dependency>
+        <dependency>
             <groupId>com.github.cafdataprocessing</groupId>
             <artifactId>worker-document-utility</artifactId>
             <version>${project.version}</version>
@@ -46,8 +50,9 @@
             <artifactId>worker-api</artifactId>
         </dependency>
         <dependency>
-            <groupId>com.github.cafapi.util</groupId>
-            <artifactId>util-moduleloader</artifactId>
+            <groupId>com.google.code.findbugs</groupId>
+            <artifactId>jsr305</artifactId>
+            <version>3.0.0</version>
         </dependency>
         <dependency>
             <groupId>com.google.guava</groupId>
@@ -60,6 +65,10 @@
         <dependency>
             <groupId>javax.validation</groupId>
             <artifactId>validation-api</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
         </dependency>
         <dependency>
             <groupId>com.github.cafdataprocessing</groupId>
@@ -80,21 +89,6 @@
         <dependency>
             <groupId>org.mockito</groupId>
             <artifactId>mockito-all</artifactId>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>com.github.cafapi.codec</groupId>
-            <artifactId>codec-json</artifactId>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.hibernate</groupId>
-            <artifactId>hibernate-validator</artifactId>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>javax.el</groupId>
-            <artifactId>javax.el-api</artifactId>
             <scope>test</scope>
         </dependency>
     </dependencies>
