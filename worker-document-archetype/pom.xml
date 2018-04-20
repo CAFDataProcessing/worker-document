@@ -36,32 +36,27 @@
         <dependency>
             <groupId>com.github.cafdataprocessing</groupId>
             <artifactId>worker-document</artifactId>
-            <version>${project.version}</version>
             <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>com.github.cafdataprocessing</groupId>
             <artifactId>worker-document-framework</artifactId>
             <type>pom</type>
-            <version>${project.version}</version>
             <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>com.github.cafdataprocessing</groupId>
             <artifactId>worker-document-interface</artifactId>
-            <version>${project.version}</version>
             <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>com.github.cafdataprocessing</groupId>
             <artifactId>worker-document-testing</artifactId>
-            <version>${project.version}</version>
             <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>com.github.cafdataprocessing</groupId>
             <artifactId>worker-document-testing-unit</artifactId>
-            <version>${project.version}</version>
             <scope>test</scope>
         </dependency>
     </dependencies>

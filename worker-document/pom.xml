@@ -38,12 +38,10 @@
         <dependency>
             <groupId>com.github.cafdataprocessing</groupId>
             <artifactId>worker-document-utility</artifactId>
-            <version>${project.version}</version>
         </dependency>
         <dependency>
             <groupId>com.github.cafdataprocessing</groupId>
             <artifactId>worker-document-shared</artifactId>
-            <version>${project.version}</version>
         </dependency>
         <dependency>
             <groupId>com.github.workerframework</groupId>
@@ -52,7 +50,6 @@
         <dependency>
             <groupId>com.google.code.findbugs</groupId>
             <artifactId>jsr305</artifactId>
-            <version>3.0.0</version>
         </dependency>
         <dependency>
             <groupId>com.google.guava</groupId>
@@ -73,7 +70,6 @@
         <dependency>
             <groupId>com.github.cafdataprocessing</groupId>
             <artifactId>worker-document-interface</artifactId>
-            <version>${project.version}</version>
         </dependency>
         <dependency>
             <groupId>commons-codec</groupId>

@@ -54,12 +54,10 @@
         <dependency>
             <groupId>com.github.cafdataprocessing</groupId>
             <artifactId>worker-document-shared</artifactId>
-            <version>${project.version}</version>
         </dependency>
         <dependency>
             <groupId>com.github.cafdataprocessing</groupId>
             <artifactId>worker-document</artifactId>
-            <version>${project.version}</version>
         </dependency>
         <dependency>
             <groupId>com.github.workerframework</groupId>
