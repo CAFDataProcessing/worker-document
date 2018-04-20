@@ -82,7 +82,6 @@
     </developers>
 
     <modules>
-        <module>worker-document-utility</module>
         <module>worker-document</module>
         <module>worker-document-archetype</module>
         <module>worker-document-interface</module>
@@ -90,6 +89,7 @@
         <module>worker-document-shared</module>
         <module>worker-document-testing</module>
         <module>worker-document-testing-unit</module>
+        <module>worker-document-utility</module>
     </modules>
 
     <dependencyManagement>
