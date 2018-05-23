@@ -19,3 +19,8 @@ ${version-number}
     Previously the `currentSize` method did not include subdocuments, even when the flag to process them separately was turned on.  Also subdocuments were not taken into account when checking the maximum batch size.
 
 #### Known Issues
+
+
+#### Breaking Changes
+- [SCMOD-4072](https://jira.autonomy.com/browse/SCMOD-4072): Updated to use the latest released version of Dropwizard
+   Previously this project consumed version 0.8.4 of dropwizard, this update has increased this version to 1.3.2.

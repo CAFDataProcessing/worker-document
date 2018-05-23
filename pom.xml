@@ -23,7 +23,7 @@
 
     <groupId>com.github.cafdataprocessing</groupId>
     <artifactId>worker-document-aggregator</artifactId>
-    <version>3.4.0-SNAPSHOT</version>
+    <version>4.0.0-SNAPSHOT</version>
     <packaging>pom</packaging>
 
     <name>Document Worker Framework</name>
@@ -32,8 +32,8 @@
 
     <parent>
         <groupId>com.github.cafapi</groupId>
-        <artifactId>caf-common</artifactId>
-        <version>1.14.0-1</version>
+        <artifactId>caf-common-parent</artifactId>
+        <version>1.0.0-SNAPSHOT</version>
     </parent>
 
     <organization>
@@ -97,43 +97,43 @@
             <dependency>
                 <groupId>com.github.cafdataprocessing</groupId>
                 <artifactId>worker-document</artifactId>
-                <version>3.4.0-SNAPSHOT</version>
+                <version>4.0.0-SNAPSHOT</version>
             </dependency>
             <dependency>
                 <groupId>com.github.cafdataprocessing</groupId>
                 <artifactId>worker-document-framework</artifactId>
-                <version>3.4.0-SNAPSHOT</version>
+                <version>4.0.0-SNAPSHOT</version>
                 <type>pom</type>
             </dependency>
             <dependency>
                 <groupId>com.github.cafdataprocessing</groupId>
                 <artifactId>worker-document-interface</artifactId>
-                <version>3.4.0-SNAPSHOT</version>
+                <version>4.0.0-SNAPSHOT</version>
             </dependency>
             <dependency>
                 <groupId>com.github.cafdataprocessing</groupId>
                 <artifactId>worker-document-shared</artifactId>
-                <version>3.4.0-SNAPSHOT</version>
+                <version>4.0.0-SNAPSHOT</version>
             </dependency>
             <dependency>
                 <groupId>com.github.cafdataprocessing</groupId>
                 <artifactId>worker-document-testing</artifactId>
-                <version>3.4.0-SNAPSHOT</version>
+                <version>4.0.0-SNAPSHOT</version>
             </dependency>
             <dependency>
                 <groupId>com.github.cafdataprocessing</groupId>
                 <artifactId>worker-document-testing-unit</artifactId>
-                <version>3.4.0-SNAPSHOT</version>
+                <version>4.0.0-SNAPSHOT</version>
             </dependency>
             <dependency>
                 <groupId>com.github.cafdataprocessing</groupId>
                 <artifactId>worker-document-utility</artifactId>
-                <version>3.4.0-SNAPSHOT</version>
+                <version>4.0.0-SNAPSHOT</version>
             </dependency>
             <dependency>
                 <groupId>com.github.workerframework</groupId>
                 <artifactId>worker-framework</artifactId>
-                <version>2.4.0-342</version>
+                <version>3.0.0-SNAPSHOT</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
