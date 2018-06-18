@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
 
-    Copyright 2015-2017 EntIT Software LLC, a Micro Focus company.
+    Copyright 2016-2018 Micro Focus or one of its affiliates.
 
     Licensed under the Apache License, Version 2.0 (the "License");
     you may not use this file except in compliance with the License.
@@ -29,6 +29,8 @@
     <name>Document Worker Framework</name>
     <description>Provides a foundation for building workers which manipulate documents.</description>
     <url>https://github.com/CAFDataProcessing/worker-document/</url>
+
+    <inceptionYear>2016</inceptionYear>
 
     <parent>
         <groupId>com.github.cafapi</groupId>
@@ -86,6 +88,11 @@
         <module>worker-document-testing-unit</module>
         <module>worker-document-utility</module>
     </modules>
+
+    <properties>
+        <copyrightYear>2018</copyrightYear>
+        <copyrightNotice>Copyright ${project.inceptionYear}-${copyrightYear} Micro Focus or one of its affiliates.</copyrightNotice>
+    </properties>
 
     <dependencyManagement>
         <dependencies>
