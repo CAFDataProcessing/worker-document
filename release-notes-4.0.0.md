@@ -1,5 +1,3 @@
-!not-ready-for-release!
-
 #### Version Number
 ${version-number}
 
@@ -23,4 +21,4 @@ ${version-number}
 
 #### Breaking Changes
 - [SCMOD-4072](https://jira.autonomy.com/browse/SCMOD-4072): Updated to use the latest released version of Dropwizard
-   Previously this project consumed version 0.8.4 of dropwizard, this update has increased this version to 1.3.2.
+   Previously this project consumed version 0.8.4 of dropwizard, this update has increased this version to 1.3.5.
