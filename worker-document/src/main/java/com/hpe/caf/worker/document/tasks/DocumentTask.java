@@ -126,13 +126,27 @@ public final class DocumentTask extends AbstractTask
         // If the response message includes any scripts then it is in the v2 message format
         final int resultMessageVersion = (documentWorkerResult.scripts == null) ? 1 : 2;
 
+        //get the setting enable exception on failure
+        final Boolean enableExceptionOnFailure = application.getConfiguration().getEnableExceptionOnFailure();
+        if(enableExceptionOnFailure==true) {
+            if(ChangeLogFunctions.hasFailures(changes)){
+                // Create the WorkerResponse object with Error
+                return new WorkerResponse(outputQueue,
+                        TaskStatus.RESULT_EXCEPTION,
+                        data,
+                        DocumentWorkerConstants.DOCUMENT_TASK_NAME,
+                        resultMessageVersion,
+                        null);
+            }
+        }
+
         // Create the WorkerResponse object
         return new WorkerResponse(outputQueue,
-                                  TaskStatus.RESULT_SUCCESS,
-                                  data,
-                                  DocumentWorkerConstants.DOCUMENT_TASK_NAME,
-                                  resultMessageVersion,
-                                  null);
+                TaskStatus.RESULT_SUCCESS,
+                data,
+                DocumentWorkerConstants.DOCUMENT_TASK_NAME,
+                resultMessageVersion,
+                null);
     }
 
     @Nonnull
