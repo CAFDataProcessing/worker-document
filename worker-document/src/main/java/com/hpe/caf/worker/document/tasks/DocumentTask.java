@@ -117,8 +117,9 @@ public final class DocumentTask extends AbstractTask
         documentWorkerResult.customData = MapFunctions.emptyToNull(response.getCustomData().asMap());
         documentWorkerResult.scripts = ListFunctions.emptyToNull(installedScripts);
 
+        boolean changeHasFailures = ChangeLogFunctions.hasFailures(changes);
         // Select the output queue
-        final String outputQueue = getOutputQueue(changes);
+        final String outputQueue = getOutputQueue(changeHasFailures);
 
         // Serialise the result object
         final byte[] data = application.serialiseResult(documentWorkerResult);
@@ -127,9 +128,9 @@ public final class DocumentTask extends AbstractTask
         final int resultMessageVersion = (documentWorkerResult.scripts == null) ? 1 : 2;
 
         //get the setting enable exception on failure
-        final Boolean enableExceptionOnFailure = application.getConfiguration().getEnableExceptionOnFailure();
-        if(enableExceptionOnFailure==true) {
-            if(ChangeLogFunctions.hasFailures(changes)){
+        final boolean enableExceptionOnFailure = application.getConfiguration().getEnableExceptionOnFailure();
+        if(enableExceptionOnFailure) {
+            if(changeHasFailures ){
                 // Create the WorkerResponse object with Error
                 return new WorkerResponse(outputQueue,
                         TaskStatus.RESULT_EXCEPTION,
@@ -171,8 +172,8 @@ public final class DocumentTask extends AbstractTask
         return changeLogEntryName;
     }
 
-    private String getOutputQueue(final List<DocumentWorkerChange> changes)
+    private String getOutputQueue(final boolean changeHasFailures)
     {
-        return response.getOutputQueue(ChangeLogFunctions.hasFailures(changes));
+        return response.getOutputQueue(changeHasFailures);
     }
 }
