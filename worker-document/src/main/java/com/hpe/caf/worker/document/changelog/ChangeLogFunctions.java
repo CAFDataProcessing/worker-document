@@ -15,6 +15,7 @@
  */
 package com.hpe.caf.worker.document.changelog;
 
+import com.google.common.base.Joiner;
 import com.hpe.caf.worker.document.DocumentWorkerChange;
 import com.hpe.caf.worker.document.DocumentWorkerDocument;
 import com.hpe.caf.worker.document.DocumentWorkerFailure;
@@ -25,6 +26,16 @@ import java.util.List;
  */
 public final class ChangeLogFunctions
 {
+    private static String failureMsg;
+
+    private static String getFailureMsgs() {
+        return failureMsg;
+    }
+
+    private static void setFailureMsgs(String failureMsgs) {
+        ChangeLogFunctions.failureMsg = Joiner.on(",").skipNulls().join(ChangeLogFunctions.failureMsg,failureMsgs);
+    }
+
     /**
      * Overrides the default constructor to ensure that no instances of this class are created.
      */
@@ -90,5 +101,46 @@ public final class ChangeLogFunctions
 
         return subdocuments != null
             && subdocuments.stream().anyMatch(ChangeLogFunctions::hasFailures);
+    }
+
+    public static String getAllFailureMsgs(final List<DocumentWorkerChange> changes)
+    {
+        if(changes!=null){
+            for (final DocumentWorkerChange change : changes) {
+                if (change.addFailure != null) {
+                    setFailureMsgs(change.addFailure.failureMessage);
+                }
+                if (change.setFailures != null) {
+                    change.setFailures.stream().forEach(documentWorkerFailure -> setFailureMsgs(documentWorkerFailure
+                            .failureMessage));
+                }
+                if(change.addSubdocument!=null){
+                    getAllFailureMsgs(change.addSubdocument);
+                }
+                if(change.insertSubdocument!=null){
+                    getAllFailureMsgs(change.insertSubdocument.subdocument);
+                }
+                if(change.updateSubdocument!=null){
+                    getAllFailureMsgs(change.updateSubdocument.changes);
+                }
+            }
+        }
+        return getFailureMsgs();
+    }
+    private static void getAllFailureMsgs (final DocumentWorkerDocument document){
+        if (document!=null){
+            // Check if it has any failures
+            final List<DocumentWorkerFailure> failures = document.failures;
+
+            if (failures != null && !failures.isEmpty()) {
+                failures.stream().forEach(documentWorkerFailure -> setFailureMsgs(documentWorkerFailure.failureMessage));
+            }
+
+            // Recursively check its subdocuments for failures
+            final List<DocumentWorkerDocument> subdocuments = document.subdocuments;
+            if(subdocuments!=null){
+                subdocuments.stream().forEach(ChangeLogFunctions::getAllFailureMsgs);
+            }
+        }
     }
 }

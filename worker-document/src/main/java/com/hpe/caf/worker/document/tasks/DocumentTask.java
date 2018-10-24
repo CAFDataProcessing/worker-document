@@ -132,9 +132,10 @@ public final class DocumentTask extends AbstractTask
         if(enableExceptionOnFailure) {
             if(changeHasFailures ){
                 // Create the WorkerResponse object with Error
+                final byte[] dataErr = ChangeLogFunctions.getAllFailureMsgs(changes).getBytes();
                 return new WorkerResponse(outputQueue,
                         TaskStatus.RESULT_EXCEPTION,
-                        data,
+                        dataErr,
                         DocumentWorkerConstants.DOCUMENT_TASK_NAME,
                         resultMessageVersion,
                         null);
