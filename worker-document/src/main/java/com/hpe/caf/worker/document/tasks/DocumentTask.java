@@ -31,14 +31,17 @@ import com.hpe.caf.worker.document.exceptions.InvalidScriptException;
 import com.hpe.caf.worker.document.impl.ApplicationImpl;
 import com.hpe.caf.worker.document.impl.ScriptImpl;
 import com.hpe.caf.worker.document.output.ChangeLogBuilder;
+import com.hpe.caf.worker.document.util.DocumentFunctions;
 import com.hpe.caf.worker.document.util.ListFunctions;
 import com.hpe.caf.worker.document.util.MapFunctions;
 import com.hpe.caf.worker.document.views.ReadOnlyDocument;
+
+import javax.annotation.Nonnull;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
-import javax.annotation.Nonnull;
 
 public final class DocumentTask extends AbstractTask
 {
@@ -131,11 +134,14 @@ public final class DocumentTask extends AbstractTask
         final boolean enableExceptionOnFailure = application.getConfiguration().getEnableExceptionOnFailure();
         if(enableExceptionOnFailure) {
             if(changeHasFailures ){
-                // Create the WorkerResponse object with Error
-                final byte[] dataErr = ChangeLogFunctions.getAllFailureMsgs(changes).getBytes();
+                final String failures = DocumentFunctions.documentNodes(document)
+                        .flatMap(d->d.getFailures().stream()  )
+                        .map(f->f.getFailureId() + ": " + f.getFailureMessage())
+                        .collect(Collectors.joining(", "));
+
                 return new WorkerResponse(outputQueue,
                         TaskStatus.RESULT_EXCEPTION,
-                        dataErr,
+                        failures.getBytes(StandardCharsets.UTF_8),
                         DocumentWorkerConstants.DOCUMENT_TASK_NAME,
                         resultMessageVersion,
                         null);
