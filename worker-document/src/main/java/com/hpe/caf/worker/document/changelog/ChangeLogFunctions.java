@@ -51,7 +51,6 @@ public final class ChangeLogFunctions
         for (final DocumentWorkerChange change : changes) {
             if (change.addFailure != null) {
                 hasFailures = true;
-                hasFailures = true;
             }
 
             if (change.setFailures != null) {

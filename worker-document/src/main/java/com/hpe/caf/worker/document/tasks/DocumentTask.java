@@ -137,7 +137,7 @@ public final class DocumentTask extends AbstractTask
                 final String failures = DocumentFunctions.documentNodes(document)
                         .flatMap(d->d.getFailures().stream()  )
                         .map(f->f.getFailureId() + ": " + f.getFailureMessage())
-                        .collect(Collectors.joining(", "));
+                        .collect(Collectors.joining("\n"));
 
                 return new WorkerResponse(outputQueue,
                         TaskStatus.RESULT_EXCEPTION,
