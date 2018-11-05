@@ -35,13 +35,12 @@ import com.hpe.caf.worker.document.util.DocumentFunctions;
 import com.hpe.caf.worker.document.util.ListFunctions;
 import com.hpe.caf.worker.document.util.MapFunctions;
 import com.hpe.caf.worker.document.views.ReadOnlyDocument;
-
-import javax.annotation.Nonnull;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
+import javax.annotation.Nonnull;
 
 public final class DocumentTask extends AbstractTask
 {
@@ -150,11 +149,11 @@ public final class DocumentTask extends AbstractTask
 
         // Create the WorkerResponse object
         return new WorkerResponse(outputQueue,
-                TaskStatus.RESULT_SUCCESS,
-                data,
-                DocumentWorkerConstants.DOCUMENT_TASK_NAME,
-                resultMessageVersion,
-                null);
+                                  TaskStatus.RESULT_SUCCESS,
+                                  data,
+                                  DocumentWorkerConstants.DOCUMENT_TASK_NAME,
+                                  resultMessageVersion,
+                                  null);
     }
 
     @Nonnull
