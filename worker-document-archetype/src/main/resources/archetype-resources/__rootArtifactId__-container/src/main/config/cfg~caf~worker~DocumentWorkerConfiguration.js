@@ -28,7 +28,7 @@
         fieldEnrichmentTasksAccepted: undefined,
         processSubdocumentsSeparately: undefined
     },
-    enableExceptionOnFailure:getenv("CAF_WORKER_ENABLE_EXCEPTION_ONFAILURE") ||false,
+    enableExceptionOnFailure: getenv("CAF_WORKER_ENABLE_EXCEPTION_ONFAILURE") || false,
     scriptCaching: {
         staticScriptCache: {
             maximumSize: getenv("CAF_WORKER_STATIC_SCRIPT_CACHE_SIZE") || undefined,
