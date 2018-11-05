@@ -58,6 +58,11 @@ public class DocumentWorkerConfiguration extends WorkerConfiguration
      */
     private ScriptCachingConfiguration scriptCaching;
 
+    /**
+     * Enable returning Exception on failure
+     */
+    private boolean enableExceptionOnFailure;
+
     public String getOutputQueue()
     {
         return outputQueue;
@@ -126,5 +131,13 @@ public class DocumentWorkerConfiguration extends WorkerConfiguration
     public void setScriptCaching(final ScriptCachingConfiguration scriptCaching)
     {
         this.scriptCaching = scriptCaching;
+    }
+
+    public boolean getEnableExceptionOnFailure() {
+        return enableExceptionOnFailure;
+    }
+
+    public void setEnableExceptionOnFailure(boolean enableExceptionOnFailure) {
+        this.enableExceptionOnFailure = enableExceptionOnFailure;
     }
 }

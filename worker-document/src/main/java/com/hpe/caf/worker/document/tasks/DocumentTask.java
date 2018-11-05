@@ -31,9 +31,11 @@ import com.hpe.caf.worker.document.exceptions.InvalidScriptException;
 import com.hpe.caf.worker.document.impl.ApplicationImpl;
 import com.hpe.caf.worker.document.impl.ScriptImpl;
 import com.hpe.caf.worker.document.output.ChangeLogBuilder;
+import com.hpe.caf.worker.document.util.DocumentFunctions;
 import com.hpe.caf.worker.document.util.ListFunctions;
 import com.hpe.caf.worker.document.util.MapFunctions;
 import com.hpe.caf.worker.document.views.ReadOnlyDocument;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -95,6 +97,29 @@ public final class DocumentTask extends AbstractTask
 
         final List<DocumentWorkerChange> changes = changeLogBuilder.getChanges();
 
+        // Check if any of the changes include any new failures
+        final boolean hasFailures = ChangeLogFunctions.hasFailures(changes);
+
+        // Select the output queue
+        final String outputQueue = response.getOutputQueue(hasFailures);
+
+        // If there have been failures, then check if the framework is configured to return a RESULT_EXCEPTION rather than simply adding
+        // them to the change log
+        if (hasFailures && application.getConfiguration().getEnableExceptionOnFailure()) {
+
+            final String failures = DocumentFunctions.documentNodes(document)
+                .flatMap(d -> d.getFailures().stream())
+                .map(f -> f.getFailureId() + ": " + f.getFailureMessage())
+                .collect(Collectors.joining("\n"));
+
+            return new WorkerResponse(outputQueue,
+                                      TaskStatus.RESULT_EXCEPTION,
+                                      failures.getBytes(StandardCharsets.UTF_8),
+                                      "DocumentWorkerException",
+                                      1,
+                                      null);
+        }
+
         // Create a new change log entry
         final DocumentWorkerChangeLogEntry changeLogEntry = new DocumentWorkerChangeLogEntry();
         changeLogEntry.name = getChangeLogEntryName();
@@ -116,9 +141,6 @@ public final class DocumentTask extends AbstractTask
         documentWorkerResult.changeLog = changeLog;
         documentWorkerResult.customData = MapFunctions.emptyToNull(response.getCustomData().asMap());
         documentWorkerResult.scripts = ListFunctions.emptyToNull(installedScripts);
-
-        // Select the output queue
-        final String outputQueue = getOutputQueue(changes);
 
         // Serialise the result object
         final byte[] data = application.serialiseResult(documentWorkerResult);
@@ -155,10 +177,5 @@ public final class DocumentTask extends AbstractTask
         final String changeLogEntryName = config.getWorkerName() + ":" + config.getWorkerVersion();
 
         return changeLogEntryName;
-    }
-
-    private String getOutputQueue(final List<DocumentWorkerChange> changes)
-    {
-        return response.getOutputQueue(ChangeLogFunctions.hasFailures(changes));
     }
 }
