@@ -121,7 +121,7 @@ public final class DocumentTask extends AbstractTask
 
         boolean changeHasFailures = ChangeLogFunctions.hasFailures(changes);
         // Select the output queue
-        final String outputQueue = getOutputQueue(changeHasFailures);
+        final String outputQueue = response.getOutputQueue(changeHasFailures);
 
         // Serialise the result object
         final byte[] data = application.serialiseResult(documentWorkerResult);
@@ -176,10 +176,5 @@ public final class DocumentTask extends AbstractTask
         final String changeLogEntryName = config.getWorkerName() + ":" + config.getWorkerVersion();
 
         return changeLogEntryName;
-    }
-
-    private String getOutputQueue(final boolean changeHasFailures)
-    {
-        return response.getOutputQueue(changeHasFailures);
     }
 }
