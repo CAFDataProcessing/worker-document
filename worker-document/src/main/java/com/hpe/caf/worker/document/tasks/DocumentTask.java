@@ -97,6 +97,29 @@ public final class DocumentTask extends AbstractTask
 
         final List<DocumentWorkerChange> changes = changeLogBuilder.getChanges();
 
+        // Check if any of the changes include any new failures
+        final boolean hasFailures = ChangeLogFunctions.hasFailures(changes);
+
+        // Select the output queue
+        final String outputQueue = response.getOutputQueue(hasFailures);
+
+        // If there have been failures, then check if the framework is configured to return a RESULT_EXCEPTION rather than simply adding
+        // them to the change log
+        if (hasFailures && application.getConfiguration().getEnableExceptionOnFailure()) {
+
+            final String failures = DocumentFunctions.documentNodes(document)
+                .flatMap(d -> d.getFailures().stream())
+                .map(f -> f.getFailureId() + ": " + f.getFailureMessage())
+                .collect(Collectors.joining("\n"));
+
+            return new WorkerResponse(outputQueue,
+                                      TaskStatus.RESULT_EXCEPTION,
+                                      failures.getBytes(StandardCharsets.UTF_8),
+                                      "DocumentWorkerException",
+                                      1,
+                                      null);
+        }
+
         // Create a new change log entry
         final DocumentWorkerChangeLogEntry changeLogEntry = new DocumentWorkerChangeLogEntry();
         changeLogEntry.name = getChangeLogEntryName();
@@ -119,33 +142,11 @@ public final class DocumentTask extends AbstractTask
         documentWorkerResult.customData = MapFunctions.emptyToNull(response.getCustomData().asMap());
         documentWorkerResult.scripts = ListFunctions.emptyToNull(installedScripts);
 
-        boolean changeHasFailures = ChangeLogFunctions.hasFailures(changes);
-        // Select the output queue
-        final String outputQueue = response.getOutputQueue(changeHasFailures);
-
         // Serialise the result object
         final byte[] data = application.serialiseResult(documentWorkerResult);
 
         // If the response message includes any scripts then it is in the v2 message format
         final int resultMessageVersion = (documentWorkerResult.scripts == null) ? 1 : 2;
-
-        //get the setting enable exception on failure
-        final boolean enableExceptionOnFailure = application.getConfiguration().getEnableExceptionOnFailure();
-        if(enableExceptionOnFailure) {
-            if(changeHasFailures ){
-                final String failures = DocumentFunctions.documentNodes(document)
-                        .flatMap(d->d.getFailures().stream()  )
-                        .map(f->f.getFailureId() + ": " + f.getFailureMessage())
-                        .collect(Collectors.joining("\n"));
-
-                return new WorkerResponse(outputQueue,
-                        TaskStatus.RESULT_EXCEPTION,
-                        failures.getBytes(StandardCharsets.UTF_8),
-                        DocumentWorkerConstants.DOCUMENT_TASK_NAME,
-                        resultMessageVersion,
-                        null);
-            }
-        }
 
         // Create the WorkerResponse object
         return new WorkerResponse(outputQueue,
