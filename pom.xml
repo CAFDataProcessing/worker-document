@@ -92,20 +92,28 @@
     <properties>
         <copyrightYear>2018</copyrightYear>
         <copyrightNotice>Copyright ${project.inceptionYear}-${copyrightYear} Micro Focus or one of its affiliates.</copyrightNotice>
+        <enforceCorrectDependencies>true</enforceCorrectDependencies>
     </properties>
 
     <dependencyManagement>
         <dependencies>
-            <dependency>
-                <groupId>com.github.cafdataprocessing</groupId>
-                <artifactId>worker-document</artifactId>
-                <version>4.2.0-SNAPSHOT</version>
+             <dependency>
+                <groupId>com.github.workerframework</groupId>
+                <artifactId>worker-framework</artifactId>
+                <version>3.1.0-490</version>
+                <type>pom</type>
+                <scope>import</scope>
             </dependency>
             <dependency>
                 <groupId>com.github.cafdataprocessing</groupId>
                 <artifactId>worker-document-framework</artifactId>
                 <version>4.2.0-SNAPSHOT</version>
                 <type>pom</type>
+            </dependency>
+            <dependency>
+                <groupId>com.github.cafdataprocessing</groupId>
+                <artifactId>worker-document</artifactId>
+                <version>4.2.0-SNAPSHOT</version>
             </dependency>
             <dependency>
                 <groupId>com.github.cafdataprocessing</groupId>
@@ -131,18 +139,6 @@
                 <groupId>com.github.cafdataprocessing</groupId>
                 <artifactId>worker-document-utility</artifactId>
                 <version>4.2.0-SNAPSHOT</version>
-            </dependency>
-            <dependency>
-                <groupId>com.github.workerframework</groupId>
-                <artifactId>worker-framework</artifactId>
-                <version>3.1.0-490</version>
-                <type>pom</type>
-                <scope>import</scope>
-            </dependency>
-            <dependency>
-                <groupId>com.google.code.findbugs</groupId>
-                <artifactId>jsr305</artifactId>
-                <version>3.0.0</version>
             </dependency>
             <dependency>
                 <groupId>org.hamcrest</groupId>

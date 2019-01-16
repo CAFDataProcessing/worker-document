@@ -35,13 +35,13 @@
     <dependencies>
         <dependency>
             <groupId>com.github.cafdataprocessing</groupId>
-            <artifactId>worker-document</artifactId>
+            <artifactId>worker-document-framework</artifactId>
+            <type>pom</type>
             <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>com.github.cafdataprocessing</groupId>
-            <artifactId>worker-document-framework</artifactId>
-            <type>pom</type>
+            <artifactId>worker-document</artifactId>
             <scope>test</scope>
         </dependency>
         <dependency>
@@ -57,6 +57,26 @@
         <dependency>
             <groupId>com.github.cafdataprocessing</groupId>
             <artifactId>worker-document-testing-unit</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.testng</groupId>
+            <artifactId>testng</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.github.cafdataprocessing</groupId>
+            <artifactId>worker-document-shared</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.github.workerframework</groupId>
+            <artifactId>worker-testing-integration</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
             <scope>test</scope>
         </dependency>
     </dependencies>
