@@ -22,6 +22,7 @@ import com.hpe.caf.worker.document.DocumentWorkerResult;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import javax.annotation.Nonnull;
 
 public final class DocumentWorkerResultBuilder implements ChangesJournal
 {
@@ -90,6 +91,7 @@ public final class DocumentWorkerResultBuilder implements ChangesJournal
         throw new UnsupportedOperationException();
     }
 
+    @Nonnull
     public DocumentWorkerResult toDocumentWorkerResult()
     {
         return documentWorkerResult;
