@@ -54,6 +54,9 @@ public interface DocumentWorker extends AutoCloseable
     /**
      * This method will be called when the worker is shutting down.<p>
      * It should be overridden by workers which hold resources that need to be released.
+     * <p>
+     * Note that you should avoid throwing checked exceptions from this method as the exception specification will be removed in the next
+     * major release.
      *
      * @throws Exception if the worker's resources cannot be closed
      */

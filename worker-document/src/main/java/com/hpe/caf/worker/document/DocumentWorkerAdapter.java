@@ -112,6 +112,8 @@ public class DocumentWorkerAdapter implements WorkerFactory
     {
         try {
             documentWorker.close();
+        } catch (final RuntimeException ex) {
+            throw ex;
         } catch (final Exception ex) {
             LOG.warn("Error closing DocumentWorker during shutdown", ex);
         }
