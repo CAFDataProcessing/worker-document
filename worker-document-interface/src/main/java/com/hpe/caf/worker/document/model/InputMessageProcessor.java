@@ -24,22 +24,6 @@ import com.hpe.caf.worker.document.extensibility.DocumentWorker;
 public interface InputMessageProcessor extends DocumentWorkerObject
 {
     /**
-     * Returns whether input messages in the composite document message format are accepted.
-     *
-     * @return true if the worker accepts messages in the composite document message format
-     * @see <a href="https://goo.gl/sCZYJM">DocumentWorkerDocumentTask.java</a>
-     */
-    boolean getDocumentTasksAccepted();
-
-    /**
-     * Returns whether input messages in the fields enrichment task message format are accepted.
-     *
-     * @return true if the worker accepts messages in the fields enrichment task message format
-     * @see <a href="https://goo.gl/DR5t5P">DocumentWorkerTask.java</a>
-     */
-    boolean getFieldEnrichmentTasksAccepted();
-
-    /**
      * Returns whether the worker's {@link DocumentWorker#processDocument(Document) processDocument()} method is called for each document
      * in a hierarchy of documents, or whether it is only called for the root document of the document hierarchy.
      * <p>
@@ -51,22 +35,6 @@ public interface InputMessageProcessor extends DocumentWorkerObject
      * @see BulkDocumentWorker#processDocuments(Documents)
      */
     boolean getProcessSubdocumentsSeparately();
-
-    /**
-     * Sets whether input messages in the composite document message format are accepted.
-     *
-     * @param accepted true to accept composite document format messages, or false to reject them
-     * @see <a href="https://goo.gl/sCZYJM">DocumentWorkerDocumentTask.java</a>
-     */
-    void setDocumentTasksAccepted(boolean accepted);
-
-    /**
-     * Sets whether input messages in the fields enrichment task message format are accepted.
-     *
-     * @param accepted true to accept fields enrichment task messages, or false to reject them
-     * @see <a href="https://goo.gl/DR5t5P">DocumentWorkerTask.java</a>
-     */
-    void setFieldEnrichmentTasksAccepted(boolean accepted);
 
     /**
      * Sets whether the {@link DocumentWorker#processDocument(Document) processDocument()} method should be called for each subdocument in

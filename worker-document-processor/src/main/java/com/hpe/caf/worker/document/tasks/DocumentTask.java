@@ -1,0 +1,156 @@
+/*
+ * Copyright 2016-2019 Micro Focus or one of its affiliates.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+package com.hpe.caf.worker.document.tasks;
+
+import com.github.cafdataprocessing.framework.processor.ServiceProvider;
+import com.github.cafdataprocessing.framework.processor.TaskResult;
+import com.hpe.caf.worker.document.DocumentWorkerChange;
+import com.hpe.caf.worker.document.DocumentWorkerChangeLogEntry;
+import com.hpe.caf.worker.document.DocumentWorkerDocumentTask;
+import com.hpe.caf.worker.document.DocumentWorkerScript;
+import com.hpe.caf.worker.document.changelog.ChangeLogFunctions;
+import com.hpe.caf.worker.document.changelog.MutableDocument;
+import com.hpe.caf.worker.document.exceptions.InvalidChangeLogException;
+import com.hpe.caf.worker.document.exceptions.InvalidScriptException;
+import com.hpe.caf.worker.document.impl.ApplicationImpl;
+import com.hpe.caf.worker.document.impl.ScriptImpl;
+import com.hpe.caf.worker.document.output.ChangeLogBuilder;
+import com.hpe.caf.worker.document.util.DocumentFunctions;
+import com.hpe.caf.worker.document.util.ListFunctions;
+import com.hpe.caf.worker.document.util.MapFunctions;
+import com.hpe.caf.worker.document.views.ReadOnlyDocument;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
+import java.util.stream.Collectors;
+import javax.annotation.Nonnull;
+
+public final class DocumentTask extends AbstractTask
+{
+    private final DocumentWorkerDocumentTask documentTask;
+
+    @Nonnull
+    public static DocumentTask create(
+        final ApplicationImpl application,
+        final ServiceProvider taskServiceProvider,
+        final DocumentWorkerDocumentTask documentTask
+    ) throws InvalidChangeLogException, InvalidScriptException
+    {
+        Objects.requireNonNull(documentTask);
+
+        return new DocumentTask(application, taskServiceProvider, documentTask);
+    }
+
+    private DocumentTask(
+        final ApplicationImpl application,
+        final ServiceProvider taskServiceProvider,
+        final DocumentWorkerDocumentTask documentTask
+    ) throws InvalidChangeLogException, InvalidScriptException
+    {
+        super(application,
+              taskServiceProvider,
+              createEffectiveDocument(documentTask),
+              documentTask.customData,
+              documentTask.scripts);
+
+        this.documentTask = documentTask;
+    }
+
+    @Nonnull
+    private static ReadOnlyDocument createEffectiveDocument(final DocumentWorkerDocumentTask documentTask)
+        throws InvalidChangeLogException
+    {
+        Objects.requireNonNull(documentTask);
+
+        final ReadOnlyDocument baseDocument = ReadOnlyDocument.create(documentTask.document);
+
+        final MutableDocument effectiveDocument = new MutableDocument(baseDocument);
+        effectiveDocument.applyChangeLog(documentTask.changeLog);
+
+        return ReadOnlyDocument.create(effectiveDocument);
+    }
+
+    @Nonnull
+    @Override
+    protected TaskResult createWorkerResponseImpl()
+    {
+        // Build up the changes to add to the change log
+        final ChangeLogBuilder changeLogBuilder = new ChangeLogBuilder();
+        document.recordChanges(changeLogBuilder);
+
+        final List<DocumentWorkerChange> changes = changeLogBuilder.getChanges();
+
+        // Create a new change log entry
+        final DocumentWorkerChangeLogEntry changeLogEntry = new DocumentWorkerChangeLogEntry();
+        changeLogEntry.name = application.getConfiguration().getChangeLogEntryName();
+        changeLogEntry.changes = changes.isEmpty() ? null : changes;
+
+        // Put together the complete change log
+        final ArrayList<DocumentWorkerChangeLogEntry> changeLog = ListFunctions.copy(documentTask.changeLog, 1);
+        changeLog.add(changeLogEntry);
+
+        // Get the installed scripts to include them in the response
+        final List<DocumentWorkerScript> installedScripts = scripts.streamImpls()
+            .filter(ScriptImpl::shouldIncludeInResponse)
+            .map(ScriptImpl::toDocumentWorkerScript)
+            .collect(Collectors.toList());
+
+        // Construct the DocumentWorkerDocumentTask object
+        final DocumentWorkerDocumentTask documentWorkerResult = new DocumentWorkerDocumentTask();
+        documentWorkerResult.document = documentTask.document;
+        documentWorkerResult.changeLog = changeLog;
+        documentWorkerResult.customData = MapFunctions.emptyToNull(response.getCustomData().asMap());
+        documentWorkerResult.scripts = ListFunctions.emptyToNull(installedScripts);
+
+        // Check if any of the changes include any new failures
+        final boolean hasFailures = ChangeLogFunctions.hasFailures(changes);
+
+        // Select the output queue
+        final String outputQueue = response.getOutputQueue(hasFailures);
+
+        // Create the TaskResult object
+        return new TaskResult()
+        {
+            @Override
+            public String getQueueName()
+            {
+                return outputQueue;
+            }
+
+            @Override
+            public boolean hasNewFailures()
+            {
+                return hasFailures;
+            }
+
+            @Override
+            public String getFailures()
+            {
+                return DocumentFunctions.documentNodes(document)
+                    .flatMap(d -> d.getFailures().stream())
+                    .map(f -> f.getFailureId() + ": " + f.getFailureMessage())
+                    .collect(Collectors.joining("\n"));
+            }
+
+            @Nonnull
+            @Override
+            public DocumentWorkerDocumentTask getResult()
+            {
+                return documentWorkerResult;
+            }
+        };
+    }
+}

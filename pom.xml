@@ -79,13 +79,14 @@
     </developers>
 
     <modules>
-        <module>worker-document</module>
-        <module>worker-document-archetype</module>
+        <!--<module>worker-document</module>-->
+        <!--<module>worker-document-archetype</module>-->
         <module>worker-document-interface</module>
-        <module>worker-document-framework</module>
+        <!--<module>worker-document-framework</module>-->
+        <module>worker-document-processor</module>
         <module>worker-document-shared</module>
-        <module>worker-document-testing</module>
-        <module>worker-document-testing-unit</module>
+        <!--<module>worker-document-testing</module>-->
+        <!--<module>worker-document-testing-unit</module>-->
         <module>worker-document-utility</module>
     </modules>
 
@@ -118,6 +119,11 @@
             <dependency>
                 <groupId>com.github.cafdataprocessing</groupId>
                 <artifactId>worker-document-interface</artifactId>
+                <version>4.2.0-SNAPSHOT</version>
+            </dependency>
+            <dependency>
+                <groupId>com.github.cafdataprocessing</groupId>
+                <artifactId>worker-document-processor</artifactId>
                 <version>4.2.0-SNAPSHOT</version>
             </dependency>
             <dependency>

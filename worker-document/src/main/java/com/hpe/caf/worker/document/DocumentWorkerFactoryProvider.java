@@ -60,22 +60,4 @@ public final class DocumentWorkerFactoryProvider implements WorkerFactoryProvide
             return new DocumentWorkerAdapter(application, documentWorker);
         }
     }
-
-    /**
-     * This function constructs the implementation of the DocumentWorker interface. It uses the standard Java service provider. If there
-     * is a DocumentWorkerFactory registered then it will be loaded and used to construct the DocumentWorker object. If not then the
-     * DocumentWorker will be loaded directly.
-     *
-     * @return the new DocumentWorker object, or null if it could not be constructed
-     */
-    private static DocumentWorker createDocumentWorker(final Application application)
-    {
-        final DocumentWorkerFactory documentWorkerFactory = ServiceFunctions.loadService(DocumentWorkerFactory.class);
-
-        if (documentWorkerFactory == null) {
-            return ServiceFunctions.loadService(DocumentWorker.class);
-        } else {
-            return documentWorkerFactory.createDocumentWorker(application);
-        }
-    }
 }
