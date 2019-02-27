@@ -36,3 +36,87 @@ This is the shared library defining public classes that constitute the worker in
 ### worker-document-testing
 
 This contains implementations of the testing framework to allow for integration testing of the Document Worker. The project can be found in [worker-document-testing](worker-document-testing).
+
+## Workflow events from JavaScript file
+
+The document from task message ill be processed by series JavaScript events passed to the workflow worker.
+The below are the various events from the JavaScript file.
+
+### EVENTS
+
+#### onProcessTask
+
+This function used to attach customization script to task. The customization script may or may not be `loaded`. If it is loaded then any event handlers that it contains will be executed when the event occurs.
+
+The customization script may or may not be `installed`. If it is installed then it will be included in the response message. If the response message is sent to another Document Worker then it will automatically be loaded by that worker before the task is processed.
+```
+/* global thisScript */
+function onProcessTask()
+{
+    // thisScript.install()    
+}
+```
+#### onAfterProcessTask
+
+The `onProcessDocument` will be triggered against the document, while calling  `onAfterProcessTask`.  If  subdocuments are to be processed separately then the function is also called for each of the subdocuments in the document's hierarchy.
+
+```
+function onAfterProcessTask(e)
+{
+    // e.task         (read-only)
+    // e.rootDocument (read-only)
+    // onProcessDocument(e.rootDocument)
+}
+```
+
+#### onBeforeProcessDocument
+
+This event will be executed before processing of a document. This function is used to  determine if that individual document should be processed by the worker (the cancel flag can be set to prevent it from being processed).
+```
+function onBeforeProcessDocument(e)
+{
+    // e.task         (read-only)
+    // e.rootDocument (read-only)
+    // e.document     (read-only)
+    // e.cancel       (writable)  (default: false)
+}
+```
+
+#### onProcessDocument
+
+This event calls the customization scripts, and if none of them have set the cancellation flag then calls the implementation's `processDocument()` function.
+
+```
+function onProcessDocument(e)
+{
+    // e.task         (read-only)
+    // e.rootDocument (read-only)
+    // e.document     (read-only)
+}
+```
+The reponse of this function will be the processed document that should be add to the batch of documents.
+
+#### onAfterProcessDocument
+```
+function onAfterProcessDocument(e)
+{
+    // e.task         (read-only)
+    // e.rootDocument (read-only)
+    // e.document     (read-only)
+}
+```
+
+#### onError
+
+`onError` should be called in case of a failure in the worker that is not handled by the worker code (in chained workers this will allow to continue processing the document).
+
+```
+function onError(errorEvent)
+{
+     // errorEvent.task         (read-only)
+     // errorEvent.rootDocument (read-only)
+     // onProcessDocument(errorEvent.rootDocument)
+}
+```
+
+
