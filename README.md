@@ -62,7 +62,7 @@ For more details of the TaskEventObject refer the java implementation of the cla
 
 function onProcessTask(e)
 {	
-	// e.application  (read-only)
+    // e.application  (read-only)
     // e.task         (read-only)
     // e.rootDocument (read-only)
 }
@@ -166,7 +166,6 @@ function onAfterProcessTask(e)
     // onProcessDocument(e.rootDocument)
 }
 ```
-
 #### onError
 
 This function should be called in case of a failure in the worker that is not handled by the worker code. In chained workers, this will allow continuing to process the document.
