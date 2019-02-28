@@ -37,86 +37,158 @@ This is the shared library defining public classes that constitute the worker in
 
 This contains implementations of the testing framework to allow for integration testing of the Document Worker. The project can be found in [worker-document-testing](worker-document-testing).
 
-## Workflow events from JavaScript file
+## Workflow event handlers
 
-The document from task message ill be processed by series JavaScript events passed to the workflow worker.
-The below are the various events from the JavaScript file.
-
-### EVENTS
+The document from task message will be processed by series JavaScript event handlers  passed to the workflow worker.
+The below are the various event handlers from the workflow scripts.
 
 #### onProcessTask
 
-This function used to attach customization script to task. The customization script may or may not be `loaded`. If it is loaded then any event handlers that it contains will be executed when the event occurs.
+This is the first function called by worker on the task message.
+This function is passed `TaskEventObject` with `Task` as an argument.
 
-The customization script may or may not be `installed`. If it is installed then it will be included in the response message. If the response message is sent to another Document Worker then it will automatically be loaded by that worker before the task is processed.
+The event obj `TaskEventObject` contains below parameters. The variables will be initialized with values from task message and it will be sent to the series of other functions in the workflow for further processing.
+```
+TaskEventObject(Task task){
+    application=task.application;
+    task = task;
+    rootDocument=task.document;
+}
+```
+For more details of the TaskEventObject refer the java implementation of the class from package  `com.hpe.caf.worker.document.scripting.events.TaskEventObject`.
+
 ```
 /* global thisScript */
-function onProcessTask()
+
+function onProcessTask(e)
+{	
+	// e.application  (read-only)
+    // e.task         (read-only)
+    // e.rootDocument (read-only)
+}
+```
+
+#### onBeforeProcessDocument
+
+This event will be executed after `onProcessTask` and before processing of a document. 
+
+This function is passed `CancelableDocumentEventObject`  with `Document` as an argument.
+
+The CancelableDocumentEventObject has below variables.
+```
+CancelableDocumentEventObject(Document document)
 {
-    // thisScript.install()    
+    super(document);
+    cancel=false;
+}
+```
+For more details of the event object refer the Java implementationof the class from package `com.hpe.caf.worker.document.scripting.events.CancelableDocumentEventObject`.
+```
+function onBeforeProcessDocument(e)
+{
+	// e.application  (read-only)
+	// e.task         (read-only)
+    // e.rootDocument (read-only)
+    // e.document     (read-only)
+    // e.cancel       (writable)  (default: false)
+}
+```
+Output of this function would be the boolean value of event's cancel flag.
+This flag is used to determine if that individual document should be processed by the worker.
+
+#### onProcessDocument
+
+This function will be called to process a document. 
+This function is passed `DocumentEventObject` with `Document` as an argument.
+The `onBeforeProcessDocument` function already triggered to check for cancellation flag.
+
+The `DocumentEventObject` has below variables.
+```
+DocumentEventObject(Document document){
+    document = document;
+}
+```
+For more details  of the event object refer the java implementation from the class `com.hpe.caf.worker.document.scripting.events.DocumentEventObject`.
+```
+function onProcessDocument(e)
+{
+	// e.application  (read-only)
+    // e.task         (read-only)
+    // e.rootDocument (read-only)
+    // e.document     (read-only)
+}
+```
+This function calls the customization scripts, and if none of them have set the cancellation flag then calls the implementation's `DocumentWorker#processDocument processDocument()}` function. The response of this function will be the processed document that should be add to the batch of documents.
+
+#### onAfterProcessDocument
+
+This function will be called once the processing of the document completed successfully.
+This function is passed `DocumentEventObject` with `Document` as an argument.
+The `DocumentEventObject` has below variables.
+
+```
+DocumentEventObject(Document document){
+    document = document;
+}
+```
+For more details  of the event object refer the java implementation from the class `com.hpe.caf.worker.document.scripting.events.DocumentEventObject`.
+
+```
+function onAfterProcessDocument(e)
+{
+    // e.application  (read-only)
+    // e.task         (read-only)
+    // e.rootDocument (read-only)
+    // e.document     (read-only)
 }
 ```
 #### onAfterProcessTask
 
-The `onProcessDocument` will be triggered against the document, while calling  `onAfterProcessTask`.  If  subdocuments are to be processed separately then the function is also called for each of the subdocuments in the document's hierarchy.
+This is the last function called by worker on the task message.
+This function is passed `TaskEventObject` with `Task` as an argument.
+
+The event obj `TaskEventObject` contains below parameters. The variables will be initialized with values from task message and it will be sent to the series of other functions in the workflow for further processing.
+```
+TaskEventObject(Task task){
+    application=task.application;
+    task = task;
+    rootDocument=task.document;
+}
+```
+For more details of the TaskEventObject refer the java implementation of the class from package  `com.hpe.caf.worker.document.scripting.events.TaskEventObject`.
 
 ```
 function onAfterProcessTask(e)
 {
+    // e.application  (read-only)
     // e.task         (read-only)
     // e.rootDocument (read-only)
     // onProcessDocument(e.rootDocument)
 }
 ```
 
-#### onBeforeProcessDocument
-
-This event will be executed before processing of a document. This function is used to  determine if that individual document should be processed by the worker (the cancel flag can be set to prevent it from being processed).
-```
-function onBeforeProcessDocument(e)
-{
-    // e.task         (read-only)
-    // e.rootDocument (read-only)
-    // e.document     (read-only)
-    // e.cancel       (writable)  (default: false)
-}
-```
-
-#### onProcessDocument
-
-This event calls the customization scripts, and if none of them have set the cancellation flag then calls the implementation's `processDocument()` function.
-
-```
-function onProcessDocument(e)
-{
-    // e.task         (read-only)
-    // e.rootDocument (read-only)
-    // e.document     (read-only)
-}
-```
-The reponse of this function will be the processed document that should be add to the batch of documents.
-
-#### onAfterProcessDocument
-```
-function onAfterProcessDocument(e)
-{
-    // e.task         (read-only)
-    // e.rootDocument (read-only)
-    // e.document     (read-only)
-}
-```
-
 #### onError
 
-`onError` should be called in case of a failure in the worker that is not handled by the worker code (in chained workers this will allow to continue processing the document).
+This function should be called in case of a failure in the worker that is not handled by the worker code. In chained workers, this will allow continuing to process the document.
+This function is passed `ErrorEventObject` with `Task`and `RuntimeException` as an argument.
+
+```
+ErrorEventObject(Task task, RuntimeException error){
+    super(task);
+    error = error;
+    handled = false;
+}
+```
+For more details of the ErrorEventObject refer the java implementation of the class from package `com.hpe.caf.worker.document.scripting.events.ErrorEventObject`.
 
 ```
 function onError(errorEvent)
 {
+     // errorEvent.application  (read-only)
      // errorEvent.task         (read-only)
      // errorEvent.rootDocument (read-only)
-     // onProcessDocument(errorEvent.rootDocument)
+     // errorEvent.handled      (writable)  (default: false)
 }
 ```
-
+Output of the function would be the boolean flag whether the failure was handled or leave it to workflow worker to handle.
 
