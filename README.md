@@ -39,7 +39,7 @@ This contains implementations of the testing framework to allow for integration 
 
 ## Workflow event handlers
 
-The document from task message will be processed by series JavaScript event handlers  passed to the workflow worker.
+The document from task message will be processed by series of JavaScript event handlers  passed to the workflow worker.
 The below are the various event handlers from the workflow scripts.
 
 #### onProcessTask
