@@ -86,8 +86,8 @@ For more details of the event object refer the Java implementationof the class f
 ```
 function onBeforeProcessDocument(e)
 {
-	// e.application  (read-only)
-	// e.task         (read-only)
+    // e.application  (read-only)
+    // e.task         (read-only)
     // e.rootDocument (read-only)
     // e.document     (read-only)
     // e.cancel       (writable)  (default: false)
@@ -112,7 +112,7 @@ For more details  of the event object refer the java implementation from the cla
 ```
 function onProcessDocument(e)
 {
-	// e.application  (read-only)
+    // e.application  (read-only)
     // e.task         (read-only)
     // e.rootDocument (read-only)
     // e.document     (read-only)
