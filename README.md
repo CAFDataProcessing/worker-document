@@ -97,7 +97,7 @@ function onBeforeProcessDocument(e)
 Output of this function would be the boolean value of event's cancel flag.
 This flag is used to determine if that individual document should be processed by the worker.
 
-#### onProcessDocument
+#### <a name="onProcessDocument"></a>onProcessDocument
 
 This function will be called to process a document. 
 This function is passed `DocumentEventObject` with `Document` as an argument.
