@@ -41,7 +41,7 @@ This contains implementations of the testing framework to allow for integration 
 
 The below are the various event handlers from the workflow scripts.
 
-#### [onProcessTask](#on-process-task)
+####  onProcessTask
 
 This is the first function called by worker on the task message.
 This function is passed `TaskEventObject` with `Task` as an argument.
@@ -54,8 +54,7 @@ TaskEventObject(Task task){
     rootDocument=task.document;
 }
 ```
-For more details of the `TaskEventObject` refer the java implementation of the class from package [TaskEventObject.java](https://github.com/CAFDataProcessing/worker-document/blob/develop/worker-document/src/main/java/com/hpe/caf/worker/document/scripting/events/TaskEventObject.java) 
-
+For more details of the <a name="onProcessTask"></a>`TaskEventObject` refer the java implementation of the class, [TaskEventObject.java](https://github.com/CAFDataProcessing/worker-document/blob/develop/worker-document/src/main/java/com/hpe/caf/worker/document/scripting/events/TaskEventObject.java) 
 
 ```
 /* global thisScript */
@@ -82,7 +81,7 @@ CancelableDocumentEventObject(Document document)
     cancel=false;
 }
 ```
-For more details of the event object refer the Java implementation of for the class from package 
+For more details of the `CancelableDocumentEventObject`,  refer the Java implementation of for the class,
 [CancelableDocumentEventObject.java](https://github.com/CAFDataProcessing/worker-document/blob/develop/worker-document/src/main/java/com/hpe/caf/worker/document/scripting/events/CancelableDocumentEventObject.java) 
 
 ```
@@ -110,7 +109,7 @@ DocumentEventObject(Document document){
     document = document;
 }
 ```
-For more details  of the event object refer to the java implementation for the class [DocumentEventObject](https://github.com/CAFDataProcessing/worker-document/blob/develop/worker-document/src/main/java/com/hpe/caf/worker/document/scripting/events/DocumentEventObject.java)
+For more details  of the <a name="onProcessDocument"></a>`DocumentEventObject`, refer to the java implementation for the class,  [DocumentEventObject](https://github.com/CAFDataProcessing/worker-document/blob/develop/worker-document/src/main/java/com/hpe/caf/worker/document/scripting/events/DocumentEventObject.java)
 ```
 function onProcessDocument(e)
 {
@@ -129,7 +128,7 @@ This function is passed `DocumentEventObject` with `Document` as an argument.
 
 An example of the `DocumentEventObject` is explained in `onProcessDocument` section.
 
-For more details  of the event object,  refer the [onProcessDocument](#on-process-document) section. 
+For more details  of the event object,  refer the [onProcessDocument](#onProcessDocument) section. 
 
 ```
 function onAfterProcessDocument(e)
@@ -149,7 +148,7 @@ An example of `TaskEventObject` explained in `onProcessTask` section.
 
 The variables will be initialized with values from task message and it will be sent to the series of other functions in the workflow for further processing.
 
-For more details of the TaskEventObject, refer the [onProcessTask](#on-process-task)
+For more details of the `TaskEventObject`, refer the [onProcessTask](#onProcessTask) section.
 
 ```
 function onAfterProcessTask(e)
@@ -172,7 +171,7 @@ ErrorEventObject(Task task, RuntimeException error){
     handled = false;
 }
 ```
-For more details of the ErrorEventObject refer the java implementation of the class for package `com.hpe.caf.worker.document.scripting.events.ErrorEventObject`.
+For more details of the `ErrorEventObject` refer the java implementation of the class for the class [ErrorEventObject](https://github.com/CAFDataProcessing/worker-document/blob/develop/worker-document/src/main/java/com/hpe/caf/worker/document/scripting/events/ErrorEventObject.java)
 
 ```
 function onError(errorEvent)
