@@ -39,7 +39,6 @@ This contains implementations of the testing framework to allow for integration 
 
 ## Workflow event handlers
 
-The document from task message will be processed by series of JavaScript event handlers  passed to the workflow worker.
 The below are the various event handlers from the workflow scripts.
 
 #### onProcessTask
@@ -47,7 +46,7 @@ The below are the various event handlers from the workflow scripts.
 This is the first function called by worker on the task message.
 This function is passed `TaskEventObject` with `Task` as an argument.
 
-The event obj `TaskEventObject` contains below parameters. The variables will be initialized with values from task message and it will be sent to the series of other functions in the workflow for further processing.
+An example of the `TaskEventObject` is below. The variables will be initialized with values from task message and it will be sent to the series of other functions in the workflow for further processing.
 ```
 TaskEventObject(Task task){
     application=task.application;
@@ -55,7 +54,8 @@ TaskEventObject(Task task){
     rootDocument=task.document;
 }
 ```
-For more details of the TaskEventObject refer the java implementation of the class from package  `com.hpe.caf.worker.document.scripting.events.TaskEventObject`.
+For more details of the TaskEventObject refer the java implementation of the class from package  `[TaskEventObject]`[TaskEventObject.java](https://github.com/CAFDataProcessing/worker-document/blob/develop/worker-document/src/main/java/com/hpe/caf/worker/document/scripting/events/TaskEventObject.java) 
+
 
 ```
 /* global thisScript */
@@ -74,7 +74,7 @@ This event will be executed after `onProcessTask` and before processing of a doc
 
 This function is passed `CancelableDocumentEventObject`  with `Document` as an argument.
 
-The CancelableDocumentEventObject has below variables.
+An example of the `CancelableDocumentEventObject` is below.
 ```
 CancelableDocumentEventObject(Document document)
 {
@@ -82,7 +82,7 @@ CancelableDocumentEventObject(Document document)
     cancel=false;
 }
 ```
-For more details of the event object refer the Java implementationof the class from package `com.hpe.caf.worker.document.scripting.events.CancelableDocumentEventObject`.
+For more details of the event object refer the Java implementationof for the class from package `com.hpe.caf.worker.document.scripting.events.CancelableDocumentEventObject`.
 ```
 function onBeforeProcessDocument(e)
 {
@@ -100,15 +100,15 @@ This flag is used to determine if that individual document should be processed b
 
 This function will be called to process a document. 
 This function is passed `DocumentEventObject` with `Document` as an argument.
-The `onBeforeProcessDocument` function already triggered to check for cancellation flag.
+The `onBeforeProcessDocument`  event has already been triggered to check for cancellation flag.
 
-The `DocumentEventObject` has below variables.
+An example of the `DocumentEventObject` is below.
 ```
 DocumentEventObject(Document document){
     document = document;
 }
 ```
-For more details  of the event object refer the java implementation from the class `com.hpe.caf.worker.document.scripting.events.DocumentEventObject`.
+For more details  of the event object refer to the java implementation for the class `com.hpe.caf.worker.document.scripting.events.DocumentEventObject`.
 ```
 function onProcessDocument(e)
 {
@@ -118,20 +118,16 @@ function onProcessDocument(e)
     // e.document     (read-only)
 }
 ```
-This function calls the customization scripts, and if none of them have set the cancellation flag then calls the implementation's `DocumentWorker#processDocument processDocument()}` function. The response of this function will be the processed document that should be add to the batch of documents.
+This function calls the customization scripts, and if none of them have set the cancellation flag then calls the implementation's `DocumentWorker#processDocument processDocument()` function. The response of this function will be the processed document that should be add to the batch of documents.
 
 #### onAfterProcessDocument
 
 This function will be called once the processing of the document completed successfully.
 This function is passed `DocumentEventObject` with `Document` as an argument.
-The `DocumentEventObject` has below variables.
 
-```
-DocumentEventObject(Document document){
-    document = document;
-}
-```
-For more details  of the event object refer the java implementation from the class `com.hpe.caf.worker.document.scripting.events.DocumentEventObject`.
+An example of the `DocumentEventObject` is explained in `onProcessDocument` section.
+
+For more details  of the event object refer the java implementation for the class `com.hpe.caf.worker.document.scripting.events.DocumentEventObject`.
 
 ```
 function onAfterProcessDocument(e)
@@ -147,14 +143,10 @@ function onAfterProcessDocument(e)
 This is the last function called by worker on the task message.
 This function is passed `TaskEventObject` with `Task` as an argument.
 
-The event obj `TaskEventObject` contains below parameters. The variables will be initialized with values from task message and it will be sent to the series of other functions in the workflow for further processing.
-```
-TaskEventObject(Task task){
-    application=task.application;
-    task = task;
-    rootDocument=task.document;
-}
-```
+An example of `TaskEventObject` explained in `onProcessTask` section. 
+
+The variables will be initialized with values from task message and it will be sent to the series of other functions in the workflow for further processing.
+
 For more details of the TaskEventObject refer the java implementation of the class from package  `com.hpe.caf.worker.document.scripting.events.TaskEventObject`.
 
 ```
@@ -178,7 +170,7 @@ ErrorEventObject(Task task, RuntimeException error){
     handled = false;
 }
 ```
-For more details of the ErrorEventObject refer the java implementation of the class from package `com.hpe.caf.worker.document.scripting.events.ErrorEventObject`.
+For more details of the ErrorEventObject refer the java implementation of the class for package `com.hpe.caf.worker.document.scripting.events.ErrorEventObject`.
 
 ```
 function onError(errorEvent)
