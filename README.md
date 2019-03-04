@@ -119,7 +119,7 @@ function onProcessDocument(e)
     // e.document     (read-only)
 }
 ```
-This function calls the customization scripts, and if none of them have set the cancellation flag then calls the implementation's `DocumentWorker#processDocument processDocument()` function. The response of this function will be the processed document that should be add to the batch of documents.
+This function calls the customization scripts, and if none of them have set the cancellation flag then calls the implementation's `DocumentWorker#processDocument processDocument()` function. 
 
 #### onAfterProcessDocument
 
@@ -182,5 +182,7 @@ function onError(errorEvent)
      // errorEvent.handled      (writable)  (default: false)
 }
 ```
-Output of the function would be the boolean flag whether the failure was handled or leave it to workflow worker to handle.
+Output of the function would be the boolean flag whether the failure was handled.
+
+If it is not handled by event handler, exception will be thrown from worker.
 
