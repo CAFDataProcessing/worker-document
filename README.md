@@ -41,6 +41,10 @@ This contains implementations of the testing framework to allow for integration 
 
 The below are the various event handlers from the workflow scripts.
 
+It is not mandatory that the workflow script file should contain all of the below event handlers.
+Sometimes the workflow script may contain only few handlers from the below list.
+The event handler will only be triggered, if there is corresponding function from the JavaScript file being executed.
+
 ####  onProcessTask
 
 This is the first function called by worker on the task message.
