@@ -156,9 +156,7 @@ function onAfterProcessDocument(e)
 This function will be called once the processing of the document completed successfully.
 This function is passed `DocumentEventObject` as an argument. 
 
-The structure of the `DocumentEventObject` is explained in `onProcessDocument` section.
-
-For more details  of the event object, refer the [onProcessDocument](#onProcessDocument) section. 
+The structure of the `DocumentEventObject` is explained in [onProcessDocument](#onProcessDocument) section.
 
 #### onAfterProcessTask
 
@@ -173,9 +171,7 @@ function onAfterProcessTask(e)
 This is the last function called by worker on the task message.
 This function is passed `TaskEventObject`as an argument.
 
-The structure of the `TaskEventObject`explained in `onProcessTask` section. 
-
-For more details of the `TaskEventObject`, refer the [onProcessTask](#onProcessTask) section.
+The structure of the `TaskEventObject`, refer the [onProcessTask](#onProcessTask) section.
 
 #### onError
 
