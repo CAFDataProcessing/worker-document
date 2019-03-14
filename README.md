@@ -90,6 +90,7 @@ This event will be executed after `onProcessTask` and before processing of a doc
 This function is passed `CancelableDocumentEventObject` as an argument.
 
 The structure of the `CancelableDocumentEventObject` is below.
+
 ```
 {
     "type" : "object",
@@ -104,12 +105,12 @@ The structure of the `CancelableDocumentEventObject` is below.
     
 }
 ```
-For more details of the `CancelableDocumentEventObject`, refer the Java implementation of for the class [CancelableDocumentEventObject.java](worker-document/src/main/java/com/hpe/caf/worker/document/scripting/events/CancelableDocumentEventObject.java) 
-
 Set e.cancel = true to cancel processing of the document.
 This flag is used to determine if that individual document should be processed by the worker.
 
 If the cancellation flag set to true, onProcessDocument and onAfterProcessDocument will not be triggered and onAfterProcessTask will only be triggered.
+
+For more details of the `CancelableDocumentEventObject`, refer the Java implementation of for the class [CancelableDocumentEventObject.java](worker-document/src/main/java/com/hpe/caf/worker/document/scripting/events/CancelableDocumentEventObject.java) 
 
 #### onProcessDocument
 
@@ -123,9 +124,10 @@ function onProcessDocument(e)
 }
 ```
 This function is called after onBeforeProcessDocument (if cancellation was not requested).
-This function is passed `DocumentEventObject`as an argument.
+This function is passed `DocumentEventObject` as an argument.
 
 The structure of the `DocumentEventObject` is below.
+
 ```
 {
     "type" : "object",
@@ -156,9 +158,7 @@ function onAfterProcessDocument(e)
 This function will be called once the processing of the document completed successfully.
 This function is passed `DocumentEventObject` as an argument. 
 
-The structure of the `DocumentEventObject` is explained in `onProcessDocument` section.
-
-For more details  of the event object, refer the [onProcessDocument](#onProcessDocument) section. 
+The structure of the `DocumentEventObject` is explained in [onProcessDocument](#onProcessDocument) section.
 
 #### onAfterProcessTask
 
@@ -171,11 +171,11 @@ function onAfterProcessTask(e)
 }
 ```
 This is the last function called by worker on the task message.
-This function is passed `TaskEventObject`as an argument.
+This function is passed `TaskEventObject` as an argument.
 
-The structure of the `TaskEventObject`explained in `onProcessTask` section. 
+The structure of the `TaskEventObject` is explained in [onProcessTask](#onProcessTask) section.
 
-For more details of the `TaskEventObject`, refer the [onProcessTask](#onProcessTask) section.
+Irrespective of the value of cancellation flag, this event will be triggered always while processing document.
 
 #### onError
 
