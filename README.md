@@ -37,28 +37,32 @@ This is the shared library defining public classes that constitute the worker in
 
 This contains implementations of the testing framework to allow for integration testing of the Document Worker. The project can be found in [worker-document-testing](worker-document-testing).
 
-## Workflow event handlers
-
-The below are the various event handlers from the workflow scripts.
+## Document Worker Event Handlers
 
 It is not mandatory that the workflow script file should contain all of the below event handlers.
-Sometimes the workflow script may contain only few handlers from the below list.
+
 The event handler will only be triggered, if there is corresponding function from the JavaScript file being executed.
 
 ####  onProcessTask
 
 This is the first function called by worker on the task message.
-This function is passed `TaskEventObject` with `Task` as an argument.
+This function is passed `TaskEventObject` as an argument . 
 
-An example of the `TaskEventObject` is below. The variables will be initialized with values from task message and it will be sent to the series of other functions in the workflow for further processing.
+The structure of the `TaskEventObject` is below. The variables will be initialized with values from task message and it will be sent to the series of other functions in the workflow for further processing.
 ```
-TaskEventObject(Task task){
-    application=task.application;
-    task = task;
-    rootDocument=task.document;
+{
+    "type" : "object",
+    
+     properties : {
+        "application" : { "type" : "object"},
+        "task" : { "type" : "object"},
+        "rootDocument" : { "type" : "object"}        
+    }
+    
 }
+
 ```
-For more details of the <a name="onProcessTask"></a>`TaskEventObject` refer the java implementation of the class, [TaskEventObject.java](https://github.com/CAFDataProcessing/worker-document/blob/develop/worker-document/src/main/java/com/hpe/caf/worker/document/scripting/events/TaskEventObject.java) 
+For more details of the `TaskEventObject` refer the java implementation of the class, [TaskEventObject.java](worker-document/src/main/java/com/hpe/caf/worker/document/scripting/events/TaskEventObject.java)
 
 ```
 /* global thisScript */
@@ -69,24 +73,32 @@ function onProcessTask(e)
     // e.task         (read-only)
     // e.rootDocument (read-only)
 }
+
 ```
 
 #### onBeforeProcessDocument
 
 This event will be executed after `onProcessTask` and before processing of a document. 
+This function is passed `CancelableDocumentEventObject` as an argument.
 
-This function is passed `CancelableDocumentEventObject`  with `Document` as an argument.
-
-An example of the `CancelableDocumentEventObject` is below.
+The structure of the `CancelableDocumentEventObject` is below.
 ```
-CancelableDocumentEventObject(Document document)
 {
-    super(document);
-    cancel=false;
+    "type" : "object",
+    
+     properties : {
+        "application" : { "type" : "object"},
+        "task" : { "type" : "object"},
+        "rootDocument" : { "type" : "object"},
+        "document" : { "type" : "object"},    
+        "cancel" : { "type" : "boolean"}
+    }
+    
 }
+
 ```
-For more details of the `CancelableDocumentEventObject`,  refer the Java implementation of for the class,
-[CancelableDocumentEventObject.java](https://github.com/CAFDataProcessing/worker-document/blob/develop/worker-document/src/main/java/com/hpe/caf/worker/document/scripting/events/CancelableDocumentEventObject.java) 
+For more details of the `CancelableDocumentEventObject`, refer the Java implementation of for the class,
+[CancelableDocumentEventObject.java](worker-document/src/main/java/com/hpe/caf/worker/document/scripting/events/CancelableDocumentEventObject.java) 
 
 ```
 function onBeforeProcessDocument(e)
@@ -97,23 +109,36 @@ function onBeforeProcessDocument(e)
     // e.document     (read-only)
     // e.cancel       (writable)  (default: false)
 }
+
 ```
-Output of this function would be the boolean value of event's cancel flag.
+Set e.cancel = true to cancel processing of the document.
 This flag is used to determine if that individual document should be processed by the worker.
 
-#### <a name="onProcessDocument"></a>onProcessDocument
+If the cancellation flag set to true, onProcessDocument will not be triggered.
 
-This function will be called to process a document. 
-This function is passed `DocumentEventObject` with `Document` as an argument.
-The `onBeforeProcessDocument`  event has already been triggered to check for cancellation flag.
 
-An example of the `DocumentEventObject` is below.
+#### onProcessDocument
+
+This function is called after onBeforeProcessDocument (if cancellation was not requested).
+This function is passed `DocumentEventObject`as an argument.
+
+The structure of the `DocumentEventObject` is below.
 ```
-DocumentEventObject(Document document){
-    document = document;
+{
+    "type" : "object",
+    
+     properties : {
+        "application" : { "type" : "object"},
+        "task" : { "type" : "object"},
+        "rootDocument" : { "type" : "object"},
+        "document" : { "type" : "object"}   
+        
+    }
+    
 }
+
 ```
-For more details  of the <a name="onProcessDocument"></a>`DocumentEventObject`, refer to the java implementation for the class,  [DocumentEventObject](https://github.com/CAFDataProcessing/worker-document/blob/develop/worker-document/src/main/java/com/hpe/caf/worker/document/scripting/events/DocumentEventObject.java)
+For more details  of the `DocumentEventObject`, refer to the java implementation for the class,  [DocumentEventObject](worker-document/src/main/java/com/hpe/caf/worker/document/scripting/events/DocumentEventObject.java)
 ```
 function onProcessDocument(e)
 {
@@ -122,15 +147,14 @@ function onProcessDocument(e)
     // e.rootDocument (read-only)
     // e.document     (read-only)
 }
-```
-This function calls the customization scripts, and if none of them have set the cancellation flag then calls the implementation's `DocumentWorker#processDocument processDocument()` function. 
 
+```
 #### onAfterProcessDocument
 
 This function will be called once the processing of the document completed successfully.
-This function is passed `DocumentEventObject` with `Document` as an argument.
+This function is passed `DocumentEventObject` as an argument. 
 
-An example of the `DocumentEventObject` is explained in `onProcessDocument` section.
+The structure of the `DocumentEventObject` is explained in `onProcessDocument` section.
 
 For more details  of the event object,  refer the [onProcessDocument](#onProcessDocument) section. 
 
@@ -142,15 +166,14 @@ function onAfterProcessDocument(e)
     // e.rootDocument (read-only)
     // e.document     (read-only)
 }
+
 ```
 #### onAfterProcessTask
 
 This is the last function called by worker on the task message.
-This function is passed `TaskEventObject` with `Task` as an argument.
+This function is passed `TaskEventObject`as an argument.
 
-An example of `TaskEventObject` explained in `onProcessTask` section. 
-
-The variables will be initialized with values from task message and it will be sent to the series of other functions in the workflow for further processing.
+The structure of the `TaskEventObject`explained in `onProcessTask` section. 
 
 For more details of the `TaskEventObject`, refer the [onProcessTask](#onProcessTask) section.
 
@@ -159,23 +182,33 @@ function onAfterProcessTask(e)
 {
     // e.application  (read-only)
     // e.task         (read-only)
-    // e.rootDocument (read-only)
-    // onProcessDocument(e.rootDocument)
+    // e.rootDocument (read-only)    
 }
+
 ```
 #### onError
 
-This function should be called in case of a failure in the worker that is not handled by the worker code. In chained workers, this will allow continuing to process the document.
-This function is passed `ErrorEventObject` with `Task`and `RuntimeException` as an argument.
+This function will be called in case of a failure in the worker that is not handled by the worker code. In chained workers, this will allow continuing to process the document.
+This function is passed `ErrorEventObject` as an argument.
+
+The structure of the ErrorEventObject is below.
 
 ```
-ErrorEventObject(Task task, RuntimeException error){
-    super(task);
-    error = error;
-    handled = false;
+{
+    "type" : "object",
+    
+     properties : {
+        "application" : { "type" : "object"},
+        "task" : { "type" : "object"},
+        "rootDocument" : { "type" : "object"},
+        "error" : { "type" : "object"},    
+        "handled" : { "type" : "boolean"}
+    }
+    
 }
+
 ```
-For more details of the `ErrorEventObject` refer the java implementation of the class for the class [ErrorEventObject](https://github.com/CAFDataProcessing/worker-document/blob/develop/worker-document/src/main/java/com/hpe/caf/worker/document/scripting/events/ErrorEventObject.java)
+For more details of the `ErrorEventObject` refer the java implementation of the class for the class [ErrorEventObject](worker-document/src/main/java/com/hpe/caf/worker/document/scripting/events/ErrorEventObject.java)
 
 ```
 function onError(errorEvent)
@@ -183,10 +216,15 @@ function onError(errorEvent)
      // errorEvent.application  (read-only)
      // errorEvent.task         (read-only)
      // errorEvent.rootDocument (read-only)
+     // errorEvent.error		(read-only)
      // errorEvent.handled      (writable)  (default: false)
 }
 ```
-Output of the function would be the boolean flag whether the failure was handled.
+Set e.handled = true to indicate if the error was handled.
+If it is not handled by event handler, the change log section of the document will be updated with the failure details. 
 
-If it is not handled by event handler, exception will be thrown from worker.
+The failure details with `failureId` and `failureMessage`will be updated under `addFailure` section of the rootDocument and sub documents seperately.
+
+
+
 
