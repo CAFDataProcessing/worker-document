@@ -53,13 +53,13 @@ function onProcessTask(e)
     // e.application  (read-only)
     // e.task         (read-only)
     // e.rootDocument (read-only)
-}
-
+}	
 ```
 This is the first function called by worker on the task message.
 This function is passed `TaskEventObject` as an argument . 
 
 The structure of the `TaskEventObject` is below. The variables will be initialized with values from task message and it will be sent to the series of other functions in the workflow for further processing.
+
 ```
 {
     "type" : "object",
@@ -71,7 +71,6 @@ The structure of the `TaskEventObject` is below. The variables will be initializ
     }
     
 }
-
 ```
 For more details of the `TaskEventObject`, refer the java implementation of the class [TaskEventObject.java](worker-document/src/main/java/com/hpe/caf/worker/document/scripting/events/TaskEventObject.java)
 
@@ -86,7 +85,6 @@ function onBeforeProcessDocument(e)
     // e.document     (read-only)
     // e.cancel       (writable) (default: false)
 }
-
 ```
 This event will be executed after `onProcessTask` and before processing of a document. 
 This function is passed `CancelableDocumentEventObject` as an argument.
@@ -105,7 +103,6 @@ The structure of the `CancelableDocumentEventObject` is below.
     }
     
 }
-
 ```
 For more details of the `CancelableDocumentEventObject`, refer the Java implementation of for the class [CancelableDocumentEventObject.java](worker-document/src/main/java/com/hpe/caf/worker/document/scripting/events/CancelableDocumentEventObject.java) 
 
@@ -124,7 +121,6 @@ function onProcessDocument(e)
     // e.rootDocument (read-only)
     // e.document     (read-only)
 }
-
 ```
 This function is called after onBeforeProcessDocument (if cancellation was not requested).
 This function is passed `DocumentEventObject`as an argument.
@@ -143,7 +139,6 @@ The structure of the `DocumentEventObject` is below.
     }
     
 }
-
 ```
 For more details  of the `DocumentEventObject`, refer to the java implementation for the class [DocumentEventObject](worker-document/src/main/java/com/hpe/caf/worker/document/scripting/events/DocumentEventObject.java)
 
@@ -157,7 +152,6 @@ function onAfterProcessDocument(e)
     // e.rootDocument (read-only)
     // e.document     (read-only)
 }
-
 ```
 This function will be called once the processing of the document completed successfully.
 This function is passed `DocumentEventObject` as an argument. 
@@ -175,7 +169,6 @@ function onAfterProcessTask(e)
     // e.task         (read-only)
     // e.rootDocument (read-only)    
 }
-
 ```
 This is the last function called by worker on the task message.
 This function is passed `TaskEventObject`as an argument.
@@ -214,7 +207,6 @@ The structure of the ErrorEventObject is below.
     }
     
 }
-
 ```
 For more details of the `ErrorEventObject`, refer the java implementation of the class for the class [ErrorEventObject](worker-document/src/main/java/com/hpe/caf/worker/document/scripting/events/ErrorEventObject.java)
 
