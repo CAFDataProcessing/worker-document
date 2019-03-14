@@ -192,7 +192,7 @@ function onError(errorEvent)
 This function will be called in case of a failure in the worker that is not handled by the worker code. In chained workers, this will allow continuing to process the document.
 This function is passed `ErrorEventObject` as an argument.
 
-The structure of the ErrorEventObject is below.
+The structure of the `ErrorEventObject` is below.
 
 ```
 {
