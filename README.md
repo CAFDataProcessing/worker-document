@@ -58,7 +58,7 @@ function onProcessTask(e)
 This is the first function called by worker on the task message.
 This function is passed `TaskEventObject` as an argument . 
 
-The structure of the `TaskEventObject` is below. The variables will be initialized with values from task message and it will be sent to the series of other functions in the workflow for further processing.
+The structure of the `TaskEventObject` is below.
 
 ```
 {
