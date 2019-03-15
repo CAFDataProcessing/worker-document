@@ -185,7 +185,7 @@ function onError(errorEvent)
      // errorEvent.application  (read-only)
      // errorEvent.task         (read-only)
      // errorEvent.rootDocument (read-only)
-     // errorEvent.error		(read-only)
+     // errorEvent.error        (read-only)     
      // errorEvent.handled      (writable)  (default: false)
 }
 ```
