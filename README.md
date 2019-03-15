@@ -64,7 +64,7 @@ The structure of the `TaskEventObject` is below.
 {
     "type" : "object",
     
-     properties : {
+     "properties" : {
         "application"  : { "type" : "object"},
         "task"         : { "type" : "object"},
         "rootDocument" : { "type" : "object"}        
@@ -95,7 +95,7 @@ The structure of the `CancelableDocumentEventObject` is below.
 {
     "type" : "object",
     
-     properties : {
+     "properties" : {
         "application"  : { "type" : "object"},
         "task"         : { "type" : "object"},
         "rootDocument" : { "type" : "object"},
@@ -132,7 +132,7 @@ The structure of the `DocumentEventObject` is below.
 {
     "type" : "object",
     
-     properties : {
+     "properties" : {
         "application"  : { "type" : "object"},
         "task"         : { "type" : "object"},
         "rootDocument" : { "type" : "object"},
@@ -198,7 +198,7 @@ The structure of the `ErrorEventObject` is below.
 {
     "type" : "object",
     
-     properties : {
+     "properties" : {
         "application"  : { "type" : "object"},
         "task"         : { "type" : "object"},
         "rootDocument" : { "type" : "object"},
