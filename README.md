@@ -39,9 +39,9 @@ This contains implementations of the testing framework to allow for integration 
 
 ## Document Worker Event Handlers
 
-It is not mandatory that the workflow script file should contain all of the below event handlers.
+It is not mandatory that the worker JavaScript file should contain all of the below event handlers.
 
-The event handler will only be triggered, if there is corresponding function from the JavaScript file being executed.
+The event handler will only be triggered, if there is corresponding function from the script file being executed.
 
 ####  onProcessTask
 
@@ -106,7 +106,7 @@ The structure of the `CancelableDocumentEventObject` is below.
 }
 ```
 Set e.cancel = true to cancel processing of the document.
-This flag is used to determine if that individual document should be processed by the worker.
+This flag is used to determine, if that individual document should be processed by the worker.
 
 If the cancellation flag set to true, onProcessDocument and onAfterProcessDocument will not be triggered and onAfterProcessTask will only be triggered.
 
@@ -213,4 +213,4 @@ For more details of the `ErrorEventObject`, refer the java implementation of the
 Set errorEvent.handled = true to indicate if the error was handled.
 If it is not handled by event handler, the change log section of the document will be updated with the failure details. 
 
-The failure details with `failureId` and `failureMessage` will be updated under `addFailure` section of the rootDocument and sub documents seperately.
+The failure details with `failureId` and `failureMessage` will be updated under `addFailure` section of the parent document and sub documents seperately.
