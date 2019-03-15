@@ -36,3 +36,181 @@ This is the shared library defining public classes that constitute the worker in
 ### worker-document-testing
 
 This contains implementations of the testing framework to allow for integration testing of the Document Worker. The project can be found in [worker-document-testing](worker-document-testing).
+
+## Document Worker Event Handlers
+
+It is not mandatory that the worker JavaScript file should contain all of the below event handlers.
+
+The event handler will only be triggered, if there is corresponding function from the script file being executed.
+
+####  onProcessTask
+
+```
+/* global thisScript */
+
+function onProcessTask(e)
+{	
+    // e.application  (read-only)
+    // e.task         (read-only)
+    // e.rootDocument (read-only)
+}	
+```
+This is the first function called by worker on the task message.
+This function is passed `TaskEventObject` as an argument . 
+
+The structure of the `TaskEventObject` is below.
+
+```
+{
+    "type" : "object",
+    
+     "properties" : {
+        "application"  : { "type" : "object"},
+        "task"         : { "type" : "object"},
+        "rootDocument" : { "type" : "object"}        
+    }
+    
+}
+```
+For more details of the `TaskEventObject`, refer the java implementation of the class [TaskEventObject.java](worker-document/src/main/java/com/hpe/caf/worker/document/scripting/events/TaskEventObject.java)
+
+#### onBeforeProcessDocument
+
+```
+function onBeforeProcessDocument(e)
+{
+    // e.application  (read-only)
+    // e.task         (read-only)
+    // e.rootDocument (read-only)
+    // e.document     (read-only)
+    // e.cancel       (writable) (default: false)
+}
+```
+This event will be executed after `onProcessTask` and before processing of a document. 
+This function is passed `CancelableDocumentEventObject` as an argument.
+
+The structure of the `CancelableDocumentEventObject` is below.
+
+```
+{
+    "type" : "object",
+    
+     "properties" : {
+        "application"  : { "type" : "object"},
+        "task"         : { "type" : "object"},
+        "rootDocument" : { "type" : "object"},
+        "document"     : { "type" : "object"},    
+        "cancel"       : { "type" : "boolean"}
+    }
+    
+}
+```
+Set e.cancel = true to cancel processing of the document.
+This flag is used to determine, if that individual document should be processed by the worker.
+
+If the cancellation flag set to true, onProcessDocument and onAfterProcessDocument will not be triggered and onAfterProcessTask will only be triggered.
+
+For more details of the `CancelableDocumentEventObject`, refer the Java implementation of for the class [CancelableDocumentEventObject.java](worker-document/src/main/java/com/hpe/caf/worker/document/scripting/events/CancelableDocumentEventObject.java) 
+
+#### onProcessDocument
+
+```
+function onProcessDocument(e)
+{
+    // e.application  (read-only)
+    // e.task         (read-only)
+    // e.rootDocument (read-only)
+    // e.document     (read-only)
+}
+```
+This function is called after onBeforeProcessDocument (if cancellation was not requested).
+This function is passed `DocumentEventObject` as an argument.
+
+The structure of the `DocumentEventObject` is below.
+
+```
+{
+    "type" : "object",
+    
+     "properties" : {
+        "application"  : { "type" : "object"},
+        "task"         : { "type" : "object"},
+        "rootDocument" : { "type" : "object"},
+        "document"     : { "type" : "object"}   
+        
+    }
+    
+}
+```
+For more details  of the `DocumentEventObject`, refer to the java implementation for the class [DocumentEventObject](worker-document/src/main/java/com/hpe/caf/worker/document/scripting/events/DocumentEventObject.java)
+
+#### onAfterProcessDocument
+
+```
+function onAfterProcessDocument(e)
+{
+    // e.application  (read-only)
+    // e.task         (read-only)
+    // e.rootDocument (read-only)
+    // e.document     (read-only)
+}
+```
+This function will be called once the processing of the document completed successfully.
+This function is passed `DocumentEventObject` as an argument. 
+
+The structure of the `DocumentEventObject` is explained in [onProcessDocument](#onProcessDocument) section.
+
+#### onAfterProcessTask
+
+```
+function onAfterProcessTask(e)
+{
+    // e.application  (read-only)
+    // e.task         (read-only)
+    // e.rootDocument (read-only)    
+}
+```
+This is the last function called by worker on the task message.
+This function is passed `TaskEventObject` as an argument.
+
+The structure of the `TaskEventObject` is explained in [onProcessTask](#onProcessTask) section.
+
+Irrespective of the value of cancellation flag, this event will be triggered always while processing document.
+
+#### onError
+
+```
+function onError(errorEvent)
+{
+     // errorEvent.application  (read-only)
+     // errorEvent.task         (read-only)
+     // errorEvent.rootDocument (read-only)
+     // errorEvent.error        (read-only)
+     // errorEvent.handled      (writable) (default: false)     
+}
+```
+This function will be called in case of a failure in the worker that is not handled by the worker code. In chained workers, this will allow continuing to process the document.
+This function is passed `ErrorEventObject` as an argument.
+
+The structure of the `ErrorEventObject` is below.
+
+```
+{
+    "type" : "object",
+    
+     "properties" : {
+        "application"  : { "type" : "object"},
+        "task"         : { "type" : "object"},
+        "rootDocument" : { "type" : "object"},
+        "error"        : { "type" : "object"},    
+        "handled"      : { "type" : "boolean"}
+    }
+    
+}
+```
+For more details of the `ErrorEventObject`, refer the java implementation of the class for the class [ErrorEventObject](worker-document/src/main/java/com/hpe/caf/worker/document/scripting/events/ErrorEventObject.java)
+
+Set errorEvent.handled = true to indicate if the error was handled.
+If it is not handled by event handler, the change log section of the document will be updated with the failure details. 
+
+The failure details with `failureId` and `failureMessage` will be updated under `addFailure` section of the parent document and sub documents seperately.
