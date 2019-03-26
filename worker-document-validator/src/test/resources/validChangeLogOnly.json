@@ -1,0 +1,210 @@
+{
+ "changeLog": [
+      {
+         "name": "resetExistingField:1.0.0",
+         "changes": [
+            {
+               "setFields": {
+                  "SAMPLE_FIELD": [
+                     {
+                        "data": "Parent document: Sample field updated value"
+                     }
+                  ]
+               }
+            },
+            {
+               "updateSubdocument": {
+                  "index": 0,
+                  "reference": "1",
+                  "changes": [
+                     {
+                        "setFields": {
+                           "SAMPLE_FIELD": [
+                              {
+                                 "data": "Subdocument 1: Sample field updated value"
+                              }
+                           ]
+                        }
+                     },
+                     {
+                        "updateSubdocument": {
+                           "index": 0,
+                           "reference": "2",
+                           "changes": [
+                              {
+                                 "setFields": {
+                                    "SAMPLE_FIELD": [
+                                       {
+                                          "data": "Subdocument 2: Sample field updated value"
+                                       }
+                                    ]
+                                 }
+                              }
+                           ]
+                        }
+                     }
+                  ]
+               }
+            }
+         ]
+      },
+      {
+         "name": "addNewFields:1.0.0",
+         "changes": [
+            {
+               "setFields": {
+                  "SUSPECTED_TEST_FIELD2": [
+                     {
+                        "data": "Test Field Value"
+                     }
+                  ]
+               }
+            },
+            {
+               "updateSubdocument": {
+                  "index": 0,
+                  "reference": "1",
+                  "changes": [
+                     {
+                        "setFields": {
+                           "SUSPECTED_TEST_FIELD": [
+                              {
+                                 "data": "Test Field Value"
+                              }
+                           ]
+                        }
+                     },
+                     {
+                        "updateSubdocument": {
+                           "index": 0,
+                           "reference": "2",
+                           "changes": [
+                              {
+                                 "setFields": {
+                                    "SUSPECTED_TEST_FIELD": [
+                                       {
+                                          "data": "Test Field Value"
+                                       }
+                                    ]
+                                 }
+                              }
+                           ]
+                        }
+                     }
+                  ]
+               }
+            }
+         ]
+      },
+      {
+         "name": "setDateFields:1.0.0",
+         "changes": [
+            {
+               "setFields": {
+                  "THREAD_DATE": [
+                     {
+                        "data": "858429997"
+                     }
+                  ],
+                  "FAMILY_THREAD_DATE": [
+                     {
+                        "data": "858429997"
+                     }
+                  ]
+               }
+            },
+            {
+               "updateSubdocument": {
+                  "index": 0,
+                  "reference": "1",
+                  "changes": [
+                     {
+                        "setFields": {
+                           "FAMILY_THREAD_DATE": [
+                              {
+                                 "data": "858429997"
+                              }
+                           ]
+                        }
+                     },
+                     {
+                        "updateSubdocument": {
+                           "index": 0,
+                           "reference": "2",
+                           "changes": [
+                              {
+                                 "setFields": {
+                                    "FAMILY_THREAD_DATE": [
+                                       {
+                                          "data": "858429997"
+                                       }
+                                    ]
+                                 }
+                              }
+                           ]
+                        }
+                     }
+                  ]
+               }
+            }
+         ]
+      },
+      {
+         "name": "removingFieldValue:1.0.0",
+         "changes": [
+            {
+               "setFields": {
+                  "SUSPECTED_REFERENCE": [
+                     {
+                        "data": "reference1"
+                     },
+                     {
+                        "data": "reference3"
+                     }
+                  ]
+               }
+            },
+            {
+               "updateSubdocument": {
+                  "index": 0,
+                  "reference": "1",
+                  "changes": [
+                     {
+                        "setFields": {
+                           "SUSPECTED_SUBDOCUMENT1_FIELD1": [
+                              {
+                                 "data": "Subdocument 1 field 1 value 1"
+                              },
+                              {
+                                 "data": "Subdocument 1 field 1 value 3"
+                              }
+                           ]
+                        }
+                     },
+                     {
+                        "updateSubdocument": {
+                           "index": 0,
+                           "reference": "2",
+                           "changes": [
+                              {
+                                 "setFields": {
+                                    "SUSPECTED_SUBDOCUMENT2_FIELD1": [
+                                       {
+                                          "data": "Subdocument 2 field 1 value 1"
+                                       },
+                                       {
+                                          "data": "Subdocument 2 field 1 value 3"
+                                       }
+                                    ]
+                                 }
+                              }
+                           ]
+                        }
+                     }
+                  ]
+               }
+            }
+         ]
+      }
+   ]
+}
