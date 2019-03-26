@@ -74,15 +74,18 @@ definitions:
     type: array
     items:
       type: object
-      properties:
-        name:
-          type: string
-        changes:
-          type: array
-          items:
-            type: object
-            "$ref": "#/definitions/change"
-      additionalProperties: false
+      "$ref": "#/definitions/changeLogEntry"
+  changeLogEntry:
+    type: object
+    properties:
+      name:
+        type: string
+      changes:
+        type: array
+        items:
+          type: object
+          "$ref": "#/definitions/change"
+    additionalProperties: false
   change:
     type: object
     oneOf:
