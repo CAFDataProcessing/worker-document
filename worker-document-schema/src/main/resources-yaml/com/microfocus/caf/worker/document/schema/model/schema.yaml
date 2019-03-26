@@ -16,17 +16,17 @@
 
 "$schema": http://json-schema.org/draft-07/schema#
 "$id": https://cafdataprocessing.github.io/worker-document/schema.json
-title: Document worker wocument schema
+title: Document worker document schema
 description: The schema for a document that a Document Worker can process.
 type: object   
 properties: 
   document:
-    "$ref": "#/definitions/workerDocument"
+    "$ref": "#/definitions/document"
   changeLog:
     "$ref": "#/definitions/changeLog"
 additionalProperties: false
 definitions:
-  workerDocument:
+  document:
     type: object
     properties:
       reference:
@@ -40,13 +40,11 @@ definitions:
       failures:
         type: array
         items:
-          type: object
           "$ref": "#/definitions/failure"
       subdocuments:
         type: array
         items:
-          type: object
-          "$ref": "#/definitions/workerDocument"
+          "$ref": "#/definitions/document"
     additionalProperties: false
   fieldValue:
     type: object
@@ -73,7 +71,6 @@ definitions:
   changeLog:
     type: array
     items:
-      type: object
       "$ref": "#/definitions/changeLogEntry"
   changeLogEntry:
     type: object
@@ -83,7 +80,6 @@ definitions:
       changes:
         type: array
         items:
-          type: object
           "$ref": "#/definitions/change"
     additionalProperties: false
   change:
@@ -92,7 +88,9 @@ definitions:
     - required: [setReference]
     - required: [addFields]
     - required: [setFields]
+    - required: [removeFields]
     - required: [addFailure]
+    - required: [setFailures]
     - required: [addSubdocument]
     - required: [insertSubdocument]
     - required: [updateSubdocument]
@@ -109,14 +107,12 @@ definitions:
         additionalProperties:
           type: array
           items:
-            type: object
             "$ref": "#/definitions/fieldValue"
       setFields:
         type: object
         additionalProperties:
           type: array
           items:
-            type: object
             "$ref": "#/definitions/fieldValue"
       removeFields:
         type: array
@@ -128,22 +124,25 @@ definitions:
       setFailures:
         type: array
         items:
-          type: object
           "$ref": "#/definitions/failure"
       addSubdocument:
         type: object
-        "$ref": "#/definitions/workerDocument"
+        "$ref": "#/definitions/document"
       insertSubdocument:
         type: object
+        required:
+        - index
         properties:
           index:
             type: integer
           subdocument:
             type: object
-            "$ref": "#/definitions/workerDocument"
+            "$ref": "#/definitions/document"
         additionalProperties: false
       updateSubdocument:
         type: object
+        required:
+        - index
         properties:
           index:
             type: integer
@@ -152,11 +151,12 @@ definitions:
           changes:
             type: array
             items:
-              type: object
               "$ref": "#/definitions/change"
         additionalProperties: false
       removeSubdocument:
         type: object
+        required:
+        - index
         properties:
           index:
             type: integer
@@ -164,4 +164,4 @@ definitions:
             type: string
         additionalProperties: false
     additionalProperties: false
-  
+
