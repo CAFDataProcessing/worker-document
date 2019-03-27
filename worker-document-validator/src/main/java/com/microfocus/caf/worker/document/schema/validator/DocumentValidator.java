@@ -20,12 +20,21 @@ import java.io.InputStream;
 import java.io.Reader;
 import java.io.StringReader;
 
+import com.fasterxml.jackson.core.JsonFactory;
+import com.fasterxml.jackson.core.JsonParser;
+import com.fasterxml.jackson.core.JsonGenerator.Feature;
+import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.github.fge.jackson.JsonNodeReader;
 import com.github.fge.jsonschema.core.report.LogLevel;
 import com.github.fge.jsonschema.core.report.ProcessingMessage;
 import com.github.fge.jsonschema.core.report.ProcessingReport;
 import com.github.fge.jsonschema.main.JsonSchemaFactory;
+import com.worldturner.medeia.api.JsonSchemaVersion;
+import com.worldturner.medeia.api.SchemaSource;
+import com.worldturner.medeia.api.StreamSchemaSource;
+import com.worldturner.medeia.api.jackson.MedeiaJacksonApi;
+import com.worldturner.medeia.schema.validation.SchemaValidator;
 
 /**
  * Validates a Document.
@@ -53,4 +62,19 @@ public final class DocumentValidator
             throw new RuntimeException(ex);
         }
     }
+
+    public static JsonParser getValidatingParser(final InputStream document) throws JsonParseException, IOException
+    {
+        final MedeiaJacksonApi api = new MedeiaJacksonApi();
+        final SchemaSource source = new StreamSchemaSource(
+                DocumentValidator.class.getResourceAsStream("/com/microfocus/caf/worker/document/schema/model/schema.json"),
+                JsonSchemaVersion.DRAFT07);
+        final SchemaValidator validator =  api.loadSchema(source);
+        final JsonFactory factory = new JsonFactory();
+        factory.configure(Feature.FLUSH_PASSED_TO_STREAM, false);
+        factory.configure(Feature.AUTO_CLOSE_TARGET, false);
+        final JsonParser unvalidatedParser = factory.createParser(document);
+        return api.decorateJsonParser(validator, unvalidatedParser);
+    }
+
 }

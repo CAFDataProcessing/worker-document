@@ -17,10 +17,23 @@ package com.microfocus.caf.worker.document.schema.validator;
 
 public final class InvalidDocumentException extends Exception
 {
-    private static final long serialVersionUID = 1340967384576034769L;
+    private static final long serialVersionUID = -2877124005478451426L;
 
-    public InvalidDocumentException(final String msg)
-    {
-        super(msg);
+    public InvalidDocumentException() {
+        super();
     }
+
+    public InvalidDocumentException(final String message) {
+        super(message);
+    }
+
+    public InvalidDocumentException(final Throwable cause) {
+        super(cause);
+    }
+
+    public InvalidDocumentException(final String message, final Throwable cause)
+    {
+        super(message, cause);
+    }
+
 }
