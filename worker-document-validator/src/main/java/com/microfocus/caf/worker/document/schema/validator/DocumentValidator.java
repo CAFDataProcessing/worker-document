@@ -30,6 +30,7 @@ import com.github.fge.jsonschema.core.report.LogLevel;
 import com.github.fge.jsonschema.core.report.ProcessingMessage;
 import com.github.fge.jsonschema.core.report.ProcessingReport;
 import com.github.fge.jsonschema.main.JsonSchemaFactory;
+import com.microfocus.caf.worker.document.schema.model.SchemaResource;
 import com.worldturner.medeia.api.JsonSchemaVersion;
 import com.worldturner.medeia.api.SchemaSource;
 import com.worldturner.medeia.api.StreamSchemaSource;
@@ -43,8 +44,8 @@ public final class DocumentValidator
 {
     public static void validate(final String document) throws InvalidDocumentException
     {
-        try (final InputStream inputStream = DocumentValidator.class.getResourceAsStream("/com/microfocus/caf/worker/document/schema/model/schema.json");
-            final Reader documentReader = new StringReader(document)) {
+        try (final InputStream inputStream = SchemaResource.getUrl().openStream();
+             final Reader documentReader = new StringReader(document)) {
             final JsonNode documentSchema = new JsonNodeReader().fromInputStream(inputStream);
             final JsonNode documentNode = new JsonNodeReader().fromReader(documentReader);
             final ProcessingReport report = JsonSchemaFactory.byDefault().getValidator().validateUnchecked(documentSchema, documentNode);
@@ -67,7 +68,7 @@ public final class DocumentValidator
     {
         final MedeiaJacksonApi api = new MedeiaJacksonApi();
         final SchemaSource source = new StreamSchemaSource(
-                DocumentValidator.class.getResourceAsStream("/com/microfocus/caf/worker/document/schema/model/schema.json"),
+                SchemaResource.getUrl().openStream(),
                 JsonSchemaVersion.DRAFT07);
         final SchemaValidator validator =  api.loadSchema(source);
         final JsonFactory factory = new JsonFactory();
