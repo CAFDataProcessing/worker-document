@@ -33,6 +33,14 @@ This library defines public interfaces to assist with the implementation of a Do
 
 This is the shared library defining public classes that constitute the worker interface to be used by consumers of the Document Worker. The project can be found in [worker-document-shared](worker-document-shared).
 
+### worker-document-schema
+
+This project is used to define the format of a document that a Document Worker can accept. The project can be found in [worker-document-schema](worker-document-schema).
+
+### worker-document-validator
+
+This project is used to validate the document that a Document Worker can accept. The project can be found in [worker-document-validator](worker-document-validator).
+
 ### worker-document-testing
 
 This contains implementations of the testing framework to allow for integration testing of the Document Worker. The project can be found in [worker-document-testing](worker-document-testing).

@@ -1,0 +1,70 @@
+{
+    "entities": [
+        {
+            "name": "category",
+            "properties": [
+                {
+                    "name": "name",
+                    "datatype": "STRING"
+                },
+                {
+                    "name": "confidence",
+                    "datatype": "DOUBLE"
+                }
+            ]
+        },
+        {
+            "name": "creator",
+            "properties": [
+                {
+                    "name": "identifier",
+                    "datatype": "FULLTEXT"
+                },
+                {
+                    "name": "name",
+                    "datatype": "STRING"
+                },
+                {
+                    "name": "attachments",
+                    "datatype": "STRING"
+                }
+            ]
+        },
+        {
+            "name": "item",
+            "properties": [
+                {
+                    "name": "id",
+                    "datatype": "STRING"
+                },
+                {
+                    "name": "creator",
+                    "datatype": "ENTITY",
+                    "ref-name": "creator"
+                },
+                {
+                    "name": "categories",
+                    "datatype": "ENTITY",
+                    "multivalue": true,
+                    "ref-name": "category"
+                },
+                {
+                    "name": "ref.name",
+                    "datatype": "STRING"
+                },
+                {
+                    "name": "title",
+                    "datatype": "FULLTEXT"
+                },
+                {
+                    "name": "content",
+                    "datatype": "FULLTEXT"
+                },
+                {
+                    "name": "feedId",
+                    "datatype": "STRING"
+                }
+            ]
+        }
+    ]
+}
