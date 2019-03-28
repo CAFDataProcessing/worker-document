@@ -119,7 +119,6 @@ definitions:
         items:
           type: string
       addFailure:
-        type: object
         "$ref": "#/definitions/failure"
       setFailures:
         type: array
@@ -129,14 +128,12 @@ definitions:
         type: object
         "$ref": "#/definitions/document"
       insertSubdocument:
-        type: object
         required:
         - index
         properties:
           index:
             type: integer
           subdocument:
-            type: object
             "$ref": "#/definitions/document"
         additionalProperties: false
       updateSubdocument:
@@ -164,4 +161,3 @@ definitions:
             type: string
         additionalProperties: false
     additionalProperties: false
-
