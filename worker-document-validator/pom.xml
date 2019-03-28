@@ -40,11 +40,6 @@
             <artifactId>jackson-core</artifactId>
         </dependency>
         <dependency>
-            <groupId>com.fasterxml.jackson.core</groupId>
-            <artifactId>jackson-annotations</artifactId>
-            <scope>runtime</scope>
-        </dependency>
-        <dependency>
             <groupId>com.github.java-json-tools</groupId>
             <artifactId>jackson-coreutils</artifactId>
         </dependency>
@@ -64,14 +59,11 @@
             <groupId>com.worldturner.medeia</groupId>
             <artifactId>medeia-validator-core</artifactId>
         </dependency>
+
+        <!-- Runtime dependencies -->
         <dependency>
-            <groupId>org.jetbrains.kotlin</groupId>
-            <artifactId>kotlin-stdlib</artifactId>
-            <scope>runtime</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.jetbrains.kotlin</groupId>
-            <artifactId>kotlin-reflect</artifactId>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-annotations</artifactId>
             <scope>runtime</scope>
         </dependency>
         <dependency>
