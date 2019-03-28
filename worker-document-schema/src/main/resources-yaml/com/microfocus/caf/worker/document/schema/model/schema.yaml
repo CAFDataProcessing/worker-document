@@ -125,7 +125,6 @@ definitions:
         items:
           "$ref": "#/definitions/failure"
       addSubdocument:
-        type: object
         "$ref": "#/definitions/document"
       insertSubdocument:
         required:
