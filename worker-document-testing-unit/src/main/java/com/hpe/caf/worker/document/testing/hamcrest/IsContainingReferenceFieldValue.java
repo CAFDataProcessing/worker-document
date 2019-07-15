@@ -20,11 +20,11 @@ import com.hpe.caf.worker.document.model.FieldValue;
 import org.hamcrest.Matcher;
 
 /**
- * Document string field value matcher.
+ * Document reference field value matcher.
  */
-public class IsContainingStringFieldValue extends IsContainingFieldValue<String>
+public class IsContainingReferenceFieldValue extends IsContainingFieldValue<String>
 {
-    public IsContainingStringFieldValue(
+    public IsContainingReferenceFieldValue(
         final String fieldName,
         final Matcher<String> fieldValueMatcher,
         final DocumentWorkerFieldEncoding encoding
@@ -36,6 +36,6 @@ public class IsContainingStringFieldValue extends IsContainingFieldValue<String>
     @Override
     protected String getFieldValue(final FieldValue fieldValue)
     {
-        return fieldValue.getStringValue();
+        return fieldValue.getReference();
     }
 }

@@ -16,15 +16,15 @@
 package com.hpe.caf.worker.document.testing.hamcrest;
 
 import com.hpe.caf.worker.document.DocumentWorkerFieldEncoding;
-import com.hpe.caf.worker.document.model.FieldValue;
+import org.hamcrest.Description;
 import org.hamcrest.Matcher;
 
 /**
- * Document string field value matcher.
+ * Document field value matcher.
  */
-public class IsContainingStringFieldValue extends IsContainingFieldValue<String>
+public abstract class IsContainingFieldValue<T> extends IsDocumentContainingFieldValue<String>
 {
-    public IsContainingStringFieldValue(
+    public IsContainingFieldValue(
         final String fieldName,
         final Matcher<String> fieldValueMatcher,
         final DocumentWorkerFieldEncoding encoding
@@ -34,8 +34,8 @@ public class IsContainingStringFieldValue extends IsContainingFieldValue<String>
     }
 
     @Override
-    protected String getFieldValue(final FieldValue fieldValue)
+    protected void describeActual(final String fieldValue, final Description description)
     {
-        return fieldValue.getStringValue();
+        description.appendText(fieldValue);
     }
 }
