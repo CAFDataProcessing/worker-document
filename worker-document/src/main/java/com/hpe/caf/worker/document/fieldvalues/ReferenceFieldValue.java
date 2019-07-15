@@ -53,6 +53,12 @@ public final class ReferenceFieldValue extends AbstractFieldValue
         return true;
     }
 
+    @Override
+    public boolean isStringValue()
+    {
+        return false;
+    }
+
     @Nonnull
     @Override
     public InputStream openInputStream() throws IOException
