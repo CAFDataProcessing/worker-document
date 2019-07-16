@@ -53,8 +53,11 @@ public abstract class IsDocumentContainingFieldValue<T> extends TypeSafeDiagnosi
         boolean isPastFirst = false;
         description.appendText("actual value(s) were ");
         for (final FieldValue value : field.getValues()) {
-
-            final T fieldValue = getFieldValue(value, encoding);
+            if (!isFieldValueOfExpectedType(value)) {
+                continue;
+            }
+            
+            final T fieldValue = getFieldValue(value);
             if (fieldValueMatcher.matches(fieldValue)) {
                 return true;
             }
@@ -68,9 +71,22 @@ public abstract class IsDocumentContainingFieldValue<T> extends TypeSafeDiagnosi
         return false;
     }
 
+    private boolean isFieldValueOfExpectedType(FieldValue value) {
+        final boolean expectedStringValueButIsReference = (encoding.toString().equals(DocumentWorkerFieldEncoding.utf8.toString())
+            || encoding.toString().equals(DocumentWorkerFieldEncoding.base64.toString())) && value.isReference();
+        
+        final boolean expectedReferenceValueButIsString = 
+            encoding.toString().equals(DocumentWorkerFieldEncoding.storage_ref.toString()) && value.isStringValue();
+
+        if (expectedStringValueButIsReference || expectedReferenceValueButIsString) {
+            return false;
+        }
+        return true;
+    }
+
     protected abstract void describeActual(T fieldValue, Description description);
 
-    protected abstract T getFieldValue(FieldValue fieldValue, DocumentWorkerFieldEncoding encoding);
+    protected abstract T getFieldValue(FieldValue fieldValue);
 
     @Override
     public void describeTo(final Description description)

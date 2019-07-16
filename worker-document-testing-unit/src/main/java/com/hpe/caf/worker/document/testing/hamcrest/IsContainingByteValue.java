@@ -42,7 +42,7 @@ public class IsContainingByteValue extends IsDocumentContainingFieldValue<byte[]
     }
 
     @Override
-    protected byte[] getFieldValue(final FieldValue fieldValue, final DocumentWorkerFieldEncoding encoding)
+    protected byte[] getFieldValue(final FieldValue fieldValue)
     {
         return fieldValue.getValue();
     }

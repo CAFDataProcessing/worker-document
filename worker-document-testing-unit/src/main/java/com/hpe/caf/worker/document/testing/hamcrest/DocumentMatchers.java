@@ -74,9 +74,9 @@ public final class DocumentMatchers
      * @param fieldValueMatcher Field value matcher
      * @return Matcher
      */
-    public static IsContainingStringFieldValue containsReference(final String fieldName, final Matcher<String> fieldValueMatcher)
+    public static IsContainingReferenceFieldValue containsReference(final String fieldName, final Matcher<String> fieldValueMatcher)
     {
-        return new IsContainingStringFieldValue(fieldName, fieldValueMatcher, DocumentWorkerFieldEncoding.storage_ref);
+        return new IsContainingReferenceFieldValue(fieldName, fieldValueMatcher, DocumentWorkerFieldEncoding.storage_ref);
     }
 
     /**
@@ -86,7 +86,7 @@ public final class DocumentMatchers
      * @param fieldValue Field value to match
      * @return Matcher
      */
-    public static IsContainingStringFieldValue containsReference(final String fieldName, final String fieldValue)
+    public static IsContainingReferenceFieldValue containsReference(final String fieldName, final String fieldValue)
     {
         return containsReference(fieldName, IsEqual.equalTo(fieldValue));
     }
