@@ -38,4 +38,10 @@ public class IsContainingStringFieldValue extends IsContainingFieldValue<String>
     {
         return fieldValue.getStringValue();
     }
+
+    @Override
+    protected boolean isFieldValueOfExpectedType(FieldValue value)
+    {
+        return !value.isReference();
+    }
 }
