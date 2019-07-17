@@ -46,4 +46,10 @@ public class IsContainingByteValue extends IsDocumentContainingFieldValue<byte[]
     {
         return fieldValue.getValue();
     }
+    
+    @Override
+    protected boolean isFieldValueOfExpectedType(FieldValue value)
+    {
+        return !value.isReference();
+    }
 }
