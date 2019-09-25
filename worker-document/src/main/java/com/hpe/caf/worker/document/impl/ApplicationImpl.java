@@ -170,4 +170,17 @@ public class ApplicationImpl implements Application
             ? configuration.getOutputQueue()
             : failureQueue;
     }
+
+    @Override
+    public String getName()
+    {
+        return configuration.getWorkerName();
+      
+    }
+
+    @Override
+    public String getVersion()
+    {
+        return configuration.getWorkerVersion();
+    }
 }
