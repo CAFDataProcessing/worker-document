@@ -44,6 +44,13 @@ public interface Application extends DocumentWorkerObject
     InputMessageProcessor getInputMessageProcessor();
 
     /**
+     * Returns the name of the worker, or {@code null} if the name of the worker is unknown.
+     *
+     * @return the name of the worker
+     */
+    String getName();
+
+    /**
      * Returns the specified service, or {@code null} if the service has not been registered.
      * <p>
      * This method can be used to retrieve services provided by the underlying Worker Framework, such as the {@code DataStore} or
@@ -74,4 +81,11 @@ public interface Application extends DocumentWorkerObject
      */
     @Nonnull
     ServiceLocator getServiceLocator();
+
+    /**
+     * Returns the version of the worker, or {@code null} if the version of the worker is unknown.
+     *
+     * @return the version of the worker
+     */
+    String getVersion();
 }

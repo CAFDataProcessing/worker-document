@@ -84,6 +84,12 @@ public class ApplicationImpl implements Application
     }
 
     @Override
+    public String getName()
+    {
+        return configuration.getWorkerName();
+    }
+
+    @Override
     public <S> S getService(Class<S> service)
     {
         return serviceLocator.getService(service);
@@ -94,6 +100,12 @@ public class ApplicationImpl implements Application
     public ServiceLocator getServiceLocator()
     {
         return serviceLocator;
+    }
+
+    @Override
+    public String getVersion()
+    {
+        return configuration.getWorkerVersion();
     }
 
     @Nonnull
