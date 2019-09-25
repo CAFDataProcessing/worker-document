@@ -76,16 +76,16 @@ public interface Application extends DocumentWorkerObject
     ServiceLocator getServiceLocator();
 
     /**
-     * Returns the document framework worker name.
+     * Returns the name of the worker, or {@code null} if the name of the worker is unknown.
      *
-     * @return String
+     * @return the name of the worker
      */
     String getName();
 
     /**
-     * Returns the document framework worker version.
+     * Returns the version of the worker, or {@code null} if the version of the worker is unknown.
      *
-     * @return String
+     * @return the version of the worker
      */
     String getVersion();
 }
