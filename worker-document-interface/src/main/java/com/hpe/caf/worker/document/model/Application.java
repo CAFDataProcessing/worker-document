@@ -74,18 +74,18 @@ public interface Application extends DocumentWorkerObject
      */
     @Nonnull
     ServiceLocator getServiceLocator();
-    
+
     /**
      * Returns the document framework worker name.
      *
      * @return String
-     */    
+     */
     String getName();
-    
+
     /**
      * Returns the document framework worker version.
      *
      * @return String
-     */    
+     */
     String getVersion();
 }

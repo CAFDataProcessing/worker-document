@@ -175,7 +175,7 @@ public class ApplicationImpl implements Application
     public String getName()
     {
         return configuration.getWorkerName();
-      
+
     }
 
     @Override
