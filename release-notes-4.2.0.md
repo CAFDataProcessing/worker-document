@@ -8,3 +8,4 @@ ${version-number}
 - **SCMOD-7711**: Updated to expose worker name and version from the application component.
 
 #### Known Issues
+- None
