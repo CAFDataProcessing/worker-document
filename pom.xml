@@ -49,32 +49,17 @@
         <developer>
             <id>dermot-hardy</id>
             <name>Dermot Hardy</name>
-            <email>dermot.hardy@hpe.com</email>
+            <email>dermot.hardy@microfocus.com</email>
         </developer>
         <developer>
             <id>mulhollandc</id>
             <name>Connor Mulholland</name>
-            <email>connor.mulholland@hpe.com</email>
-        </developer>
-        <developer>
-            <id>philip-crooks</id>
-            <name>Philip Crooks</name>
-            <email>philip.crooks@hpe.com</email>
-        </developer>
-        <developer>
-            <id>aaron-oloughlin</id>
-            <name>Arron O'Loughlin</name>
-            <email>aaron.oloughlin@hpe.com</email>
-        </developer>
-        <developer>
-            <id>krzysztof-ploch</id>
-            <name>Krzysztof Ploch</name>
-            <email>krzysztof.ploch@hpe.com</email>
+            <email>connor.mulholland@microfocus.com</email>
         </developer>
         <developer>
             <id>anthony-mcgreevy</id>
             <name>Anthony McGreevey</name>
-            <email>anthony.mcgreevy@hpe.com</email>
+            <email>anthony.mcgreevy@microfocus.com</email>
         </developer>
     </developers>
 
