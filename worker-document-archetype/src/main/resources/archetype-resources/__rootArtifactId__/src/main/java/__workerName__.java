@@ -71,7 +71,7 @@ public class ${workerName} implements DocumentWorker
      *
      * @param document the document to be processed. Fields can be added or removed from the document.
      * @throws InterruptedException if any thread has interrupted the current thread
-     * @throws DocumentWorkerTransientException if the document could not be processed
+     * @throws DocumentWorkerTransientException if the document could not be processed due to a transient issue
      */
     @Override
     public void processDocument(Document document) throws InterruptedException, DocumentWorkerTransientException
