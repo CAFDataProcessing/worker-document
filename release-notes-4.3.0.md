@@ -1,4 +1,3 @@
-!not-ready-for-release!
 
 #### Version Number
 ${version-number}
@@ -6,3 +5,5 @@ ${version-number}
 #### New Features
 
 #### Known Issues
+
+* None
