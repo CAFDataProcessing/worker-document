@@ -23,7 +23,7 @@
 
     <groupId>com.github.cafdataprocessing</groupId>
     <artifactId>worker-document-aggregator</artifactId>
-    <version>4.3.0-SNAPSHOT</version>
+    <version>4.4.0-SNAPSHOT</version>
     <packaging>pom</packaging>
 
     <name>Document Worker Framework</name>
@@ -96,55 +96,55 @@
              <dependency>
                 <groupId>com.github.workerframework</groupId>
                 <artifactId>worker-framework</artifactId>
-                <version>3.3.0-SCMOD-8829-SNAPSHOT</version>
+                <version>3.4.0-SCMOD-8829-SNAPSHOT</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
             <dependency>
                 <groupId>com.github.cafdataprocessing</groupId>
                 <artifactId>worker-document-framework</artifactId>
-                <version>4.3.0-SNAPSHOT</version>
+                <version>4.4.0-SNAPSHOT</version>
                 <type>pom</type>
             </dependency>
             <dependency>
                 <groupId>com.github.cafdataprocessing</groupId>
                 <artifactId>worker-document</artifactId>
-                <version>4.3.0-SNAPSHOT</version>
+                <version>4.4.0-SNAPSHOT</version>
             </dependency>
             <dependency>
                 <groupId>com.github.cafdataprocessing</groupId>
                 <artifactId>worker-document-interface</artifactId>
-                <version>4.3.0-SNAPSHOT</version>
+                <version>4.4.0-SNAPSHOT</version>
             </dependency>
             <dependency>
                 <groupId>com.github.cafdataprocessing</groupId>
                 <artifactId>worker-document-schema</artifactId>
-                <version>4.3.0-SNAPSHOT</version>
+                <version>4.4.0-SNAPSHOT</version>
             </dependency>
             <dependency>
                 <groupId>com.github.cafdataprocessing</groupId>
                 <artifactId>worker-document-shared</artifactId>
-                <version>4.3.0-SNAPSHOT</version>
+                <version>4.4.0-SNAPSHOT</version>
             </dependency>
             <dependency>
                 <groupId>com.github.cafdataprocessing</groupId>
                 <artifactId>worker-document-testing</artifactId>
-                <version>4.3.0-SNAPSHOT</version>
+                <version>4.4.0-SNAPSHOT</version>
             </dependency>
             <dependency>
                 <groupId>com.github.cafdataprocessing</groupId>
                 <artifactId>worker-document-testing-unit</artifactId>
-                <version>4.3.0-SNAPSHOT</version>
+                <version>4.4.0-SNAPSHOT</version>
             </dependency>
             <dependency>
                 <groupId>com.github.cafdataprocessing</groupId>
                 <artifactId>worker-document-utility</artifactId>
-                <version>4.3.0-SNAPSHOT</version>
+                <version>4.4.0-SNAPSHOT</version>
             </dependency>
             <dependency>
                 <groupId>com.github.cafdataprocessing</groupId>
                 <artifactId>worker-document-validator</artifactId>
-                <version>4.3.0-SNAPSHOT</version>
+                <version>4.4.0-SNAPSHOT</version>
             </dependency>
             <dependency>
                 <groupId>com.github.java-json-tools</groupId>
