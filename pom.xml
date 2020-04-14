@@ -96,7 +96,7 @@
              <dependency>
                 <groupId>com.github.workerframework</groupId>
                 <artifactId>worker-framework</artifactId>
-                <version>3.4.0-SCMOD-8829-SNAPSHOT</version>
+                <version>3.4.0-SNAPSHOT</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
