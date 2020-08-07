@@ -275,7 +275,7 @@
                             <alias>${rootArtifactId}</alias>
                             <name>${${rootArtifactId}.container.name}</name>
                             <build>
-                                <from>cafapi/opensuse-jre8:3</from>
+                                <from>cafapi/opensuse-jre11:3</from>
                                 <labels>
                                     <caf.worker-document-framework.version>${caf.worker-document-framework.version}</caf.worker-document-framework.version>
                                 </labels>
