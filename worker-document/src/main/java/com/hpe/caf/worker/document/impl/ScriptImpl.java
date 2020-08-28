@@ -25,6 +25,8 @@ import com.hpe.caf.worker.document.scripting.specs.InlineScriptSpec;
 import com.hpe.caf.worker.document.scripting.specs.StorageRefScriptSpec;
 import com.hpe.caf.worker.document.scripting.specs.UrlScriptSpec;
 import com.hpe.caf.worker.document.tasks.AbstractTask;
+import org.graalvm.polyglot.Value;
+
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.net.URL;
@@ -33,7 +35,6 @@ import javax.annotation.Nonnull;
 import javax.script.Bindings;
 import javax.script.CompiledScript;
 import javax.script.ScriptException;
-import jdk.nashorn.api.scripting.JSObject;
 
 public final class ScriptImpl extends DocumentWorkerObjectImpl implements Script
 {
@@ -237,18 +238,18 @@ public final class ScriptImpl extends DocumentWorkerObjectImpl implements Script
 
         // Check if there is a JavaScript function event handler for the event
         final Object eventHandler = bindings.get(event);
-        if (!(eventHandler instanceof JSObject)) {
+        if (!(eventHandler instanceof Value)) {
             return;
         }
 
-        final JSObject jsEventHandler = (JSObject) eventHandler;
-        if (!jsEventHandler.isFunction()) {
+        final Value jsEventHandler = (Value) eventHandler;
+        if (!jsEventHandler.canExecute()) {
             return;
         }
 
         // Call the JavaScript function with the specified arguments
         // Nashorn automatically wraps checked exceptions in a RuntimeException
-        jsEventHandler.call(null, args);
+        jsEventHandler.executeVoid(args);
     }
 
     public boolean shouldIncludeInResponse()

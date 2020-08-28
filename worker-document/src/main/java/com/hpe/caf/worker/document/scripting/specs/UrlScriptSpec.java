@@ -16,7 +16,10 @@
 package com.hpe.caf.worker.document.scripting.specs;
 
 import com.hpe.caf.worker.document.DocumentWorkerScript;
+
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.io.Reader;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -26,7 +29,6 @@ import javax.annotation.Nonnull;
 import javax.script.Compilable;
 import javax.script.CompiledScript;
 import javax.script.ScriptException;
-import jdk.nashorn.api.scripting.URLReader;
 
 public final class UrlScriptSpec extends RemoteScriptSpec
 {
@@ -43,10 +45,11 @@ public final class UrlScriptSpec extends RemoteScriptSpec
     @Override
     public CompiledScript compile(final Compilable compiler) throws ScriptException
     {
-        // This method has been overridden in order to avoid calling close() on the URLReader after the compile() call.
-        // Doing so actually causes it to read from the URL a further time!
-        final Reader reader = new URLReader(url);
-        return compiler.compile(reader);
+        try (final Reader reader = new BufferedReader(new InputStreamReader(url.openStream()))) {
+            return compiler.compile(reader);
+        } catch (final IOException e) {
+            throw new ScriptException(e);
+        }
     }
 
     @Override
@@ -77,7 +80,7 @@ public final class UrlScriptSpec extends RemoteScriptSpec
     @Override
     protected Reader openReader() throws IOException
     {
-        return new URLReader(url);
+        return new BufferedReader(new InputStreamReader(url.openStream()));
     }
 
     @Override

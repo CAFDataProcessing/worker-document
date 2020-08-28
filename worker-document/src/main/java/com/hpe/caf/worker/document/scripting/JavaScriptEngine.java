@@ -33,7 +33,7 @@ public final class JavaScriptEngine implements ObjectCodeProvider
 
     public JavaScriptEngine()
     {
-        this.scriptEngine = new ScriptEngineManager().getEngineByName("nashorn");
+        this.scriptEngine = new ScriptEngineManager().getEngineByName("graal.js");
         this.scriptEngineBindings = scriptEngine.getBindings(ScriptContext.ENGINE_SCOPE);
         this.scriptEngineBindingsLock = new Object();
     }
