@@ -39,6 +39,8 @@ public final class JavaScriptEngine implements ObjectCodeProvider
         this.scriptEngineBindings.put("polyglot.js.allowHostAccess", true);
         //Allow JS access to Java class loader
         this.scriptEngineBindings.put("polyglot.js.allowHostClassLookup", true);
+        //Allow JS IO access to load additional scripts
+        this.scriptEngineBindings.put("polyglot.js.allowIO", true);
         this.scriptEngineBindingsLock = new Object();
     }
 
