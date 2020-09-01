@@ -35,6 +35,10 @@ public final class JavaScriptEngine implements ObjectCodeProvider
     {
         this.scriptEngine = new ScriptEngineManager().getEngineByName("graal.js");
         this.scriptEngineBindings = scriptEngine.getBindings(ScriptContext.ENGINE_SCOPE);
+        //Allow JS access to public Java methods/members
+        this.scriptEngineBindings.put("polyglot.js.allowHostAccess", true);
+        //Allow JS access to Java class loader
+        this.scriptEngineBindings.put("polyglot.js.allowHostClassLookup", true);
         this.scriptEngineBindingsLock = new Object();
     }
 
