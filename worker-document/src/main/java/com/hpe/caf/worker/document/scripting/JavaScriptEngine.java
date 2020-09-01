@@ -33,6 +33,8 @@ public final class JavaScriptEngine implements ObjectCodeProvider
 
     public JavaScriptEngine()
     {
+        //Allow JS to load files from the classpath
+        System.setProperty("js.load-from-classpath", "true");
         this.scriptEngine = new ScriptEngineManager().getEngineByName("graal.js");
         this.scriptEngineBindings = scriptEngine.getBindings(ScriptContext.ENGINE_SCOPE);
         //Allow JS access to public Java methods/members
