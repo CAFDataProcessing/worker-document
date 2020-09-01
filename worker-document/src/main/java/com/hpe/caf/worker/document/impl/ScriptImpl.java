@@ -31,6 +31,7 @@ import java.io.IOException;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.Objects;
+import java.util.function.Function;
 import javax.annotation.Nonnull;
 import javax.script.Bindings;
 import javax.script.CompiledScript;
@@ -238,11 +239,11 @@ public final class ScriptImpl extends DocumentWorkerObjectImpl implements Script
 
         // Check if there is a JavaScript function event handler for the event
         final Object eventHandler = bindings.get(event);
-        if (!(eventHandler instanceof Value)) {
+        if (!(eventHandler instanceof Function)) {
             return;
         }
 
-        final Value jsEventHandler = (Value) eventHandler;
+        final Value jsEventHandler = Value.asValue(eventHandler);
         if (!jsEventHandler.canExecute()) {
             return;
         }
