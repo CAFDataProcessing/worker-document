@@ -35,15 +35,16 @@ public final class JavaScriptEngine implements ObjectCodeProvider
 
     public JavaScriptEngine()
     {
+        this.scriptEngine = GraalJSScriptEngine.create(
+            null,
+            Context.newBuilder("js")
+                .allowExperimentalOptions(true) //Needed for loading from classpath
+                .allowHostAccess(HostAccess.ALL) //Allow JS access to public Java methods/members
+                .allowHostClassLookup(s -> true) //Allow JS access to public Java classes
+                .allowIO(true) //Allow JS IO access to load additional scripts
+                .option("js.load-from-classpath", "true") //Allow JS to load files from the classpath
+                .option("js.syntax-extensions", "true"));
 
-        this.scriptEngine = GraalJSScriptEngine.create(null,
-                Context.newBuilder("js")
-                        .allowExperimentalOptions(true) //Needed for loading from classpath
-                        .allowHostAccess(HostAccess.ALL) //Allow JS access to public Java methods/members
-                        .allowHostClassLookup(s -> true) //Allow JS access to public Java classes
-                        .allowIO(true) //Allow JS IO access to load additional scripts
-                        .option("js.load-from-classpath", "true") //Allow JS to load files from the classpath
-                        .option("js.syntax-extensions", "true"));
         this.scriptEngineBindings = scriptEngine.getBindings(ScriptContext.ENGINE_SCOPE);
         this.scriptEngineBindingsLock = new Object();
     }
