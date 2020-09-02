@@ -81,12 +81,14 @@
         </dependency>
         <dependency>
             <groupId>org.graalvm.js</groupId>
-            <artifactId>js</artifactId>
-            <scope>runtime</scope>
+            <artifactId>js-scriptengine</artifactId>
         </dependency>
+
+        <!-- Runtime Dependencies -->
         <dependency>
             <groupId>org.graalvm.js</groupId>
-            <artifactId>js-scriptengine</artifactId>
+            <artifactId>js</artifactId>
+            <scope>runtime</scope>
         </dependency>
 
         <!-- Test Dependencies -->
