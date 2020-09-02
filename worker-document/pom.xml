@@ -87,7 +87,6 @@
         <dependency>
             <groupId>org.graalvm.js</groupId>
             <artifactId>js-scriptengine</artifactId>
-            <scope>runtime</scope>
         </dependency>
 
         <!-- Test Dependencies -->

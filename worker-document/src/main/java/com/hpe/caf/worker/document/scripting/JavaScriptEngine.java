@@ -16,13 +16,16 @@
 package com.hpe.caf.worker.document.scripting;
 
 import com.hpe.caf.worker.document.scripting.specs.AbstractScriptSpec;
+import com.oracle.truffle.js.scriptengine.GraalJSScriptEngine;
+import org.graalvm.polyglot.Context;
+import org.graalvm.polyglot.HostAccess;
+
 import javax.annotation.Nonnull;
 import javax.script.Bindings;
 import javax.script.Compilable;
 import javax.script.CompiledScript;
 import javax.script.ScriptContext;
 import javax.script.ScriptEngine;
-import javax.script.ScriptEngineManager;
 import javax.script.ScriptException;
 
 public final class JavaScriptEngine implements ObjectCodeProvider
@@ -33,16 +36,16 @@ public final class JavaScriptEngine implements ObjectCodeProvider
 
     public JavaScriptEngine()
     {
-        //Allow JS to load files from the classpath
-        System.setProperty("js.load-from-classpath", "true");
-        this.scriptEngine = new ScriptEngineManager().getEngineByName("graal.js");
+
+        this.scriptEngine = GraalJSScriptEngine.create(null,
+                Context.newBuilder("js")
+                        .allowExperimentalOptions(true) //Needed for loading from classpath
+                        .allowHostAccess(HostAccess.ALL) //Allow JS access to public Java methods/members
+                        .allowHostClassLookup(s -> true) //Allow JS access to Java class loader
+                        .allowHostClassLoading(true)
+                        .allowIO(true) //Allow JS IO access to load additional scripts
+                        .option("js.load-from-classpath", "true")); //Allow JS to load files from the classpath
         this.scriptEngineBindings = scriptEngine.getBindings(ScriptContext.ENGINE_SCOPE);
-        //Allow JS access to public Java methods/members
-        this.scriptEngineBindings.put("polyglot.js.allowHostAccess", true);
-        //Allow JS access to Java class loader
-        this.scriptEngineBindings.put("polyglot.js.allowHostClassLookup", true);
-        //Allow JS IO access to load additional scripts
-        this.scriptEngineBindings.put("polyglot.js.allowIO", true);
         this.scriptEngineBindingsLock = new Object();
     }
 
