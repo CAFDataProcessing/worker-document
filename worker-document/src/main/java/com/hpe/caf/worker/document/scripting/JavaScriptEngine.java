@@ -17,9 +17,6 @@ package com.hpe.caf.worker.document.scripting;
 
 import com.hpe.caf.worker.document.scripting.specs.AbstractScriptSpec;
 import com.oracle.truffle.js.scriptengine.GraalJSScriptEngine;
-import org.graalvm.polyglot.Context;
-import org.graalvm.polyglot.HostAccess;
-
 import javax.annotation.Nonnull;
 import javax.script.Bindings;
 import javax.script.Compilable;
@@ -27,6 +24,8 @@ import javax.script.CompiledScript;
 import javax.script.ScriptContext;
 import javax.script.ScriptEngine;
 import javax.script.ScriptException;
+import org.graalvm.polyglot.Context;
+import org.graalvm.polyglot.HostAccess;
 
 public final class JavaScriptEngine implements ObjectCodeProvider
 {

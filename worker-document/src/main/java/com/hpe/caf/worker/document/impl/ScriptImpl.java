@@ -25,8 +25,6 @@ import com.hpe.caf.worker.document.scripting.specs.InlineScriptSpec;
 import com.hpe.caf.worker.document.scripting.specs.StorageRefScriptSpec;
 import com.hpe.caf.worker.document.scripting.specs.UrlScriptSpec;
 import com.hpe.caf.worker.document.tasks.AbstractTask;
-import org.graalvm.polyglot.Value;
-
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.net.URL;
@@ -36,6 +34,7 @@ import javax.annotation.Nonnull;
 import javax.script.Bindings;
 import javax.script.CompiledScript;
 import javax.script.ScriptException;
+import org.graalvm.polyglot.Value;
 
 public final class ScriptImpl extends DocumentWorkerObjectImpl implements Script
 {

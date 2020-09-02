@@ -16,7 +16,6 @@
 package com.hpe.caf.worker.document.scripting.specs;
 
 import com.hpe.caf.worker.document.DocumentWorkerScript;
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
