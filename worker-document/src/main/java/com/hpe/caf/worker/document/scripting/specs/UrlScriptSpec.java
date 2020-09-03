@@ -23,6 +23,7 @@ import java.io.Reader;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
+import java.nio.charset.StandardCharsets;
 import java.util.Objects;
 import javax.annotation.Nonnull;
 import javax.script.Compilable;
@@ -38,17 +39,6 @@ public final class UrlScriptSpec extends RemoteScriptSpec
     {
         this.url = Objects.requireNonNull(url);
         this.uri = url.toURI();
-    }
-
-    @Nonnull
-    @Override
-    public CompiledScript compile(final Compilable compiler) throws ScriptException
-    {
-        try (final Reader reader = new BufferedReader(new InputStreamReader(url.openStream()))) {
-            return compiler.compile(reader);
-        } catch (final IOException e) {
-            throw new ScriptException(e);
-        }
     }
 
     @Override
@@ -79,7 +69,7 @@ public final class UrlScriptSpec extends RemoteScriptSpec
     @Override
     protected Reader openReader() throws IOException
     {
-        return new BufferedReader(new InputStreamReader(url.openStream()));
+        return new BufferedReader(new InputStreamReader(url.openStream(), StandardCharsets.UTF_8));
     }
 
     @Override
