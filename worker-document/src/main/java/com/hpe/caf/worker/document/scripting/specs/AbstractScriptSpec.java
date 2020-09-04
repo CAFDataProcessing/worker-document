@@ -18,6 +18,8 @@ package com.hpe.caf.worker.document.scripting.specs;
 import com.hpe.caf.worker.document.DocumentWorkerScript;
 import com.hpe.caf.worker.document.exceptions.InvalidScriptException;
 import com.hpe.caf.worker.document.impl.ApplicationImpl;
+import com.hpe.caf.worker.document.scripting.ScriptEngineType;
+
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URISyntaxException;
@@ -51,14 +53,21 @@ public abstract class AbstractScriptSpec
             throw new InvalidScriptException(script, "Script must have a single source.");
         }
 
+        final ScriptEngineType engineType;
+        if (script.engine == null || script.engine.isEmpty()) {
+            engineType = ScriptEngineType.NASHORN;
+        } else {
+            engineType = ScriptEngineType.valueOf(script.engine);
+        }
+
         // Construct the appropriate concreate implementation
         if (script.script != null) {
-            return new InlineScriptSpec(script.script);
+            return new InlineScriptSpec(script.script, engineType);
         } else if (script.storageRef != null) {
-            return new StorageRefScriptSpec(application.getDataStore(), script.storageRef);
+            return new StorageRefScriptSpec(application.getDataStore(), script.storageRef, engineType);
         } else if (script.url != null) {
             try {
-                return new UrlScriptSpec(new URL(script.url));
+                return new UrlScriptSpec(new URL(script.url), engineType);
             } catch (final MalformedURLException | URISyntaxException ex) {
                 throw new InvalidScriptException(script, "Script url is malformed or not standards compliant.", ex);
             }
@@ -93,6 +102,13 @@ public abstract class AbstractScriptSpec
      * @return true if the script specified is constant
      */
     public abstract boolean isStatic();
+
+    /**
+     * Returns the JavaScript engine to use for the script represented by this specification.
+     *
+     * @return the JavaScript engine to use for the script represented by this specification.
+     */
+    public abstract ScriptEngineType getEngineType();
 
     /**
      * Creates a new {@code DocumentWorkerScript} for the script specification.

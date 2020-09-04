@@ -13,18 +13,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.hpe.caf.worker.document;
+package com.hpe.caf.worker.document.scripting;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.annotation.JsonInclude.Include;
-
-@JsonInclude(Include.NON_NULL)
-public final class DocumentWorkerScript
+public enum ScriptEngineType
 {
-    public String name;
-
-    public String script;
-    public String storageRef;
-    public String url;
-    public String engine;
+    NASHORN,
+    GRAAL_JS
 }

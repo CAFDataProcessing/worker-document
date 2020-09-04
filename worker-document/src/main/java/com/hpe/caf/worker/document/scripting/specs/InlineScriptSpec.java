@@ -16,6 +16,8 @@
 package com.hpe.caf.worker.document.scripting.specs;
 
 import com.hpe.caf.worker.document.DocumentWorkerScript;
+import com.hpe.caf.worker.document.scripting.ScriptEngineType;
+
 import java.util.Objects;
 import javax.annotation.Nonnull;
 import javax.script.Compilable;
@@ -25,10 +27,18 @@ import javax.script.ScriptException;
 public final class InlineScriptSpec extends AbstractScriptSpec
 {
     private final String script;
+    private final ScriptEngineType engineType;
 
     public InlineScriptSpec(final String script)
     {
         this.script = Objects.requireNonNull(script);
+        engineType = ScriptEngineType.NASHORN;
+    }
+
+    public InlineScriptSpec(final String script, final ScriptEngineType type)
+    {
+        this.script = Objects.requireNonNull(script);
+        engineType = type;
     }
 
     @Nonnull
@@ -67,6 +77,12 @@ public final class InlineScriptSpec extends AbstractScriptSpec
     public boolean isStatic()
     {
         return true;
+    }
+
+    @Override
+    public ScriptEngineType getEngineType()
+    {
+        return engineType;
     }
 
     @Override

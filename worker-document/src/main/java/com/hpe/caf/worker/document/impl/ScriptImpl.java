@@ -149,7 +149,7 @@ public final class ScriptImpl extends DocumentWorkerObjectImpl implements Script
         final CompiledScript scriptObjectCode = javaScriptManager.getObjectCode(name, scriptSpec);
 
         // Create a new global context for the script to run in
-        final Bindings newGlobal = javaScriptManager.createNewGlobal();
+        final Bindings newGlobal = javaScriptManager.createNewGlobal(scriptSpec.getEngineType());
 
         // Add a reference to this script object into the script's global context
         newGlobal.put("thisScript", this);

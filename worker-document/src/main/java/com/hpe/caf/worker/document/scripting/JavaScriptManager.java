@@ -49,9 +49,9 @@ public final class JavaScriptManager implements ObjectCodeProvider
     }
 
     @Nonnull
-    public Bindings createNewGlobal()
+    public Bindings createNewGlobal(final ScriptEngineType engine)
     {
-        return scriptEngine.createNewGlobal();
+        return scriptEngine.createNewGlobal(engine);
     }
 
     @Nonnull

@@ -16,6 +16,8 @@
 package com.hpe.caf.worker.document.scripting.specs;
 
 import com.hpe.caf.worker.document.DocumentWorkerScript;
+import com.hpe.caf.worker.document.scripting.ScriptEngineType;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -26,19 +28,25 @@ import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.util.Objects;
 import javax.annotation.Nonnull;
-import javax.script.Compilable;
-import javax.script.CompiledScript;
-import javax.script.ScriptException;
 
 public final class UrlScriptSpec extends RemoteScriptSpec
 {
     private final URL url;
     private final URI uri;
+    private final ScriptEngineType engineType;
 
     public UrlScriptSpec(final URL url) throws URISyntaxException
     {
         this.url = Objects.requireNonNull(url);
         this.uri = url.toURI();
+        this.engineType = ScriptEngineType.NASHORN;
+    }
+
+    public UrlScriptSpec(final URL url, final ScriptEngineType engineType) throws URISyntaxException
+    {
+        this.url = Objects.requireNonNull(url);
+        this.uri = url.toURI();
+        this.engineType = engineType;
     }
 
     @Override
@@ -63,6 +71,12 @@ public final class UrlScriptSpec extends RemoteScriptSpec
     public boolean isStatic()
     {
         return false;
+    }
+
+    @Override
+    public ScriptEngineType getEngineType()
+    {
+        return engineType;
     }
 
     @Nonnull

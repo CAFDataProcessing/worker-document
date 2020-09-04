@@ -33,9 +33,9 @@ public final class JavaScriptEngineLazy implements ObjectCodeProvider
     }
 
     @Nonnull
-    public Bindings createNewGlobal()
+    public Bindings createNewGlobal(final ScriptEngineType engine)
     {
-        return scriptEngine.get().createNewGlobal();
+        return scriptEngine.get().createNewGlobal(engine);
     }
 
     @Nonnull

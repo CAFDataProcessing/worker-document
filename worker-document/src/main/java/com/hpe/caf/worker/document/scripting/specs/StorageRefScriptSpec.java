@@ -17,6 +17,7 @@ package com.hpe.caf.worker.document.scripting.specs;
 
 import com.hpe.caf.api.worker.DataStore;
 import com.hpe.caf.worker.document.DocumentWorkerScript;
+import com.hpe.caf.worker.document.scripting.ScriptEngineType;
 import com.hpe.caf.worker.document.util.DataStoreFunctions;
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -31,11 +32,20 @@ public final class StorageRefScriptSpec extends RemoteScriptSpec
 {
     private final DataStore dataStore;
     private final String storageRef;
+    private final ScriptEngineType engineType;
 
     public StorageRefScriptSpec(final DataStore dataStore, final String storageRef)
     {
         this.dataStore = Objects.requireNonNull(dataStore);
         this.storageRef = Objects.requireNonNull(storageRef);
+        this.engineType = ScriptEngineType.NASHORN;
+    }
+
+    public StorageRefScriptSpec(final DataStore dataStore, final String storageRef, final ScriptEngineType engineType)
+    {
+        this.dataStore = Objects.requireNonNull(dataStore);
+        this.storageRef = Objects.requireNonNull(storageRef);
+        this.engineType = engineType;
     }
 
     @Override
@@ -64,6 +74,12 @@ public final class StorageRefScriptSpec extends RemoteScriptSpec
     public boolean isStatic()
     {
         return true;
+    }
+
+    @Override
+    public ScriptEngineType getEngineType()
+    {
+        return engineType;
     }
 
     @Nonnull

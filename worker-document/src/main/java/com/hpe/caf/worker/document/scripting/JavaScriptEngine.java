@@ -23,35 +23,43 @@ import javax.script.Compilable;
 import javax.script.CompiledScript;
 import javax.script.ScriptContext;
 import javax.script.ScriptEngine;
+import javax.script.ScriptEngineManager;
 import javax.script.ScriptException;
 import org.graalvm.polyglot.Context;
 import org.graalvm.polyglot.HostAccess;
 
 public final class JavaScriptEngine implements ObjectCodeProvider
 {
-    private final ScriptEngine scriptEngine;
-    private final Bindings scriptEngineBindings;
+    private final ScriptEngine graalEngine;
+    private final Bindings graalEngineBindings;
+    private final ScriptEngine nashornEngine;
+    private final Bindings nashornEngineBindings;
     private final Object scriptEngineBindingsLock;
 
     public JavaScriptEngine()
     {
-        this.scriptEngine = GraalJSScriptEngine.create(
+        this.graalEngine = GraalJSScriptEngine.create(
             null,
             Context.newBuilder("js")
                 .allowExperimentalOptions(true) // Needed for loading from classpath
-                .option("js.nashorn-compat", "true")
                 .allowHostAccess(HostAccess.ALL) // Allow JS access to public Java methods/members
                 .allowHostClassLookup(s -> true) // Allow JS access to public Java classes
-                .option("js.syntax-extensions", "true"));
+                .option("js.load-from-classpath", "true"));
 
-        this.scriptEngineBindings = scriptEngine.getBindings(ScriptContext.ENGINE_SCOPE);
+        this.graalEngineBindings = graalEngine.getBindings(ScriptContext.ENGINE_SCOPE);
+        this.nashornEngine = new ScriptEngineManager().getEngineByName("nashorn");
+        this.nashornEngineBindings = nashornEngine.createBindings();
         this.scriptEngineBindingsLock = new Object();
     }
 
     @Nonnull
-    public Bindings createNewGlobal()
+    public Bindings createNewGlobal(final ScriptEngineType engine)
     {
-        return scriptEngine.createBindings();
+        if(engine == ScriptEngineType.GRAAL_JS) {
+            return graalEngine.createBindings();
+        } else {
+            return nashornEngine.createBindings();
+        }
     }
 
     @Nonnull
@@ -60,21 +68,24 @@ public final class JavaScriptEngine implements ObjectCodeProvider
     {
         // Synchronize compilations so that the correct filename is set whilst the compilation is occurring
         synchronized (scriptEngineBindingsLock) {
-
+            final Bindings bindings = scriptSpec.getEngineType() == ScriptEngineType.GRAAL_JS ?
+                    graalEngineBindings : nashornEngineBindings;
+            final ScriptEngine engine = scriptSpec.getEngineType() == ScriptEngineType.GRAAL_JS ?
+                    graalEngine : nashornEngine;
             // Set the name of the script to be compiled
             // Unfortunately it seems that it has to be put into the script engine context
             if (name != null) {
-                scriptEngineBindings.put(ScriptEngine.FILENAME, name);
+                bindings.put(ScriptEngine.FILENAME, name);
             }
 
             try {
                 // Compile the script
-                return scriptSpec.compile((Compilable) scriptEngine);
+                return scriptSpec.compile((Compilable) engine);
 
             } finally {
                 // Reset the script name
                 if (name != null) {
-                    scriptEngineBindings.remove(ScriptEngine.FILENAME);
+                    bindings.remove(ScriptEngine.FILENAME);
                 }
             }
         }
