@@ -20,6 +20,7 @@ import com.hpe.caf.worker.document.exceptions.InvalidScriptException;
 import com.hpe.caf.worker.document.model.Script;
 import com.hpe.caf.worker.document.model.Task;
 import com.hpe.caf.worker.document.scripting.JavaScriptManager;
+import com.hpe.caf.worker.document.scripting.ScriptEngineType;
 import com.hpe.caf.worker.document.scripting.specs.AbstractScriptSpec;
 import com.hpe.caf.worker.document.scripting.specs.InlineScriptSpec;
 import com.hpe.caf.worker.document.scripting.specs.StorageRefScriptSpec;
@@ -34,6 +35,8 @@ import javax.annotation.Nonnull;
 import javax.script.Bindings;
 import javax.script.CompiledScript;
 import javax.script.ScriptException;
+
+import jdk.nashorn.api.scripting.JSObject;
 import org.graalvm.polyglot.Value;
 
 public final class ScriptImpl extends DocumentWorkerObjectImpl implements Script
@@ -238,18 +241,39 @@ public final class ScriptImpl extends DocumentWorkerObjectImpl implements Script
 
         // Check if there is a JavaScript function event handler for the event
         final Object eventHandler = bindings.get(event);
+        if (scriptSpec.getEngineType() == ScriptEngineType.GRAAL_JS) {
+            graalHandleEvent(eventHandler, args);
+        } else {
+            nashornHandleEvent(eventHandler, args);
+        }
+    }
+
+    private void graalHandleEvent(Object eventHandler, Object[] args)
+    {
         if (!(eventHandler instanceof Function)) {
             return;
         }
-
         final Value jsEventHandler = Value.asValue(eventHandler);
         if (!jsEventHandler.canExecute()) {
             return;
         }
+        // Call the JavaScript function with the specified arguments
+        // Graal automatically wraps checked exceptions in a PolyglotException
+        jsEventHandler.executeVoid(args);
+    }
 
+    private void nashornHandleEvent(final Object eventHandler, final Object[] args)
+    {
+        if (!(eventHandler instanceof JSObject)) {
+            return;
+        }
+        final JSObject jsEventHandler = (JSObject) eventHandler;
+        if (!jsEventHandler.isFunction()) {
+            return;
+        }
         // Call the JavaScript function with the specified arguments
         // Nashorn automatically wraps checked exceptions in a RuntimeException
-        jsEventHandler.executeVoid(args);
+        jsEventHandler.call(null, args);
     }
 
     public boolean shouldIncludeInResponse()
