@@ -15,6 +15,7 @@
  */
 package com.hpe.caf.worker.document.scripting;
 
+import com.hpe.caf.worker.document.model.ScriptEngineType;
 import com.hpe.caf.worker.document.scripting.specs.AbstractScriptSpec;
 import com.oracle.truffle.js.scriptengine.GraalJSScriptEngine;
 import javax.annotation.Nonnull;

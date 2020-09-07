@@ -20,7 +20,7 @@ import com.hpe.caf.worker.document.exceptions.InvalidScriptException;
 import com.hpe.caf.worker.document.model.Script;
 import com.hpe.caf.worker.document.model.Task;
 import com.hpe.caf.worker.document.scripting.JavaScriptManager;
-import com.hpe.caf.worker.document.scripting.ScriptEngineType;
+import com.hpe.caf.worker.document.model.ScriptEngineType;
 import com.hpe.caf.worker.document.scripting.specs.AbstractScriptSpec;
 import com.hpe.caf.worker.document.scripting.specs.InlineScriptSpec;
 import com.hpe.caf.worker.document.scripting.specs.StorageRefScriptSpec;
@@ -182,26 +182,44 @@ public final class ScriptImpl extends DocumentWorkerObjectImpl implements Script
     @Override
     public void setScriptByReference(final String reference)
     {
-        throwIfLoaded();
-        this.scriptSpec = new StorageRefScriptSpec(application.getDataStore(), reference);
+        setScriptByReference(reference, ScriptEngineType.NASHORN);
     }
 
     @Override
     public void setScriptByUrl(final URL url)
     {
+        setScriptByUrl(url, ScriptEngineType.NASHORN);
+    }
+
+    @Override
+    public void setScriptInline(final String script)
+    {
+       setScriptInline(script, ScriptEngineType.NASHORN);
+    }
+
+    @Override
+    public void setScriptByReference(String reference, ScriptEngineType engineType)
+    {
+        throwIfLoaded();
+        this.scriptSpec = new StorageRefScriptSpec(application.getDataStore(), reference, engineType);
+    }
+
+    @Override
+    public void setScriptByUrl(URL url, ScriptEngineType engineType)
+    {
         throwIfLoaded();
         try {
-            this.scriptSpec = new UrlScriptSpec(url);
+            this.scriptSpec = new UrlScriptSpec(url, engineType);
         } catch (final URISyntaxException ex) {
             throw new RuntimeException("URL is not strictly formatted in accordance with RFC2396", ex);
         }
     }
 
     @Override
-    public void setScriptInline(final String script)
+    public void setScriptInline(String script, ScriptEngineType engineType)
     {
         throwIfLoaded();
-        this.scriptSpec = new InlineScriptSpec(script);
+        this.scriptSpec = new InlineScriptSpec(script, engineType);
     }
 
     private void throwIfLoaded()

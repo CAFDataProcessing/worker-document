@@ -17,6 +17,7 @@ package com.hpe.caf.worker.document.scripting;
 
 import com.google.common.base.Supplier;
 import com.google.common.base.Suppliers;
+import com.hpe.caf.worker.document.model.ScriptEngineType;
 import com.hpe.caf.worker.document.scripting.specs.AbstractScriptSpec;
 import javax.annotation.Nonnull;
 import javax.script.Bindings;

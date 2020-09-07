@@ -17,6 +17,7 @@ package com.hpe.caf.worker.document.scripting;
 
 import com.hpe.caf.worker.document.config.ScriptCacheConfiguration;
 import com.hpe.caf.worker.document.config.ScriptCachingConfiguration;
+import com.hpe.caf.worker.document.model.ScriptEngineType;
 import com.hpe.caf.worker.document.scripting.specs.AbstractScriptSpec;
 import javax.annotation.Nonnull;
 import javax.script.Bindings;

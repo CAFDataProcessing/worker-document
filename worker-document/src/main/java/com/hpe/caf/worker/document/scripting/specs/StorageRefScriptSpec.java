@@ -17,7 +17,7 @@ package com.hpe.caf.worker.document.scripting.specs;
 
 import com.hpe.caf.api.worker.DataStore;
 import com.hpe.caf.worker.document.DocumentWorkerScript;
-import com.hpe.caf.worker.document.scripting.ScriptEngineType;
+import com.hpe.caf.worker.document.model.ScriptEngineType;
 import com.hpe.caf.worker.document.util.DataStoreFunctions;
 import java.io.BufferedReader;
 import java.io.IOException;

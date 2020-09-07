@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.hpe.caf.worker.document.scripting;
+package com.hpe.caf.worker.document.model;
 
 public enum ScriptEngineType
 {
