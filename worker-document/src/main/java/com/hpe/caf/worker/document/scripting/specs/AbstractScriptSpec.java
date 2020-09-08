@@ -19,6 +19,7 @@ import com.hpe.caf.worker.document.DocumentWorkerScript;
 import com.hpe.caf.worker.document.exceptions.InvalidScriptException;
 import com.hpe.caf.worker.document.impl.ApplicationImpl;
 import com.hpe.caf.worker.document.model.ScriptEngineType;
+import com.sun.tools.javac.resources.compiler;
 
 import java.io.IOException;
 import java.net.MalformedURLException;
@@ -54,10 +55,14 @@ public abstract class AbstractScriptSpec
         }
 
         final ScriptEngineType engineType;
-        if (script.engine == null || script.engine.isEmpty()) {
+        if (script.engine == null) {
             engineType = ScriptEngineType.NASHORN;
         } else {
-            engineType = ScriptEngineType.valueOf(script.engine);
+            try {
+                engineType = ScriptEngineType.valueOf(script.engine);
+            } catch (final IllegalArgumentException e) {
+                throw new InvalidScriptException(script, "Invalid engine type", e);
+            }
         }
 
         // Construct the appropriate concreate implementation

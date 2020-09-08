@@ -13,20 +13,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.hpe.caf.worker.document.model;
+package com.hpe.caf.worker.document.scripting;
 
-/**
- * Represents which of the JavaScript engines should be used.
- */
-public enum ScriptEngineType
+import javax.script.ScriptEngineManager;
+
+public final class NashornJSEngine extends JavaScriptEngine
 {
-    /**
-     * Represents the Nashorn script engine.
-     */
-    NASHORN,
 
-    /**
-     * Represents the GraalVM script engine.
-     */
-    GRAAL_JS
+    public NashornJSEngine()
+    {
+        super(new ScriptEngineManager().getEngineByName("nashorn"));
+    }
 }
