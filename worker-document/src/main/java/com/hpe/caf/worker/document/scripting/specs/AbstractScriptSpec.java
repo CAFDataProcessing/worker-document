@@ -19,7 +19,6 @@ import com.hpe.caf.worker.document.DocumentWorkerScript;
 import com.hpe.caf.worker.document.exceptions.InvalidScriptException;
 import com.hpe.caf.worker.document.impl.ApplicationImpl;
 import com.hpe.caf.worker.document.model.ScriptEngineType;
-import com.sun.tools.javac.resources.compiler;
 
 import java.io.IOException;
 import java.net.MalformedURLException;
