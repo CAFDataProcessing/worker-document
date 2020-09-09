@@ -133,11 +133,13 @@ public class DocumentWorkerConfiguration extends WorkerConfiguration
         this.scriptCaching = scriptCaching;
     }
 
-    public boolean getEnableExceptionOnFailure() {
+    public boolean getEnableExceptionOnFailure()
+    {
         return enableExceptionOnFailure;
     }
 
-    public void setEnableExceptionOnFailure(boolean enableExceptionOnFailure) {
+    public void setEnableExceptionOnFailure(boolean enableExceptionOnFailure)
+    {
         this.enableExceptionOnFailure = enableExceptionOnFailure;
     }
 }

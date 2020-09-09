@@ -19,15 +19,18 @@ public final class InvalidDocumentException extends Exception
 {
     private static final long serialVersionUID = -2877124005478451426L;
 
-    public InvalidDocumentException() {
+    public InvalidDocumentException()
+    {
         super();
     }
 
-    public InvalidDocumentException(final String message) {
+    public InvalidDocumentException(final String message)
+    {
         super(message);
     }
 
-    public InvalidDocumentException(final Throwable cause) {
+    public InvalidDocumentException(final Throwable cause)
+    {
         super(cause);
     }
 

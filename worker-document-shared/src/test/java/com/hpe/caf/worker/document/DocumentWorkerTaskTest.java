@@ -33,7 +33,7 @@ public final class DocumentWorkerTaskTest
 
         final String expectedJson
             = "{`fields`:{`Name`:[{`data`:`base64 encoding`,`encoding`:`base64`}]}}"
-            .replace('`', '"');
+                .replace('`', '"');
 
         assertEquals(expectedJson, testString);
     }
@@ -49,7 +49,7 @@ public final class DocumentWorkerTaskTest
 
         final String expectedJson
             = "{`fields`:{`Name`:[{`data`:`utf8 encoding`,`encoding`:`utf8`}]}}"
-            .replace('`', '"');
+                .replace('`', '"');
 
         assertEquals(expectedJson, testString);
     }
@@ -65,7 +65,7 @@ public final class DocumentWorkerTaskTest
 
         final String expectedJson
             = "{`fields`:{`Name`:[{`data`:`null encoding`}]}}"
-            .replace('`', '"');
+                .replace('`', '"');
 
         assertEquals(expectedJson, testString);
     }
@@ -75,7 +75,7 @@ public final class DocumentWorkerTaskTest
     {
         final String jsonString
             = "{`fields`:{`Name`:[{`data`:`base64 encoding`,`encoding`:`base64`}]}}"
-            .replace('`', '"');
+                .replace('`', '"');
 
         final DocumentWorkerTask dsTestTask = deserialiseTask(jsonString);
 
@@ -90,7 +90,7 @@ public final class DocumentWorkerTaskTest
     {
         final String jsonString
             = "{`fields`:{`Name`:[{`data`:`utf8 encoding`,`encoding`:`utf8`}]}}"
-            .replace('`', '"');
+                .replace('`', '"');
 
         final DocumentWorkerTask dsTestTask = deserialiseTask(jsonString);
 
@@ -105,7 +105,7 @@ public final class DocumentWorkerTaskTest
     {
         final String jsonString
             = "{`fields`:{`Name`:[{`data`:`null encoding`}]}}"
-            .replace('`', '"');
+                .replace('`', '"');
 
         final DocumentWorkerTask dsTestTask = deserialiseTask(jsonString);
 
