@@ -198,5 +198,3 @@ Scripts may be specified inline using the `script` key, or alternatively referen
             }
         ]
     }
-
-Any scripts specified in the request are also automatically added to the response message.
