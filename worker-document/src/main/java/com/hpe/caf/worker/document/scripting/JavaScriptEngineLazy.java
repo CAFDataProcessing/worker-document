@@ -20,7 +20,6 @@ import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
 import com.hpe.caf.worker.document.model.ScriptEngineType;
 import com.hpe.caf.worker.document.scripting.specs.AbstractScriptSpec;
-
 import javax.annotation.Nonnull;
 import javax.script.Bindings;
 import javax.script.CompiledScript;
@@ -28,7 +27,7 @@ import javax.script.ScriptException;
 
 public final class JavaScriptEngineLazy implements ObjectCodeProvider
 {
-    private final LoadingCache<ScriptEngineType, JavaScriptEngine>  scriptEngine;
+    private final LoadingCache<ScriptEngineType, JavaScriptEngine> scriptEngine;
 
     public JavaScriptEngineLazy()
     {
@@ -48,7 +47,8 @@ public final class JavaScriptEngineLazy implements ObjectCodeProvider
         return scriptEngine.getUnchecked(scriptSpec.getEngineType()).getObjectCode(name, scriptSpec);
     }
 
-    private static JavaScriptEngine buildEngine (final ScriptEngineType engineType) {
+    private static JavaScriptEngine buildEngine(final ScriptEngineType engineType)
+    {
         if (engineType == ScriptEngineType.GRAAL_JS) {
             return new GraalJSEngine();
         } else {

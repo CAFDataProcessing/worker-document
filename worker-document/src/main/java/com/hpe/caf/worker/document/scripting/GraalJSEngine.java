@@ -23,15 +23,13 @@ public final class GraalJSEngine extends JavaScriptEngine
 {
     public GraalJSEngine()
     {
-        super(
-            GraalJSScriptEngine.create(
+        super(GraalJSScriptEngine.create(
             null,
             Context.newBuilder("js")
                 .allowExperimentalOptions(true) // Needed for loading from classpath
                 .allowHostAccess(HostAccess.ALL) // Allow JS access to public Java methods/members
                 .allowHostClassLookup(s -> true) // Allow JS access to public Java classes
                 .option("js.load-from-classpath", "true")
-            )
-        );
+        ));
     }
 }

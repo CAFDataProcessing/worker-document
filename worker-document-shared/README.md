@@ -203,5 +203,3 @@ The valid options are either `NASHORN` or `GRAAL_JS`referring to the Nashorn and
             }
         ]
     }
-
-Any scripts specified in the request are also automatically added to the response message.

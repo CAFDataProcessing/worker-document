@@ -56,7 +56,7 @@ public abstract class IsDocumentContainingFieldValue<T> extends TypeSafeDiagnosi
             if (!isFieldValueOfExpectedType(value)) {
                 continue;
             }
-            
+
             final T fieldValue = getFieldValue(value);
             if (fieldValueMatcher.matches(fieldValue)) {
                 return true;
@@ -74,7 +74,7 @@ public abstract class IsDocumentContainingFieldValue<T> extends TypeSafeDiagnosi
     protected abstract void describeActual(T fieldValue, Description description);
 
     protected abstract T getFieldValue(FieldValue fieldValue);
-    
+
     protected abstract boolean isFieldValueOfExpectedType(FieldValue value);
 
     @Override

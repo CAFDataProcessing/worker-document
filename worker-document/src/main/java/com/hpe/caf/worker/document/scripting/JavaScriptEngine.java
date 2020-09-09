@@ -16,7 +16,6 @@
 package com.hpe.caf.worker.document.scripting;
 
 import com.hpe.caf.worker.document.scripting.specs.AbstractScriptSpec;
-
 import javax.annotation.Nonnull;
 import javax.script.Bindings;
 import javax.script.Compilable;
@@ -50,6 +49,7 @@ public abstract class JavaScriptEngine implements ObjectCodeProvider
     {
         // Synchronize compilations so that the correct filename is set whilst the compilation is occurring
         synchronized (scriptEngineBindingsLock) {
+
             // Set the name of the script to be compiled
             // Unfortunately it seems that it has to be put into the script engine context
             if (name != null) {

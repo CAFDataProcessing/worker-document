@@ -146,8 +146,8 @@ public final class DocumentValidatorTest
     {
         System.out.println("invalidDocumentStreamTest...");
         final ByteArrayOutputStream outStream = new ByteArrayOutputStream();
-        String testJson =
-                "{"
+        String testJson
+            = "{"
             + "    'document': {"
             + "      'reference': 'batch2.msg',"
             + "      'fields': {"
@@ -158,27 +158,23 @@ public final class DocumentValidatorTest
             + "      }"
             + "    }"
             + "  }";
-            testJson = testJson.replaceAll("'", "\"");
-            final InputStream inputStream = new ByteArrayInputStream(testJson.getBytes("UTF-8"));
-            final JsonFactory factory = new JsonFactory();
-            factory.configure(Feature.FLUSH_PASSED_TO_STREAM, false);
-            factory.configure(Feature.AUTO_CLOSE_TARGET, false);
-            final JsonParser parser = DocumentValidator.getValidatingParser(inputStream);
-            try
-            {
-                try(final JsonGenerator gen = factory.createGenerator(outStream))
-                {
-                    while (parser.nextToken() != null) {
-                        gen.copyCurrentEvent(parser);
-                    }
+        testJson = testJson.replaceAll("'", "\"");
+        final InputStream inputStream = new ByteArrayInputStream(testJson.getBytes("UTF-8"));
+        final JsonFactory factory = new JsonFactory();
+        factory.configure(Feature.FLUSH_PASSED_TO_STREAM, false);
+        factory.configure(Feature.AUTO_CLOSE_TARGET, false);
+        final JsonParser parser = DocumentValidator.getValidatingParser(inputStream);
+        try {
+            try (final JsonGenerator gen = factory.createGenerator(outStream)) {
+                while (parser.nextToken() != null) {
+                    gen.copyCurrentEvent(parser);
                 }
-                fail("invalidDocumentStreamTest failed: Validation done incorectly");
             }
-            catch(final ValidationFailedException e)
-            {
-                System.out.println("invalidDocumentStreamTest: " + e);
-                assertTrue("invalidDocumentStreamTest", e.getMessage().contains("Type mismatch, data has object and schema has array"));
-            }
+            fail("invalidDocumentStreamTest failed: Validation done incorectly");
+        } catch (final ValidationFailedException e) {
+            System.out.println("invalidDocumentStreamTest: " + e);
+            assertTrue("invalidDocumentStreamTest", e.getMessage().contains("Type mismatch, data has object and schema has array"));
+        }
     }
 
     @Test
@@ -186,53 +182,49 @@ public final class DocumentValidatorTest
     {
         System.out.println("invalidRequiredIndexTest...");
         final ByteArrayOutputStream outStream = new ByteArrayOutputStream();
-        String testJson =
-            "{"
-          + "          'changeLog': ["
-          + "             {"
-          + "                'name': 'resetExistingField:1.0.0',"
-          + "                'changes': ["
-          + "                   {"
-          + "                      'updateSubdocument': {"
-          + "                         'reference': '1',"
-          + "                         'changes': ["
-          + "                            {"
-          + "                               'setFields': {"
-          + "                                  'SAMPLE_FIELD': ["
-          + "                                     {"
-          + "                                        'data': 'Subdocument 1: Sample field updated value'"
-          + "                                     }"
-          + "                                  ]"
-          + "                               }"
-          + "                            }"
-          + "                         ]"
-          + "                      }"
-          + "                   }"
-          + "                ]"
-          + "             }"
-          + "           ]"
-          + "       }";
-            testJson = testJson.replaceAll("'", "\"");
-            final InputStream inputStream = new ByteArrayInputStream(testJson.getBytes("UTF-8"));
-            final JsonFactory factory = new JsonFactory();
-            factory.configure(Feature.FLUSH_PASSED_TO_STREAM, false);
-            factory.configure(Feature.AUTO_CLOSE_TARGET, false);
-            final JsonParser parser = DocumentValidator.getValidatingParser(inputStream);
-            try
-            {
-                try(final JsonGenerator gen = factory.createGenerator(outStream))
-                {
-                    while (parser.nextToken() != null) {
-                        gen.copyCurrentEvent(parser);
-                    }
+        String testJson
+            = "{"
+            + "          'changeLog': ["
+            + "             {"
+            + "                'name': 'resetExistingField:1.0.0',"
+            + "                'changes': ["
+            + "                   {"
+            + "                      'updateSubdocument': {"
+            + "                         'reference': '1',"
+            + "                         'changes': ["
+            + "                            {"
+            + "                               'setFields': {"
+            + "                                  'SAMPLE_FIELD': ["
+            + "                                     {"
+            + "                                        'data': 'Subdocument 1: Sample field updated value'"
+            + "                                     }"
+            + "                                  ]"
+            + "                               }"
+            + "                            }"
+            + "                         ]"
+            + "                      }"
+            + "                   }"
+            + "                ]"
+            + "             }"
+            + "           ]"
+            + "       }";
+        testJson = testJson.replaceAll("'", "\"");
+        final InputStream inputStream = new ByteArrayInputStream(testJson.getBytes("UTF-8"));
+        final JsonFactory factory = new JsonFactory();
+        factory.configure(Feature.FLUSH_PASSED_TO_STREAM, false);
+        factory.configure(Feature.AUTO_CLOSE_TARGET, false);
+        final JsonParser parser = DocumentValidator.getValidatingParser(inputStream);
+        try {
+            try (final JsonGenerator gen = factory.createGenerator(outStream)) {
+                while (parser.nextToken() != null) {
+                    gen.copyCurrentEvent(parser);
                 }
-                fail("invalidRequiredIndexTest failed: Validation done incorectly");
             }
-            catch(final ValidationFailedException e)
-            {
-                System.out.println("invalidRequiredIndexTest: " + e);
-                assertTrue("invalidRequiredIndexTest", e.getMessage().contains("Required property index is missing from object"));
-            }
+            fail("invalidRequiredIndexTest failed: Validation done incorectly");
+        } catch (final ValidationFailedException e) {
+            System.out.println("invalidRequiredIndexTest: " + e);
+            assertTrue("invalidRequiredIndexTest", e.getMessage().contains("Required property index is missing from object"));
+        }
     }
 
     @Test
@@ -240,60 +232,56 @@ public final class DocumentValidatorTest
     {
         System.out.println("invalidOneOfChangeTest...");
         final ByteArrayOutputStream outStream = new ByteArrayOutputStream();
-        String testJson =
-            "{"
-          + "          'changeLog': ["
-          + "             {"
-          + "                'name': 'resetExistingField:1.0.0',"
-          + "                'changes': ["
-          + "                   {"
-          + "                      'setFields': {"
-          + "                         'SAMPLE_FIELD': ["
-          + "                           {"
-          + "                               'data': 'Subdocument 1: Sample field updated value'"
-          + "                           }"
-          + "                         ]"
-          + "                      }, "
-          + "                      'updateSubdocument': {"
-          + "                         'reference': '1',"
-          + "                         'index': 0,"
-          + "                         'changes': ["
-          + "                            {"
-          + "                               'setFields': {"
-          + "                                  'SAMPLE_FIELD': ["
-          + "                                     {"
-          + "                                        'data': 'Subdocument 1: Sample field updated value'"
-          + "                                     }"
-          + "                                  ]"
-          + "                               }"
-          + "                            }"
-          + "                         ]"
-          + "                      }"
-          + "                   }"
-          + "                ]"
-          + "             }"
-          + "           ]"
-          + "       }";
-            testJson = testJson.replaceAll("'", "\"");
-            final InputStream inputStream = new ByteArrayInputStream(testJson.getBytes("UTF-8"));
-            final JsonFactory factory = new JsonFactory();
-            factory.configure(Feature.FLUSH_PASSED_TO_STREAM, false);
-            factory.configure(Feature.AUTO_CLOSE_TARGET, false);
-            final JsonParser parser = DocumentValidator.getValidatingParser(inputStream);
-            try
-            {
-                try(final JsonGenerator gen = factory.createGenerator(outStream))
-                {
-                    while (parser.nextToken() != null) {
-                        gen.copyCurrentEvent(parser);
-                    }
+        String testJson
+            = "{"
+            + "          'changeLog': ["
+            + "             {"
+            + "                'name': 'resetExistingField:1.0.0',"
+            + "                'changes': ["
+            + "                   {"
+            + "                      'setFields': {"
+            + "                         'SAMPLE_FIELD': ["
+            + "                           {"
+            + "                               'data': 'Subdocument 1: Sample field updated value'"
+            + "                           }"
+            + "                         ]"
+            + "                      }, "
+            + "                      'updateSubdocument': {"
+            + "                         'reference': '1',"
+            + "                         'index': 0,"
+            + "                         'changes': ["
+            + "                            {"
+            + "                               'setFields': {"
+            + "                                  'SAMPLE_FIELD': ["
+            + "                                     {"
+            + "                                        'data': 'Subdocument 1: Sample field updated value'"
+            + "                                     }"
+            + "                                  ]"
+            + "                               }"
+            + "                            }"
+            + "                         ]"
+            + "                      }"
+            + "                   }"
+            + "                ]"
+            + "             }"
+            + "           ]"
+            + "       }";
+        testJson = testJson.replaceAll("'", "\"");
+        final InputStream inputStream = new ByteArrayInputStream(testJson.getBytes("UTF-8"));
+        final JsonFactory factory = new JsonFactory();
+        factory.configure(Feature.FLUSH_PASSED_TO_STREAM, false);
+        factory.configure(Feature.AUTO_CLOSE_TARGET, false);
+        final JsonParser parser = DocumentValidator.getValidatingParser(inputStream);
+        try {
+            try (final JsonGenerator gen = factory.createGenerator(outStream)) {
+                while (parser.nextToken() != null) {
+                    gen.copyCurrentEvent(parser);
                 }
-                fail("invalidOneOfChangeTest failed: Validation done incorectly");
             }
-            catch(final ValidationFailedException e)
-            {
-                System.out.println("invalidOneOfChangeTest: " + e);
-                assertTrue("invalidOneOfChangeTest", e.getMessage().contains("2 of the oneOf validations succceeded"));
-            }
+            fail("invalidOneOfChangeTest failed: Validation done incorectly");
+        } catch (final ValidationFailedException e) {
+            System.out.println("invalidOneOfChangeTest: " + e);
+            assertTrue("invalidOneOfChangeTest", e.getMessage().contains("2 of the oneOf validations succceeded"));
+        }
     }
 }

@@ -68,9 +68,9 @@ public final class DocumentValidator
     {
         final MedeiaJacksonApi api = new MedeiaJacksonApi();
         final SchemaSource source = new StreamSchemaSource(
-                SchemaResource.getUrl().openStream(),
-                JsonSchemaVersion.DRAFT07);
-        final SchemaValidator validator =  api.loadSchema(source);
+            SchemaResource.getUrl().openStream(),
+            JsonSchemaVersion.DRAFT07);
+        final SchemaValidator validator = api.loadSchema(source);
         final JsonFactory factory = new JsonFactory();
         factory.configure(Feature.FLUSH_PASSED_TO_STREAM, false);
         factory.configure(Feature.AUTO_CLOSE_TARGET, false);

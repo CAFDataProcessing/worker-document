@@ -37,7 +37,7 @@ public final class DocumentWorkerResultTest
 
         final String expectedJson
             = "{`fieldChanges`:{`fieldName`:{`action`:`add`,`values`:[{`data`:`Deserialization Test`}]}}}"
-            .replace('`', '"');
+                .replace('`', '"');
 
         assertEquals(expectedJson, testString);
     }
@@ -60,8 +60,8 @@ public final class DocumentWorkerResultTest
 
         final String expectedJson
             = ("{`fieldChanges`:{`fieldName`:{`action`:`add`,`values`:[{`data`:`Deserialization Test`}]}},"
-            + "`failures`:[{`failureId`:`123456`,`failureMessage`:`Test of Failure Feature with null Stack Trace`}]}")
-            .replace('`', '"');
+                + "`failures`:[{`failureId`:`123456`,`failureMessage`:`Test of Failure Feature with null Stack Trace`}]}")
+                .replace('`', '"');
 
         assertEquals(expectedJson, testString);
     }
@@ -85,9 +85,9 @@ public final class DocumentWorkerResultTest
 
         final String expectedJson
             = ("{`fieldChanges`:{`fieldName`:{`action`:`add`,`values`:[{`data`:`Deserialization Test`}]}},"
-            + "`failures`:[{`failureId`:`123456`,`failureMessage`:`Test of Failure Feature with Stack Trace`,"
-            + "`failureStack`:`This is a Test with a failure Stack Trace`}]}")
-            .replace('`', '"');
+                + "`failures`:[{`failureId`:`123456`,`failureMessage`:`Test of Failure Feature with Stack Trace`,"
+                + "`failureStack`:`This is a Test with a failure Stack Trace`}]}")
+                .replace('`', '"');
 
         assertEquals(expectedJson, testString);
     }
@@ -105,7 +105,7 @@ public final class DocumentWorkerResultTest
 
         final String expectedJson
             = "{`fieldChanges`:{`fieldName`:{`action`:`add`,`values`:[{`data`:`Deserialization Test`,`encoding`:`utf8`}]}}}"
-            .replace('`', '"');
+                .replace('`', '"');
 
         assertEquals(expectedJson, testString);
     }
@@ -115,7 +115,7 @@ public final class DocumentWorkerResultTest
     {
         final String jsonString
             = "{`fieldChanges`:{`fieldName`:{`action`:`add`,`values`:[{`data`:`Deserialization Test`,`encoding`:`utf8`}]}}}"
-            .replace('`', '"');
+                .replace('`', '"');
 
         final DocumentWorkerResult dsTestResult = deserialiseResult(jsonString);
 
@@ -132,8 +132,8 @@ public final class DocumentWorkerResultTest
     {
         final String jsonString
             = ("{`fieldChanges`:{`fieldName`:{`action`:`add`,`values`:[{`data`:`Deserialization Test`}]}},"
-            + "`failures`:[{`failureId`:`123456`,`failureMessage`:`Test of Failure Feature with Stack Trace`}]}")
-            .replace('`', '"');
+                + "`failures`:[{`failureId`:`123456`,`failureMessage`:`Test of Failure Feature with Stack Trace`}]}")
+                .replace('`', '"');
 
         final DocumentWorkerResult dsTestResult = deserialiseResult(jsonString);
 
@@ -153,9 +153,9 @@ public final class DocumentWorkerResultTest
     {
         final String jsonString
             = ("{`fieldChanges`:{`fieldName`:{`action`:`add`,`values`:[{`data`:`Deserialization Test`}]}},"
-            + "`failures`:[{`failureId`:`123456`,`failureMessage`:`Test of Failure Feature with Stack Trace`,"
-            + "`failureStack`:`This is a Test with a failure Stack Trace`}]}")
-            .replace('`', '"');
+                + "`failures`:[{`failureId`:`123456`,`failureMessage`:`Test of Failure Feature with Stack Trace`,"
+                + "`failureStack`:`This is a Test with a failure Stack Trace`}]}")
+                .replace('`', '"');
 
         final DocumentWorkerResult dsTestResult = deserialiseResult(jsonString);
 
@@ -176,7 +176,7 @@ public final class DocumentWorkerResultTest
     {
         final String jsonString
             = "{`fieldChanges`:{`fieldName`:{`action`:`add`,`values`:[{`data`:`Deserialization Test`}]}}}"
-            .replace('`', '"');
+                .replace('`', '"');
 
         final DocumentWorkerResult dsTestResult = deserialiseResult(jsonString);
 

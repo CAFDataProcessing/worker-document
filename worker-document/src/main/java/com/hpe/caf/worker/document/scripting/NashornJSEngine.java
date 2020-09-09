@@ -19,7 +19,6 @@ import javax.script.ScriptEngineManager;
 
 public final class NashornJSEngine extends JavaScriptEngine
 {
-
     public NashornJSEngine()
     {
         super(new ScriptEngineManager().getEngineByName("nashorn"));

@@ -17,7 +17,6 @@ package com.hpe.caf.worker.document.scripting.specs;
 
 import com.hpe.caf.worker.document.DocumentWorkerScript;
 import com.hpe.caf.worker.document.model.ScriptEngineType;
-
 import java.util.Objects;
 import javax.annotation.Nonnull;
 import javax.script.Compilable;

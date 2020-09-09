@@ -35,7 +35,6 @@ import javax.annotation.Nonnull;
 import javax.script.Bindings;
 import javax.script.CompiledScript;
 import javax.script.ScriptException;
-
 import jdk.nashorn.api.scripting.JSObject;
 import org.graalvm.polyglot.Value;
 
@@ -194,7 +193,7 @@ public final class ScriptImpl extends DocumentWorkerObjectImpl implements Script
     @Override
     public void setScriptInline(final String script)
     {
-       setScriptInline(script, ScriptEngineType.NASHORN);
+        setScriptInline(script, ScriptEngineType.NASHORN);
     }
 
     @Override
@@ -271,10 +270,12 @@ public final class ScriptImpl extends DocumentWorkerObjectImpl implements Script
         if (!(eventHandler instanceof Function)) {
             return;
         }
+
         final Value jsEventHandler = Value.asValue(eventHandler);
         if (!jsEventHandler.canExecute()) {
             return;
         }
+
         // Call the JavaScript function with the specified arguments
         // Graal automatically wraps checked exceptions in a PolyglotException
         jsEventHandler.executeVoid(args);
@@ -285,10 +286,12 @@ public final class ScriptImpl extends DocumentWorkerObjectImpl implements Script
         if (!(eventHandler instanceof JSObject)) {
             return;
         }
+
         final JSObject jsEventHandler = (JSObject) eventHandler;
         if (!jsEventHandler.isFunction()) {
             return;
         }
+
         // Call the JavaScript function with the specified arguments
         // Nashorn automatically wraps checked exceptions in a RuntimeException
         jsEventHandler.call(null, args);
