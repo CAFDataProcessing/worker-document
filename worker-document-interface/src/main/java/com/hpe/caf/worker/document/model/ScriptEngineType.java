@@ -16,17 +16,22 @@
 package com.hpe.caf.worker.document.model;
 
 /**
- * Represents which of the JavaScript engines should be used.
+ * Scripting engines supported by the Document Worker Framework.
  */
 public enum ScriptEngineType
 {
     /**
-     * Represents the Nashorn script engine.
+     * GraalVM JavaScript engine
+     *
+     * @see <a href="https://www.graalvm.org/">GraalVM</a>
+     * @see <a href="https://www.graalvm.org/reference-manual/js/">GraalVM JavaScript Implementation</a>
+     * @see <a href="https://www.graalvm.org/reference-manual/js/NashornMigrationGuide/">Nashorn Migration Guide</a>
+     */
+    GRAAL_JS,
+    /**
+     * Nashorn JavaScript engine
+     *
+     * @see <a href="https://en.wikipedia.org/wiki/Nashorn_(JavaScript_engine)">Nashorn (JavaScript engine)</a>
      */
     NASHORN,
-
-    /**
-     * Represents the GraalVM script engine.
-     */
-    GRAAL_JS
 }
