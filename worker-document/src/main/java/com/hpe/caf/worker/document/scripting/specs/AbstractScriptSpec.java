@@ -130,7 +130,7 @@ public abstract class AbstractScriptSpec
     {
         final DocumentWorkerScript script = new DocumentWorkerScript();
         script.name = name;
-
+        script.engine = getEngineType().name();
         setScriptSpecField(script);
 
         return script;
