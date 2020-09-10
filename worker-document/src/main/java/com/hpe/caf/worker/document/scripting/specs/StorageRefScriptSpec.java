@@ -34,13 +34,6 @@ public final class StorageRefScriptSpec extends RemoteScriptSpec
     private final String storageRef;
     private final ScriptEngineType engineType;
 
-    public StorageRefScriptSpec(final DataStore dataStore, final String storageRef)
-    {
-        this.dataStore = Objects.requireNonNull(dataStore);
-        this.storageRef = Objects.requireNonNull(storageRef);
-        this.engineType = ScriptEngineType.NASHORN;
-    }
-
     public StorageRefScriptSpec(final DataStore dataStore, final String storageRef, final ScriptEngineType engineType)
     {
         this.dataStore = Objects.requireNonNull(dataStore);

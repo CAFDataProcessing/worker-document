@@ -28,16 +28,10 @@ public final class InlineScriptSpec extends AbstractScriptSpec
     private final String script;
     private final ScriptEngineType engineType;
 
-    public InlineScriptSpec(final String script)
-    {
-        this.script = Objects.requireNonNull(script);
-        engineType = ScriptEngineType.NASHORN;
-    }
-
     public InlineScriptSpec(final String script, final ScriptEngineType type)
     {
         this.script = Objects.requireNonNull(script);
-        engineType = type;
+        this.engineType = type;
     }
 
     @Nonnull

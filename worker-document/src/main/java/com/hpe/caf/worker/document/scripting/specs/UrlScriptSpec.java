@@ -34,13 +34,6 @@ public final class UrlScriptSpec extends RemoteScriptSpec
     private final URI uri;
     private final ScriptEngineType engineType;
 
-    public UrlScriptSpec(final URL url) throws URISyntaxException
-    {
-        this.url = Objects.requireNonNull(url);
-        this.uri = url.toURI();
-        this.engineType = ScriptEngineType.NASHORN;
-    }
-
     public UrlScriptSpec(final URL url, final ScriptEngineType engineType) throws URISyntaxException
     {
         this.url = Objects.requireNonNull(url);
