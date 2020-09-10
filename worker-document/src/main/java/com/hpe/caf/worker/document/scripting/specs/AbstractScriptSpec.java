@@ -52,6 +52,7 @@ public abstract class AbstractScriptSpec
             throw new InvalidScriptException(script, "Script must have a single source.");
         }
 
+        // Check that a valid scripting engine has been specified
         final ScriptEngineType engineType;
         if (script.engine == null) {
             engineType = ScriptEngineType.NASHORN;
