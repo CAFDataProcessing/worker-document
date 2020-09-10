@@ -71,7 +71,11 @@ public abstract class AbstractScriptSpec
             return new StorageRefScriptSpec(application.getDataStore(), script.storageRef, engineType);
         } else if (script.url != null) {
             try {
-                return new UrlScriptSpec(new URL(script.url), engineType);
+                if (engineType != ScriptEngineType.NASHORN) {
+                    return new UrlScriptSpec(new URL(script.url), engineType);
+                } else {
+                    return new NashornUrlScriptSpec(new URL(script.url));
+                }
             } catch (final MalformedURLException | URISyntaxException ex) {
                 throw new InvalidScriptException(script, "Script url is malformed or not standards compliant.", ex);
             }
