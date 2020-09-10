@@ -112,6 +112,7 @@ public abstract class AbstractScriptSpec
      *
      * @return the JavaScript engine to use for the script represented by this specification.
      */
+    @Nonnull
     public abstract ScriptEngineType getEngineType();
 
     /**

@@ -50,13 +50,16 @@ public final class UrlScriptSpec extends RemoteScriptSpec
 
         final UrlScriptSpec other = (UrlScriptSpec) obj;
 
-        return uri.equals(other.uri);
+        return uri.equals(other.uri) && engineType.equals(other.engineType);
     }
 
     @Override
     public int hashCode()
     {
-        return uri.hashCode();
+        int hash = 7;
+        hash = 31 * hash + uri.hashCode();
+        hash = 31 * hash + engineType.hashCode();
+        return hash;
     }
 
     @Override
@@ -65,6 +68,7 @@ public final class UrlScriptSpec extends RemoteScriptSpec
         return false;
     }
 
+    @Nonnull
     @Override
     public ScriptEngineType getEngineType()
     {

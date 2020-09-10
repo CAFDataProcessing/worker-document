@@ -51,7 +51,8 @@ public final class StorageRefScriptSpec extends RemoteScriptSpec
         final StorageRefScriptSpec other = (StorageRefScriptSpec) obj;
 
         return dataStore.equals(other.dataStore)
-            && storageRef.equals(other.storageRef);
+            && storageRef.equals(other.storageRef)
+            && engineType.equals(other.engineType);
     }
 
     @Override
@@ -60,6 +61,7 @@ public final class StorageRefScriptSpec extends RemoteScriptSpec
         int hash = 7;
         hash = 53 * hash + dataStore.hashCode();
         hash = 53 * hash + storageRef.hashCode();
+        hash = 53 * hash + engineType.hashCode();
         return hash;
     }
 
@@ -69,6 +71,7 @@ public final class StorageRefScriptSpec extends RemoteScriptSpec
         return true;
     }
 
+    @Nonnull
     @Override
     public ScriptEngineType getEngineType()
     {
