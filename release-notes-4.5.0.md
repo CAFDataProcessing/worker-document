@@ -4,8 +4,7 @@
 ${version-number}
 
 #### New Features
-* [SCMOD-10362](https://portal.digitalsafe.net/browse/SCMOD-10362): Migrate from Nashorn to Graal.JS  
-The Nashorn JavaScript engine (scheduled for removal in [JEP372](https://openjdk.java.net/jeps/372)) is now
-deprecated, and the GraalVM JavaScript engine has been introduced.
+* [SCMOD-10362](https://portal.digitalsafe.net/browse/SCMOD-10362): GraalVM JavaScript support  
+    The Document Worker Framework has been enhanced to support using the [GraalVM](https://www.graalvm.org/) JavaScript engine.  In previous versions of the framework Nashorn was the only JavaScript engine supported.  For backwards compatibility reasons it remains the default JavaScript engine, but note that it has been deprecated (see [JEP372](https://openjdk.java.net/jeps/372)), so it may not be supported by all future versions of Java.
 
 #### Known Issues

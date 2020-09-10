@@ -173,9 +173,8 @@ This is an example of a Composite Document worker response. It includes the same
 The composite document format also supports running custom scripts when documents are being processed.
 
 Scripts may be specified inline using the `script` key, or alternatively references to external scripts may be specified using the `storageRef` or `url` keys.
-Additionally the `engine` key can be used to specify which script engine the script should be executed on. 
-The valid options are either `NASHORN` or `GRAAL_JS`referring to the Nashorn and GraalVM engines respectively. 
-`NASHORN` is the default if `engine` is not specified. 
+
+The scripting engine to use may be specified using the `engine` key.  The current version of the framework supports specifying [`NASHORN`](https://en.wikipedia.org/wiki/Nashorn_(JavaScript_engine)) or [`GRAAL_JS`](https://www.graalvm.org/).  For backwards compatibility reasons Nashorn is the default and is used if no scripting engine is specified.
 
     {
         "document": {
