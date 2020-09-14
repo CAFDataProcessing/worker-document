@@ -17,20 +17,19 @@ package com.hpe.caf.worker.document.scripting.specs;
 
 import com.hpe.caf.worker.document.DocumentWorkerScript;
 import com.hpe.caf.worker.document.model.ScriptEngineType;
-import jdk.nashorn.api.scripting.URLReader;
-
-import javax.annotation.Nonnull;
-import javax.script.Compilable;
-import javax.script.CompiledScript;
-import javax.script.ScriptException;
 import java.io.IOException;
 import java.io.Reader;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.Objects;
+import javax.annotation.Nonnull;
+import javax.script.Compilable;
+import javax.script.CompiledScript;
+import javax.script.ScriptException;
+import jdk.nashorn.api.scripting.URLReader;
 
-public class NashornUrlScriptSpec extends RemoteScriptSpec
+public final class NashornUrlScriptSpec extends RemoteScriptSpec
 {
     private final URL url;
     private final URI uri;
@@ -63,6 +62,13 @@ public class NashornUrlScriptSpec extends RemoteScriptSpec
         return uri.equals(other.uri);
     }
 
+    @Nonnull
+    @Override
+    public ScriptEngineType getEngineType()
+    {
+        return ScriptEngineType.NASHORN;
+    }
+
     @Override
     public int hashCode()
     {
@@ -73,13 +79,6 @@ public class NashornUrlScriptSpec extends RemoteScriptSpec
     public boolean isStatic()
     {
         return false;
-    }
-
-    @Nonnull
-    @Override
-    public ScriptEngineType getEngineType()
-    {
-        return ScriptEngineType.NASHORN;
     }
 
     @Nonnull
