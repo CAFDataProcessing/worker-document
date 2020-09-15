@@ -24,7 +24,7 @@ public final class DocumentWorkerConstants
     public static final int WORKER_API_VER = 1;
 
     public static final String DOCUMENT_TASK_NAME = "DocumentWorkerTask";
-    public static final int DOCUMENT_TASK_API_VER = 2;
+    public static final int DOCUMENT_TASK_API_VER = 3;
 
     private DocumentWorkerConstants()
     {
