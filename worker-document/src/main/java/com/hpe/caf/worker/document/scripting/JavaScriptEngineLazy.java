@@ -23,7 +23,6 @@ import com.hpe.caf.worker.document.scripting.specs.AbstractScriptSpec;
 import javax.annotation.Nonnull;
 import javax.script.Bindings;
 import javax.script.CompiledScript;
-import javax.script.ScriptEngine;
 import javax.script.ScriptException;
 
 public final class JavaScriptEngineLazy implements ObjectCodeProvider
@@ -39,12 +38,6 @@ public final class JavaScriptEngineLazy implements ObjectCodeProvider
     public Bindings createNewGlobal(final ScriptEngineType engineType)
     {
         return scriptEngine.getUnchecked(engineType).createNewGlobal();
-    }
-
-    @Nonnull
-    public ScriptEngine getScriptEngine(final ScriptEngineType engineType)
-    {
-        return scriptEngine.getUnchecked(engineType).getScriptEngine();
     }
 
     @Nonnull

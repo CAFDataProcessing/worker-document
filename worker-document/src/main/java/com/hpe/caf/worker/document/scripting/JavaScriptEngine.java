@@ -44,12 +44,6 @@ public abstract class JavaScriptEngine implements ObjectCodeProvider
     }
 
     @Nonnull
-    public ScriptEngine getScriptEngine()
-    {
-        return scriptEngine;
-    }
-
-    @Nonnull
     @Override
     public CompiledScript getObjectCode(final String name, final AbstractScriptSpec scriptSpec) throws ScriptException
     {

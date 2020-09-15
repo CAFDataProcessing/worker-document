@@ -20,7 +20,6 @@ import com.hpe.caf.worker.document.exceptions.InvalidScriptException;
 import com.hpe.caf.worker.document.model.Script;
 import com.hpe.caf.worker.document.model.ScriptEngineType;
 import com.hpe.caf.worker.document.model.Task;
-import com.hpe.caf.worker.document.scripting.GraalJSEngine;
 import com.hpe.caf.worker.document.scripting.JavaScriptManager;
 import com.hpe.caf.worker.document.scripting.specs.AbstractScriptSpec;
 import com.hpe.caf.worker.document.scripting.specs.InlineScriptSpec;
@@ -36,12 +35,8 @@ import java.util.function.Function;
 import javax.annotation.Nonnull;
 import javax.script.Bindings;
 import javax.script.CompiledScript;
-import javax.script.ScriptEngine;
 import javax.script.ScriptException;
-
-import com.oracle.truffle.js.scriptengine.GraalJSScriptEngine;
 import jdk.nashorn.api.scripting.JSObject;
-import org.graalvm.polyglot.Context;
 import org.graalvm.polyglot.Value;
 
 public final class ScriptImpl extends DocumentWorkerObjectImpl implements Script
@@ -269,23 +264,19 @@ public final class ScriptImpl extends DocumentWorkerObjectImpl implements Script
         // Check if there is a JavaScript function event handler for the event
         final Object eventHandler = bindings.get(event);
         if (scriptSpec.getEngineType() == ScriptEngineType.GRAAL_JS) {
-            final GraalJSScriptEngine scriptEngine =
-                    (GraalJSScriptEngine) application.getJavaScriptManager().getScriptEngine(ScriptEngineType.GRAAL_JS);
-            final Context polyglotContext = scriptEngine.getPolyglotContext(scriptEngine.getContext());
-            graalHandleEvent(polyglotContext, eventHandler, args);
+            graalHandleEvent(eventHandler, args);
         } else {
             nashornHandleEvent(eventHandler, args);
         }
     }
 
-    private static void graalHandleEvent(final Context polyglotContext,
-                                         final Object eventHandler,
-                                         final Object[] args)
+    private static void graalHandleEvent(final Object eventHandler, final Object[] args)
     {
         if (!(eventHandler instanceof Function)) {
             return;
         }
-        final Value jsEventHandler = polyglotContext.asValue(eventHandler);
+
+        final Value jsEventHandler = Value.asValue(eventHandler);
         if (!jsEventHandler.canExecute()) {
             return;
         }
