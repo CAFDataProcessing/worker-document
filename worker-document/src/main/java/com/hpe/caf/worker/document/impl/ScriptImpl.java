@@ -23,6 +23,7 @@ import com.hpe.caf.worker.document.model.Task;
 import com.hpe.caf.worker.document.scripting.JavaScriptManager;
 import com.hpe.caf.worker.document.scripting.specs.AbstractScriptSpec;
 import com.hpe.caf.worker.document.scripting.specs.InlineScriptSpec;
+import com.hpe.caf.worker.document.scripting.specs.NashornUrlScriptSpec;
 import com.hpe.caf.worker.document.scripting.specs.StorageRefScriptSpec;
 import com.hpe.caf.worker.document.scripting.specs.UrlScriptSpec;
 import com.hpe.caf.worker.document.tasks.AbstractTask;
@@ -202,7 +203,11 @@ public final class ScriptImpl extends DocumentWorkerObjectImpl implements Script
     {
         throwIfLoaded();
         try {
-            this.scriptSpec = new UrlScriptSpec(url, engineType);
+            if (engineType == ScriptEngineType.NASHORN) {
+                this.scriptSpec = new NashornUrlScriptSpec(url);
+            } else {
+                this.scriptSpec = new UrlScriptSpec(url, engineType);
+            }
         } catch (final URISyntaxException ex) {
             throw new RuntimeException("URL is not strictly formatted in accordance with RFC2396", ex);
         }
