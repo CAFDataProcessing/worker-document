@@ -185,26 +185,20 @@ public final class ScriptImpl extends DocumentWorkerObjectImpl implements Script
     }
 
     @Override
-    public void setScriptByUrl(final URL url)
-    {
-        setScriptByUrl(url, ScriptEngineType.NASHORN);
-    }
-
-    @Override
-    public void setScriptInline(final String script)
-    {
-        setScriptInline(script, ScriptEngineType.NASHORN);
-    }
-
-    @Override
-    public void setScriptByReference(String reference, ScriptEngineType engineType)
+    public void setScriptByReference(final String reference, final ScriptEngineType engineType)
     {
         throwIfLoaded();
         this.scriptSpec = new StorageRefScriptSpec(application.getDataStore(), reference, engineType);
     }
 
     @Override
-    public void setScriptByUrl(URL url, ScriptEngineType engineType)
+    public void setScriptByUrl(final URL url)
+    {
+        setScriptByUrl(url, ScriptEngineType.NASHORN);
+    }
+
+    @Override
+    public void setScriptByUrl(final URL url, final ScriptEngineType engineType)
     {
         throwIfLoaded();
         try {
@@ -212,6 +206,12 @@ public final class ScriptImpl extends DocumentWorkerObjectImpl implements Script
         } catch (final URISyntaxException ex) {
             throw new RuntimeException("URL is not strictly formatted in accordance with RFC2396", ex);
         }
+    }
+
+    @Override
+    public void setScriptInline(final String script)
+    {
+        setScriptInline(script, ScriptEngineType.NASHORN);
     }
 
     @Override
