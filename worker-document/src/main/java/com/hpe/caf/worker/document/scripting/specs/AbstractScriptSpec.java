@@ -31,6 +31,13 @@ import javax.script.ScriptException;
 
 public abstract class AbstractScriptSpec
 {
+    protected final ScriptEngineType engineType;
+
+    protected AbstractScriptSpec(final ScriptEngineType engineType)
+    {
+        this.engineType = Objects.requireNonNull(engineType);
+    }
+
     /**
      * Constructs the appropriate implementation for the specified script data.
      *
@@ -95,6 +102,17 @@ public abstract class AbstractScriptSpec
     public abstract CompiledScript compile(Compilable compiler) throws ScriptException;
 
     /**
+     * Returns the JavaScript engine to use for the script represented by this specification.
+     *
+     * @return the JavaScript engine to use for the script represented by this specification.
+     */
+    @Nonnull
+    public final ScriptEngineType getEngineType()
+    {
+        return engineType;
+    }
+
+    /**
      * Returns the script represented by this specification.
      *
      * @return the script represented by this specification
@@ -110,14 +128,6 @@ public abstract class AbstractScriptSpec
      * @return true if the script specified is constant
      */
     public abstract boolean isStatic();
-
-    /**
-     * Returns the JavaScript engine to use for the script represented by this specification.
-     *
-     * @return the JavaScript engine to use for the script represented by this specification.
-     */
-    @Nonnull
-    public abstract ScriptEngineType getEngineType();
 
     /**
      * Creates a new {@code DocumentWorkerScript} for the script specification.

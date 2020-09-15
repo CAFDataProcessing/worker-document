@@ -15,6 +15,7 @@
  */
 package com.hpe.caf.worker.document.scripting.specs;
 
+import com.hpe.caf.worker.document.model.ScriptEngineType;
 import java.io.IOException;
 import java.io.Reader;
 import javax.annotation.Nonnull;
@@ -25,6 +26,11 @@ import org.apache.commons.io.IOUtils;
 
 public abstract class RemoteScriptSpec extends AbstractScriptSpec
 {
+    protected RemoteScriptSpec(final ScriptEngineType engineType)
+    {
+        super(engineType);
+    }
+
     /**
      * {@inheritDoc}
      * <p>

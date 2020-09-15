@@ -26,12 +26,11 @@ import javax.script.ScriptException;
 public final class InlineScriptSpec extends AbstractScriptSpec
 {
     private final String script;
-    private final ScriptEngineType engineType;
 
     public InlineScriptSpec(final String script, final ScriptEngineType type)
     {
+        super(type);
         this.script = Objects.requireNonNull(script);
-        this.engineType = type;
     }
 
     @Nonnull
@@ -73,13 +72,6 @@ public final class InlineScriptSpec extends AbstractScriptSpec
     public boolean isStatic()
     {
         return true;
-    }
-
-    @Nonnull
-    @Override
-    public ScriptEngineType getEngineType()
-    {
-        return engineType;
     }
 
     @Override

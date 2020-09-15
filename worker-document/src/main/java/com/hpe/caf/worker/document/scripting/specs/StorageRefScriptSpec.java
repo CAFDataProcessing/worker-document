@@ -32,13 +32,12 @@ public final class StorageRefScriptSpec extends RemoteScriptSpec
 {
     private final DataStore dataStore;
     private final String storageRef;
-    private final ScriptEngineType engineType;
 
     public StorageRefScriptSpec(final DataStore dataStore, final String storageRef, final ScriptEngineType engineType)
     {
+        super(engineType);
         this.dataStore = Objects.requireNonNull(dataStore);
         this.storageRef = Objects.requireNonNull(storageRef);
-        this.engineType = engineType;
     }
 
     @Override
@@ -69,13 +68,6 @@ public final class StorageRefScriptSpec extends RemoteScriptSpec
     public boolean isStatic()
     {
         return true;
-    }
-
-    @Nonnull
-    @Override
-    public ScriptEngineType getEngineType()
-    {
-        return engineType;
     }
 
     @Nonnull

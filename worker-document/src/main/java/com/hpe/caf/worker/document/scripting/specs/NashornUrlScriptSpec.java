@@ -36,6 +36,7 @@ public final class NashornUrlScriptSpec extends RemoteScriptSpec
 
     public NashornUrlScriptSpec(final URL url) throws URISyntaxException
     {
+        super(ScriptEngineType.NASHORN);
         this.url = Objects.requireNonNull(url);
         this.uri = url.toURI();
     }
@@ -60,13 +61,6 @@ public final class NashornUrlScriptSpec extends RemoteScriptSpec
         final NashornUrlScriptSpec other = (NashornUrlScriptSpec) obj;
 
         return uri.equals(other.uri);
-    }
-
-    @Nonnull
-    @Override
-    public ScriptEngineType getEngineType()
-    {
-        return ScriptEngineType.NASHORN;
     }
 
     @Override

@@ -32,13 +32,12 @@ public final class UrlScriptSpec extends RemoteScriptSpec
 {
     private final URL url;
     private final URI uri;
-    private final ScriptEngineType engineType;
 
     public UrlScriptSpec(final URL url, final ScriptEngineType engineType) throws URISyntaxException
     {
+        super(engineType);
         this.url = Objects.requireNonNull(url);
         this.uri = url.toURI();
-        this.engineType = engineType;
     }
 
     @Override
@@ -66,13 +65,6 @@ public final class UrlScriptSpec extends RemoteScriptSpec
     public boolean isStatic()
     {
         return false;
-    }
-
-    @Nonnull
-    @Override
-    public ScriptEngineType getEngineType()
-    {
-        return engineType;
     }
 
     @Nonnull
