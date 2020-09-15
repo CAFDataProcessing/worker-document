@@ -34,8 +34,8 @@ public abstract class RemoteScriptSpec extends AbstractScriptSpec
     /**
      * {@inheritDoc}
      * <p>
-     * If graal.js hits an IOException when using the Reader then it wraps it in a ScriptException. By doing the same here the calling
-     * code can more easily handle both cases consistently.
+     * If the scripting engine hits an IOException when using the Reader then it wraps it in a ScriptException. By doing the same here the
+     * calling code can more easily handle both cases consistently.
      */
     @Nonnull
     @Override
