@@ -26,8 +26,8 @@ import javax.script.ScriptException;
 
 public abstract class JavaScriptEngine implements ObjectCodeProvider
 {
-    protected final ScriptEngine scriptEngine;
-    protected final Bindings scriptEngineBindings;
+    private final ScriptEngine scriptEngine;
+    private final Bindings scriptEngineBindings;
     private final Object scriptEngineBindingsLock;
 
     protected JavaScriptEngine(final ScriptEngine engine)
