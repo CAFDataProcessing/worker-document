@@ -31,6 +31,8 @@ import javax.script.ScriptException;
 
 public abstract class AbstractScriptSpec
 {
+    private static final ScriptEngineType DEFAULT_SCRIPT_ENGINE = ScriptEngineType.NASHORN;
+
     protected final ScriptEngineType engineType;
 
     protected AbstractScriptSpec(final ScriptEngineType engineType)
@@ -62,7 +64,7 @@ public abstract class AbstractScriptSpec
         // Check that a valid scripting engine has been specified
         final ScriptEngineType engineType;
         if (script.engine == null) {
-            engineType = ScriptEngineType.NASHORN;
+            engineType = DEFAULT_SCRIPT_ENGINE;
         } else {
             try {
                 engineType = ScriptEngineType.valueOf(script.engine);
@@ -140,7 +142,9 @@ public abstract class AbstractScriptSpec
     {
         final DocumentWorkerScript script = new DocumentWorkerScript();
         script.name = name;
-        script.engine = getEngineType().name();
+        if (engineType != DEFAULT_SCRIPT_ENGINE) {
+            script.engine = engineType.name();
+        }
         setScriptSpecField(script);
 
         return script;
