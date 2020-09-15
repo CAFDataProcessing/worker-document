@@ -220,7 +220,7 @@ public final class ScriptImpl extends DocumentWorkerObjectImpl implements Script
     }
 
     @Override
-    public void setScriptInline(String script, ScriptEngineType engineType)
+    public void setScriptInline(final String script, final ScriptEngineType engineType)
     {
         throwIfLoaded();
         this.scriptSpec = new InlineScriptSpec(script, engineType);
@@ -270,7 +270,7 @@ public final class ScriptImpl extends DocumentWorkerObjectImpl implements Script
         }
     }
 
-    private void graalHandleEvent(Object eventHandler, Object[] args)
+    private void graalHandleEvent(final Object eventHandler, final Object[] args)
     {
         if (!(eventHandler instanceof Function)) {
             return;
