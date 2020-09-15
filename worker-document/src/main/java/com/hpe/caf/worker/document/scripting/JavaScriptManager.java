@@ -22,6 +22,7 @@ import com.hpe.caf.worker.document.scripting.specs.AbstractScriptSpec;
 import javax.annotation.Nonnull;
 import javax.script.Bindings;
 import javax.script.CompiledScript;
+import javax.script.ScriptEngine;
 import javax.script.ScriptException;
 
 public final class JavaScriptManager implements ObjectCodeProvider
@@ -53,6 +54,12 @@ public final class JavaScriptManager implements ObjectCodeProvider
     public Bindings createNewGlobal(final ScriptEngineType engineType)
     {
         return scriptEngine.createNewGlobal(engineType);
+    }
+
+    @Nonnull
+    public ScriptEngine getScriptEngine(final ScriptEngineType engineType)
+    {
+        return scriptEngine.getScriptEngine(engineType);
     }
 
     @Nonnull
