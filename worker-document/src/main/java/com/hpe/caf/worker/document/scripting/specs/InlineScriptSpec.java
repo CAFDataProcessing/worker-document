@@ -27,9 +27,9 @@ public final class InlineScriptSpec extends AbstractScriptSpec
 {
     private final String script;
 
-    public InlineScriptSpec(final String script, final ScriptEngineType type)
+    public InlineScriptSpec(final String script, final ScriptEngineType engineType)
     {
-        super(type);
+        super(engineType);
         this.script = Objects.requireNonNull(script);
     }
 
