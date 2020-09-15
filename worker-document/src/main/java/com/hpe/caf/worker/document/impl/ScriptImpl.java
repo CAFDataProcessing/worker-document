@@ -270,7 +270,7 @@ public final class ScriptImpl extends DocumentWorkerObjectImpl implements Script
         }
     }
 
-    private void graalHandleEvent(final Object eventHandler, final Object[] args)
+    private static void graalHandleEvent(final Object eventHandler, final Object[] args)
     {
         if (!(eventHandler instanceof Function)) {
             return;
@@ -286,7 +286,7 @@ public final class ScriptImpl extends DocumentWorkerObjectImpl implements Script
         jsEventHandler.executeVoid(args);
     }
 
-    private void nashornHandleEvent(final Object eventHandler, final Object[] args)
+    private static void nashornHandleEvent(final Object eventHandler, final Object[] args)
     {
         if (!(eventHandler instanceof JSObject)) {
             return;
