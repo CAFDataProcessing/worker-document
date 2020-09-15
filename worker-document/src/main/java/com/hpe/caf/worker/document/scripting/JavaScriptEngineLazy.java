@@ -47,6 +47,7 @@ public final class JavaScriptEngineLazy implements ObjectCodeProvider
         return scriptEngine.getUnchecked(scriptSpec.getEngineType()).getObjectCode(name, scriptSpec);
     }
 
+    @Nonnull
     private static JavaScriptEngine buildEngine(final ScriptEngineType engineType)
     {
         if (engineType == ScriptEngineType.GRAAL_JS) {
