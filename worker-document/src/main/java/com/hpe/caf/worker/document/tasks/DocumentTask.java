@@ -146,7 +146,15 @@ public final class DocumentTask extends AbstractTask
         final byte[] data = application.serialiseResult(documentWorkerResult);
 
         // If the response message includes any scripts then it is in the v2 message format
-        final int resultMessageVersion = (documentWorkerResult.scripts == null) ? 1 : 2;
+        // If any of the scripts have an engine specified then it is in the v3 message format
+        final int resultMessageVersion;
+        if (documentWorkerResult.scripts == null) {
+            resultMessageVersion = 1;
+        } else if (documentWorkerResult.scripts.stream().map(script -> script.engine).allMatch(Objects::isNull)) {
+            resultMessageVersion = 2;
+        } else {
+            resultMessageVersion = 3;
+        }
 
         // Create the WorkerResponse object
         return new WorkerResponse(outputQueue,

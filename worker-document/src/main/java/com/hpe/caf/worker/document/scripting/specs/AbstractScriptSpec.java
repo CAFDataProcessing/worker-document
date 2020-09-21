@@ -18,6 +18,7 @@ package com.hpe.caf.worker.document.scripting.specs;
 import com.hpe.caf.worker.document.DocumentWorkerScript;
 import com.hpe.caf.worker.document.exceptions.InvalidScriptException;
 import com.hpe.caf.worker.document.impl.ApplicationImpl;
+import com.hpe.caf.worker.document.model.ScriptEngineType;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URISyntaxException;
@@ -30,6 +31,15 @@ import javax.script.ScriptException;
 
 public abstract class AbstractScriptSpec
 {
+    private static final ScriptEngineType DEFAULT_SCRIPT_ENGINE = ScriptEngineType.NASHORN;
+
+    protected final ScriptEngineType engineType;
+
+    protected AbstractScriptSpec(final ScriptEngineType engineType)
+    {
+        this.engineType = Objects.requireNonNull(engineType);
+    }
+
     /**
      * Constructs the appropriate implementation for the specified script data.
      *
@@ -51,14 +61,30 @@ public abstract class AbstractScriptSpec
             throw new InvalidScriptException(script, "Script must have a single source.");
         }
 
+        // Check that a valid scripting engine has been specified
+        final ScriptEngineType engineType;
+        if (script.engine == null) {
+            engineType = DEFAULT_SCRIPT_ENGINE;
+        } else {
+            try {
+                engineType = ScriptEngineType.valueOf(script.engine);
+            } catch (final IllegalArgumentException e) {
+                throw new InvalidScriptException(script, "Invalid engine type", e);
+            }
+        }
+
         // Construct the appropriate concreate implementation
         if (script.script != null) {
-            return new InlineScriptSpec(script.script);
+            return new InlineScriptSpec(script.script, engineType);
         } else if (script.storageRef != null) {
-            return new StorageRefScriptSpec(application.getDataStore(), script.storageRef);
+            return new StorageRefScriptSpec(application.getDataStore(), script.storageRef, engineType);
         } else if (script.url != null) {
             try {
-                return new UrlScriptSpec(new URL(script.url));
+                if (engineType != ScriptEngineType.NASHORN) {
+                    return new UrlScriptSpec(new URL(script.url), engineType);
+                } else {
+                    return new NashornUrlScriptSpec(new URL(script.url));
+                }
             } catch (final MalformedURLException | URISyntaxException ex) {
                 throw new InvalidScriptException(script, "Script url is malformed or not standards compliant.", ex);
             }
@@ -76,6 +102,17 @@ public abstract class AbstractScriptSpec
      */
     @Nonnull
     public abstract CompiledScript compile(Compilable compiler) throws ScriptException;
+
+    /**
+     * Returns the JavaScript engine to use for the script represented by this specification.
+     *
+     * @return the JavaScript engine to use for the script represented by this specification.
+     */
+    @Nonnull
+    public final ScriptEngineType getEngineType()
+    {
+        return engineType;
+    }
 
     /**
      * Returns the script represented by this specification.
@@ -105,7 +142,9 @@ public abstract class AbstractScriptSpec
     {
         final DocumentWorkerScript script = new DocumentWorkerScript();
         script.name = name;
-
+        if (engineType != DEFAULT_SCRIPT_ENGINE) {
+            script.engine = engineType.name();
+        }
         setScriptSpecField(script);
 
         return script;

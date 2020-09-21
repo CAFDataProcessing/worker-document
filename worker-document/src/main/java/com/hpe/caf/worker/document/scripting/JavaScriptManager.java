@@ -17,6 +17,7 @@ package com.hpe.caf.worker.document.scripting;
 
 import com.hpe.caf.worker.document.config.ScriptCacheConfiguration;
 import com.hpe.caf.worker.document.config.ScriptCachingConfiguration;
+import com.hpe.caf.worker.document.model.ScriptEngineType;
 import com.hpe.caf.worker.document.scripting.specs.AbstractScriptSpec;
 import javax.annotation.Nonnull;
 import javax.script.Bindings;
@@ -49,9 +50,9 @@ public final class JavaScriptManager implements ObjectCodeProvider
     }
 
     @Nonnull
-    public Bindings createNewGlobal()
+    public Bindings createNewGlobal(final ScriptEngineType engineType)
     {
-        return scriptEngine.createNewGlobal();
+        return scriptEngine.createNewGlobal(engineType);
     }
 
     @Nonnull

@@ -26,4 +26,6 @@ public final class DocumentWorkerScript
     public String script;
     public String storageRef;
     public String url;
+
+    public String engine;
 }

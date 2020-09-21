@@ -22,18 +22,17 @@ import javax.script.Compilable;
 import javax.script.CompiledScript;
 import javax.script.ScriptContext;
 import javax.script.ScriptEngine;
-import javax.script.ScriptEngineManager;
 import javax.script.ScriptException;
 
-public final class JavaScriptEngine implements ObjectCodeProvider
+public abstract class JavaScriptEngine implements ObjectCodeProvider
 {
     private final ScriptEngine scriptEngine;
     private final Bindings scriptEngineBindings;
     private final Object scriptEngineBindingsLock;
 
-    public JavaScriptEngine()
+    protected JavaScriptEngine(final ScriptEngine engine)
     {
-        this.scriptEngine = new ScriptEngineManager().getEngineByName("nashorn");
+        this.scriptEngine = engine;
         this.scriptEngineBindings = scriptEngine.getBindings(ScriptContext.ENGINE_SCOPE);
         this.scriptEngineBindingsLock = new Object();
     }

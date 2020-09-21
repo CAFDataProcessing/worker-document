@@ -16,6 +16,7 @@
 package com.hpe.caf.worker.document.scripting.specs;
 
 import com.hpe.caf.worker.document.DocumentWorkerScript;
+import com.hpe.caf.worker.document.model.ScriptEngineType;
 import java.util.Objects;
 import javax.annotation.Nonnull;
 import javax.script.Compilable;
@@ -26,8 +27,9 @@ public final class InlineScriptSpec extends AbstractScriptSpec
 {
     private final String script;
 
-    public InlineScriptSpec(final String script)
+    public InlineScriptSpec(final String script, final ScriptEngineType engineType)
     {
+        super(engineType);
         this.script = Objects.requireNonNull(script);
     }
 
@@ -47,7 +49,7 @@ public final class InlineScriptSpec extends AbstractScriptSpec
 
         final InlineScriptSpec other = (InlineScriptSpec) obj;
 
-        return script.equals(other.script);
+        return script.equals(other.script) && engineType.equals(other.engineType);
     }
 
     @Nonnull
@@ -60,7 +62,10 @@ public final class InlineScriptSpec extends AbstractScriptSpec
     @Override
     public int hashCode()
     {
-        return script.hashCode();
+        int hash = 7;
+        hash = 31 * hash + script.hashCode();
+        hash = 31 * hash + engineType.hashCode();
+        return hash;
     }
 
     @Override

@@ -13,20 +13,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.hpe.caf.worker.document;
+package com.hpe.caf.worker.document.scripting;
 
-/**
- * DocumentWorkerConstants constants including API version and the name of the worker.
- */
-public final class DocumentWorkerConstants
+import javax.script.ScriptEngineManager;
+
+public final class NashornJSEngine extends JavaScriptEngine
 {
-    public static final String WORKER_NAME = "DocumentWorker";
-    public static final int WORKER_API_VER = 1;
-
-    public static final String DOCUMENT_TASK_NAME = "DocumentWorkerTask";
-    public static final int DOCUMENT_TASK_API_VER = 3;
-
-    private DocumentWorkerConstants()
+    public NashornJSEngine()
     {
+        super(new ScriptEngineManager().getEngineByName("nashorn"));
     }
 }

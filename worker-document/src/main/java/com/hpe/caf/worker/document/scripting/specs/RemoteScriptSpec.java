@@ -15,6 +15,7 @@
  */
 package com.hpe.caf.worker.document.scripting.specs;
 
+import com.hpe.caf.worker.document.model.ScriptEngineType;
 import java.io.IOException;
 import java.io.Reader;
 import javax.annotation.Nonnull;
@@ -25,11 +26,16 @@ import org.apache.commons.io.IOUtils;
 
 public abstract class RemoteScriptSpec extends AbstractScriptSpec
 {
+    protected RemoteScriptSpec(final ScriptEngineType engineType)
+    {
+        super(engineType);
+    }
+
     /**
      * {@inheritDoc}
      * <p>
-     * If Nashorn hits an IOException when using the Reader then it wraps it in a ScriptException. By doing the same here the calling code
-     * can more easily handle both cases consistently.
+     * If the scripting engine hits an IOException when using the Reader then it wraps it in a ScriptException. By doing the same here the
+     * calling code can more easily handle both cases consistently.
      */
     @Nonnull
     @Override

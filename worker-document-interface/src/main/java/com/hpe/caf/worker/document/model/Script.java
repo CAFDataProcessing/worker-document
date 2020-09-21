@@ -133,6 +133,19 @@ public interface Script extends DocumentWorkerObject
     void setScriptByReference(String reference);
 
     /**
+     * Sets the customization script. This method may be used when the script has been stored in the remote data store using the UTF-8
+     * encoding. It does not verify that the remote data store reference is valid. No attempt will be made to download the script from the
+     * remote data store until the script is loaded.
+     * <p>
+     * This method will throw a RuntimeException if it is called when the script is currently loaded.
+     *
+     * @param reference the reference to the script in the remote data store
+     * @param engineType the scripting engine to use
+     * @throws RuntimeException if this customization script is currently loaded
+     */
+    void setScriptByReference(String reference, ScriptEngineType engineType);
+
+    /**
      * Sets the customization script. This method may be used when the location of the script is identified by the specified URL. If the
      * script does not contain a recognized Unicode BOM then it is assumed to be UTF-8 encoded. No attempt will be made to download the
      * script until it is loaded.
@@ -146,6 +159,20 @@ public interface Script extends DocumentWorkerObject
     void setScriptByUrl(URL url);
 
     /**
+     * Sets the customization script. This method may be used when the location of the script is identified by the specified URL. If the
+     * script does not contain a recognized Unicode BOM then it is assumed to be UTF-8 encoded. No attempt will be made to download the
+     * script until it is loaded.
+     * <p>
+     * This method will throw a RuntimeException if it is called when the script is currently loaded.
+     *
+     * @param url the reference to the location where the script can be retrieved from
+     * @param engineType the scripting engine to use
+     * @throws RuntimeException if this customization script is currently loaded, or if the specified URL is not strictly formatted in
+     * accordance with RFC2396
+     */
+    void setScriptByUrl(URL url, ScriptEngineType engineType);
+
+    /**
      * Sets the customization script. This method may be used to directly specify a customization script so that it does not need to be
      * downloaded from an external location in order to be loaded.
      * <p>
@@ -155,6 +182,18 @@ public interface Script extends DocumentWorkerObject
      * @throws RuntimeException if this customization script is currently loaded
      */
     void setScriptInline(String script);
+
+    /**
+     * Sets the customization script. This method may be used to directly specify a customization script so that it does not need to be
+     * downloaded from an external location in order to be loaded.
+     * <p>
+     * This method will throw a RuntimeException if it is called when the script is currently loaded.
+     *
+     * @param script the customization script
+     * @param engineType the scripting engine to use
+     * @throws RuntimeException if this customization script is currently loaded
+     */
+    void setScriptInline(String script, ScriptEngineType engineType);
 
     /**
      * Uninstalls this customization script. Calling this method has no effect if the script is already uninstalled.

@@ -18,10 +18,12 @@ package com.hpe.caf.worker.document.impl;
 import com.hpe.caf.worker.document.DocumentWorkerScript;
 import com.hpe.caf.worker.document.exceptions.InvalidScriptException;
 import com.hpe.caf.worker.document.model.Script;
+import com.hpe.caf.worker.document.model.ScriptEngineType;
 import com.hpe.caf.worker.document.model.Task;
 import com.hpe.caf.worker.document.scripting.JavaScriptManager;
 import com.hpe.caf.worker.document.scripting.specs.AbstractScriptSpec;
 import com.hpe.caf.worker.document.scripting.specs.InlineScriptSpec;
+import com.hpe.caf.worker.document.scripting.specs.NashornUrlScriptSpec;
 import com.hpe.caf.worker.document.scripting.specs.StorageRefScriptSpec;
 import com.hpe.caf.worker.document.scripting.specs.UrlScriptSpec;
 import com.hpe.caf.worker.document.tasks.AbstractTask;
@@ -29,11 +31,13 @@ import java.io.IOException;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.Objects;
+import java.util.function.Function;
 import javax.annotation.Nonnull;
 import javax.script.Bindings;
 import javax.script.CompiledScript;
 import javax.script.ScriptException;
 import jdk.nashorn.api.scripting.JSObject;
+import org.graalvm.polyglot.Value;
 
 public final class ScriptImpl extends DocumentWorkerObjectImpl implements Script
 {
@@ -148,7 +152,7 @@ public final class ScriptImpl extends DocumentWorkerObjectImpl implements Script
         final CompiledScript scriptObjectCode = javaScriptManager.getObjectCode(name, scriptSpec);
 
         // Create a new global context for the script to run in
-        final Bindings newGlobal = javaScriptManager.createNewGlobal();
+        final Bindings newGlobal = javaScriptManager.createNewGlobal(scriptSpec.getEngineType());
 
         // Add a reference to this script object into the script's global context
         newGlobal.put("thisScript", this);
@@ -178,16 +182,32 @@ public final class ScriptImpl extends DocumentWorkerObjectImpl implements Script
     @Override
     public void setScriptByReference(final String reference)
     {
+        setScriptByReference(reference, ScriptEngineType.NASHORN);
+    }
+
+    @Override
+    public void setScriptByReference(final String reference, final ScriptEngineType engineType)
+    {
         throwIfLoaded();
-        this.scriptSpec = new StorageRefScriptSpec(application.getDataStore(), reference);
+        this.scriptSpec = new StorageRefScriptSpec(application.getDataStore(), reference, engineType);
     }
 
     @Override
     public void setScriptByUrl(final URL url)
     {
+        setScriptByUrl(url, ScriptEngineType.NASHORN);
+    }
+
+    @Override
+    public void setScriptByUrl(final URL url, final ScriptEngineType engineType)
+    {
         throwIfLoaded();
         try {
-            this.scriptSpec = new UrlScriptSpec(url);
+            if (engineType == ScriptEngineType.NASHORN) {
+                this.scriptSpec = new NashornUrlScriptSpec(url);
+            } else {
+                this.scriptSpec = new UrlScriptSpec(url, engineType);
+            }
         } catch (final URISyntaxException ex) {
             throw new RuntimeException("URL is not strictly formatted in accordance with RFC2396", ex);
         }
@@ -196,8 +216,14 @@ public final class ScriptImpl extends DocumentWorkerObjectImpl implements Script
     @Override
     public void setScriptInline(final String script)
     {
+        setScriptInline(script, ScriptEngineType.NASHORN);
+    }
+
+    @Override
+    public void setScriptInline(final String script, final ScriptEngineType engineType)
+    {
         throwIfLoaded();
-        this.scriptSpec = new InlineScriptSpec(script);
+        this.scriptSpec = new InlineScriptSpec(script, engineType);
     }
 
     private void throwIfLoaded()
@@ -237,6 +263,31 @@ public final class ScriptImpl extends DocumentWorkerObjectImpl implements Script
 
         // Check if there is a JavaScript function event handler for the event
         final Object eventHandler = bindings.get(event);
+        if (scriptSpec.getEngineType() == ScriptEngineType.GRAAL_JS) {
+            graalHandleEvent(eventHandler, args);
+        } else {
+            nashornHandleEvent(eventHandler, args);
+        }
+    }
+
+    private static void graalHandleEvent(final Object eventHandler, final Object[] args)
+    {
+        if (!(eventHandler instanceof Function)) {
+            return;
+        }
+
+        final Value jsEventHandler = Value.asValue(eventHandler);
+        if (!jsEventHandler.canExecute()) {
+            return;
+        }
+
+        // Call the JavaScript function with the specified arguments
+        // Graal automatically wraps checked exceptions in a PolyglotException
+        jsEventHandler.executeVoid(args);
+    }
+
+    private static void nashornHandleEvent(final Object eventHandler, final Object[] args)
+    {
         if (!(eventHandler instanceof JSObject)) {
             return;
         }

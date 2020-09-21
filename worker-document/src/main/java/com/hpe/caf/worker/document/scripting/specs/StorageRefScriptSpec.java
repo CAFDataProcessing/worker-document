@@ -17,6 +17,7 @@ package com.hpe.caf.worker.document.scripting.specs;
 
 import com.hpe.caf.api.worker.DataStore;
 import com.hpe.caf.worker.document.DocumentWorkerScript;
+import com.hpe.caf.worker.document.model.ScriptEngineType;
 import com.hpe.caf.worker.document.util.DataStoreFunctions;
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -32,8 +33,9 @@ public final class StorageRefScriptSpec extends RemoteScriptSpec
     private final DataStore dataStore;
     private final String storageRef;
 
-    public StorageRefScriptSpec(final DataStore dataStore, final String storageRef)
+    public StorageRefScriptSpec(final DataStore dataStore, final String storageRef, final ScriptEngineType engineType)
     {
+        super(engineType);
         this.dataStore = Objects.requireNonNull(dataStore);
         this.storageRef = Objects.requireNonNull(storageRef);
     }
@@ -48,7 +50,8 @@ public final class StorageRefScriptSpec extends RemoteScriptSpec
         final StorageRefScriptSpec other = (StorageRefScriptSpec) obj;
 
         return dataStore.equals(other.dataStore)
-            && storageRef.equals(other.storageRef);
+            && storageRef.equals(other.storageRef)
+            && engineType.equals(other.engineType);
     }
 
     @Override
@@ -57,6 +60,7 @@ public final class StorageRefScriptSpec extends RemoteScriptSpec
         int hash = 7;
         hash = 53 * hash + dataStore.hashCode();
         hash = 53 * hash + storageRef.hashCode();
+        hash = 53 * hash + engineType.hashCode();
         return hash;
     }
 

@@ -17,48 +17,56 @@ package com.hpe.caf.worker.document.scripting.specs;
 
 import com.hpe.caf.worker.document.DocumentWorkerScript;
 import com.hpe.caf.worker.document.model.ScriptEngineType;
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.io.Reader;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
-import java.nio.charset.StandardCharsets;
 import java.util.Objects;
 import javax.annotation.Nonnull;
+import javax.script.Compilable;
+import javax.script.CompiledScript;
+import javax.script.ScriptException;
+import jdk.nashorn.api.scripting.URLReader;
 
-public final class UrlScriptSpec extends RemoteScriptSpec
+public final class NashornUrlScriptSpec extends RemoteScriptSpec
 {
     private final URL url;
     private final URI uri;
 
-    public UrlScriptSpec(final URL url, final ScriptEngineType engineType) throws URISyntaxException
+    public NashornUrlScriptSpec(final URL url) throws URISyntaxException
     {
-        super(engineType);
+        super(ScriptEngineType.NASHORN);
         this.url = Objects.requireNonNull(url);
         this.uri = url.toURI();
+    }
+
+    @Nonnull
+    @Override
+    public CompiledScript compile(final Compilable compiler) throws ScriptException
+    {
+        // This method has been overridden in order to avoid calling close() on the URLReader after the compile() call.
+        // Doing so actually causes it to read from the URL a further time!
+        final Reader reader = new URLReader(url);
+        return compiler.compile(reader);
     }
 
     @Override
     public boolean equals(final Object obj)
     {
-        if (!(obj instanceof UrlScriptSpec)) {
+        if (!(obj instanceof NashornUrlScriptSpec)) {
             return false;
         }
 
-        final UrlScriptSpec other = (UrlScriptSpec) obj;
+        final NashornUrlScriptSpec other = (NashornUrlScriptSpec) obj;
 
-        return uri.equals(other.uri) && engineType.equals(other.engineType);
+        return uri.equals(other.uri);
     }
 
     @Override
     public int hashCode()
     {
-        int hash = 7;
-        hash = 31 * hash + uri.hashCode();
-        hash = 31 * hash + engineType.hashCode();
-        return hash;
+        return uri.hashCode();
     }
 
     @Override
@@ -71,7 +79,7 @@ public final class UrlScriptSpec extends RemoteScriptSpec
     @Override
     protected Reader openReader() throws IOException
     {
-        return new BufferedReader(new InputStreamReader(url.openStream(), StandardCharsets.UTF_8));
+        return new URLReader(url);
     }
 
     @Override

@@ -174,6 +174,8 @@ The composite document format also supports running custom scripts when document
 
 Scripts may be specified inline using the `script` key, or alternatively references to external scripts may be specified using the `storageRef` or `url` keys.
 
+The scripting engine to use may be specified using the `engine` key.  The current version of the framework supports specifying [`NASHORN`](https://en.wikipedia.org/wiki/Nashorn_(JavaScript_engine)) or [`GRAAL_JS`](https://www.graalvm.org/).  For backwards compatibility reasons Nashorn is the default and is used if no scripting engine is specified.
+
     {
         "document": {
             "reference": "some-reference",
@@ -186,7 +188,8 @@ Scripts may be specified inline using the `script` key, or alternatively referen
         "scripts": [
             {
                 "name": "resetDocumentOnError.js",
-                "script": "function onError(document, error) { document.getField('ERROR').add(error); }"
+                "script": "function onError(document, error) { document.getField('ERROR').add(error); }",
+                "engine": "GRAAL_JS"
             },
             {
                 "name": "workflow.js",
@@ -194,7 +197,8 @@ Scripts may be specified inline using the `script` key, or alternatively referen
             },
             {
                 "name": "trackDocuments.js",
-                "url": "http://scriptserver/trackDocuments.js"
+                "url": "http://scriptserver/trackDocuments.js",
+                "engine": "NASHORN"
             }
         ]
     }
