@@ -276,7 +276,7 @@
                             <alias>${rootArtifactId}</alias>
                             <name>${${rootArtifactId}.container.name}</name>
                             <build>
-                                <from>cafinternal/prereleases:opensuse-jre11-3.1.0-SNAPSHOT</from>
+                                <from>cafapi/opensuse-jre11:3</from>
                                 <labels>
                                     <caf.worker-document-framework.version>${caf.worker-document-framework.version}</caf.worker-document-framework.version>
                                 </labels>
