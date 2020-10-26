@@ -199,21 +199,21 @@ public final class ScriptImpl extends DocumentWorkerObjectImpl implements Script
 
         // Store a reference to the GraalJSBindings.close method needed to close the context associated with the engine.
         // See: https://github.com/graalvm/graaljs/issues/363
-        try {
-            graalJSBindingsCloseMethod = loadedScriptBindings.getClass().getMethod("close");
-            graalJSBindingsCloseMethod.setAccessible(true);
-            LOG.warn("RORY - Found close method found on loadedScriptBindings");
-        } catch (final Exception ignored) {
-            LOG.error("RORY - NO close method found on loadedScriptBindings");
-            // We may not be using the Graal engine, in which case loadedScriptBindings may not have a close method, which is fine.
-        }
+//        try {
+//            graalJSBindingsCloseMethod = loadedScriptBindings.getClass().getMethod("close");
+//            graalJSBindingsCloseMethod.setAccessible(true);
+//            LOG.warn("RORY - Found close method found on loadedScriptBindings");
+//        } catch (final Exception ignored) {
+//            LOG.error("RORY - NO close method found on loadedScriptBindings");
+//            // We may not be using the Graal engine, in which case loadedScriptBindings may not have a close method, which is fine.
+//        }
         
         // Store a reference to the GraalJSScriptEngine (if present) to close the context associated with the engine.
         // See: https://github.com/graalvm/graaljs/issues/363
-//        final ScriptEngine engine = javaScriptManager.getScriptEngine(scriptSpec.getEngineType()).getEngine();
-//        if (engine instanceof GraalJSScriptEngine) {
-//            graalJSScriptEngine = (GraalJSScriptEngine)engine;
-//        }
+        final ScriptEngine engine = javaScriptManager.getScriptEngine(scriptSpec.getEngineType()).getEngine();
+        if (engine instanceof GraalJSScriptEngine) {
+            graalJSScriptEngine = (GraalJSScriptEngine)engine;
+        }
 
         try {
             // Execute the script in the new context created for it
