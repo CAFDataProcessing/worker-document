@@ -428,4 +428,8 @@ public final class BulkDocumentMessageProcessor
         // Return that the document can now be added to the batch
         return true;
     }
+    
+    void closeAllScriptBindings() {
+        bulkDocumentTasks.forEach(bulkDocumentTask -> bulkDocumentTask.getDocumentWorkerTask().getScripts().closeAllBindings());
+    }
 }

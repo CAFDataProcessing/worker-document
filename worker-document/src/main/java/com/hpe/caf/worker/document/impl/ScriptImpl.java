@@ -28,6 +28,8 @@ import com.hpe.caf.worker.document.scripting.specs.StorageRefScriptSpec;
 import com.hpe.caf.worker.document.scripting.specs.UrlScriptSpec;
 import com.hpe.caf.worker.document.tasks.AbstractTask;
 import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.Objects;
@@ -48,6 +50,7 @@ public final class ScriptImpl extends DocumentWorkerObjectImpl implements Script
     private AbstractScriptSpec scriptSpec;
     private boolean isInstalled;
     private Bindings loadedScriptBindings;
+    private Method graalJSBindingsCloseMethod;
 
     public ScriptImpl(
         final ApplicationImpl application,
@@ -81,6 +84,18 @@ public final class ScriptImpl extends DocumentWorkerObjectImpl implements Script
 
         lastKnownIndex = currentIndex;
         return currentIndex;
+    }
+
+    @Override
+    public void closeBindings()
+    {
+        if (graalJSBindingsCloseMethod != null) {
+            try {
+                graalJSBindingsCloseMethod.invoke(loadedScriptBindings);
+            } catch (final IllegalAccessException | IllegalArgumentException | InvocationTargetException ex) {
+                throw new RuntimeException(ex);
+            }
+        }
     }
 
     @Override
@@ -160,6 +175,14 @@ public final class ScriptImpl extends DocumentWorkerObjectImpl implements Script
         // Mark the script as loaded from this point (as the only time we want to distinuish between loaded and loading).
         // If the script throws an exception then we'll undo this to put the script back into an unloaded state.
         loadedScriptBindings = newGlobal;
+
+        // Store a reference to the GraalJSBindings.close method needed to close the context associated with the engine.
+        // See: https://github.com/graalvm/graaljs/issues/363
+        try {
+            graalJSBindingsCloseMethod = loadedScriptBindings.getClass().getMethod("close");
+        } catch (final Exception ignored) {
+            // We may not be using the Graal engine, in which case loadedScriptBindings may not have a close method, which is fine.
+        }
 
         try {
             // Execute the script in the new context created for it
@@ -312,5 +335,9 @@ public final class ScriptImpl extends DocumentWorkerObjectImpl implements Script
         return (scriptSpec == null)
             ? null
             : scriptSpec.toDocumentWorkerScript(name);
+    }
+    
+    public Method geGraalJSBindingsCloseMethod() {
+        return graalJSBindingsCloseMethod;
     }
 }

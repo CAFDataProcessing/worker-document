@@ -44,5 +44,7 @@ public final class BulkDocumentWorkerAdapter extends DocumentWorkerAdapter imple
             = new BulkDocumentMessageProcessor(application, bulkDocumentWorker, runtime);
 
         messageProcessor.processTasks();
+        
+        messageProcessor.closeAllScriptBindings();
     }
 }

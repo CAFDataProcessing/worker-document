@@ -18,6 +18,7 @@ package com.hpe.caf.worker.document.model;
 import java.io.IOException;
 import java.net.URL;
 import javax.annotation.Nonnull;
+import javax.script.Bindings;
 import javax.script.ScriptException;
 
 /**
@@ -30,13 +31,18 @@ import javax.script.ScriptException;
  * response message is sent to another Document Worker then it will automatically be loaded by that worker before the task is processed.
  */
 public interface Script extends DocumentWorkerObject
-{
+{   
     /**
      * Returns the current position of this customization script in the parent list.
      *
      * @return the current position of this customization script in the parent list
      */
     int getIndex();
+
+    /**
+     * Closes the bindings and context associated with this customization script. 
+     */
+    void closeBindings();
 
     /**
      * Returns the name of the customization script.

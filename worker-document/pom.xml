@@ -82,6 +82,8 @@
         <dependency>
             <groupId>org.graalvm.js</groupId>
             <artifactId>js-scriptengine</artifactId>
+<!--            <version>20.1.0</version>
+            <type>jar</type>-->
         </dependency>
 
         <!-- Runtime Dependencies -->

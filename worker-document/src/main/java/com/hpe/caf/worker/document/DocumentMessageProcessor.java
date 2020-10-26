@@ -80,6 +80,9 @@ public final class DocumentMessageProcessor implements Worker
 
                 // Process the task
                 processTask();
+                
+                // Close the bindings and associated context associated with the customization scripts
+                documentWorkerTask.getScripts().closeAllBindings();
 
             } catch (final RuntimeException ex) {
 

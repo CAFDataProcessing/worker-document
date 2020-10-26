@@ -43,6 +43,13 @@ public interface Scripts extends DocumentWorkerObject, Iterable<Script>
     Script add(int index);
 
     /**
+     * Closes the bindings and associated context all of the scripts in this list.
+     * <p>
+     * This is equivalent to calling {@link Script#closeBindings() closeBindings()} for each of the scripts in the list.
+     */
+    void closeAllBindings();
+
+    /**
      * Retrieves the script at the specified position in this list.
      *
      * @param index index of the script to return
