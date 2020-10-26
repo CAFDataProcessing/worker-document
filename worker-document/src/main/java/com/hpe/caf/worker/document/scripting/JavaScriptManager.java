@@ -69,6 +69,12 @@ public final class JavaScriptManager implements ObjectCodeProvider
     }
 
     @Nonnull
+    public JavaScriptEngine getScriptEngine(final ScriptEngineType engineType) throws ScriptException
+    {
+        return scriptEngine.getEngine(engineType);
+    }
+
+    @Nonnull
     private static ScriptCacheConfiguration getDefaultStaticScriptCacheConfig()
     {
         final ScriptCacheConfiguration cacheConfig = new ScriptCacheConfiguration();

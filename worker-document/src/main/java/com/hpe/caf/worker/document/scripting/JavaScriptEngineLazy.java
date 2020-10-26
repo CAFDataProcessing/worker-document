@@ -56,4 +56,9 @@ public final class JavaScriptEngineLazy implements ObjectCodeProvider
             return new NashornJSEngine();
         }
     }
+
+    @Nonnull
+    public JavaScriptEngine getEngine(final ScriptEngineType engineType) {
+        return scriptEngine.getUnchecked(engineType);
+    }
 }
