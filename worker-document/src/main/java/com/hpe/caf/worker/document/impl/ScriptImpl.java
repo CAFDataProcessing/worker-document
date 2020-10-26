@@ -97,6 +97,14 @@ public final class ScriptImpl extends DocumentWorkerObjectImpl implements Script
     @Override
     public void closeBindings()
     {
+        if (loadedScriptBindings instanceof AutoCloseable) {
+            try {
+                ((AutoCloseable) loadedScriptBindings).close();
+            } catch (final Exception ex) {
+                LOG.warn("RORY - couldnt close loadedScriptBindings", ex);
+            }
+        }
+        
 //        if (graalJSBindingsCloseMethod != null) {
 //            try {
 //                // This throws this exception every time its called - seems GraalJSBindings.close() context is already closed?
@@ -110,13 +118,13 @@ public final class ScriptImpl extends DocumentWorkerObjectImpl implements Script
 //                throw new RuntimeException(ex);
 //            }
 //        }
-        if (graalJSScriptEngine != null) {
-            LOG.warn("RORY - calling graalJSScriptEngine.close()");
-            graalJSScriptEngine.close();
-            LOG.warn("RORY - called graalJSScriptEngine.close()");
-        } else {
-            LOG.error("RORY - graalJSScriptEngine shouldnt be null");
-        }
+//        if (graalJSScriptEngine != null) {
+//            LOG.warn("RORY - calling graalJSScriptEngine.close()");
+//            graalJSScriptEngine.close();
+//            LOG.warn("RORY - called graalJSScriptEngine.close()");
+//        } else {
+//            LOG.error("RORY - graalJSScriptEngine shouldnt be null");
+//        }
     }
 
     @Override
@@ -210,10 +218,10 @@ public final class ScriptImpl extends DocumentWorkerObjectImpl implements Script
         
         // Store a reference to the GraalJSScriptEngine (if present) to close the context associated with the engine.
         // See: https://github.com/graalvm/graaljs/issues/363
-        final ScriptEngine engine = javaScriptManager.getScriptEngine(scriptSpec.getEngineType()).getEngine();
-        if (engine instanceof GraalJSScriptEngine) {
-            graalJSScriptEngine = (GraalJSScriptEngine)engine;
-        }
+//        final ScriptEngine engine = javaScriptManager.getScriptEngine(scriptSpec.getEngineType()).getEngine();
+//        if (engine instanceof GraalJSScriptEngine) {
+//            graalJSScriptEngine = (GraalJSScriptEngine)engine;
+//        }
 
         try {
             // Execute the script in the new context created for it
