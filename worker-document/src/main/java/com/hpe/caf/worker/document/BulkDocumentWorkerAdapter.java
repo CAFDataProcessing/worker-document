@@ -45,6 +45,6 @@ public final class BulkDocumentWorkerAdapter extends DocumentWorkerAdapter imple
 
         messageProcessor.processTasks();
         
-        messageProcessor.closeAllScriptBindings();
+        messageProcessor.closeBindings();
     }
 }

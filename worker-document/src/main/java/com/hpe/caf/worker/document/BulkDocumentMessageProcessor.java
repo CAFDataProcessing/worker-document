@@ -429,7 +429,7 @@ public final class BulkDocumentMessageProcessor
         return true;
     }
     
-    void closeAllScriptBindings() {
-        bulkDocumentTasks.forEach(bulkDocumentTask -> bulkDocumentTask.getDocumentWorkerTask().getScripts().closeAllBindings());
+    void closeBindings() {
+        bulkDocumentTasks.forEach(bulkDocumentTask -> bulkDocumentTask.getDocumentWorkerTask().getScripts().closeBindings());
     }
 }

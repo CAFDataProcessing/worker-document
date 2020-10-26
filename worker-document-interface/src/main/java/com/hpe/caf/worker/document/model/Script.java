@@ -31,7 +31,7 @@ import javax.script.ScriptException;
  * response message is sent to another Document Worker then it will automatically be loaded by that worker before the task is processed.
  */
 public interface Script extends DocumentWorkerObject
-{   
+{
     /**
      * Returns the current position of this customization script in the parent list.
      *

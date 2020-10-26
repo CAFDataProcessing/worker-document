@@ -336,8 +336,4 @@ public final class ScriptImpl extends DocumentWorkerObjectImpl implements Script
             ? null
             : scriptSpec.toDocumentWorkerScript(name);
     }
-    
-    public Method geGraalJSBindingsCloseMethod() {
-        return graalJSBindingsCloseMethod;
-    }
 }

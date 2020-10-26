@@ -79,7 +79,7 @@ public final class ScriptsImpl extends DocumentWorkerObjectImpl implements Scrip
     }
 
     @Override
-    public void closeAllBindings()
+    public void closeBindings()
     {
         scripts.forEach(Script::closeBindings);
     }
