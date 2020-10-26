@@ -194,6 +194,7 @@ public final class ScriptImpl extends DocumentWorkerObjectImpl implements Script
         // See: https://github.com/graalvm/graaljs/issues/363
         try {
             graalJSBindingsCloseMethod = loadedScriptBindings.getClass().getMethod("close");
+            graalJSBindingsCloseMethod.setAccessible(true);
             LOG.warn("RORY - Found close method found on loadedScriptBindings");
         } catch (final Exception ignored) {
             LOG.error("RORY - NO close method found on loadedScriptBindings");
