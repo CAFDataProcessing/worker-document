@@ -97,19 +97,26 @@ public final class ScriptImpl extends DocumentWorkerObjectImpl implements Script
     @Override
     public void closeBindings()
     {
-        if (graalJSBindingsCloseMethod != null) {
-            try {
-                LOG.warn("RORY - loadedScriptBindings.size() before close() " + loadedScriptBindings.size());
-                graalJSBindingsCloseMethod.invoke(loadedScriptBindings);
-                LOG.warn("RORY - loadedScriptBindings.size() after close() " + loadedScriptBindings.size());
-            } catch (final IllegalAccessException | IllegalArgumentException | InvocationTargetException ex) {
-                LOG.warn("RORY - Couldn't call close on bindings", ex);
-                throw new RuntimeException(ex);
-            }
-        }
-//        if (graalJSScriptEngine != null) {
-//            graalJSScriptEngine.getPolyglotContext().close();
+//        if (graalJSBindingsCloseMethod != null) {
+//            try {
+//                // This throws this exception every time its called - seems GraalJSBindings.close() context is already closed?
+//                // c.h.c.w.c.BulkWorkerThreadPool: {"message":"Bulk Worker threw unhandled exception","exception":"com.oracle.truffle.api.TruffleStackTrace$LazyStackTrace: null\nWrapped by: java.lang.IllegalStateException: The Context is already closed.\n\tat com.oracle.truffle.polyglot.PolyglotEngineException.illegalState(PolyglotEngineException.java:126)\n\tat com.oracle.truffle.polyglot.PolyglotContextImpl.checkClosed(PolyglotContextImpl.java:741)\n\tat com.oracle.truffle.polyglot.PolyglotContextImpl.enterThreadChanged(PolyglotContextImpl.java:474)\n\tat com.oracle.truffle.polyglot.PolyglotEngineImpl.enter(PolyglotEngineImpl.java:1603)\n\tat com.oracle.truffle.polyglot.HostToGuestRootNode.execute(HostToGuestRootNode.java:87)\n\tat com.oracle.truffle.api.impl.DefaultCallTarget.call(DefaultCallTarget.java:102)\n\tat com.oracle.truffle.polyglot.PolyglotMap.entrySet(PolyglotMap.java:117)\n\tat com.oracle.truffle.js.scriptengine.GraalJSBindings.entrySet(GraalJSBindings.java:171)\n\tat java.base/java.util.AbstractMap.size(AbstractMap.java:85)\n\tat com.hpe.caf.worker.document.impl.ScriptImpl.closeBindings(ScriptImpl.java:104)\n\tat java.base/java.util.ArrayList.forEach(ArrayList.java:1541)\n\tat com.hpe.caf.worker.document.impl.ScriptsImpl.closeBindings(ScriptsImpl.java:84)\n\tat com.hpe.caf.worker.document.BulkDocumentMessageProcessor.lambda$closeBindings$0(BulkDocumentMessageProcessor.java:433)\n\tat java.base/java.util.ArrayList.forEach(ArrayList.java:1541)\n\tat com.hpe.caf.worker.document.BulkDocumentMessageProcessor.closeBindings(BulkDocumentMessageProcessor.java:433)\n\tat com.hpe.caf.worker.document.BulkDocumentWorkerAdapter.processTasks(BulkDocumentWorkerAdapter.java:48)\n\tat com.hpe.caf.worker.core.BulkWorkerThreadPool$BulkWorkerThread.execute(BulkWorkerThreadPool.java:89)\n\tat com.hpe.caf.worker.core.BulkWorkerThreadPool$BulkWorkerThread.run(BulkWorkerThreadPool.java:69)\n"}
+//                LOG.warn("RORY - loadedScriptBindings.size() before close() " + loadedScriptBindings.size());
+//                graalJSBindingsCloseMethod.invoke(loadedScriptBindings);
+//             
+//                LOG.warn("RORY - loadedScriptBindings.size() after close() " + loadedScriptBindings.size());
+//            } catch (final IllegalAccessException | IllegalArgumentException | InvocationTargetException ex) {
+//                LOG.warn("RORY - Couldn't call close on bindings", ex);
+//                throw new RuntimeException(ex);
+//            }
 //        }
+        if (graalJSScriptEngine != null) {
+            LOG.warn("RORY - calling graalJSScriptEngine.close()");
+            graalJSScriptEngine.close();
+            LOG.warn("RORY - called graalJSScriptEngine.close()");
+        } else {
+            LOG.error("RORY - graalJSScriptEngine shouldnt be null");
+        }
     }
 
     @Override
