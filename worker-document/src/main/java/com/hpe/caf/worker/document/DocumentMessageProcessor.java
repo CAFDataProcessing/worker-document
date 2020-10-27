@@ -26,12 +26,15 @@ import com.hpe.caf.worker.document.impl.ApplicationImpl;
 import com.hpe.caf.worker.document.model.Document;
 import com.hpe.caf.worker.document.model.Subdocument;
 import com.hpe.caf.worker.document.tasks.AbstractTask;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Uses a DocumentWorker implementation process an messages. Each instance processes just a single message.
  */
 public final class DocumentMessageProcessor implements Worker
 {
+    private static final Logger LOG = LoggerFactory.getLogger(DocumentMessageProcessor.class);
     /**
      * Stores the global data that was initially passed to the WorkerFactoryProvider when it was called. It effectively acts as a global
      * object for the worker.
@@ -82,7 +85,9 @@ public final class DocumentMessageProcessor implements Worker
                 processTask();
                 
                 // Close the bindings and associated context associated with the customization scripts
+                LOG.warn("RORY - calling documentWorkerTask.getScripts().closeBindings() in DocumentMessageProcessor");
                 documentWorkerTask.getScripts().closeBindings();
+                LOG.warn("RORY - called documentWorkerTask.getScripts().closeBindings() in DocumentMessageProcessor");
 
             } catch (final RuntimeException ex) {
 

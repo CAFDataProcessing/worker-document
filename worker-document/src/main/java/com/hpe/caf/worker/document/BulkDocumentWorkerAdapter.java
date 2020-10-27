@@ -19,6 +19,9 @@ import com.hpe.caf.api.worker.BulkWorker;
 import com.hpe.caf.api.worker.BulkWorkerRuntime;
 import com.hpe.caf.worker.document.extensibility.BulkDocumentWorker;
 import com.hpe.caf.worker.document.impl.ApplicationImpl;
+import com.hpe.caf.worker.document.impl.ScriptImpl;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * This class allows implementations of the BulkDocumentWorker class can be used with the Worker Framework.
@@ -30,6 +33,8 @@ public final class BulkDocumentWorkerAdapter extends DocumentWorkerAdapter imple
      * This class is adapting its interface so that it can be used with the bulk methods of the Worker Framework.
      */
     private final BulkDocumentWorker bulkDocumentWorker;
+    
+    private static final Logger LOG = LoggerFactory.getLogger(BulkDocumentWorkerAdapter.class);
 
     public BulkDocumentWorkerAdapter(final ApplicationImpl application, final BulkDocumentWorker bulkDocumentWorker)
     {
@@ -45,6 +50,8 @@ public final class BulkDocumentWorkerAdapter extends DocumentWorkerAdapter imple
 
         messageProcessor.processTasks();
         
+        LOG.warn("RORY - calling closeBindings() in BulkDocumentWorkerAdapter");
         messageProcessor.closeBindings();
+        LOG.warn("RORY - called closeBindings() in BulkDocumentWorkerAdapter");
     }
 }

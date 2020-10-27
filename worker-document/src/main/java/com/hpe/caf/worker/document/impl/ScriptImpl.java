@@ -99,9 +99,11 @@ public final class ScriptImpl extends DocumentWorkerObjectImpl implements Script
     {
         if (loadedScriptBindings instanceof AutoCloseable) {
             try {
+                LOG.warn("RORY - calling close on loadedScriptBindings in ScriptImpl");
                 ((AutoCloseable) loadedScriptBindings).close();
+                LOG.warn("RORY - called close on loadedScriptBindings in ScriptImpl");
             } catch (final Exception ex) {
-                LOG.warn("RORY - couldnt close loadedScriptBindings", ex);
+                LOG.warn("RORY - couldnt close loadedScriptBindings in ScriptImpl", ex);
             }
         }
         
