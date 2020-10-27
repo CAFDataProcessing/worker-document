@@ -15,7 +15,6 @@
  */
 package com.hpe.caf.worker.document.impl;
 
-import com.hpe.caf.worker.document.DocumentWorkerAdapter;
 import com.hpe.caf.worker.document.DocumentWorkerScript;
 import com.hpe.caf.worker.document.exceptions.InvalidScriptException;
 import com.hpe.caf.worker.document.model.Script;
@@ -28,10 +27,7 @@ import com.hpe.caf.worker.document.scripting.specs.NashornUrlScriptSpec;
 import com.hpe.caf.worker.document.scripting.specs.StorageRefScriptSpec;
 import com.hpe.caf.worker.document.scripting.specs.UrlScriptSpec;
 import com.hpe.caf.worker.document.tasks.AbstractTask;
-import com.oracle.truffle.js.scriptengine.GraalJSScriptEngine;
 import java.io.IOException;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.Objects;
@@ -39,7 +35,6 @@ import java.util.function.Function;
 import javax.annotation.Nonnull;
 import javax.script.Bindings;
 import javax.script.CompiledScript;
-import javax.script.ScriptEngine;
 import javax.script.ScriptException;
 import jdk.nashorn.api.scripting.JSObject;
 import org.graalvm.polyglot.Value;
@@ -48,8 +43,8 @@ import org.slf4j.LoggerFactory;
 
 public final class ScriptImpl extends DocumentWorkerObjectImpl implements Script
 {
-    
     private static final Logger LOG = LoggerFactory.getLogger(ScriptImpl.class);
+
     private final AbstractTask task;
 
     private int lastKnownIndex;
@@ -57,8 +52,6 @@ public final class ScriptImpl extends DocumentWorkerObjectImpl implements Script
     private AbstractScriptSpec scriptSpec;
     private boolean isInstalled;
     private Bindings loadedScriptBindings;
-    private Method graalJSBindingsCloseMethod;
-    private GraalJSScriptEngine graalJSScriptEngine;
 
     public ScriptImpl(
         final ApplicationImpl application,
@@ -99,34 +92,11 @@ public final class ScriptImpl extends DocumentWorkerObjectImpl implements Script
     {
         if (loadedScriptBindings instanceof AutoCloseable) {
             try {
-                LOG.warn("RORY - calling close on loadedScriptBindings in ScriptImpl");
                 ((AutoCloseable) loadedScriptBindings).close();
-                LOG.warn("RORY - called close on loadedScriptBindings in ScriptImpl");
             } catch (final Exception ex) {
-                LOG.warn("RORY - couldnt close loadedScriptBindings in ScriptImpl", ex);
+                LOG.warn("Unable to close script bindings and associated context", ex);
             }
         }
-        
-//        if (graalJSBindingsCloseMethod != null) {
-//            try {
-//                // This throws this exception every time its called - seems GraalJSBindings.close() context is already closed?
-//                // c.h.c.w.c.BulkWorkerThreadPool: {"message":"Bulk Worker threw unhandled exception","exception":"com.oracle.truffle.api.TruffleStackTrace$LazyStackTrace: null\nWrapped by: java.lang.IllegalStateException: The Context is already closed.\n\tat com.oracle.truffle.polyglot.PolyglotEngineException.illegalState(PolyglotEngineException.java:126)\n\tat com.oracle.truffle.polyglot.PolyglotContextImpl.checkClosed(PolyglotContextImpl.java:741)\n\tat com.oracle.truffle.polyglot.PolyglotContextImpl.enterThreadChanged(PolyglotContextImpl.java:474)\n\tat com.oracle.truffle.polyglot.PolyglotEngineImpl.enter(PolyglotEngineImpl.java:1603)\n\tat com.oracle.truffle.polyglot.HostToGuestRootNode.execute(HostToGuestRootNode.java:87)\n\tat com.oracle.truffle.api.impl.DefaultCallTarget.call(DefaultCallTarget.java:102)\n\tat com.oracle.truffle.polyglot.PolyglotMap.entrySet(PolyglotMap.java:117)\n\tat com.oracle.truffle.js.scriptengine.GraalJSBindings.entrySet(GraalJSBindings.java:171)\n\tat java.base/java.util.AbstractMap.size(AbstractMap.java:85)\n\tat com.hpe.caf.worker.document.impl.ScriptImpl.closeBindings(ScriptImpl.java:104)\n\tat java.base/java.util.ArrayList.forEach(ArrayList.java:1541)\n\tat com.hpe.caf.worker.document.impl.ScriptsImpl.closeBindings(ScriptsImpl.java:84)\n\tat com.hpe.caf.worker.document.BulkDocumentMessageProcessor.lambda$closeBindings$0(BulkDocumentMessageProcessor.java:433)\n\tat java.base/java.util.ArrayList.forEach(ArrayList.java:1541)\n\tat com.hpe.caf.worker.document.BulkDocumentMessageProcessor.closeBindings(BulkDocumentMessageProcessor.java:433)\n\tat com.hpe.caf.worker.document.BulkDocumentWorkerAdapter.processTasks(BulkDocumentWorkerAdapter.java:48)\n\tat com.hpe.caf.worker.core.BulkWorkerThreadPool$BulkWorkerThread.execute(BulkWorkerThreadPool.java:89)\n\tat com.hpe.caf.worker.core.BulkWorkerThreadPool$BulkWorkerThread.run(BulkWorkerThreadPool.java:69)\n"}
-//                LOG.warn("RORY - loadedScriptBindings.size() before close() " + loadedScriptBindings.size());
-//                graalJSBindingsCloseMethod.invoke(loadedScriptBindings);
-//             
-//                LOG.warn("RORY - loadedScriptBindings.size() after close() " + loadedScriptBindings.size());
-//            } catch (final IllegalAccessException | IllegalArgumentException | InvocationTargetException ex) {
-//                LOG.warn("RORY - Couldn't call close on bindings", ex);
-//                throw new RuntimeException(ex);
-//            }
-//        }
-//        if (graalJSScriptEngine != null) {
-//            LOG.warn("RORY - calling graalJSScriptEngine.close()");
-//            graalJSScriptEngine.close();
-//            LOG.warn("RORY - called graalJSScriptEngine.close()");
-//        } else {
-//            LOG.error("RORY - graalJSScriptEngine shouldnt be null");
-//        }
     }
 
     @Override
@@ -206,24 +176,6 @@ public final class ScriptImpl extends DocumentWorkerObjectImpl implements Script
         // Mark the script as loaded from this point (as the only time we want to distinuish between loaded and loading).
         // If the script throws an exception then we'll undo this to put the script back into an unloaded state.
         loadedScriptBindings = newGlobal;
-
-        // Store a reference to the GraalJSBindings.close method needed to close the context associated with the engine.
-        // See: https://github.com/graalvm/graaljs/issues/363
-//        try {
-//            graalJSBindingsCloseMethod = loadedScriptBindings.getClass().getMethod("close");
-//            graalJSBindingsCloseMethod.setAccessible(true);
-//            LOG.warn("RORY - Found close method found on loadedScriptBindings");
-//        } catch (final Exception ignored) {
-//            LOG.error("RORY - NO close method found on loadedScriptBindings");
-//            // We may not be using the Graal engine, in which case loadedScriptBindings may not have a close method, which is fine.
-//        }
-        
-        // Store a reference to the GraalJSScriptEngine (if present) to close the context associated with the engine.
-        // See: https://github.com/graalvm/graaljs/issues/363
-//        final ScriptEngine engine = javaScriptManager.getScriptEngine(scriptSpec.getEngineType()).getEngine();
-//        if (engine instanceof GraalJSScriptEngine) {
-//            graalJSScriptEngine = (GraalJSScriptEngine)engine;
-//        }
 
         try {
             // Execute the script in the new context created for it

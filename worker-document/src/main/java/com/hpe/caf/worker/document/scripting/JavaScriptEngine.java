@@ -68,10 +68,4 @@ public abstract class JavaScriptEngine implements ObjectCodeProvider
             }
         }
     }
-
-    @Nonnull
-    public ScriptEngine getEngine() throws ScriptException
-    {
-        return scriptEngine;
-    }
 }

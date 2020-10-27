@@ -85,10 +85,7 @@ public final class DocumentMessageProcessor implements Worker
                 processTask();
                 
                 // Close the bindings and associated context associated with the customization scripts
-                LOG.warn("RORY - calling documentWorkerTask.getScripts().closeBindings() in DocumentMessageProcessor");
                 documentWorkerTask.getScripts().closeBindings();
-                LOG.warn("RORY - called documentWorkerTask.getScripts().closeBindings() in DocumentMessageProcessor");
-
             } catch (final RuntimeException ex) {
 
                 // Raise the onError event
