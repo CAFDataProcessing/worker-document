@@ -18,7 +18,6 @@ package com.hpe.caf.worker.document.model;
 import java.io.IOException;
 import java.net.URL;
 import javax.annotation.Nonnull;
-import javax.script.Bindings;
 import javax.script.ScriptException;
 
 /**
