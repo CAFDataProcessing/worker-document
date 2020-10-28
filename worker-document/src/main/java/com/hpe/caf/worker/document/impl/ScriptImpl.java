@@ -139,6 +139,8 @@ public final class ScriptImpl extends DocumentWorkerObjectImpl implements Script
     @Override
     public void load() throws ScriptException
     {
+        LOG.warn("RORY - in load");
+        
         // Check that the script isn't already loaded
         if (isLoaded()) {
             return;
