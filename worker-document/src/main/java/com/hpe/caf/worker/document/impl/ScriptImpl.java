@@ -257,10 +257,9 @@ public final class ScriptImpl extends DocumentWorkerObjectImpl implements Script
                 throw ex;
             } catch (final Exception ex) {
                 LOG.error("Unable to close script bindings and associated context", ex);
-            } finally {
-                loadedScriptBindings = null;
             }
         }
+        loadedScriptBindings = null;
     }
 
     /**
