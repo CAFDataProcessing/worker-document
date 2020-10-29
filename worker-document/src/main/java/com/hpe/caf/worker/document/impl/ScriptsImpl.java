@@ -163,6 +163,11 @@ public final class ScriptsImpl extends DocumentWorkerObjectImpl implements Scrip
         }
     }
 
+    public void unloadAll()
+    {
+        scripts.forEach(Script::unload);
+    }
+
     /**
      * Raises the specified event in all loaded scripts.
      *

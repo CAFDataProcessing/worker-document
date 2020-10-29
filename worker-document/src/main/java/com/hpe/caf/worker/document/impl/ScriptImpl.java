@@ -139,8 +139,6 @@ public final class ScriptImpl extends DocumentWorkerObjectImpl implements Script
     @Override
     public void load() throws ScriptException
     {
-        LOG.warn("RORY - in load");
-        
         // Check that the script isn't already loaded
         if (isLoaded()) {
             return;
@@ -248,7 +246,6 @@ public final class ScriptImpl extends DocumentWorkerObjectImpl implements Script
     @Override
     public void unload()
     {
-        LOG.warn("RORY - in unload");
         unloadScriptBindings();
     }
 
@@ -256,7 +253,6 @@ public final class ScriptImpl extends DocumentWorkerObjectImpl implements Script
         if (loadedScriptBindings instanceof AutoCloseable) {
             try {
                 ((AutoCloseable) loadedScriptBindings).close();
-                LOG.warn("RORY - called close on bindings");
             } catch (final Exception ex) {
                 LOG.warn("Unable to close script bindings and associated context", ex);
             }

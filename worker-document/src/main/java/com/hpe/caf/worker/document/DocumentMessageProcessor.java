@@ -81,6 +81,8 @@ public final class DocumentMessageProcessor implements Worker
                 // Process the task
                 processTask();
 
+                // Unload the customization scripts
+                documentWorkerTask.unloadScripts();
             } catch (final RuntimeException ex) {
 
                 // Raise the onError event

@@ -168,6 +168,11 @@ public abstract class AbstractTask extends DocumentWorkerObjectImpl implements T
         }
     }
 
+    public void unloadScripts() throws DocumentWorkerTransientException, InterruptedException
+    {
+        scripts.unloadAll();
+    }
+
     public void raiseProcessTaskEvent() throws DocumentWorkerTransientException, InterruptedException
     {
         raiseScriptEvents("onProcessTask", false, new TaskEventObject(this));

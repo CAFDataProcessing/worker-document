@@ -118,6 +118,8 @@ public final class BulkDocumentMessageProcessor
                 // Set the response on the WorkerTask object
                 workerTask.setResponse(workerResponse);
 
+                // Unload the scripts
+                documentWorkerTask.unloadScripts();
             } catch (final DocumentWorkerTransientException ex) {
 
                 // Reject the task as a transient exception was thrown from one of its event handlers
