@@ -78,11 +78,13 @@ public final class DocumentMessageProcessor implements Worker
                 // Load the customization scripts
                 documentWorkerTask.loadScripts();
 
-                // Process the task
-                processTask();
-
-                // Unload the customization scripts
-                documentWorkerTask.unloadScripts();
+                try {
+                    // Process the task
+                    processTask();
+                } finally {
+                    // Unload the customization scripts
+                    documentWorkerTask.unloadScripts();
+                }
             } catch (final RuntimeException ex) {
 
                 // Raise the onError event

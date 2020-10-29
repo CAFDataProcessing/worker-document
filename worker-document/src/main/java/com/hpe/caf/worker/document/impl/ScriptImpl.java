@@ -253,11 +253,14 @@ public final class ScriptImpl extends DocumentWorkerObjectImpl implements Script
         if (loadedScriptBindings instanceof AutoCloseable) {
             try {
                 ((AutoCloseable) loadedScriptBindings).close();
+            } catch (final RuntimeException ex) {
+                throw ex;
             } catch (final Exception ex) {
-                LOG.warn("Unable to close script bindings and associated context", ex);
+                LOG.error("Unable to close script bindings and associated context", ex);
+            } finally {
+                loadedScriptBindings = null;
             }
         }
-        loadedScriptBindings = null;
     }
 
     /**

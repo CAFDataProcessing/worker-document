@@ -168,7 +168,7 @@ public abstract class AbstractTask extends DocumentWorkerObjectImpl implements T
         }
     }
 
-    public void unloadScripts() throws DocumentWorkerTransientException, InterruptedException
+    public void unloadScripts()
     {
         scripts.unloadAll();
     }
