@@ -86,6 +86,7 @@ public final class BulkDocumentMessageProcessor
         try {
             bulkDocumentWorker.processDocuments(documents);
         } catch (final DocumentWorkerTransientException dwte) {
+
             // Reject all the tasks in the batch
             final TaskRejectedException tre = new TaskRejectedException("Failed to process document", dwte);
             for (final BulkDocumentTask bulkDocumentTask : bulkDocumentTasks) {
@@ -123,6 +124,7 @@ public final class BulkDocumentMessageProcessor
 
                 // Set the response on the WorkerTask object
                 workerTask.setResponse(workerResponse);
+
             } catch (final DocumentWorkerTransientException ex) {
                 // Unload the scripts
                 documentWorkerTask.unloadScripts();

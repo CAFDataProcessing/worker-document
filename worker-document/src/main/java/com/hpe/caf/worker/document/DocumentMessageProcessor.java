@@ -80,6 +80,7 @@ public final class DocumentMessageProcessor implements Worker
 
                 // Process the task
                 processTask();
+
             } catch (final RuntimeException ex) {
 
                 // Raise the onError event
