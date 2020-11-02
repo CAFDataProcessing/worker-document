@@ -78,13 +78,8 @@ public final class DocumentMessageProcessor implements Worker
                 // Load the customization scripts
                 documentWorkerTask.loadScripts();
 
-                try {
-                    // Process the task
-                    processTask();
-                } finally {
-                    // Unload the customization scripts
-                    documentWorkerTask.unloadScripts();
-                }
+                // Process the task
+                processTask();
             } catch (final RuntimeException ex) {
 
                 // Raise the onError event
@@ -94,6 +89,9 @@ public final class DocumentMessageProcessor implements Worker
                 if (!handled) {
                     throw ex;
                 }
+            } finally {
+                // Unload the customization scripts
+                documentWorkerTask.unloadScripts();
             }
         } catch (final DocumentWorkerTransientException dwte) {
             throw new TaskRejectedException("Failed to process document", dwte);
