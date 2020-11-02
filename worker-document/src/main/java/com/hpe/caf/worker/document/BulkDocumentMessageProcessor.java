@@ -90,6 +90,10 @@ public final class BulkDocumentMessageProcessor
             // Reject all the tasks in the batch
             final TaskRejectedException tre = new TaskRejectedException("Failed to process document", dwte);
             for (final BulkDocumentTask bulkDocumentTask : bulkDocumentTasks) {
+                // Unload the scripts
+                bulkDocumentTask.getDocumentWorkerTask().unloadScripts();
+
+                // Set the response on the WorkerTask object
                 bulkDocumentTask.getWorkerTask().setResponse(tre);
             }
 
@@ -112,6 +116,9 @@ public final class BulkDocumentMessageProcessor
 
                 documentWorkerTask.raiseAfterProcessTaskEvent();
 
+                // Unload the scripts
+                documentWorkerTask.unloadScripts();
+
                 // Create the WorkerResponse object
                 final WorkerResponse workerResponse = documentWorkerTask.createWorkerResponse();
 
@@ -119,6 +126,8 @@ public final class BulkDocumentMessageProcessor
                 workerTask.setResponse(workerResponse);
 
             } catch (final DocumentWorkerTransientException ex) {
+                // Unload the scripts
+                documentWorkerTask.unloadScripts();
 
                 // Reject the task as a transient exception was thrown from one of its event handlers
                 workerTask.setResponse(new TaskRejectedException("Failed to process task after scripts", ex));
@@ -247,9 +256,9 @@ public final class BulkDocumentMessageProcessor
                     return false;
                 }
 
+                final AbstractTask task = bulkDocumentTask.getDocumentWorkerTask();
                 try {
                     // Load the task's customization scripts and raise its onProcessTask event
-                    final AbstractTask task = bulkDocumentTask.getDocumentWorkerTask();
                     task.loadScripts();
                     task.raiseProcessTaskEvent();
 
@@ -267,6 +276,8 @@ public final class BulkDocumentMessageProcessor
                     }
 
                 } catch (final DocumentWorkerTransientException ex) {
+                    // Unload the scripts
+                    task.unloadScripts();
 
                     // Reject the task as a transient exception was thrown from one of its event handlers
                     bulkDocumentTask.getWorkerTask().setResponse(
@@ -276,6 +287,9 @@ public final class BulkDocumentMessageProcessor
                     return false;
 
                 } catch (final InterruptedException ex) {
+                    // Unload the scripts
+                    task.unloadScripts();
+
                     // Since the thread has been interrupted I think the correct thing to do is to not set any response on the task at
                     // all. This is in line with what happens when an InterruptedException is throw from the worker's processDocuments()
                     // method.

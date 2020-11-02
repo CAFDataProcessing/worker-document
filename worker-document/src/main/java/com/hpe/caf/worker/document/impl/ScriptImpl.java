@@ -38,9 +38,13 @@ import javax.script.CompiledScript;
 import javax.script.ScriptException;
 import jdk.nashorn.api.scripting.JSObject;
 import org.graalvm.polyglot.Value;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public final class ScriptImpl extends DocumentWorkerObjectImpl implements Script
 {
+    private static final Logger LOG = LoggerFactory.getLogger(ScriptImpl.class);
+
     private final AbstractTask task;
 
     private int lastKnownIndex;
@@ -167,7 +171,7 @@ public final class ScriptImpl extends DocumentWorkerObjectImpl implements Script
 
         } catch (final Exception ex) {
             // If there is an exception then unload the script before propagating the exception
-            loadedScriptBindings = null;
+            unloadScriptBindings();
             throw ex;
         }
     }
@@ -242,6 +246,19 @@ public final class ScriptImpl extends DocumentWorkerObjectImpl implements Script
     @Override
     public void unload()
     {
+        unloadScriptBindings();
+    }
+
+    private void unloadScriptBindings() {
+        if (loadedScriptBindings instanceof AutoCloseable) {
+            try {
+                ((AutoCloseable) loadedScriptBindings).close();
+            } catch (final RuntimeException ex) {
+                throw ex;
+            } catch (final Exception ex) {
+                LOG.error("Unable to close script bindings and associated context", ex);
+            }
+        }
         loadedScriptBindings = null;
     }
 

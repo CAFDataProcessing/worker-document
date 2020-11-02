@@ -90,6 +90,9 @@ public final class DocumentMessageProcessor implements Worker
                 if (!handled) {
                     throw ex;
                 }
+            } finally {
+                // Unload the customization scripts
+                documentWorkerTask.unloadScripts();
             }
         } catch (final DocumentWorkerTransientException dwte) {
             throw new TaskRejectedException("Failed to process document", dwte);
