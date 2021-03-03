@@ -78,7 +78,6 @@
 
     <modules>
         <module>worker-document</module>
-        <module>worker-document-archetype</module>
         <module>worker-document-interface</module>
         <module>worker-document-framework</module>
         <module>worker-document-shared</module>

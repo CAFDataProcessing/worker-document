@@ -12,11 +12,7 @@ Below is an illustration showing the communication between a document-worker and
 
 ### worker-document
 
-This repository defines public base classes which facilitate the creation of projects generated from the [worker-document-archetype](worker-document-archetype). The project can be found in [worker-document](worker-document).
-
-### worker-document-archetype
-
-This repository is a Maven Archetype template for the generation of a new generic CAF Document Worker project. Generation of a worker project with the Maven Archetype will produce a generic Document Worker with minimal functionality. The project can be found in [worker-document-archetype](worker-document-archetype).
+This repository defines public base classes and it can be found in [worker-document](worker-document).
 
 ### worker-document-framework
 
