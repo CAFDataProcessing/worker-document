@@ -1,11 +1,9 @@
-!not-ready-for-release!
-
 #### Version Number
 ${version-number}
 
 #### Breaking Changes
 - SCMOD-12730: Updated to the latest Worker Framework version, which includes the following breaking changes to support pause task functionality.
-  - The `statusCheckUrl` workers use to check the status of a task now points to the `status` endpoint instead of the `isActive` endpoint.
+  - The `statusCheckUrl` workers used to check the status of a task now points to the `status` endpoint instead of the `isActive` endpoint.
   - Instead of returning `true` or `false`, the `statusCheckUrl` will now return one of `Active`, `Cancelled`, `Completed`, `Failed`,
   `Paused`, or `Waiting`.
   - When a worker receives a task, it will now check if the task has been paused using the `statusCheckUrl`.
@@ -13,6 +11,12 @@ ${version-number}
   `CAF_WORKER_PAUSED_QUEUE` instead of processing it.
   - If the task has been paused, and the `CAF_WORKER_PAUSED_QUEUE` environment variable is NOT set, the worker process the task as
   normal (as if the task was not paused).
+
+- SCMOD-12319: Removed worker-document archetype
+    The following archetypes have been removed:  
+      - Worker Framework Archetype  
+      - Batch Worker Framework Archetype  
+      - Document Worker Framework Archetype
 
 #### Known Issues
 - None
