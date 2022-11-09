@@ -146,6 +146,8 @@ public final class DocumentMessageProcessor implements Worker
 
         // Raise the onAfterProcessTask event
         documentWorkerTask.raiseAfterProcessTaskEvent();
+
+        com.microfocus.apollo.worker.prioritization.rerouting.MessageRouterSingleton.route(document);
     }
 
     /**
