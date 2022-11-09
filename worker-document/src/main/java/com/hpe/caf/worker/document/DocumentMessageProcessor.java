@@ -26,6 +26,7 @@ import com.hpe.caf.worker.document.impl.ApplicationImpl;
 import com.hpe.caf.worker.document.model.Document;
 import com.hpe.caf.worker.document.model.Subdocument;
 import com.hpe.caf.worker.document.tasks.AbstractTask;
+import com.microfocus.apollo.worker.prioritization.rerouting.MessageRouterSingleton;
 
 /**
  * Uses a DocumentWorker implementation process an messages. Each instance processes just a single message.
@@ -147,7 +148,8 @@ public final class DocumentMessageProcessor implements Worker
         // Raise the onAfterProcessTask event
         documentWorkerTask.raiseAfterProcessTaskEvent();
 
-        com.microfocus.apollo.worker.prioritization.rerouting.MessageRouterSingleton.route(document);
+        MessageRouterSingleton.init();
+        MessageRouterSingleton.route(document);
     }
 
     /**
