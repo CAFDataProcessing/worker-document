@@ -31,7 +31,7 @@ public final class JavaScriptEngineLazy implements ObjectCodeProvider
 
     public JavaScriptEngineLazy()
     {
-        this.scriptEngine = CacheBuilder.newBuilder().concurrencyLevel(1).build(CacheLoader.from(JavaScriptEngineLazy::buildEngine));
+        this.scriptEngine = CacheBuilder.newBuilder().maximumSize(1).concurrencyLevel(1).build(CacheLoader.from(JavaScriptEngineLazy::buildEngine));
     }
 
     @Nonnull
