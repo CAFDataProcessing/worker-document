@@ -42,6 +42,18 @@ import com.worldturner.medeia.schema.validation.SchemaValidator;
  */
 public final class DocumentValidator
 {
+    private static final SchemaValidator SCHEMA_VALIDATOR;
+
+    static {
+        final MedeiaJacksonApi api = new MedeiaJacksonApi();
+        try {
+            final SchemaSource source = new StreamSchemaSource(SchemaResource.getUrl().openStream(), JsonSchemaVersion.DRAFT07);
+            SCHEMA_VALIDATOR = api.loadSchema(source);
+        } catch (final IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     public static void validate(final String document) throws InvalidDocumentException
     {
         try (final InputStream inputStream = SchemaResource.getUrl().openStream();
@@ -67,15 +79,11 @@ public final class DocumentValidator
     public static JsonParser getValidatingParser(final InputStream document) throws JsonParseException, IOException
     {
         final MedeiaJacksonApi api = new MedeiaJacksonApi();
-        final SchemaSource source = new StreamSchemaSource(
-            SchemaResource.getUrl().openStream(),
-            JsonSchemaVersion.DRAFT07);
-        final SchemaValidator validator = api.loadSchema(source);
         final JsonFactory factory = new JsonFactory();
         factory.configure(Feature.FLUSH_PASSED_TO_STREAM, false);
         factory.configure(Feature.AUTO_CLOSE_TARGET, false);
         final JsonParser unvalidatedParser = factory.createParser(document);
-        return api.decorateJsonParser(validator, unvalidatedParser);
+        return api.decorateJsonParser(SCHEMA_VALIDATOR, unvalidatedParser);
     }
 
 }
