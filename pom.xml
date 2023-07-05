@@ -101,7 +101,7 @@
             <dependency>
                 <groupId>com.github.workerframework</groupId>
                 <artifactId>worker-framework</artifactId>
-                <version>6.0.0-1107</version>
+                <version>6.1.0-743080-SNAPSHOT</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
