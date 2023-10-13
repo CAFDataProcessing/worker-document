@@ -107,6 +107,7 @@ public class DocumentWorkerFieldValueValidator extends CustomPropertyValidator
         return convert(DocumentWorkerFieldValueExpectation.class, value) != null;
     }
 
+    @SuppressWarnings("unchecked")
     private <T> T convert(final Class<T> type, final Object value)
     {
         if (type.isInstance(value)) {

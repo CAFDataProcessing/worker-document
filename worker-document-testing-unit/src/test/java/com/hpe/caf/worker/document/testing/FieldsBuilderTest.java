@@ -22,8 +22,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 import org.apache.commons.codec.binary.Base64;
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
-import static org.junit.Assert.assertThat;
 import org.junit.Test;
 
 public class FieldsBuilderTest

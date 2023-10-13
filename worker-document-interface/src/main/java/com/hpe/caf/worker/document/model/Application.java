@@ -16,7 +16,7 @@
 package com.hpe.caf.worker.document.model;
 
 import com.hpe.caf.worker.document.extensibility.BulkDocumentWorker;
-import javax.annotation.Nonnull;
+import jakarta.annotation.Nonnull;
 
 /**
  * Represents the entire service. This object can expose configuration, worker information, and other worker-level details.

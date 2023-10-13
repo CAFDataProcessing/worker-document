@@ -35,12 +35,12 @@ import com.hpe.caf.worker.document.util.DocumentFunctions;
 import com.hpe.caf.worker.document.util.ListFunctions;
 import com.hpe.caf.worker.document.util.MapFunctions;
 import com.hpe.caf.worker.document.views.ReadOnlyDocument;
+import jakarta.annotation.Nonnull;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
-import javax.annotation.Nonnull;
 
 public final class DocumentTask extends AbstractTask
 {

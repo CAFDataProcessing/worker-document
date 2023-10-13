@@ -79,9 +79,9 @@ public class DocumentWorkerResultPreparationProvider implements TestItemProvider
 
     private TestItem createTestItem(final Path inputFile) throws Exception
     {
-        final DocumentWorkerTestInput testInput = configuration.getInputClass().newInstance();
+        final DocumentWorkerTestInput testInput = configuration.getInputClass().getDeclaredConstructor().newInstance();
         final String normalizedRelativePath = Paths.get(expectedPath).relativize(inputFile).toString().replace("\\", "/");
-        final DocumentWorkerTestExpectation testExpectation = configuration.getExpectationClass().newInstance();
+        final DocumentWorkerTestExpectation testExpectation = configuration.getExpectationClass().getDeclaredConstructor().newInstance();
         final TestItem<DocumentWorkerTestInput, DocumentWorkerTestExpectation> testItem
             = new TestItem<>(normalizedRelativePath, testInput, testExpectation);
         testItem.getInputData().setTask(createDocumentWorkerTask(inputFile));

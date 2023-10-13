@@ -35,6 +35,7 @@ public final class ServiceLocatorImpl extends DocumentWorkerObjectImpl implement
     }
 
     @Override
+    @SuppressWarnings("unchecked")
     public <S> S getService(final Class<S> service)
     {
         return (S) serviceMap.get(service);

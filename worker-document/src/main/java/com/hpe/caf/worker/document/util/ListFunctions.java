@@ -15,9 +15,9 @@
  */
 package com.hpe.caf.worker.document.util;
 
+import jakarta.annotation.Nonnull;
 import java.util.ArrayList;
 import java.util.List;
-import javax.annotation.Nonnull;
 
 /**
  * Utility functions related to list collections.

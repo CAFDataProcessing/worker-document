@@ -18,10 +18,10 @@ package com.hpe.caf.worker.document.fieldvalues;
 import com.hpe.caf.worker.document.impl.ApplicationImpl;
 import com.hpe.caf.worker.document.model.Field;
 import com.hpe.caf.worker.document.util.DataStoreFunctions;
+import jakarta.annotation.Nonnull;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Objects;
-import javax.annotation.Nonnull;
 
 public final class ReferenceFieldValue extends AbstractFieldValue
 {

@@ -17,9 +17,9 @@ package com.hpe.caf.worker.document.fieldvalues;
 
 import com.hpe.caf.worker.document.impl.ApplicationImpl;
 import com.hpe.caf.worker.document.model.Field;
+import jakarta.annotation.Nonnull;
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
-import javax.annotation.Nonnull;
 
 public abstract class NonReferenceFieldValue extends AbstractFieldValue
 {

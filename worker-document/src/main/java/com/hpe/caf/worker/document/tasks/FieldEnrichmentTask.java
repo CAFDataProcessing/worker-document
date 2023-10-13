@@ -27,11 +27,11 @@ import com.hpe.caf.worker.document.impl.ScriptImpl;
 import com.hpe.caf.worker.document.output.DocumentWorkerResultBuilder;
 import com.hpe.caf.worker.document.util.ListFunctions;
 import com.hpe.caf.worker.document.views.ReadOnlyDocument;
+import jakarta.annotation.Nonnull;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
-import javax.annotation.Nonnull;
 
 public final class FieldEnrichmentTask extends AbstractTask
 {

@@ -18,7 +18,7 @@ package com.hpe.caf.worker.document.impl;
 import com.hpe.caf.api.HealthResult;
 import com.hpe.caf.api.HealthStatus;
 import com.hpe.caf.worker.document.model.HealthMonitor;
-import javax.annotation.Nonnull;
+import jakarta.annotation.Nonnull;
 
 public final class HealthMonitorImpl extends DocumentWorkerObjectImpl implements HealthMonitor
 {

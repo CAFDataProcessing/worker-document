@@ -15,40 +15,42 @@
  */
 package com.microfocus.caf.worker.document.schema.validator;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.Reader;
-import java.io.StringReader;
-
 import com.fasterxml.jackson.core.JsonFactory;
-import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonGenerator.Feature;
 import com.fasterxml.jackson.core.JsonParseException;
+import com.fasterxml.jackson.core.JsonParser;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
-import com.github.fge.jackson.JsonNodeReader;
-import com.github.fge.jsonschema.core.report.LogLevel;
-import com.github.fge.jsonschema.core.report.ProcessingMessage;
-import com.github.fge.jsonschema.core.report.ProcessingReport;
-import com.github.fge.jsonschema.main.JsonSchemaFactory;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.microfocus.caf.worker.document.schema.model.SchemaResource;
+import com.networknt.schema.JsonSchema;
+import com.networknt.schema.JsonSchemaFactory;
+import com.networknt.schema.SpecVersionDetector;
+import com.networknt.schema.ValidationMessage;
 import com.worldturner.medeia.api.JsonSchemaVersion;
 import com.worldturner.medeia.api.SchemaSource;
 import com.worldturner.medeia.api.StreamSchemaSource;
 import com.worldturner.medeia.api.jackson.MedeiaJacksonApi;
 import com.worldturner.medeia.schema.validation.SchemaValidator;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.UncheckedIOException;
+import java.util.Set;
 
 /**
  * Validates a Document.
  */
 public final class DocumentValidator
 {
-    private static final SchemaValidator SCHEMA_VALIDATOR;
+    private static ObjectMapper MAPPER = new ObjectMapper();
+    private static final JsonSchema SCHEMA_VALIDATOR_1 = getJsonSchema();
+    private static final SchemaValidator SCHEMA_VALIDATOR_2;
 
     static {
         final MedeiaJacksonApi api = new MedeiaJacksonApi();
         try {
             final SchemaSource source = new StreamSchemaSource(SchemaResource.getUrl().openStream(), JsonSchemaVersion.DRAFT07);
-            SCHEMA_VALIDATOR = api.loadSchema(source);
+            SCHEMA_VALIDATOR_2 = api.loadSchema(source);
         } catch (final IOException e) {
             throw new RuntimeException(e);
         }
@@ -56,23 +58,15 @@ public final class DocumentValidator
 
     public static void validate(final String document) throws InvalidDocumentException
     {
-        try (final InputStream inputStream = SchemaResource.getUrl().openStream();
-             final Reader documentReader = new StringReader(document)) {
-            final JsonNode documentSchema = new JsonNodeReader().fromInputStream(inputStream);
-            final JsonNode documentNode = new JsonNodeReader().fromReader(documentReader);
-            final ProcessingReport report = JsonSchemaFactory.byDefault().getValidator().validateUnchecked(documentSchema, documentNode);
-            final boolean isSuccess = report.isSuccess();
-            if (!isSuccess) {
-                final StringBuilder errMsg = new StringBuilder("Document validation errors:");
-                for (final ProcessingMessage msg : report) {
-                    if (msg.getLogLevel() == LogLevel.ERROR || msg.getLogLevel() == LogLevel.FATAL) {
-                        errMsg.append('\n').append(msg.getMessage());
-                    }
-                }
-                throw new InvalidDocumentException(errMsg.toString());
+        final JsonNode documentJson = parseDocument(document);
+        final Set<ValidationMessage> errors = SCHEMA_VALIDATOR_1.validate(documentJson);
+
+        if (!errors.isEmpty()) {
+            final StringBuilder errMsg = new StringBuilder("Schema validation errors:");
+            for (final ValidationMessage error : errors) {
+                errMsg.append('\n').append(error.getMessage());
             }
-        } catch (final IOException ex) {
-            throw new RuntimeException(ex);
+            throw new InvalidDocumentException(errMsg.toString());
         }
     }
 
@@ -83,7 +77,32 @@ public final class DocumentValidator
         factory.configure(Feature.FLUSH_PASSED_TO_STREAM, false);
         factory.configure(Feature.AUTO_CLOSE_TARGET, false);
         final JsonParser unvalidatedParser = factory.createParser(document);
-        return api.decorateJsonParser(SCHEMA_VALIDATOR, unvalidatedParser);
+        return api.decorateJsonParser(SCHEMA_VALIDATOR_2, unvalidatedParser);
     }
 
+    private static JsonSchema getJsonSchema()
+    {
+        final JsonNode schemaNode = getSchemaNode();
+
+        final JsonSchemaFactory factory = JsonSchemaFactory.getInstance(SpecVersionDetector.detect(schemaNode));
+        return factory.getSchema(schemaNode);
+    }
+
+    private static JsonNode getSchemaNode()
+    {
+        try {
+            return MAPPER.readTree(SchemaResource.getUrl());
+        } catch (final IOException ex) {
+            throw new UncheckedIOException(ex);
+        }
+    }
+
+    private static JsonNode parseDocument(final String document) throws InvalidDocumentException
+    {
+        try {
+            return MAPPER.readTree(document);
+        } catch (final JsonProcessingException ex) {
+            throw new InvalidDocumentException(ex);
+        }
+    }
 }

@@ -54,6 +54,7 @@ public class CodeConfigurationSource implements ConfigurationSource
      * @throws ConfigurationException If configuration class not found.
      */
     @Override
+    @SuppressWarnings("unchecked")
     public <T> T getConfiguration(final Class<T> configClass) throws ConfigurationException
     {
         Objects.requireNonNull(configClass);

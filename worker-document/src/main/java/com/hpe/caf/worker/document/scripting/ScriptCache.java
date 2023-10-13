@@ -21,10 +21,10 @@ import com.google.common.cache.LoadingCache;
 import com.hpe.caf.worker.document.config.ScriptCacheConfiguration;
 import com.hpe.caf.worker.document.scripting.specs.AbstractScriptSpec;
 import static com.hpe.caf.worker.document.util.ObjectFunctions.coalesce;
+import jakarta.annotation.Nonnull;
 import java.util.Objects;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
-import javax.annotation.Nonnull;
 import javax.script.CompiledScript;
 import javax.script.ScriptException;
 
@@ -54,8 +54,8 @@ public final class ScriptCache implements ObjectCodeProvider
         } catch (final ExecutionException ex) {
             final Throwable cause = ex.getCause();
 
-            if (cause instanceof ScriptException) {
-                throw (ScriptException) cause;
+            if (cause instanceof ScriptException scriptException) {
+                throw scriptException;
             } else {
                 throw new RuntimeException(ex);
             }
@@ -63,11 +63,14 @@ public final class ScriptCache implements ObjectCodeProvider
     }
 
     @Nonnull
-    private static CacheBuilder createCacheBuilder(final ScriptCacheConfiguration config, final ScriptCacheConfiguration defaultConfig)
+    private static CacheBuilder<Object, Object> createCacheBuilder(
+        final ScriptCacheConfiguration config,
+        final ScriptCacheConfiguration defaultConfig
+    )
     {
         Objects.requireNonNull(defaultConfig);
 
-        final CacheBuilder cacheBuilder = CacheBuilder.newBuilder()
+        final CacheBuilder<Object, Object> cacheBuilder = CacheBuilder.newBuilder()
             .concurrencyLevel(1);
 
         if (config == null) {
@@ -102,21 +105,21 @@ public final class ScriptCache implements ObjectCodeProvider
         };
     }
 
-    private static void setMaximumSize(final CacheBuilder cacheBuilder, final Long maxSize)
+    private static void setMaximumSize(final CacheBuilder<Object, Object> cacheBuilder, final Long maxSize)
     {
         if (maxSize != null) {
             cacheBuilder.maximumSize(maxSize);
         }
     }
 
-    private static void setExpireAfterAccess(final CacheBuilder cacheBuilder, final Long expireAfterAccess)
+    private static void setExpireAfterAccess(final CacheBuilder<Object, Object> cacheBuilder, final Long expireAfterAccess)
     {
         if (expireAfterAccess != null) {
             cacheBuilder.expireAfterAccess(expireAfterAccess, TimeUnit.SECONDS);
         }
     }
 
-    private static void setExpireAfterWrite(final CacheBuilder cacheBuilder, final Long expireAfterWrite)
+    private static void setExpireAfterWrite(final CacheBuilder<Object, Object> cacheBuilder, final Long expireAfterWrite)
     {
         if (expireAfterWrite != null) {
             cacheBuilder.expireAfterWrite(expireAfterWrite, TimeUnit.SECONDS);

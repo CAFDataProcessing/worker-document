@@ -34,7 +34,7 @@ import java.util.Iterator;
 import java.util.List;
 import org.apache.commons.codec.binary.Base64;
 import static org.hamcrest.CoreMatchers.is;
-import static org.junit.Assert.assertThat;
+import static org.hamcrest.MatcherAssert.assertThat;
 import org.junit.Test;
 
 public class DocumentBuilderTest

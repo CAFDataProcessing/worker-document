@@ -15,8 +15,8 @@
  */
 package com.hpe.caf.worker.document.model;
 
+import jakarta.annotation.Nonnull;
 import java.util.List;
-import javax.annotation.Nonnull;
 
 /**
  * Represents a field of the document. A field has a name and can have any number of values. The order of the field values is not

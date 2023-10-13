@@ -25,13 +25,6 @@ public enum ScriptEngineType
      *
      * @see <a href="https://www.graalvm.org/">GraalVM</a>
      * @see <a href="https://www.graalvm.org/reference-manual/js/">GraalVM JavaScript Implementation</a>
-     * @see <a href="https://www.graalvm.org/reference-manual/js/NashornMigrationGuide/">Nashorn Migration Guide</a>
      */
     GRAAL_JS,
-    /**
-     * Nashorn JavaScript engine
-     *
-     * @see <a href="https://en.wikipedia.org/wiki/Nashorn_(JavaScript_engine)">Nashorn (JavaScript engine)</a>
-     */
-    NASHORN,
 }

@@ -32,11 +32,11 @@ import com.hpe.caf.worker.document.tasks.AbstractTask;
 import com.hpe.caf.worker.document.tasks.DocumentTask;
 import com.hpe.caf.worker.document.tasks.FieldEnrichmentTask;
 import com.hpe.caf.worker.document.util.BooleanFunctions;
+import jakarta.annotation.Nonnull;
+import jakarta.validation.ConstraintViolation;
+import jakarta.validation.Validation;
+import jakarta.validation.Validator;
 import java.util.Set;
-import javax.annotation.Nonnull;
-import javax.validation.ConstraintViolation;
-import javax.validation.Validation;
-import javax.validation.Validator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

@@ -15,8 +15,8 @@
  */
 package com.hpe.caf.worker.document.model;
 
+import jakarta.annotation.Nonnull;
 import java.util.stream.Stream;
-import javax.annotation.Nonnull;
 
 /**
  * Represents the collection of failures that are attached to a document. Each failure has a non-localisable identifier as well as a human

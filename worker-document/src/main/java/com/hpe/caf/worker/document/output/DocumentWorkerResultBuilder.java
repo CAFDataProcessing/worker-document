@@ -19,10 +19,10 @@ import com.hpe.caf.worker.document.DocumentWorkerDocument;
 import com.hpe.caf.worker.document.DocumentWorkerFailure;
 import com.hpe.caf.worker.document.DocumentWorkerFieldChanges;
 import com.hpe.caf.worker.document.DocumentWorkerResult;
+import jakarta.annotation.Nonnull;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import javax.annotation.Nonnull;
 
 public final class DocumentWorkerResultBuilder implements ChangesJournal
 {

@@ -19,20 +19,18 @@ import com.hpe.caf.worker.document.DocumentWorkerScript;
 import com.hpe.caf.worker.document.exceptions.InvalidScriptException;
 import com.hpe.caf.worker.document.impl.ApplicationImpl;
 import com.hpe.caf.worker.document.model.ScriptEngineType;
+import jakarta.annotation.Nonnull;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.Objects;
-import javax.annotation.Nonnull;
 import javax.script.Compilable;
 import javax.script.CompiledScript;
 import javax.script.ScriptException;
 
 public abstract class AbstractScriptSpec
 {
-    private static final ScriptEngineType DEFAULT_SCRIPT_ENGINE = ScriptEngineType.NASHORN;
-
     protected final ScriptEngineType engineType;
 
     protected AbstractScriptSpec(final ScriptEngineType engineType)
@@ -64,7 +62,7 @@ public abstract class AbstractScriptSpec
         // Check that a valid scripting engine has been specified
         final ScriptEngineType engineType;
         if (script.engine == null) {
-            engineType = DEFAULT_SCRIPT_ENGINE;
+            throw new InvalidScriptException(script, "Scripting engine not specified!");
         } else {
             try {
                 engineType = ScriptEngineType.valueOf(script.engine);
@@ -80,11 +78,7 @@ public abstract class AbstractScriptSpec
             return new StorageRefScriptSpec(application.getDataStore(), script.storageRef, engineType);
         } else if (script.url != null) {
             try {
-                if (engineType != ScriptEngineType.NASHORN) {
-                    return new UrlScriptSpec(new URL(script.url), engineType);
-                } else {
-                    return new NashornUrlScriptSpec(new URL(script.url));
-                }
+                return new UrlScriptSpec(new URL(script.url), engineType);
             } catch (final MalformedURLException | URISyntaxException ex) {
                 throw new InvalidScriptException(script, "Script url is malformed or not standards compliant.", ex);
             }
@@ -142,9 +136,8 @@ public abstract class AbstractScriptSpec
     {
         final DocumentWorkerScript script = new DocumentWorkerScript();
         script.name = name;
-        if (engineType != DEFAULT_SCRIPT_ENGINE) {
-            script.engine = engineType.name();
-        }
+        script.engine = engineType.name();
+
         setScriptSpecField(script);
 
         return script;

@@ -31,6 +31,7 @@ import com.hpe.caf.worker.document.views.ReadOnlyFailure;
 import com.hpe.caf.worker.document.views.ReadOnlyFailures;
 import com.hpe.caf.worker.document.views.ReadOnlyFieldValue;
 import com.hpe.caf.worker.document.views.ReadOnlyFieldValues;
+import jakarta.annotation.Nonnull;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -40,7 +41,6 @@ import java.util.stream.Collector;
 import java.util.stream.Collectors;
 import static java.util.stream.Collectors.toList;
 import java.util.stream.Stream;
-import javax.annotation.Nonnull;
 
 /**
  * Implements the application of a change log on top of a {@link ReadOnlyDocument}.

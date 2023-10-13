@@ -24,8 +24,8 @@ import com.hpe.caf.worker.document.output.ChangesJournal;
 import com.hpe.caf.worker.document.tasks.AbstractTask;
 import com.hpe.caf.worker.document.util.StringFunctions;
 import com.hpe.caf.worker.document.views.ReadOnlyDocument;
+import jakarta.annotation.Nonnull;
 import java.util.Objects;
-import javax.annotation.Nonnull;
 
 public class DocumentImpl extends DocumentWorkerObjectImpl implements Document
 {

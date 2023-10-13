@@ -16,12 +16,12 @@
 package com.hpe.caf.worker.document.views;
 
 import com.hpe.caf.worker.document.DocumentWorkerFieldValue;
+import jakarta.annotation.Nonnull;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
-import javax.annotation.Nonnull;
 
 public final class ReadOnlyFieldValues
 {

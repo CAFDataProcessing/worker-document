@@ -18,9 +18,9 @@ package com.hpe.caf.worker.document.output;
 import com.hpe.caf.worker.document.DocumentWorkerDocument;
 import com.hpe.caf.worker.document.DocumentWorkerFailure;
 import com.hpe.caf.worker.document.DocumentWorkerFieldChanges;
+import jakarta.annotation.Nonnull;
 import java.util.List;
 import java.util.Map;
-import javax.annotation.Nonnull;
 
 public interface ChangesJournal
 {

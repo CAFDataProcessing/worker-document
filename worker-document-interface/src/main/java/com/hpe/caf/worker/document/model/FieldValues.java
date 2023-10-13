@@ -15,8 +15,8 @@
  */
 package com.hpe.caf.worker.document.model;
 
+import jakarta.annotation.Nonnull;
 import java.util.stream.Stream;
-import javax.annotation.Nonnull;
 
 /**
  * Represents the collection of data values that belong to a field.
