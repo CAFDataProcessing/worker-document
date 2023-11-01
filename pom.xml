@@ -104,7 +104,7 @@
             <dependency>
                 <groupId>com.fasterxml.jackson.core</groupId>
                 <artifactId>jackson-databind</artifactId>
-                <version>2.15.2</version>
+                <version>2.15.3</version>
             </dependency>
             <dependency>
                 <groupId>com.fasterxml.jackson.dataformat</groupId>
@@ -114,12 +114,12 @@
             <dependency>
                 <groupId>com.fasterxml.jackson.dataformat</groupId>
                 <artifactId>jackson-dataformat-yaml</artifactId>
-                <version>2.15.2</version>
+                <version>2.15.3</version>
             </dependency>
             <dependency>
                 <groupId>com.fasterxml.jackson.datatype</groupId>
                 <artifactId>jackson-datatype-guava</artifactId>
-                <version>2.15.2</version>
+                <version>2.15.3</version>
             </dependency>
             <dependency>
                 <groupId>com.fasterxml.woodstox</groupId>
@@ -239,12 +239,12 @@
             <dependency>
                 <groupId>com.google.errorprone</groupId>
                 <artifactId>error_prone_annotations</artifactId>
-                <version>2.22.0</version>
+                <version>2.23.0</version>
             </dependency>
             <dependency>
                 <groupId>com.google.guava</groupId>
                 <artifactId>failureaccess</artifactId>
-                <version>1.0.1</version>
+                <version>1.0.2</version>
             </dependency>
             <dependency>
                 <groupId>com.google.guava</groupId>
@@ -269,7 +269,7 @@
             <dependency>
                 <groupId>com.rabbitmq</groupId>
                 <artifactId>amqp-client</artifactId>
-                <version>5.19.0</version>
+                <version>5.20.0</version>
             </dependency>
             <dependency>
                 <groupId>com.worldturner.medeia</groupId>
@@ -289,7 +289,7 @@
             <dependency>
                 <groupId>commons-io</groupId>
                 <artifactId>commons-io</artifactId>
-                <version>2.14.0</version>
+                <version>2.15.0</version>
             </dependency>
             <dependency>
                 <groupId>jakarta.annotation</groupId>
@@ -329,7 +329,7 @@
             <dependency>
                 <groupId>org.checkerframework</groupId>
                 <artifactId>checker-qual</artifactId>
-                <version>3.39.0</version>
+                <version>3.40.0</version>
             </dependency>
             <dependency>
                 <groupId>org.codehaus.woodstox</groupId>
@@ -339,68 +339,68 @@
             <dependency>
                 <groupId>org.graalvm.js</groupId>
                 <artifactId>js-language</artifactId>
-                <version>23.1.0</version>
+                <version>23.1.1</version>
             </dependency>
             <dependency>
                 <groupId>org.graalvm.js</groupId>
                 <artifactId>js-scriptengine</artifactId>
-                <version>23.1.0</version>
+                <version>23.1.1</version>
             </dependency>
             <dependency>
                 <groupId>org.graalvm.polyglot</groupId>
                 <artifactId>js-community</artifactId>
                 <type>pom</type>
-                <version>23.1.0</version>
+                <version>23.1.1</version>
             </dependency>
             <dependency>
                 <groupId>org.graalvm.polyglot</groupId>
                 <artifactId>polyglot</artifactId>
-                <version>23.1.0</version>
+                <version>23.1.1</version>
             </dependency>
             <dependency>
                 <groupId>org.graalvm.regex</groupId>
                 <artifactId>regex</artifactId>
-                <version>23.1.0</version>
+                <version>23.1.1</version>
             </dependency>
             <dependency>
                 <groupId>org.graalvm.sdk</groupId>
                 <artifactId>collections</artifactId>
-                <version>23.1.0</version>
+                <version>23.1.1</version>
             </dependency>
             <dependency>
                 <groupId>org.graalvm.sdk</groupId>
                 <artifactId>jniutils</artifactId>
-                <version>23.1.0</version>
+                <version>23.1.1</version>
             </dependency>
             <dependency>
                 <groupId>org.graalvm.sdk</groupId>
                 <artifactId>nativeimage</artifactId>
-                <version>23.1.0</version>
+                <version>23.1.1</version>
             </dependency>
             <dependency>
                 <groupId>org.graalvm.sdk</groupId>
                 <artifactId>word</artifactId>
-                <version>23.1.0</version>
+                <version>23.1.1</version>
             </dependency>
             <dependency>
                 <groupId>org.graalvm.shadowed</groupId>
                 <artifactId>icu4j</artifactId>
-                <version>23.1.0</version>
+                <version>23.1.1</version>
             </dependency>
             <dependency>
                 <groupId>org.graalvm.truffle</groupId>
                 <artifactId>truffle-api</artifactId>
-                <version>23.1.0</version>
+                <version>23.1.1</version>
             </dependency>
             <dependency>
                 <groupId>org.graalvm.truffle</groupId>
                 <artifactId>truffle-compiler</artifactId>
-                <version>23.1.0</version>
+                <version>23.1.1</version>
             </dependency>
             <dependency>
                 <groupId>org.graalvm.truffle</groupId>
                 <artifactId>truffle-runtime</artifactId>
-                <version>23.1.0</version>
+                <version>23.1.1</version>
             </dependency>
             <dependency>
                 <groupId>org.hamcrest</groupId>
@@ -420,17 +420,12 @@
             <dependency>
                 <groupId>org.jetbrains.kotlin</groupId>
                 <artifactId>kotlin-reflect</artifactId>
-                <version>1.9.10</version>
+                <version>1.9.20</version>
             </dependency>
             <dependency>
                 <groupId>org.jetbrains.kotlin</groupId>
                 <artifactId>kotlin-stdlib</artifactId>
-                <version>1.9.10</version>
-            </dependency>
-            <dependency>
-                <groupId>org.jetbrains.kotlin</groupId>
-                <artifactId>kotlin-stdlib-common</artifactId>
-                <version>1.9.10</version>
+                <version>1.9.20</version>
             </dependency>
             <dependency>
                 <groupId>org.mockito</groupId>
