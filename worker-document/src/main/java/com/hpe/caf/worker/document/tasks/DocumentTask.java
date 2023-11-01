@@ -183,8 +183,8 @@ public final class DocumentTask extends AbstractTask
     protected WorkerResponse handlePoisonMessageImpl(final String workerFriendlyName)
     {
         document.getFailures().add(
-                String.format("%s-MAX_DELIVERY_ATTEMPTS_EXCEEDED", workerFriendlyName),
-                String.format("'%s' max delivery attempts exceeded.", workerFriendlyName));
+            String.format("%s-MAX_DELIVERY_ATTEMPTS_EXCEEDED", workerFriendlyName),
+            String.format("'%s' max delivery attempts exceeded.", workerFriendlyName));
 
         // Create a RESULT_SUCCESS for the document
         // (RESULT_SUCCESS is used even if there are failures, as the failures are successfully returned)

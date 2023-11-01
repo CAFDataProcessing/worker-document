@@ -113,12 +113,12 @@ public final class FieldEnrichmentTask extends AbstractTask
     protected WorkerResponse handlePoisonMessageImpl(final String workerFriendlyName)
     {
         return new WorkerResponse(application.getFailureQueue(),
-                TaskStatus.RESULT_EXCEPTION,
-                String.format("'%s' max delivery attempts exceeded.", workerFriendlyName)
-                        .getBytes(StandardCharsets.UTF_8),
-                DocumentWorkerConstants.WORKER_NAME,
-                DocumentWorkerConstants.WORKER_API_VER,
-                null);
+                                  TaskStatus.RESULT_EXCEPTION,
+                                  String.format("'%s' max delivery attempts exceeded.", workerFriendlyName)
+                                      .getBytes(StandardCharsets.UTF_8),
+                                  DocumentWorkerConstants.WORKER_NAME,
+                                  DocumentWorkerConstants.WORKER_API_VER,
+                                  null);
     }
 
     /**

@@ -122,7 +122,8 @@ public final class DocumentMessageProcessor implements Worker
     }
 
     @Override
-    public final WorkerResponse getPoisonMessageResult(final String workerFriendlyName) {
+    public final WorkerResponse getPoisonMessageResult(final String workerFriendlyName)
+    {
         return documentWorkerTask.handlePoisonMessage(workerFriendlyName);
     }
 
