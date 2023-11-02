@@ -114,7 +114,7 @@ public final class FieldEnrichmentTask extends AbstractTask
     {
         return new WorkerResponse(application.getFailureQueue(),
                 TaskStatus.RESULT_EXCEPTION,
-                String.format("'%s' max delivery attempts exceeded.", workerFriendlyName)
+                String.format("%s max processing attempts exceeded.", workerFriendlyName)
                         .getBytes(StandardCharsets.UTF_8),
                 DocumentWorkerConstants.WORKER_NAME,
                 DocumentWorkerConstants.WORKER_API_VER,
