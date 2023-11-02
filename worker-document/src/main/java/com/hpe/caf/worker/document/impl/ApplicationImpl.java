@@ -26,8 +26,8 @@ import com.hpe.caf.worker.document.config.DocumentWorkerConfiguration;
 import com.hpe.caf.worker.document.model.Application;
 import com.hpe.caf.worker.document.model.ServiceLocator;
 import com.hpe.caf.worker.document.scripting.JavaScriptManager;
+import jakarta.annotation.Nonnull;
 import java.util.Objects;
-import javax.annotation.Nonnull;
 
 public class ApplicationImpl implements Application
 {

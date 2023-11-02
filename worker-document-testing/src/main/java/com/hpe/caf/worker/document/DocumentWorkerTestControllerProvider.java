@@ -65,7 +65,7 @@ public class DocumentWorkerTestControllerProvider
         final WorkerServices workerServices
     )
     {
-        return new DocumentWorkerResultValidationProcessor(config, workerServices);
+        return new DocumentWorkerResultValidationProcessor<>(config, workerServices);
     }
 
     /**
@@ -95,6 +95,6 @@ public class DocumentWorkerTestControllerProvider
         final WorkerServices workerServices
     )
     {
-        return new DocumentWorkerSaveResultProcessor(config, workerServices);
+        return new DocumentWorkerSaveResultProcessor<>(config, workerServices);
     }
 }

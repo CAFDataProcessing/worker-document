@@ -15,7 +15,7 @@
  */
 package com.hpe.caf.worker.document.model;
 
-import javax.annotation.Nonnull;
+import jakarta.annotation.Nonnull;
 
 /**
  * Used for managing the queue that response messages are published to.

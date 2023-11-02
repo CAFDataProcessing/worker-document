@@ -17,8 +17,8 @@ package com.hpe.caf.worker.document.fieldvalues;
 
 import com.hpe.caf.worker.document.impl.ApplicationImpl;
 import com.hpe.caf.worker.document.model.Field;
+import jakarta.annotation.Nonnull;
 import java.util.Objects;
-import javax.annotation.Nonnull;
 import org.apache.commons.codec.binary.Base64;
 
 public final class Base64FieldValue extends NonReferenceFieldValue

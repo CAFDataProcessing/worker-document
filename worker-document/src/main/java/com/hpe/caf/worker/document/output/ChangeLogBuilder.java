@@ -21,6 +21,7 @@ import com.hpe.caf.worker.document.DocumentWorkerDocument;
 import com.hpe.caf.worker.document.DocumentWorkerFailure;
 import com.hpe.caf.worker.document.DocumentWorkerFieldChanges;
 import com.hpe.caf.worker.document.DocumentWorkerFieldValue;
+import jakarta.annotation.Nonnull;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -28,7 +29,6 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
-import javax.annotation.Nonnull;
 
 public class ChangeLogBuilder implements ChangesJournal
 {

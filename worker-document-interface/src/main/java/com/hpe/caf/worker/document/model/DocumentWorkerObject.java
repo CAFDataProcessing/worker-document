@@ -15,7 +15,7 @@
  */
 package com.hpe.caf.worker.document.model;
 
-import javax.annotation.Nonnull;
+import jakarta.annotation.Nonnull;
 
 /**
  * This is the base object of the Document Worker Object Model. All object model interfaces derive from this interface. Any functionality

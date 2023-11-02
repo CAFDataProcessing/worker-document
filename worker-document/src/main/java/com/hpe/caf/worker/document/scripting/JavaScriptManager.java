@@ -19,7 +19,7 @@ import com.hpe.caf.worker.document.config.ScriptCacheConfiguration;
 import com.hpe.caf.worker.document.config.ScriptCachingConfiguration;
 import com.hpe.caf.worker.document.model.ScriptEngineType;
 import com.hpe.caf.worker.document.scripting.specs.AbstractScriptSpec;
-import javax.annotation.Nonnull;
+import jakarta.annotation.Nonnull;
 import javax.script.Bindings;
 import javax.script.CompiledScript;
 import javax.script.ScriptException;
@@ -52,7 +52,11 @@ public final class JavaScriptManager implements ObjectCodeProvider
     @Nonnull
     public Bindings createNewGlobal(final ScriptEngineType engineType)
     {
-        return scriptEngine.createNewGlobal(engineType);
+        if (engineType != ScriptEngineType.GRAAL_JS) {
+            throw new RuntimeException("Logic error: Graal.js is the only supported Javascript engine!");
+        }
+
+        return scriptEngine.createNewGlobal();
     }
 
     @Nonnull

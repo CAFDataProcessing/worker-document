@@ -15,45 +15,33 @@
  */
 package com.hpe.caf.worker.document.scripting;
 
-import com.google.common.cache.CacheBuilder;
-import com.google.common.cache.CacheLoader;
-import com.google.common.cache.LoadingCache;
-import com.hpe.caf.worker.document.model.ScriptEngineType;
+import com.google.common.base.Supplier;
+import com.google.common.base.Suppliers;
 import com.hpe.caf.worker.document.scripting.specs.AbstractScriptSpec;
-import javax.annotation.Nonnull;
+import jakarta.annotation.Nonnull;
 import javax.script.Bindings;
 import javax.script.CompiledScript;
 import javax.script.ScriptException;
 
 public final class JavaScriptEngineLazy implements ObjectCodeProvider
 {
-    private final LoadingCache<ScriptEngineType, JavaScriptEngine> scriptEngine;
+    private final Supplier<JavaScriptEngine> scriptEngine;
 
     public JavaScriptEngineLazy()
     {
-        this.scriptEngine = CacheBuilder.newBuilder().maximumSize(1).concurrencyLevel(1).build(CacheLoader.from(JavaScriptEngineLazy::buildEngine));
+        this.scriptEngine = Suppliers.memoize(JavaScriptEngine::new);
     }
 
     @Nonnull
-    public Bindings createNewGlobal(final ScriptEngineType engineType)
+    public Bindings createNewGlobal()
     {
-        return scriptEngine.getUnchecked(engineType).createNewGlobal();
+        return scriptEngine.get().createNewGlobal();
     }
 
     @Nonnull
     @Override
     public CompiledScript getObjectCode(final String name, final AbstractScriptSpec scriptSpec) throws ScriptException
     {
-        return scriptEngine.getUnchecked(scriptSpec.getEngineType()).getObjectCode(name, scriptSpec);
-    }
-
-    @Nonnull
-    private static JavaScriptEngine buildEngine(final ScriptEngineType engineType)
-    {
-        if (engineType == ScriptEngineType.GRAAL_JS) {
-            return new GraalJSEngine();
-        } else {
-            return new NashornJSEngine();
-        }
+        return scriptEngine.get().getObjectCode(name, scriptSpec);
     }
 }

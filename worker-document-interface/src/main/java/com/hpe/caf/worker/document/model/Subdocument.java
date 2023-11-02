@@ -15,7 +15,7 @@
  */
 package com.hpe.caf.worker.document.model;
 
-import javax.annotation.Nonnull;
+import jakarta.annotation.Nonnull;
 
 /**
  * Represents a direct or indirect subdocument of the document being processed.

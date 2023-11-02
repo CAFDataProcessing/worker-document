@@ -18,8 +18,8 @@ package com.hpe.caf.worker.document.impl;
 import com.hpe.caf.worker.document.model.Document;
 import com.hpe.caf.worker.document.model.Failure;
 import com.hpe.caf.worker.document.views.ReadOnlyFailure;
+import jakarta.annotation.Nonnull;
 import java.util.Objects;
-import javax.annotation.Nonnull;
 
 public final class FailureImpl extends DocumentWorkerObjectImpl implements Failure
 {

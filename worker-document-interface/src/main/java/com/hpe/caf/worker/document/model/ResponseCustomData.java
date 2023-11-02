@@ -15,8 +15,8 @@
  */
 package com.hpe.caf.worker.document.model;
 
+import jakarta.annotation.Nonnull;
 import java.util.Map;
-import javax.annotation.Nonnull;
 
 /**
  * Represents the custom data that is sent as part of the response to the document processing task.

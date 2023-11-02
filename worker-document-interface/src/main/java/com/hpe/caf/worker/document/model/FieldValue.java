@@ -15,9 +15,9 @@
  */
 package com.hpe.caf.worker.document.model;
 
+import jakarta.annotation.Nonnull;
 import java.io.IOException;
 import java.io.InputStream;
-import javax.annotation.Nonnull;
 
 /**
  * Represents one of the data values of a field.

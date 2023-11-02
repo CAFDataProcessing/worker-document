@@ -15,11 +15,11 @@
  */
 package com.hpe.caf.worker.document.impl;
 
+import jakarta.annotation.Nonnull;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
-import javax.annotation.Nonnull;
 import com.hpe.caf.worker.document.model.ResponseCustomData;
 
 public final class ResponseCustomDataImpl extends DocumentWorkerObjectImpl implements ResponseCustomData

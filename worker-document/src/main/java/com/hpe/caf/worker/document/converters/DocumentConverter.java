@@ -26,10 +26,10 @@ import com.hpe.caf.worker.document.model.Field;
 import com.hpe.caf.worker.document.model.FieldValue;
 import com.hpe.caf.worker.document.model.Fields;
 import com.hpe.caf.worker.document.model.Subdocuments;
+import jakarta.annotation.Nonnull;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
-import javax.annotation.Nonnull;
 import org.apache.commons.codec.binary.Base64;
 
 /**

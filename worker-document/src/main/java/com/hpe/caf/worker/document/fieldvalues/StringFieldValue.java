@@ -17,9 +17,9 @@ package com.hpe.caf.worker.document.fieldvalues;
 
 import com.hpe.caf.worker.document.impl.ApplicationImpl;
 import com.hpe.caf.worker.document.model.Field;
+import jakarta.annotation.Nonnull;
 import java.nio.charset.StandardCharsets;
 import java.util.Objects;
-import javax.annotation.Nonnull;
 
 public final class StringFieldValue extends NonReferenceFieldValue
 {

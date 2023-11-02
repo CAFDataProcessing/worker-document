@@ -16,7 +16,7 @@
 package com.hpe.caf.worker.document.scripting;
 
 import com.hpe.caf.worker.document.scripting.specs.AbstractScriptSpec;
-import javax.annotation.Nonnull;
+import jakarta.annotation.Nonnull;
 import javax.script.CompiledScript;
 import javax.script.ScriptException;
 

@@ -16,7 +16,7 @@
 package com.hpe.caf.worker.document.exceptions;
 
 import com.hpe.caf.worker.document.DocumentWorkerScript;
-import javax.annotation.Nonnull;
+import jakarta.annotation.Nonnull;
 
 public final class InvalidScriptException extends Exception
 {

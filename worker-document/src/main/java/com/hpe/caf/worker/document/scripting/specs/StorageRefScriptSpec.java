@@ -19,6 +19,7 @@ import com.hpe.caf.api.worker.DataStore;
 import com.hpe.caf.worker.document.DocumentWorkerScript;
 import com.hpe.caf.worker.document.model.ScriptEngineType;
 import com.hpe.caf.worker.document.util.DataStoreFunctions;
+import jakarta.annotation.Nonnull;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -26,7 +27,6 @@ import java.io.InputStreamReader;
 import java.io.Reader;
 import java.nio.charset.StandardCharsets;
 import java.util.Objects;
-import javax.annotation.Nonnull;
 
 public final class StorageRefScriptSpec extends RemoteScriptSpec
 {

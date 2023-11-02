@@ -20,6 +20,7 @@ import com.hpe.caf.worker.document.model.Document;
 import com.hpe.caf.worker.document.model.Field;
 import com.hpe.caf.worker.document.model.Fields;
 import com.hpe.caf.worker.document.output.ChangesJournal;
+import jakarta.annotation.Nonnull;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -29,7 +30,6 @@ import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
-import javax.annotation.Nonnull;
 
 public final class FieldsImpl extends DocumentWorkerObjectImpl implements Fields
 {

@@ -17,8 +17,8 @@ package com.hpe.caf.worker.document.views;
 
 import com.hpe.caf.worker.document.DocumentWorkerFieldEncoding;
 import com.hpe.caf.worker.document.DocumentWorkerFieldValue;
+import jakarta.annotation.Nonnull;
 import java.util.Objects;
-import javax.annotation.Nonnull;
 
 public final class ReadOnlyFieldValue
 {

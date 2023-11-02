@@ -33,12 +33,12 @@ import com.hpe.caf.worker.document.scripting.events.DocumentEventObject;
 import com.hpe.caf.worker.document.scripting.events.ErrorEventObject;
 import com.hpe.caf.worker.document.scripting.events.TaskEventObject;
 import com.hpe.caf.worker.document.views.ReadOnlyDocument;
+import jakarta.annotation.Nonnull;
 import java.net.SocketException;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.function.BooleanSupplier;
-import javax.annotation.Nonnull;
 import javax.script.ScriptException;
 
 public abstract class AbstractTask extends DocumentWorkerObjectImpl implements Task
@@ -105,6 +105,7 @@ public abstract class AbstractTask extends DocumentWorkerObjectImpl implements T
     }
 
     @Override
+    @SuppressWarnings("unchecked")
     public <S> S getService(final Class<S> service)
     {
         return (service == WorkerTaskData.class)

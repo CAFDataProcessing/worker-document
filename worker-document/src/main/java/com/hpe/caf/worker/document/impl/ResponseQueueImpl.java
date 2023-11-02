@@ -16,8 +16,8 @@
 package com.hpe.caf.worker.document.impl;
 
 import com.hpe.caf.worker.document.model.ResponseQueue;
+import jakarta.annotation.Nonnull;
 import java.util.Objects;
-import javax.annotation.Nonnull;
 
 public final class ResponseQueueImpl extends DocumentWorkerObjectImpl implements ResponseQueue
 {

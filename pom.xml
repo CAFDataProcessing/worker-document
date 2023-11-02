@@ -23,7 +23,7 @@
 
     <groupId>com.github.cafdataprocessing</groupId>
     <artifactId>worker-document-aggregator</artifactId>
-    <version>5.3.0-SNAPSHOT</version>
+    <version>6.0.0-SNAPSHOT</version>
     <packaging>pom</packaging>
 
     <name>Document Worker Framework</name>
@@ -35,7 +35,7 @@
     <parent>
         <groupId>com.github.cafapi</groupId>
         <artifactId>caf-common-parent</artifactId>
-        <version>2.2.0-203</version>
+        <version>5.0.0-SNAPSHOT</version>
     </parent>
 
     <licenses>
@@ -77,99 +77,149 @@
 
     <properties>
         <copyrightYear>2023</copyrightYear>
-        <copyrightNotice>Copyright ${project.inceptionYear}-${copyrightYear} Open Text.</copyrightNotice>
-        <enforceCorrectDependencies>true</enforceCorrectDependencies>
     </properties>
 
     <dependencyManagement>
         <dependencies>
             <dependency>
-                <groupId>org.jetbrains.kotlin</groupId>
-                <artifactId>kotlin-reflect</artifactId>
-                <version>1.3.20</version>
+                <groupId>com.beust</groupId>
+                <artifactId>jcommander</artifactId>
+                <version>1.82</version>
             </dependency>
             <dependency>
-                <groupId>org.jetbrains.kotlin</groupId>
-                <artifactId>kotlin-stdlib</artifactId>
-                <version>1.3.20</version>
+                <groupId>com.ethlo.time</groupId>
+                <artifactId>itu</artifactId>
+                <version>1.7.3</version>
             </dependency>
             <dependency>
-                <groupId>org.mozilla</groupId>
-                <artifactId>rhino</artifactId>
-                <version>1.7.13</version>
+                <groupId>com.fasterxml.jackson.core</groupId>
+                <artifactId>jackson-annotations</artifactId>
+                <version>2.15.3</version>
             </dependency>
             <dependency>
-                <groupId>com.github.workerframework</groupId>
-                <artifactId>worker-framework</artifactId>
-                <version>6.1.0-SNAPSHOT</version>
-                <type>pom</type>
-                <scope>import</scope>
+                <groupId>com.fasterxml.jackson.core</groupId>
+                <artifactId>jackson-core</artifactId>
+                <version>2.15.3</version>
             </dependency>
             <dependency>
-                <groupId>com.github.cafdataprocessing</groupId>
-                <artifactId>worker-document-framework</artifactId>
-                <version>5.3.0-SNAPSHOT</version>
-                <type>pom</type>
+                <groupId>com.fasterxml.jackson.core</groupId>
+                <artifactId>jackson-databind</artifactId>
+                <version>2.15.3</version>
+            </dependency>
+            <dependency>
+                <groupId>com.fasterxml.jackson.dataformat</groupId>
+                <artifactId>jackson-dataformat-xml</artifactId>
+                <version>2.15.3</version>
+            </dependency>
+            <dependency>
+                <groupId>com.fasterxml.jackson.dataformat</groupId>
+                <artifactId>jackson-dataformat-yaml</artifactId>
+                <version>2.15.3</version>
+            </dependency>
+            <dependency>
+                <groupId>com.fasterxml.jackson.datatype</groupId>
+                <artifactId>jackson-datatype-guava</artifactId>
+                <version>2.15.3</version>
+            </dependency>
+            <dependency>
+                <groupId>com.fasterxml.woodstox</groupId>
+                <artifactId>woodstox-core</artifactId>
+                <version>6.5.1</version>
+            </dependency>
+            <dependency>
+                <groupId>com.github.cafapi</groupId>
+                <artifactId>caf-api</artifactId>
+                <version>3.0.0-SNAPSHOT</version>
+            </dependency>
+            <dependency>
+                <groupId>com.github.cafapi.cipher</groupId>
+                <artifactId>cipher-null</artifactId>
+                <version>3.0.0-SNAPSHOT</version>
+            </dependency>
+            <dependency>
+                <groupId>com.github.cafapi.codec</groupId>
+                <artifactId>codec-json</artifactId>
+                <version>3.0.0-SNAPSHOT</version>
+            </dependency>
+            <dependency>
+                <groupId>com.github.cafapi.config</groupId>
+                <artifactId>config-decoder</artifactId>
+                <version>3.0.0-SNAPSHOT</version>
+            </dependency>
+            <dependency>
+                <groupId>com.github.cafapi.config</groupId>
+                <artifactId>config-system</artifactId>
+                <version>3.0.0-SNAPSHOT</version>
+            </dependency>
+            <dependency>
+                <groupId>com.github.cafapi.util</groupId>
+                <artifactId>util-moduleloader</artifactId>
+                <version>3.0.0-SNAPSHOT</version>
+            </dependency>
+            <dependency>
+                <groupId>com.github.cafapi.util</groupId>
+                <artifactId>util-naming</artifactId>
+                <version>3.0.0-SNAPSHOT</version>
+            </dependency>
+            <dependency>
+                <groupId>com.github.cafapi.util</groupId>
+                <artifactId>util-ref</artifactId>
+                <version>3.0.0-SNAPSHOT</version>
             </dependency>
             <dependency>
                 <groupId>com.github.cafdataprocessing</groupId>
                 <artifactId>worker-document</artifactId>
-                <version>5.3.0-SNAPSHOT</version>
+                <version>6.0.0-SNAPSHOT</version>
             </dependency>
             <dependency>
                 <groupId>com.github.cafdataprocessing</groupId>
                 <artifactId>worker-document-interface</artifactId>
-                <version>5.3.0-SNAPSHOT</version>
+                <version>6.0.0-SNAPSHOT</version>
             </dependency>
             <dependency>
                 <groupId>com.github.cafdataprocessing</groupId>
                 <artifactId>worker-document-schema</artifactId>
-                <version>5.3.0-SNAPSHOT</version>
+                <version>6.0.0-SNAPSHOT</version>
             </dependency>
             <dependency>
                 <groupId>com.github.cafdataprocessing</groupId>
                 <artifactId>worker-document-shared</artifactId>
-                <version>5.3.0-SNAPSHOT</version>
-            </dependency>
-            <dependency>
-                <groupId>com.github.cafdataprocessing</groupId>
-                <artifactId>worker-document-testing</artifactId>
-                <version>5.3.0-SNAPSHOT</version>
-            </dependency>
-            <dependency>
-                <groupId>com.github.cafdataprocessing</groupId>
-                <artifactId>worker-document-testing-unit</artifactId>
-                <version>5.3.0-SNAPSHOT</version>
+                <version>6.0.0-SNAPSHOT</version>
             </dependency>
             <dependency>
                 <groupId>com.github.cafdataprocessing</groupId>
                 <artifactId>worker-document-utility</artifactId>
-                <version>5.3.0-SNAPSHOT</version>
+                <version>6.0.0-SNAPSHOT</version>
             </dependency>
             <dependency>
-                <groupId>com.github.cafdataprocessing</groupId>
-                <artifactId>worker-document-validator</artifactId>
-                <version>5.3.0-SNAPSHOT</version>
+                <groupId>com.github.workerframework</groupId>
+                <artifactId>util-rabbitmq</artifactId>
+                <version>7.0.0-SNAPSHOT</version>
             </dependency>
             <dependency>
-                <groupId>com.github.java-json-tools</groupId>
-                <artifactId>jackson-coreutils</artifactId>
-                <version>1.9</version>
+                <groupId>com.github.workerframework</groupId>
+                <artifactId>worker-api</artifactId>
+                <version>7.0.0-SNAPSHOT</version>
             </dependency>
             <dependency>
-                <groupId>com.github.java-json-tools</groupId>
-                <artifactId>json-schema-core</artifactId>
-                <version>1.2.10</version>
+                <groupId>com.github.workerframework</groupId>
+                <artifactId>worker-configs</artifactId>
+                <version>7.0.0-SNAPSHOT</version>
             </dependency>
             <dependency>
-                <groupId>com.github.java-json-tools</groupId>
-                <artifactId>json-schema-validator</artifactId>
-                <version>2.2.10</version>
+                <groupId>com.github.workerframework</groupId>
+                <artifactId>worker-queue-rabbit</artifactId>
+                <version>7.0.0-SNAPSHOT</version>
             </dependency>
             <dependency>
-                <groupId>com.github.workerframework.testing</groupId>
-                <artifactId>workerframework-testing-util</artifactId>
-                <version>1.0.0-82</version>
+                <groupId>com.github.workerframework</groupId>
+                <artifactId>worker-store-http</artifactId>
+                <version>7.0.0-SNAPSHOT</version>
+            </dependency>
+            <dependency>
+                <groupId>com.github.workerframework</groupId>
+                <artifactId>worker-store-mem</artifactId>
+                <version>7.0.0-SNAPSHOT</version>
             </dependency>
             <dependency>
                 <groupId>com.github.workerframework.testing</groupId>
@@ -177,39 +227,235 @@
                 <version>1.0.0-82</version>
             </dependency>
             <dependency>
+                <groupId>com.github.workerframework.testing</groupId>
+                <artifactId>workerframework-testing-util</artifactId>
+                <version>1.0.0-82</version>
+            </dependency>
+            <dependency>
+                <groupId>com.google.code.findbugs</groupId>
+                <artifactId>jsr305</artifactId>
+                <version>3.0.2</version>
+            </dependency>
+            <dependency>
+                <groupId>com.google.errorprone</groupId>
+                <artifactId>error_prone_annotations</artifactId>
+                <version>2.23.0</version>
+            </dependency>
+            <dependency>
+                <groupId>com.google.guava</groupId>
+                <artifactId>failureaccess</artifactId>
+                <version>1.0.2</version>
+            </dependency>
+            <dependency>
+                <groupId>com.google.guava</groupId>
+                <artifactId>guava</artifactId>
+                <version>32.1.3-jre</version>
+            </dependency>
+            <dependency>
+                <groupId>com.google.guava</groupId>
+                <artifactId>listenablefuture</artifactId>
+                <version>9999.0-empty-to-avoid-conflict-with-guava</version>
+            </dependency>
+            <dependency>
+                <groupId>com.google.j2objc</groupId>
+                <artifactId>j2objc-annotations</artifactId>
+                <version>2.8</version>
+            </dependency>
+            <dependency>
+                <groupId>com.networknt</groupId>
+                <artifactId>json-schema-validator</artifactId>
+                <version>1.0.87</version>
+            </dependency>
+            <dependency>
+                <groupId>com.rabbitmq</groupId>
+                <artifactId>amqp-client</artifactId>
+                <version>5.20.0</version>
+            </dependency>
+            <dependency>
                 <groupId>com.worldturner.medeia</groupId>
                 <artifactId>medeia-validator-core</artifactId>
-                <version>1.1.0</version>
+                <version>1.1.1</version>
             </dependency>
             <dependency>
                 <groupId>com.worldturner.medeia</groupId>
                 <artifactId>medeia-validator-jackson</artifactId>
-                <version>1.1.0</version>
+                <version>1.1.1</version>
+            </dependency>
+            <dependency>
+                <groupId>commons-codec</groupId>
+                <artifactId>commons-codec</artifactId>
+                <version>1.16.0</version>
+            </dependency>
+            <dependency>
+                <groupId>commons-io</groupId>
+                <artifactId>commons-io</artifactId>
+                <version>2.15.0</version>
+            </dependency>
+            <dependency>
+                <groupId>jakarta.annotation</groupId>
+                <artifactId>jakarta.annotation-api</artifactId>
+                <version>2.1.1</version>
             </dependency>
             <dependency>
                 <groupId>jakarta.validation</groupId>
                 <artifactId>jakarta.validation-api</artifactId>
-                <version>2.0.2</version>
+                <version>3.0.2</version>
+            </dependency>
+            <dependency>
+                <groupId>joda-time</groupId>
+                <artifactId>joda-time</artifactId>
+                <version>2.12.5</version>
+            </dependency>
+            <dependency>
+                <groupId>junit</groupId>
+                <artifactId>junit</artifactId>
+                <version>4.13.2</version>
+            </dependency>
+            <dependency>
+                <groupId>net.bytebuddy</groupId>
+                <artifactId>byte-buddy</artifactId>
+                <version>1.14.9</version>
+            </dependency>
+            <dependency>
+                <groupId>net.bytebuddy</groupId>
+                <artifactId>byte-buddy-agent</artifactId>
+                <version>1.14.9</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.commons</groupId>
+                <artifactId>commons-lang3</artifactId>
+                <version>3.13.0</version>
+            </dependency>
+            <dependency>
+                <groupId>org.checkerframework</groupId>
+                <artifactId>checker-qual</artifactId>
+                <version>3.40.0</version>
+            </dependency>
+            <dependency>
+                <groupId>org.codehaus.woodstox</groupId>
+                <artifactId>stax2-api</artifactId>
+                <version>4.2.2</version>
             </dependency>
             <dependency>
                 <groupId>org.graalvm.js</groupId>
-                <artifactId>js</artifactId>
-                <version>20.1.0</version>
+                <artifactId>js-language</artifactId>
+                <version>23.1.1</version>
             </dependency>
             <dependency>
                 <groupId>org.graalvm.js</groupId>
                 <artifactId>js-scriptengine</artifactId>
-                <version>20.1.0</version>
+                <version>23.1.1</version>
+            </dependency>
+            <dependency>
+                <groupId>org.graalvm.polyglot</groupId>
+                <artifactId>js-community</artifactId>
+                <type>pom</type>
+                <version>23.1.1</version>
+            </dependency>
+            <dependency>
+                <groupId>org.graalvm.polyglot</groupId>
+                <artifactId>polyglot</artifactId>
+                <version>23.1.1</version>
+            </dependency>
+            <dependency>
+                <groupId>org.graalvm.regex</groupId>
+                <artifactId>regex</artifactId>
+                <version>23.1.1</version>
             </dependency>
             <dependency>
                 <groupId>org.graalvm.sdk</groupId>
-                <artifactId>graal-sdk</artifactId>
-                <version>20.1.0</version>
+                <artifactId>collections</artifactId>
+                <version>23.1.1</version>
+            </dependency>
+            <dependency>
+                <groupId>org.graalvm.sdk</groupId>
+                <artifactId>jniutils</artifactId>
+                <version>23.1.1</version>
+            </dependency>
+            <dependency>
+                <groupId>org.graalvm.sdk</groupId>
+                <artifactId>nativeimage</artifactId>
+                <version>23.1.1</version>
+            </dependency>
+            <dependency>
+                <groupId>org.graalvm.sdk</groupId>
+                <artifactId>word</artifactId>
+                <version>23.1.1</version>
+            </dependency>
+            <dependency>
+                <groupId>org.graalvm.shadowed</groupId>
+                <artifactId>icu4j</artifactId>
+                <version>23.1.1</version>
+            </dependency>
+            <dependency>
+                <groupId>org.graalvm.truffle</groupId>
+                <artifactId>truffle-api</artifactId>
+                <version>23.1.1</version>
+            </dependency>
+            <dependency>
+                <groupId>org.graalvm.truffle</groupId>
+                <artifactId>truffle-compiler</artifactId>
+                <version>23.1.1</version>
+            </dependency>
+            <dependency>
+                <groupId>org.graalvm.truffle</groupId>
+                <artifactId>truffle-runtime</artifactId>
+                <version>23.1.1</version>
             </dependency>
             <dependency>
                 <groupId>org.hamcrest</groupId>
-                <artifactId>hamcrest-all</artifactId>
-                <version>1.3</version>
+                <artifactId>hamcrest</artifactId>
+                <version>2.2</version>
+            </dependency>
+            <dependency>
+                <groupId>org.hamcrest</groupId>
+                <artifactId>hamcrest-core</artifactId>
+                <version>2.2</version>
+            </dependency>
+            <dependency>
+                <groupId>org.jetbrains</groupId>
+                <artifactId>annotations</artifactId>
+                <version>24.0.1</version>
+            </dependency>
+            <dependency>
+                <groupId>org.jetbrains.kotlin</groupId>
+                <artifactId>kotlin-reflect</artifactId>
+                <version>1.9.20</version>
+            </dependency>
+            <dependency>
+                <groupId>org.jetbrains.kotlin</groupId>
+                <artifactId>kotlin-stdlib</artifactId>
+                <version>1.9.20</version>
+            </dependency>
+            <dependency>
+                <groupId>org.mockito</groupId>
+                <artifactId>mockito-core</artifactId>
+                <version>5.6.0</version>
+            </dependency>
+            <dependency>
+                <groupId>org.objenesis</groupId>
+                <artifactId>objenesis</artifactId>
+                <version>3.3</version>
+            </dependency>
+            <dependency>
+                <groupId>org.slf4j</groupId>
+                <artifactId>slf4j-api</artifactId>
+                <version>2.0.9</version>
+            </dependency>
+            <dependency>
+                <groupId>org.testng</groupId>
+                <artifactId>testng</artifactId>
+                <version>7.8.0</version>
+            </dependency>
+            <dependency>
+                <groupId>org.webjars</groupId>
+                <artifactId>jquery</artifactId>
+                <version>3.6.1</version>
+            </dependency>
+            <dependency>
+                <groupId>org.yaml</groupId>
+                <artifactId>snakeyaml</artifactId>
+                <version>2.2</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
@@ -227,11 +473,6 @@
                     <groupId>com.github.iarellano</groupId>
                     <artifactId>iad-j2y2j-converter-maven-plugin</artifactId>
                     <version>1.0</version>
-                </plugin>
-                <plugin>
-                    <groupId>org.apache.maven.plugins</groupId>
-                    <artifactId>maven-resources-plugin</artifactId>
-                    <version>3.1.0</version>
                 </plugin>
             </plugins>
         </pluginManagement>

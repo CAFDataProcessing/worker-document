@@ -16,25 +16,41 @@
 package com.hpe.caf.worker.document.scripting;
 
 import com.hpe.caf.worker.document.scripting.specs.AbstractScriptSpec;
-import javax.annotation.Nonnull;
+import com.oracle.truffle.js.scriptengine.GraalJSScriptEngine;
+import jakarta.annotation.Nonnull;
 import javax.script.Bindings;
 import javax.script.Compilable;
 import javax.script.CompiledScript;
 import javax.script.ScriptContext;
 import javax.script.ScriptEngine;
 import javax.script.ScriptException;
+import org.graalvm.polyglot.Context;
+import org.graalvm.polyglot.HostAccess;
 
-public abstract class JavaScriptEngine implements ObjectCodeProvider
+public final class JavaScriptEngine implements ObjectCodeProvider
 {
     private final ScriptEngine scriptEngine;
     private final Bindings scriptEngineBindings;
     private final Object scriptEngineBindingsLock;
 
-    protected JavaScriptEngine(final ScriptEngine engine)
+    public JavaScriptEngine()
     {
-        this.scriptEngine = engine;
+        this.scriptEngine = createScriptEngine();
         this.scriptEngineBindings = scriptEngine.getBindings(ScriptContext.ENGINE_SCOPE);
         this.scriptEngineBindingsLock = new Object();
+    }
+
+    @Nonnull
+    private static ScriptEngine createScriptEngine()
+    {
+        return GraalJSScriptEngine.create(
+            null,
+            Context.newBuilder("js")
+                .allowExperimentalOptions(true) // Needed for loading from classpath
+                .allowHostAccess(HostAccess.ALL) // Allow JS access to public Java methods/members
+                .allowHostClassLookup(s -> true) // Allow JS access to public Java classes
+                .option("js.load-from-classpath", "true")
+        );
     }
 
     @Nonnull
