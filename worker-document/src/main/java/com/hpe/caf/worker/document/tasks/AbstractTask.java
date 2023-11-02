@@ -143,12 +143,13 @@ public abstract class AbstractTask extends DocumentWorkerObjectImpl implements T
     @Nonnull
     protected abstract WorkerResponse handleGeneralFailureImpl(Throwable failure);
 
-    @Nonnull 
-    public final WorkerResponse handlePoisonMessage(String workerFriendlyName)
+    @Nonnull
+    public final WorkerResponse handlePoisonMessage(final String workerFriendlyName)
     {
         return handlePoisonMessageImpl(workerFriendlyName);
     }
-    
+
+    @Nonnull
     protected abstract WorkerResponse handlePoisonMessageImpl(String workerFriendlyName);
 
     /**
