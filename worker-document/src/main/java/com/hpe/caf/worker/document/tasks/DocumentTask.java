@@ -179,6 +179,19 @@ public final class DocumentTask extends AbstractTask
     }
 
     @Nonnull
+    @Override
+    protected WorkerResponse handlePoisonMessageImpl(final String workerFriendlyName)
+    {
+        document.getFailures().add(
+                "DW-PROCESSING_FAILED",
+                String.format("%s max processing attempts exceeded.", workerFriendlyName));
+
+        // Create a RESULT_SUCCESS for the document
+        // (RESULT_SUCCESS is used even if there are failures, as the failures are successfully returned)
+        return this.createWorkerResponse();
+    }
+
+    @Nonnull
     private String getChangeLogEntryName()
     {
         final DocumentWorkerConfiguration config = application.getConfiguration();

@@ -121,6 +121,12 @@ public final class DocumentMessageProcessor implements Worker
         return documentWorkerTask.handleGeneralFailure(t);
     }
 
+    @Override
+    public final WorkerResponse getPoisonMessageResult(final String workerFriendlyName)
+    {
+        return documentWorkerTask.handlePoisonMessage(workerFriendlyName);
+    }
+
     /**
      * Calls the implementation's {@link DocumentWorker#processDocument processDocument()} function with the specified document. If
      * subdocuments are to be processed separately then the function is also called for each of the subdocuments in the document's

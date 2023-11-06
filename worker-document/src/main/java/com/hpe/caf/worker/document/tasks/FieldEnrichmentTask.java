@@ -108,6 +108,19 @@ public final class FieldEnrichmentTask extends AbstractTask
                                   null);
     }
 
+    @Nonnull
+    @Override
+    protected WorkerResponse handlePoisonMessageImpl(final String workerFriendlyName)
+    {
+        return new WorkerResponse(application.getFailureQueue(),
+                TaskStatus.RESULT_EXCEPTION,
+                String.format("%s max processing attempts exceeded.", workerFriendlyName)
+                        .getBytes(StandardCharsets.UTF_8),
+                DocumentWorkerConstants.WORKER_NAME,
+                DocumentWorkerConstants.WORKER_API_VER,
+                null);
+    }
+
     /**
      * This function appends the details of the specified exception to the specified StringBuilder.
      *
