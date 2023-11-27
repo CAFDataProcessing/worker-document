@@ -1,9 +1,8 @@
-!not-ready-for-release!
-
 #### Version Number
 ${version-number}
 
 #### New Features
+- None
 
 #### Breaking Changes
 - **US361030**: Java 8 and Java 11 support dropped  
@@ -14,3 +13,4 @@ ${version-number}
   All the methods which used Nashorn by default have been removed.
 
 #### Known Issues
+- None 
