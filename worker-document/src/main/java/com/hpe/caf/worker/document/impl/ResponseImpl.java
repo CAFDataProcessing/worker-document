@@ -18,7 +18,7 @@ package com.hpe.caf.worker.document.impl;
 import com.hpe.caf.worker.document.model.Response;
 import com.hpe.caf.worker.document.model.Task;
 import com.hpe.caf.worker.document.tasks.AbstractTask;
-import javax.annotation.Nonnull;
+import jakarta.annotation.Nonnull;
 
 public final class ResponseImpl extends DocumentWorkerObjectImpl implements Response
 {

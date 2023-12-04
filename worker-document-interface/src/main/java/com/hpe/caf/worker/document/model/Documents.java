@@ -15,8 +15,8 @@
  */
 package com.hpe.caf.worker.document.model;
 
+import jakarta.annotation.Nonnull;
 import java.util.stream.Stream;
-import javax.annotation.Nonnull;
 
 /**
  * Represents a batch of documents to be processed. Each document contains a set of fields and may contain some custom data with regard to

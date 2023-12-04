@@ -17,9 +17,9 @@ package com.hpe.caf.worker.document.util;
 
 import com.hpe.caf.api.worker.DataStore;
 import com.hpe.caf.api.worker.DataStoreException;
+import jakarta.annotation.Nonnull;
 import java.io.IOException;
 import java.io.InputStream;
-import javax.annotation.Nonnull;
 
 /**
  * DataStore-related utility functions.

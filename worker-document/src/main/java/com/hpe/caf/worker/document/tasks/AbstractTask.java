@@ -33,12 +33,12 @@ import com.hpe.caf.worker.document.scripting.events.DocumentEventObject;
 import com.hpe.caf.worker.document.scripting.events.ErrorEventObject;
 import com.hpe.caf.worker.document.scripting.events.TaskEventObject;
 import com.hpe.caf.worker.document.views.ReadOnlyDocument;
+import jakarta.annotation.Nonnull;
 import java.net.SocketException;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.function.BooleanSupplier;
-import javax.annotation.Nonnull;
 import javax.script.ScriptException;
 
 public abstract class AbstractTask extends DocumentWorkerObjectImpl implements Task
@@ -105,6 +105,7 @@ public abstract class AbstractTask extends DocumentWorkerObjectImpl implements T
     }
 
     @Override
+    @SuppressWarnings("unchecked")
     public <S> S getService(final Class<S> service)
     {
         return (service == WorkerTaskData.class)
@@ -142,6 +143,15 @@ public abstract class AbstractTask extends DocumentWorkerObjectImpl implements T
 
     @Nonnull
     protected abstract WorkerResponse handleGeneralFailureImpl(Throwable failure);
+
+    @Nonnull
+    public final WorkerResponse handlePoisonMessage(final String workerFriendlyName)
+    {
+        return handlePoisonMessageImpl(workerFriendlyName);
+    }
+
+    @Nonnull
+    protected abstract WorkerResponse handlePoisonMessageImpl(String workerFriendlyName);
 
     /**
      * Load the customization scripts and if there is an exception then try to determine if it is a transient issue.

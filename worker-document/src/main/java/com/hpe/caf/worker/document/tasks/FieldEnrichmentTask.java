@@ -27,11 +27,11 @@ import com.hpe.caf.worker.document.impl.ScriptImpl;
 import com.hpe.caf.worker.document.output.DocumentWorkerResultBuilder;
 import com.hpe.caf.worker.document.util.ListFunctions;
 import com.hpe.caf.worker.document.views.ReadOnlyDocument;
+import jakarta.annotation.Nonnull;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
-import javax.annotation.Nonnull;
 
 public final class FieldEnrichmentTask extends AbstractTask
 {
@@ -106,6 +106,19 @@ public final class FieldEnrichmentTask extends AbstractTask
                                   DocumentWorkerConstants.WORKER_NAME,
                                   DocumentWorkerConstants.WORKER_API_VER,
                                   null);
+    }
+
+    @Nonnull
+    @Override
+    protected WorkerResponse handlePoisonMessageImpl(final String workerFriendlyName)
+    {
+        return new WorkerResponse(application.getFailureQueue(),
+                TaskStatus.RESULT_EXCEPTION,
+                String.format("%s max processing attempts exceeded.", workerFriendlyName)
+                        .getBytes(StandardCharsets.UTF_8),
+                DocumentWorkerConstants.WORKER_NAME,
+                DocumentWorkerConstants.WORKER_API_VER,
+                null);
     }
 
     /**

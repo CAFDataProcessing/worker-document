@@ -18,10 +18,10 @@ package com.hpe.caf.worker.document.views;
 import com.hpe.caf.worker.document.DocumentWorkerDocument;
 import com.hpe.caf.worker.document.DocumentWorkerFieldValue;
 import com.hpe.caf.worker.document.changelog.MutableDocument;
+import jakarta.annotation.Nonnull;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
-import javax.annotation.Nonnull;
 
 /**
  * Provides a read-only, non-null, view of an underlying document object. This can be used when the underlying document object must not be

@@ -18,7 +18,7 @@ package com.hpe.caf.worker.document.impl;
 import com.hpe.caf.worker.document.model.Document;
 import com.hpe.caf.worker.document.model.Subdocument;
 import com.hpe.caf.worker.document.views.ReadOnlyDocument;
-import javax.annotation.Nonnull;
+import jakarta.annotation.Nonnull;
 
 public final class SubdocumentImpl extends DocumentImpl implements Subdocument
 {

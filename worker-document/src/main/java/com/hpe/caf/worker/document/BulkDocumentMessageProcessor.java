@@ -30,6 +30,7 @@ import com.hpe.caf.worker.document.model.Documents;
 import com.hpe.caf.worker.document.model.InputMessageProcessor;
 import com.hpe.caf.worker.document.tasks.AbstractTask;
 import com.hpe.caf.worker.document.util.DocumentFunctions;
+import jakarta.annotation.Nonnull;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -37,7 +38,6 @@ import java.util.NoSuchElementException;
 import java.util.Objects;
 import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
-import javax.annotation.Nonnull;
 
 public final class BulkDocumentMessageProcessor
 {

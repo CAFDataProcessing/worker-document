@@ -24,12 +24,12 @@ import com.hpe.caf.worker.document.model.Field;
 import com.hpe.caf.worker.document.model.FieldValues;
 import com.hpe.caf.worker.document.views.ReadOnlyFieldValue;
 import com.hpe.caf.worker.document.views.ReadOnlyFieldValues;
+import jakarta.annotation.Nonnull;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
-import javax.annotation.Nonnull;
 import org.apache.commons.codec.binary.Base64;
 
 public final class FieldImpl extends DocumentWorkerObjectImpl implements Field

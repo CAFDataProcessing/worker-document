@@ -15,7 +15,7 @@
  */
 package com.hpe.caf.worker.document.model;
 
-import javax.annotation.Nonnull;
+import jakarta.annotation.Nonnull;
 
 /**
  * Represents a failure attached to the document.

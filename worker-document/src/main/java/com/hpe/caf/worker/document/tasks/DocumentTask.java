@@ -35,12 +35,12 @@ import com.hpe.caf.worker.document.util.DocumentFunctions;
 import com.hpe.caf.worker.document.util.ListFunctions;
 import com.hpe.caf.worker.document.util.MapFunctions;
 import com.hpe.caf.worker.document.views.ReadOnlyDocument;
+import jakarta.annotation.Nonnull;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
-import javax.annotation.Nonnull;
 
 public final class DocumentTask extends AbstractTask
 {
@@ -172,6 +172,19 @@ public final class DocumentTask extends AbstractTask
         document.getFailures().add(failure.getClass().getName(),
                                    failure.getLocalizedMessage(),
                                    failure);
+
+        // Create a RESULT_SUCCESS for the document
+        // (RESULT_SUCCESS is used even if there are failures, as the failures are successfully returned)
+        return this.createWorkerResponse();
+    }
+
+    @Nonnull
+    @Override
+    protected WorkerResponse handlePoisonMessageImpl(final String workerFriendlyName)
+    {
+        document.getFailures().add(
+                "DW-PROCESSING_FAILED",
+                String.format("%s max processing attempts exceeded.", workerFriendlyName));
 
         // Create a RESULT_SUCCESS for the document
         // (RESULT_SUCCESS is used even if there are failures, as the failures are successfully returned)

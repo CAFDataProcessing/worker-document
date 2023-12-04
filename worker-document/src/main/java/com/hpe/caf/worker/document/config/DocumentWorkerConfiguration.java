@@ -16,8 +16,8 @@
 package com.hpe.caf.worker.document.config;
 
 import com.hpe.caf.api.worker.WorkerConfiguration;
-import javax.validation.constraints.Max;
-import javax.validation.constraints.Min;
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Min;
 
 public class DocumentWorkerConfiguration extends WorkerConfiguration
 {

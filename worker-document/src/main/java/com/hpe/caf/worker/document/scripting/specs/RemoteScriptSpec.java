@@ -16,9 +16,9 @@
 package com.hpe.caf.worker.document.scripting.specs;
 
 import com.hpe.caf.worker.document.model.ScriptEngineType;
+import jakarta.annotation.Nonnull;
 import java.io.IOException;
 import java.io.Reader;
-import javax.annotation.Nonnull;
 import javax.script.Compilable;
 import javax.script.CompiledScript;
 import javax.script.ScriptException;

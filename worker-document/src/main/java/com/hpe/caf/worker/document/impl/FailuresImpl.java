@@ -23,6 +23,7 @@ import com.hpe.caf.worker.document.output.ChangesJournal;
 import com.hpe.caf.worker.document.util.ThrowableFunctions;
 import com.hpe.caf.worker.document.views.ReadOnlyFailure;
 import com.hpe.caf.worker.document.views.ReadOnlyFailures;
+import jakarta.annotation.Nonnull;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
@@ -30,7 +31,6 @@ import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
-import javax.annotation.Nonnull;
 
 public final class FailuresImpl extends DocumentWorkerObjectImpl implements Failures
 {

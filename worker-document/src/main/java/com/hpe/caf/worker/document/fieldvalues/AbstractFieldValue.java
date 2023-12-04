@@ -21,12 +21,12 @@ import com.hpe.caf.worker.document.impl.DocumentWorkerObjectImpl;
 import com.hpe.caf.worker.document.model.Field;
 import com.hpe.caf.worker.document.model.FieldValue;
 import com.hpe.caf.worker.document.views.ReadOnlyFieldValue;
+import jakarta.annotation.Nonnull;
 import java.nio.ByteBuffer;
 import java.nio.charset.CharacterCodingException;
 import java.nio.charset.CharsetDecoder;
 import java.nio.charset.StandardCharsets;
 import java.util.Objects;
-import javax.annotation.Nonnull;
 
 public abstract class AbstractFieldValue extends DocumentWorkerObjectImpl implements FieldValue
 {

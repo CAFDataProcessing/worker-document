@@ -17,7 +17,7 @@ package com.hpe.caf.worker.document.impl;
 
 import com.hpe.caf.worker.document.model.Application;
 import com.hpe.caf.worker.document.model.DocumentWorkerObject;
-import javax.annotation.Nonnull;
+import jakarta.annotation.Nonnull;
 
 public class DocumentWorkerObjectImpl implements DocumentWorkerObject
 {

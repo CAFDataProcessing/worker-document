@@ -20,13 +20,13 @@ import com.hpe.caf.worker.document.model.Field;
 import com.hpe.caf.worker.document.model.FieldValue;
 import com.hpe.caf.worker.document.model.FieldValues;
 import com.hpe.caf.worker.document.views.ReadOnlyFieldValue;
+import jakarta.annotation.Nonnull;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Stream;
-import javax.annotation.Nonnull;
 
 public final class FieldValuesImpl extends DocumentWorkerObjectImpl implements FieldValues
 {
