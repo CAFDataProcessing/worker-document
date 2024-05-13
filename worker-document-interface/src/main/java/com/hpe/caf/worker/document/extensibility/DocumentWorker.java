@@ -41,7 +41,8 @@ public interface DocumentWorker extends AutoCloseable
      *
      * @param healthMonitor used to report the liveness of the application
      */
-    void checkAlive(HealthMonitor healthMonitor);
+    default void checkLiveness(HealthMonitor healthMonitor) {
+    }
 
     /**
      * This method provides an opportunity for the worker to report if it has any problems which would prevent it processing documents
@@ -50,7 +51,7 @@ public interface DocumentWorker extends AutoCloseable
      *
      * @param healthMonitor used to report the readiness of the application
      */
-    void checkReady(HealthMonitor healthMonitor);
+    void checkHealth(HealthMonitor healthMonitor);
 
     /**
      * Processes a single document. Fields can be added or removed from the document.

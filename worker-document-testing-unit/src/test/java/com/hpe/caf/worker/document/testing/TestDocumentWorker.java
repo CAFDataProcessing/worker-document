@@ -44,12 +44,7 @@ public class TestDocumentWorker implements DocumentWorker
     public static final String FieldValueToRemove = "FieldValueToRemove";
 
     @Override
-    public void checkAlive(final HealthMonitor healthMonitor)
-    {
-    }
-
-    @Override
-    public void checkReady(final HealthMonitor healthMonitor)
+    public void checkHealth(final HealthMonitor healthMonitor)
     {
     }
 
