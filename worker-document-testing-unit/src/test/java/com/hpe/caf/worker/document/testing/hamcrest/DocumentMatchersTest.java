@@ -22,7 +22,7 @@ import static com.hpe.caf.worker.document.testing.hamcrest.DocumentMatchers.*;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.is;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public class DocumentMatchersTest
 {
