@@ -41,7 +41,8 @@ public interface DocumentWorker extends AutoCloseable
      *
      * @param healthMonitor used to report the liveness of the application
      */
-    default void checkLiveness(HealthMonitor healthMonitor) {
+    default void checkLiveness(HealthMonitor healthMonitor)
+    {
     }
 
     /**
