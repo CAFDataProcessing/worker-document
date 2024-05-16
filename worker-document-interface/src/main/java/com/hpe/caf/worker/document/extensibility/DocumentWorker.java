@@ -36,9 +36,21 @@ public interface DocumentWorker extends AutoCloseable
 {
     /**
      * This method provides an opportunity for the worker to report if it has any problems which would prevent it processing documents
-     * correctly. If the worker is healthy then it should simply return without calling the health monitor.
+     * correctly, and for which the worker might need to be restarted, for example, if the worker became deadlocked. If the worker is
+     * alive then it should simply return without calling the health monitor.
      *
-     * @param healthMonitor used to report the health of the application
+     * @param healthMonitor used to report the liveness of the application
+     */
+    default void checkLiveness(HealthMonitor healthMonitor)
+    {
+    }
+
+    /**
+     * This method provides an opportunity for the worker to report if it has any problems which would prevent it processing documents
+     * correctly, and for which the worker should not be restarted, but just given more time to become ready, for example, if a worker's
+     * downstream dependency is unavailable. If the worker is ready then it should simply return without calling the health monitor.
+     *
+     * @param healthMonitor used to report the readiness of the application
      */
     void checkHealth(HealthMonitor healthMonitor);
 
