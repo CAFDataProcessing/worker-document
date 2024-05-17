@@ -73,6 +73,15 @@ public class DocumentWorkerAdapter implements WorkerFactory
     }
 
     @Override
+    public HealthResult livenessCheck()
+    {
+        final HealthMonitorImpl healthMonitor = new HealthMonitorImpl(application);
+        documentWorker.checkLiveness(healthMonitor);
+
+        return healthMonitor.getHealthResult();
+    }
+
+    @Override
     public HealthResult healthCheck()
     {
         final HealthMonitorImpl healthMonitor = new HealthMonitorImpl(application);
