@@ -54,6 +54,7 @@ public class CodeConfigurationSourceTest
     }
 
     @Test
+    @SuppressWarnings("ThrowableResultIgnored")
     public void testThrowsWhenConfigurationExists() throws Exception
     {
         final TestSource1 source1 = new TestSource1();
