@@ -15,9 +15,6 @@
  */
 package com.microfocus.caf.worker.document.schema.validator;
 
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
-
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
@@ -25,7 +22,11 @@ import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
 
 import org.apache.commons.io.IOUtils;
-import org.junit.Test;
+
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.fail;
+import org.junit.jupiter.api.Test;
 
 import com.fasterxml.jackson.core.JsonFactory;
 import com.fasterxml.jackson.core.JsonGenerator;
@@ -117,7 +118,7 @@ public final class DocumentValidatorTest
                 fail("invalidScriptsDocumentTest failed: Validation done incorectly");
             } catch (final InvalidDocumentException e) {
                 System.out.println("invalidScriptsDocumentTest: " + e);
-                assertTrue("invalidScriptsDocumentTest", e.getMessage() != null);
+                assertNotNull(e.getMessage());
             }
         }
     }
@@ -136,7 +137,7 @@ public final class DocumentValidatorTest
                 fail("invalidPropertiesDocumentTest failed: Validation done incorectly");
             } catch (final InvalidDocumentException e) {
                 System.out.println("invalidPropertiesDocumentTest: " + e);
-                assertTrue("invalidPropertiesDocumentTest", e.getMessage() != null);
+                assertNotNull(e.getMessage());
             }
         }
     }
@@ -173,7 +174,7 @@ public final class DocumentValidatorTest
             fail("invalidDocumentStreamTest failed: Validation done incorectly");
         } catch (final ValidationFailedException e) {
             System.out.println("invalidDocumentStreamTest: " + e);
-            assertTrue("invalidDocumentStreamTest", e.getMessage().contains("Type mismatch, data has object and schema has array"));
+            assertTrue(e.getMessage().contains("Type mismatch, data has object and schema has array"));
         }
     }
 
@@ -223,7 +224,7 @@ public final class DocumentValidatorTest
             fail("invalidRequiredIndexTest failed: Validation done incorectly");
         } catch (final ValidationFailedException e) {
             System.out.println("invalidRequiredIndexTest: " + e);
-            assertTrue("invalidRequiredIndexTest", e.getMessage().contains("Required property index is missing from object"));
+            assertTrue(e.getMessage().contains("Required property index is missing from object"));
         }
     }
 
@@ -281,7 +282,7 @@ public final class DocumentValidatorTest
             fail("invalidOneOfChangeTest failed: Validation done incorectly");
         } catch (final ValidationFailedException e) {
             System.out.println("invalidOneOfChangeTest: " + e);
-            assertTrue("invalidOneOfChangeTest", e.getMessage().contains("2 of the oneOf validations succceeded"));
+            assertTrue(e.getMessage().contains("2 of the oneOf validations succceeded"));
         }
     }
 }

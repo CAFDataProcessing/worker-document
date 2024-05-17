@@ -17,7 +17,8 @@ package com.hpe.caf.worker.document.testing;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 public class CodeConfigurationSourceTest
 {
@@ -52,7 +53,8 @@ public class CodeConfigurationSourceTest
         assertThat(actualSource2, is(source2));
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test
+    @SuppressWarnings("ThrowableResultIgnored")
     public void testThrowsWhenConfigurationExists() throws Exception
     {
         final TestSource1 source1 = new TestSource1();
@@ -61,7 +63,7 @@ public class CodeConfigurationSourceTest
 
         final CodeConfigurationSource sut = new CodeConfigurationSource(source1, source2);
 
-        sut.addConfiguration(anotherSource2);
+        Assertions.assertThrows(IllegalArgumentException.class, () -> sut.addConfiguration(anotherSource2));
     }
 
     @Test

@@ -16,9 +16,10 @@
 package com.hpe.caf.worker.document;
 
 import static com.hpe.caf.worker.document.DocumentWorkerUtilClass.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import org.junit.jupiter.api.Test;
+
 import java.util.HashMap;
-import org.junit.*;
-import static org.junit.Assert.assertEquals;
 
 public final class DocumentWorkerTaskTest
 {

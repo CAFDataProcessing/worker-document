@@ -24,7 +24,7 @@ import java.util.UUID;
 import org.apache.commons.codec.binary.Base64;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public class FieldsBuilderTest
 {

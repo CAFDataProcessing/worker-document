@@ -20,13 +20,13 @@ import com.hpe.caf.worker.document.impl.*;
 import com.hpe.caf.worker.document.tasks.FieldEnrichmentTask;
 import java.util.*;
 import org.apache.commons.codec.binary.Base64;
-import org.junit.Assert;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mockito;
-import org.mockito.junit.MockitoJUnitRunner;
+import org.mockito.junit.jupiter.MockitoExtension;
 
-@RunWith(MockitoJUnitRunner.class)
+@ExtendWith(MockitoExtension.class)
 public class FieldImplTest
 {
     /**
@@ -41,8 +41,8 @@ public class FieldImplTest
 
         final DocumentWorkerFieldChanges fieldChanges = fieldImpl.getChanges();
 
-        Assert.assertEquals("/mnt/fs/docs/budget.doc", fieldChanges.values.get(0).data);
-        Assert.assertEquals(DocumentWorkerAction.add, fieldChanges.action);
+        assertEquals("/mnt/fs/docs/budget.doc", fieldChanges.values.get(0).data);
+        assertEquals(DocumentWorkerAction.add, fieldChanges.action);
     }
 
     @Test
@@ -56,8 +56,8 @@ public class FieldImplTest
 
         final DocumentWorkerFieldChanges fieldChanges = fieldImpl.getChanges();
 
-        Assert.assertEquals(Base64.encodeBase64String(b), fieldChanges.values.get(0).data);
-        Assert.assertEquals(DocumentWorkerFieldEncoding.base64, fieldChanges.values.get(0).encoding);
+        assertEquals(Base64.encodeBase64String(b), fieldChanges.values.get(0).data);
+        assertEquals(DocumentWorkerFieldEncoding.base64, fieldChanges.values.get(0).encoding);
     }
 
     @Test
@@ -65,12 +65,12 @@ public class FieldImplTest
     {
         //Tests the initial field values with a new field
         final FieldImpl fieldImpl = createFieldImpl("NEW_FIELD");
-        Assert.assertEquals(0, fieldImpl.getValues().size());
+        assertEquals(0, fieldImpl.getValues().size());
 
         //Tests the initial field values with an already existing field 'REFERENCE'
         final FieldImpl fieldImpl2 = createFieldImpl("REFERENCE");
-        Assert.assertEquals(1, fieldImpl2.getValues().size());
-        Assert.assertEquals("/mnt/fs/docs/hr policy.doc", fieldImpl2.getStringValues().get(0));
+        assertEquals(1, fieldImpl2.getValues().size());
+        assertEquals("/mnt/fs/docs/hr policy.doc", fieldImpl2.getStringValues().get(0));
     }
 
     @Test
@@ -84,9 +84,9 @@ public class FieldImplTest
 
         final DocumentWorkerFieldChanges fieldChanges = fieldImpl.getChanges();
 
-        Assert.assertEquals(newValue, fieldChanges.values.get(0).data);
-        Assert.assertEquals(null, fieldChanges.values.get(0).encoding);
-        Assert.assertEquals(DocumentWorkerAction.replace, fieldChanges.action);
+        assertEquals(newValue, fieldChanges.values.get(0).data);
+        assertEquals(null, fieldChanges.values.get(0).encoding);
+        assertEquals(DocumentWorkerAction.replace, fieldChanges.action);
     }
 
     @Test
@@ -100,9 +100,9 @@ public class FieldImplTest
 
         final DocumentWorkerFieldChanges fieldChanges = fieldImpl.getChanges();
 
-        Assert.assertEquals(Base64.encodeBase64String(newValue), fieldChanges.values.get(0).data);
-        Assert.assertEquals(DocumentWorkerFieldEncoding.base64, fieldChanges.values.get(0).encoding);
-        Assert.assertEquals(DocumentWorkerAction.replace, fieldChanges.action);
+        assertEquals(Base64.encodeBase64String(newValue), fieldChanges.values.get(0).data);
+        assertEquals(DocumentWorkerFieldEncoding.base64, fieldChanges.values.get(0).encoding);
+        assertEquals(DocumentWorkerAction.replace, fieldChanges.action);
     }
 
     @Test
@@ -116,9 +116,9 @@ public class FieldImplTest
 
         final DocumentWorkerFieldChanges fieldChanges = fieldImpl.getChanges();
 
-        Assert.assertEquals(newReference, fieldChanges.values.get(0).data);
-        Assert.assertEquals(DocumentWorkerFieldEncoding.storage_ref, fieldChanges.values.get(0).encoding);
-        Assert.assertEquals(DocumentWorkerAction.replace, fieldChanges.action);
+        assertEquals(newReference, fieldChanges.values.get(0).data);
+        assertEquals(DocumentWorkerFieldEncoding.storage_ref, fieldChanges.values.get(0).encoding);
+        assertEquals(DocumentWorkerAction.replace, fieldChanges.action);
     }
 
     private FieldImpl createFieldImpl(final String fileName)
