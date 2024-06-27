@@ -18,11 +18,7 @@ package com.hpe.caf.worker.document.tasks;
 import com.hpe.caf.api.worker.TaskStatus;
 import com.hpe.caf.api.worker.WorkerResponse;
 import com.hpe.caf.api.worker.WorkerTaskData;
-import com.hpe.caf.worker.document.DocumentWorkerChange;
-import com.hpe.caf.worker.document.DocumentWorkerChangeLogEntry;
-import com.hpe.caf.worker.document.DocumentWorkerConstants;
-import com.hpe.caf.worker.document.DocumentWorkerDocumentTask;
-import com.hpe.caf.worker.document.DocumentWorkerScript;
+import com.hpe.caf.worker.document.*;
 import com.hpe.caf.worker.document.changelog.ChangeLogFunctions;
 import com.hpe.caf.worker.document.changelog.MutableDocument;
 import com.hpe.caf.worker.document.config.DocumentWorkerConfiguration;
@@ -36,6 +32,9 @@ import com.hpe.caf.worker.document.util.ListFunctions;
 import com.hpe.caf.worker.document.util.MapFunctions;
 import com.hpe.caf.worker.document.views.ReadOnlyDocument;
 import jakarta.annotation.Nonnull;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
@@ -44,6 +43,8 @@ import java.util.stream.Collectors;
 
 public final class DocumentTask extends AbstractTask
 {
+    private static final Logger LOG = LoggerFactory.getLogger(DocumentTask.class);
+
     private final DocumentWorkerDocumentTask documentTask;
 
     @Nonnull
@@ -169,9 +170,13 @@ public final class DocumentTask extends AbstractTask
     @Override
     protected WorkerResponse handleGeneralFailureImpl(final Throwable failure)
     {
+        LOG.warn("JONNY --- Adding DW-GENERAL_FAILURE to document: {}", document.getReference());
         document.getFailures().add("DW-GENERAL_FAILURE",
                                    failure.getLocalizedMessage(),
                                    failure);
+
+        LOG.warn("JONNY --- Document Reference: {}", document.getReference());
+        document.getFailures().forEach(docFailure -> LOG.warn("JONNY --- Document Failure: {}", docFailure.getFailureMessage()));
 
         // Create a RESULT_SUCCESS for the document
         // (RESULT_SUCCESS is used even if there are failures, as the failures are successfully returned)
