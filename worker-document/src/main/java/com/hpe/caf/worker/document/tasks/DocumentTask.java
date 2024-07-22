@@ -169,7 +169,7 @@ public final class DocumentTask extends AbstractTask
     @Override
     protected WorkerResponse handleGeneralFailureImpl(final Throwable failure)
     {
-        document.getFailures().add(failure.getClass().getName(),
+        document.getFailures().add("DW-GENERAL_FAILURE",
                                    failure.getLocalizedMessage(),
                                    failure);
 
