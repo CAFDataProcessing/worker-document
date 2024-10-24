@@ -27,12 +27,12 @@
     <parent>
         <groupId>com.github.cafdataprocessing</groupId>
         <artifactId>worker-document-aggregator</artifactId>
-        <version>6.2.0-SNAPSHOT</version>
+        <version>7.0.0-SNAPSHOT</version>
     </parent>
 
     <dependencies>
         <dependency>
-            <groupId>com.github.cafapi</groupId>
+            <groupId>com.github.cafapi.common.api</groupId>
             <artifactId>caf-api</artifactId>
         </dependency>
         <dependency>
@@ -44,7 +44,7 @@
             <artifactId>worker-document-shared</artifactId>
         </dependency>
         <dependency>
-            <groupId>com.github.workerframework</groupId>
+            <groupId>com.github.workerframework.worker</groupId>
             <artifactId>worker-api</artifactId>
         </dependency>
         <dependency>

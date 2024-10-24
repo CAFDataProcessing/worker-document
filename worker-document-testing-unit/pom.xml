@@ -27,7 +27,7 @@
     <parent>
         <artifactId>worker-document-aggregator</artifactId>
         <groupId>com.github.cafdataprocessing</groupId>
-        <version>6.2.0-SNAPSHOT</version>
+        <version>7.0.0-SNAPSHOT</version>
     </parent>
 
     <dependencies>
@@ -36,19 +36,19 @@
             <artifactId>jackson-dataformat-yaml</artifactId>
         </dependency>
         <dependency>
-            <groupId>com.github.cafapi</groupId>
+            <groupId>com.github.cafapi.common.api</groupId>
             <artifactId>caf-api</artifactId>
         </dependency>
         <dependency>
-            <groupId>com.github.cafapi.codec</groupId>
+            <groupId>com.github.cafapi.common.codecs</groupId>
             <artifactId>codec-json</artifactId>
         </dependency>
         <dependency>
-            <groupId>com.github.workerframework</groupId>
+            <groupId>com.github.workerframework.worker</groupId>
             <artifactId>worker-api</artifactId>
         </dependency>
         <dependency>
-            <groupId>com.github.workerframework</groupId>
+            <groupId>com.github.workerframework.worker.datastores</groupId>
             <artifactId>worker-store-mem</artifactId>
         </dependency>
         <dependency>
