@@ -17,13 +17,13 @@ package com.github.cafdataprocessing.worker.document;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.guava.GuavaModule;
-import com.github.workerframework.worker.api.TaskMessage;
-import com.github.workerframework.worker.testing.TestConfiguration;
-import com.github.workerframework.worker.testing.TestItem;
-import com.github.workerframework.worker.testing.configuration.ValidationSettings;
-import com.github.workerframework.worker.testing.util.WorkerServices;
-import com.github.workerframework.worker.testing.validation.PropertyMap;
-import com.github.workerframework.worker.testing.validation.PropertyValidatingProcessor;
+import com.github.workerframework.api.TaskMessage;
+import com.github.workerframework.testing.TestConfiguration;
+import com.github.workerframework.testing.TestItem;
+import com.github.workerframework.testing.configuration.ValidationSettings;
+import com.github.workerframework.testing.util.WorkerServices;
+import com.github.workerframework.testing.validation.PropertyMap;
+import com.github.workerframework.testing.validation.PropertyValidatingProcessor;
 
 import java.util.Map;
 

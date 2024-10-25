@@ -25,8 +25,8 @@ import com.github.cafdataprocessing.worker.document.impl.ApplicationImpl;
 import com.github.cafdataprocessing.worker.document.impl.DocumentImpl;
 import com.github.cafdataprocessing.worker.document.tasks.AbstractTask;
 import com.github.cafdataprocessing.worker.document.tasks.DocumentTask;
-import com.github.workerframework.worker.api.WorkerException;
-import com.github.workerframework.worker.api.WorkerTaskData;
+import com.github.workerframework.api.WorkerException;
+import com.github.workerframework.api.WorkerTaskData;
 import com.github.cafdataprocessing.worker.document.exceptions.InvalidChangeLogException;
 import com.github.cafdataprocessing.worker.document.model.Document;
 

@@ -60,15 +60,15 @@
             <artifactId>worker-document</artifactId>
         </dependency>
         <dependency>
-            <groupId>com.github.workerframework.worker</groupId>
+            <groupId>com.github.workerframework</groupId>
             <artifactId>worker-api</artifactId>
         </dependency>
         <dependency>
-            <groupId>com.github.workerframework.worker.testing</groupId>
+            <groupId>com.github.workerframework.testing</groupId>
             <artifactId>workerframework-testing-integration</artifactId>
         </dependency>
         <dependency>
-            <groupId>com.github.workerframework.worker.testing</groupId>
+            <groupId>com.github.workerframework.testing</groupId>
             <artifactId>workerframework-testing-util</artifactId>
         </dependency>
         <dependency>

@@ -21,8 +21,8 @@ import com.github.cafdataprocessing.worker.document.scripting.events.CancelableD
 import com.github.cafdataprocessing.worker.document.scripting.events.DocumentEventObject;
 import com.github.cafdataprocessing.worker.document.scripting.events.ErrorEventObject;
 import com.github.cafdataprocessing.worker.document.scripting.events.TaskEventObject;
-import com.github.workerframework.worker.api.WorkerResponse;
-import com.github.workerframework.worker.api.WorkerTaskData;
+import com.github.workerframework.api.WorkerResponse;
+import com.github.workerframework.api.WorkerTaskData;
 import com.github.cafdataprocessing.worker.document.exceptions.DocumentWorkerTransientException;
 import com.github.cafdataprocessing.worker.document.impl.ApplicationImpl;
 import com.github.cafdataprocessing.worker.document.impl.DocumentImpl;

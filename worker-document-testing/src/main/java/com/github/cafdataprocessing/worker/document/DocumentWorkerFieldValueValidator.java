@@ -23,12 +23,12 @@ import java.util.*;
 
 import com.github.cafapi.common.api.Codec;
 import com.github.cafapi.common.util.ref.ReferencedData;
-import com.github.workerframework.worker.api.DataStore;
-import com.github.workerframework.worker.api.DataStoreException;
-import com.github.workerframework.worker.testing.TestConfiguration;
-import com.github.workerframework.worker.testing.validation.CustomPropertyValidator;
-import com.github.workerframework.worker.testing.validation.ReferenceDataValidator;
-import com.github.workerframework.worker.testing.validation.ValuePropertyValidator;
+import com.github.workerframework.api.DataStore;
+import com.github.workerframework.api.DataStoreException;
+import com.github.workerframework.testing.TestConfiguration;
+import com.github.workerframework.testing.validation.CustomPropertyValidator;
+import com.github.workerframework.testing.validation.ReferenceDataValidator;
+import com.github.workerframework.testing.validation.ValuePropertyValidator;
 import org.apache.commons.io.IOUtils;
 
 /**

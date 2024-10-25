@@ -15,8 +15,8 @@
  */
 package com.github.cafdataprocessing.worker.document;
 
-import com.github.workerframework.worker.testing.TestItem;
-import com.github.workerframework.worker.testing.WorkerTaskFactory;
+import com.github.workerframework.testing.TestItem;
+import com.github.workerframework.testing.WorkerTaskFactory;
 
 /**
  * Task factory for creating tasks from test item.

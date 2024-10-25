@@ -16,7 +16,7 @@
 package com.github.cafdataprocessing.worker.document;
 
 import com.github.cafdataprocessing.worker.document.tasks.AbstractTask;
-import com.github.workerframework.worker.api.WorkerTask;
+import com.github.workerframework.api.WorkerTask;
 import com.github.cafdataprocessing.worker.document.model.Document;
 
 import java.util.List;

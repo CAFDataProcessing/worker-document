@@ -16,8 +16,8 @@
 package com.github.cafdataprocessing.worker.document;
 
 import com.github.cafdataprocessing.worker.document.impl.ApplicationImpl;
-import com.github.workerframework.worker.api.BulkWorker;
-import com.github.workerframework.worker.api.BulkWorkerRuntime;
+import com.github.workerframework.api.BulkWorker;
+import com.github.workerframework.api.BulkWorkerRuntime;
 import com.github.cafdataprocessing.worker.document.extensibility.BulkDocumentWorker;
 
 /**

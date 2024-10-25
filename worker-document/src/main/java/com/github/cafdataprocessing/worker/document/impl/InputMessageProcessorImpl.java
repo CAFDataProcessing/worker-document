@@ -25,9 +25,9 @@ import com.github.cafdataprocessing.worker.document.config.InputMessageConfigura
 import com.github.cafdataprocessing.worker.document.exceptions.InvalidScriptException;
 import com.github.cafdataprocessing.worker.document.tasks.AbstractTask;
 import com.github.cafdataprocessing.worker.document.tasks.FieldEnrichmentTask;
-import com.github.workerframework.worker.api.InvalidTaskException;
-import com.github.workerframework.worker.api.TaskRejectedException;
-import com.github.workerframework.worker.api.WorkerTaskData;
+import com.github.workerframework.api.InvalidTaskException;
+import com.github.workerframework.api.TaskRejectedException;
+import com.github.workerframework.api.WorkerTaskData;
 import com.github.cafdataprocessing.worker.document.exceptions.InvalidChangeLogException;
 import com.github.cafdataprocessing.worker.document.model.InputMessageProcessor;
 import com.github.cafdataprocessing.worker.document.tasks.DocumentTask;

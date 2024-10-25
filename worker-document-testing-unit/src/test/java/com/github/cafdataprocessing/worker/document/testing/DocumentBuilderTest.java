@@ -19,7 +19,7 @@ import com.github.cafdataprocessing.worker.document.DocumentWorkerDocument;
 import com.github.cafdataprocessing.worker.document.DocumentWorkerDocumentTask;
 import com.github.cafdataprocessing.worker.document.DocumentWorkerFieldEncoding;
 import com.github.cafdataprocessing.worker.document.DocumentWorkerFieldValue;
-import com.github.workerframework.worker.api.WorkerException;
+import com.github.workerframework.api.WorkerException;
 import com.github.cafdataprocessing.worker.document.model.Document;
 import com.github.cafdataprocessing.worker.document.model.Field;
 import com.github.cafdataprocessing.worker.document.model.FieldValue;

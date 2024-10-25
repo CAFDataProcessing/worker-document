@@ -15,7 +15,7 @@
  */
 package com.github.cafdataprocessing.worker.document.config;
 
-import com.github.workerframework.worker.api.WorkerConfiguration;
+import com.github.workerframework.api.WorkerConfiguration;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
 

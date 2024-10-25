@@ -15,8 +15,8 @@
  */
 package com.github.cafdataprocessing.worker.document.testing;
 
-import com.github.workerframework.worker.api.DataStore;
-import com.github.workerframework.worker.api.DataStoreException;
+import com.github.workerframework.api.DataStore;
+import com.github.workerframework.api.DataStoreException;
 import com.github.cafdataprocessing.worker.document.exceptions.DocumentWorkerTransientException;
 import com.github.cafdataprocessing.worker.document.extensibility.DocumentWorker;
 import com.github.cafdataprocessing.worker.document.model.Document;

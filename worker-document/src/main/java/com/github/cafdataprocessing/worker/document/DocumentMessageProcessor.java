@@ -17,11 +17,11 @@ package com.github.cafdataprocessing.worker.document;
 
 import com.github.cafdataprocessing.worker.document.impl.ApplicationImpl;
 import com.github.cafdataprocessing.worker.document.tasks.AbstractTask;
-import com.github.workerframework.worker.api.InvalidTaskException;
-import com.github.workerframework.worker.api.TaskRejectedException;
-import com.github.workerframework.worker.api.Worker;
-import com.github.workerframework.worker.api.WorkerResponse;
-import com.github.workerframework.worker.api.WorkerTaskData;
+import com.github.workerframework.api.InvalidTaskException;
+import com.github.workerframework.api.TaskRejectedException;
+import com.github.workerframework.api.Worker;
+import com.github.workerframework.api.WorkerResponse;
+import com.github.workerframework.api.WorkerTaskData;
 import com.github.cafdataprocessing.worker.document.exceptions.DocumentWorkerTransientException;
 import com.github.cafdataprocessing.worker.document.extensibility.DocumentWorker;
 import com.github.cafdataprocessing.worker.document.model.Document;

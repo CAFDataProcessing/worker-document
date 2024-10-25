@@ -15,8 +15,8 @@
  */
 package com.github.cafdataprocessing.worker.document.util;
 
-import com.github.workerframework.worker.api.DataStore;
-import com.github.workerframework.worker.api.DataStoreException;
+import com.github.workerframework.api.DataStore;
+import com.github.workerframework.api.DataStoreException;
 import jakarta.annotation.Nonnull;
 import java.io.IOException;
 import java.io.InputStream;

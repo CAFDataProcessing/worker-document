@@ -16,14 +16,14 @@
 package com.github.cafdataprocessing.worker.document;
 
 import com.github.cafapi.common.api.Codec;
-import com.github.workerframework.worker.api.DataStore;
-import com.github.workerframework.worker.api.DataStoreException;
-import com.github.workerframework.worker.testing.ContentFileTestExpectation;
-import com.github.workerframework.worker.testing.TestConfiguration;
-import com.github.workerframework.worker.testing.configuration.ValidationSettings;
-import static com.github.workerframework.worker.testing.data.ContentComparisonType.BINARY;
-import com.github.workerframework.worker.testing.validation.PropertyValidator;
-import com.github.workerframework.worker.testing.validation.ValidatorFactory;
+import com.github.workerframework.api.DataStore;
+import com.github.workerframework.api.DataStoreException;
+import com.github.workerframework.testing.ContentFileTestExpectation;
+import com.github.workerframework.testing.TestConfiguration;
+import com.github.workerframework.testing.configuration.ValidationSettings;
+import static com.github.workerframework.testing.data.ContentComparisonType.BINARY;
+import com.github.workerframework.testing.validation.PropertyValidator;
+import com.github.workerframework.testing.validation.ValidatorFactory;
 import com.google.common.base.Strings;
 import java.io.ByteArrayInputStream;
 import java.io.File;

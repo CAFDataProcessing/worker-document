@@ -16,7 +16,7 @@
 package com.github.cafdataprocessing.worker.document;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.github.workerframework.worker.testing.validation.CustomPropertyValidator;
+import com.github.workerframework.testing.validation.CustomPropertyValidator;
 
 public class DocumentWorkerFieldChangesValidator extends CustomPropertyValidator
 {

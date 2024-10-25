@@ -16,7 +16,7 @@
 package com.github.cafdataprocessing.worker.document.scripting.specs;
 
 import com.github.cafdataprocessing.worker.document.DocumentWorkerScript;
-import com.github.workerframework.worker.api.DataStore;
+import com.github.workerframework.api.DataStore;
 import com.github.cafdataprocessing.worker.document.model.ScriptEngineType;
 import com.github.cafdataprocessing.worker.document.util.DataStoreFunctions;
 import jakarta.annotation.Nonnull;

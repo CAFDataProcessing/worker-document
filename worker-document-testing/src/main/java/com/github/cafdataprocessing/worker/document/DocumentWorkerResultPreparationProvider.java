@@ -15,9 +15,9 @@
  */
 package com.github.cafdataprocessing.worker.document;
 
-import com.github.workerframework.worker.testing.TestConfiguration;
-import com.github.workerframework.worker.testing.TestItem;
-import com.github.workerframework.worker.testing.TestItemProvider;
+import com.github.workerframework.testing.TestConfiguration;
+import com.github.workerframework.testing.TestItem;
+import com.github.workerframework.testing.TestItemProvider;
 
 import java.io.IOException;
 import java.nio.file.DirectoryStream;

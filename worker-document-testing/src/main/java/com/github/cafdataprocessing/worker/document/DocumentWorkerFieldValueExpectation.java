@@ -16,7 +16,7 @@
 package com.github.cafdataprocessing.worker.document;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-import com.github.workerframework.worker.testing.ContentFileTestExpectation;
+import com.github.workerframework.testing.ContentFileTestExpectation;
 import java.util.Map;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)

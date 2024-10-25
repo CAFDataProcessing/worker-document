@@ -17,8 +17,8 @@ package com.github.cafdataprocessing.worker.document.testing;
 
 import com.github.cafapi.common.api.CodecException;
 import com.github.cafdataprocessing.worker.document.DocumentWorkerFieldEncoding;
-import com.github.workerframework.worker.api.DataStoreException;
-import com.github.workerframework.worker.api.WorkerException;
+import com.github.workerframework.api.DataStoreException;
+import com.github.workerframework.api.WorkerException;
 import com.github.cafdataprocessing.worker.document.exceptions.DocumentWorkerTransientException;
 import com.github.cafdataprocessing.worker.document.model.Document;
 import com.github.cafdataprocessing.worker.document.model.Subdocuments;

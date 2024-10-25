@@ -18,7 +18,7 @@ package com.github.cafdataprocessing.worker.document;
 import com.github.cafdataprocessing.worker.document.impl.ApplicationImpl;
 import com.github.cafdataprocessing.worker.document.impl.DocumentImpl;
 import com.github.cafdataprocessing.worker.document.impl.FieldImpl;
-import com.github.workerframework.worker.api.WorkerTaskData;
+import com.github.workerframework.api.WorkerTaskData;
 import com.github.cafdataprocessing.worker.document.tasks.FieldEnrichmentTask;
 import java.util.*;
 import org.apache.commons.codec.binary.Base64;

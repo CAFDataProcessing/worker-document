@@ -44,11 +44,11 @@
             <artifactId>codec-json</artifactId>
         </dependency>
         <dependency>
-            <groupId>com.github.workerframework.worker</groupId>
+            <groupId>com.github.workerframework</groupId>
             <artifactId>worker-api</artifactId>
         </dependency>
         <dependency>
-            <groupId>com.github.workerframework.worker.datastores</groupId>
+            <groupId>com.github.workerframework</groupId>
             <artifactId>worker-store-mem</artifactId>
         </dependency>
         <dependency>
