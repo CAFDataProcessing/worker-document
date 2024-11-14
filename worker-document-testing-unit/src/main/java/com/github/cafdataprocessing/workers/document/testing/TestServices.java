@@ -16,7 +16,7 @@
 package com.github.cafdataprocessing.workers.document.testing;
 
 import com.github.cafapi.common.api.Codec;
-import com.github.cafapi.common.codecs.jsonlzf.JsonCodec;
+import com.github.cafapi.common.codecs.json.JsonCodec;
 import com.github.workerframework.api.DataStore;
 import com.github.workerframework.datastores.mem.InMemoryDataStore;
 import java.util.Objects;
