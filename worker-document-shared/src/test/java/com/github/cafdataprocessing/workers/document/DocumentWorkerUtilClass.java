@@ -16,7 +16,7 @@
 package com.github.cafdataprocessing.workers.document;
 
 import com.github.cafapi.common.api.CodecException;
-import com.github.cafapi.common.codecs.jsonlzf.JsonCodec;
+import com.github.cafapi.common.codecs.json.JsonCodec;
 
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
