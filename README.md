@@ -76,7 +76,7 @@ The structure of the `TaskEventObject` is below.
     
 }
 ```
-For more details of the `TaskEventObject`, refer the java implementation of the class [TaskEventObject.java](worker-document/src/main/java/com/hpe/caf/worker/document/scripting/events/TaskEventObject.java)
+For more details of the `TaskEventObject`, refer the java implementation of the class [TaskEventObject.java](worker-document/src/main/java/com/github/cafdataprocessing/workers/document/scripting/events/TaskEventObject.java)
 
 #### onBeforeProcessDocument
 
@@ -114,7 +114,7 @@ This flag is used to determine, if that individual document should be processed 
 
 If the cancellation flag set to true, onProcessDocument and onAfterProcessDocument will not be triggered and onAfterProcessTask will only be triggered.
 
-For more details of the `CancelableDocumentEventObject`, refer the Java implementation of for the class [CancelableDocumentEventObject.java](worker-document/src/main/java/com/hpe/caf/worker/document/scripting/events/CancelableDocumentEventObject.java) 
+For more details of the `CancelableDocumentEventObject`, refer the Java implementation of for the class [CancelableDocumentEventObject.java](worker-document/src/main/java/com/github/cafdataprocessing/workers/document/scripting/events/CancelableDocumentEventObject.java) 
 
 #### onProcessDocument
 
@@ -146,7 +146,7 @@ The structure of the `DocumentEventObject` is below.
     
 }
 ```
-For more details  of the `DocumentEventObject`, refer to the java implementation for the class [DocumentEventObject](worker-document/src/main/java/com/hpe/caf/worker/document/scripting/events/DocumentEventObject.java)
+For more details  of the `DocumentEventObject`, refer to the java implementation for the class [DocumentEventObject](worker-document/src/main/java/com/github/cafdataprocessing/workers/document/scripting/events/DocumentEventObject.java)
 
 #### onAfterProcessDocument
 
@@ -212,7 +212,7 @@ The structure of the `ErrorEventObject` is below.
     
 }
 ```
-For more details of the `ErrorEventObject`, refer the java implementation of the class for the class [ErrorEventObject](worker-document/src/main/java/com/hpe/caf/worker/document/scripting/events/ErrorEventObject.java)
+For more details of the `ErrorEventObject`, refer the java implementation of the class for the class [ErrorEventObject](worker-document/src/main/java/com/github/cafdataprocessing/workers/document/scripting/events/ErrorEventObject.java)
 
 Set errorEvent.handled = true to indicate if the error was handled.
 If it is not handled by event handler, the change log section of the document will be updated with the failure details. 
