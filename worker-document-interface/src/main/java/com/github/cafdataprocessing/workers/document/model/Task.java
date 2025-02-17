@@ -82,4 +82,6 @@ public interface Task extends DocumentWorkerObject
      */
     @Nonnull
     Response getResponse();
+
+    String getCorrelationId();
 }

@@ -48,17 +48,19 @@ public final class FieldEnrichmentTask extends AbstractTask
             application,
             workerTask,
             ReadOnlyDocument.create(documentWorkerTask.fields),
-            documentWorkerTask.customData);
+            documentWorkerTask.customData,
+            workerTask.getCorrelationId());
     }
 
     private FieldEnrichmentTask(
         final ApplicationImpl application,
         final WorkerTaskData workerTask,
         final ReadOnlyDocument effectiveDocument,
-        final Map<String, String> customData
+        final Map<String, String> customData,
+        final String correlationId
     )
     {
-        super(application, workerTask, effectiveDocument, customData);
+        super(application, workerTask, effectiveDocument, customData, correlationId);
     }
 
     @Nonnull

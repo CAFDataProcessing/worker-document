@@ -94,6 +94,12 @@ public class DocumentImpl extends DocumentWorkerObjectImpl implements Document
         return documentTask.getCustomData(dataKey);
     }
 
+    @Override
+    public final String getCorrelationId()
+    {
+        return documentTask.getCorrelationId();
+    }
+
     @Nonnull
     @Override
     public final Failures getFailures()
