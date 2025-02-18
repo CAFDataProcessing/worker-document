@@ -84,8 +84,6 @@ public interface Document extends DocumentWorkerObject
      */
     String getCustomData(String dataKey);
 
-    String getCorrelationId();
-
     /**
      * Gets the collection of failures that are currently associated with the document.
      *
