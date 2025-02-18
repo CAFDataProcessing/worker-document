@@ -68,8 +68,7 @@ public final class DocumentTask extends AbstractTask
               workerTask,
               createEffectiveDocument(documentTask),
               documentTask.customData,
-              documentTask.scripts,
-              workerTask.getCorrelationId());
+              documentTask.scripts);
 
         this.documentTask = documentTask;
     }

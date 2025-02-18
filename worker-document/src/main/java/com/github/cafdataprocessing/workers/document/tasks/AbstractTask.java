@@ -48,14 +48,12 @@ public abstract class AbstractTask extends DocumentWorkerObjectImpl implements T
     protected final ResponseImpl response;
     private final Map<String, String> customData;
     protected final ScriptsImpl scripts;
-    private final String correlationId;
 
     protected AbstractTask(
         final ApplicationImpl application,
         final WorkerTaskData workerTask,
         final ReadOnlyDocument effectiveDocument,
-        final Map<String, String> customData,
-        final String correlationId
+        final Map<String, String> customData
     )
     {
         super(application);
@@ -64,7 +62,6 @@ public abstract class AbstractTask extends DocumentWorkerObjectImpl implements T
         this.response = new ResponseImpl(application, this);
         this.customData = customData;
         this.scripts = new ScriptsImpl(application, this);
-        this.correlationId = correlationId;
     }
 
     protected AbstractTask(
@@ -72,8 +69,7 @@ public abstract class AbstractTask extends DocumentWorkerObjectImpl implements T
         final WorkerTaskData workerTask,
         final ReadOnlyDocument effectiveDocument,
         final Map<String, String> customData,
-        final List<DocumentWorkerScript> scripts,
-        final String correlationId
+        final List<DocumentWorkerScript> scripts
     ) throws InvalidScriptException
     {
         super(application);
@@ -82,7 +78,6 @@ public abstract class AbstractTask extends DocumentWorkerObjectImpl implements T
         this.response = new ResponseImpl(application, this);
         this.customData = customData;
         this.scripts = new ScriptsImpl(application, this, scripts);
-        this.correlationId = correlationId;
     }
 
     @Nonnull
@@ -105,11 +100,7 @@ public abstract class AbstractTask extends DocumentWorkerObjectImpl implements T
     @Override
     public final String getCorrelationId()
     {
-        if(correlationId == null) {
-            return null;
-        }
-
-        return correlationId;
+        return workerTask.getCorrelationId();
     }
 
     @Nonnull
