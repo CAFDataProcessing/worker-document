@@ -80,6 +80,12 @@ public abstract class AbstractTask extends DocumentWorkerObjectImpl implements T
         this.scripts = new ScriptsImpl(application, this, scripts);
     }
 
+    @Override
+    public final String getCorrelationId()
+    {
+        return workerTask.getCorrelationId();
+    }
+
     @Nonnull
     @Override
     public final DocumentImpl getDocument()

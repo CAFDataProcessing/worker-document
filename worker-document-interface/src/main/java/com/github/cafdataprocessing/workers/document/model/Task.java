@@ -26,6 +26,14 @@ import jakarta.annotation.Nonnull;
 public interface Task extends DocumentWorkerObject
 {
     /**
+     * Returns the correlation id associated with this task. This is an id that is passed between services so that related activities can
+     * be correlated.
+     *
+     * @return the correlation id for this task
+     */
+    String getCorrelationId();
+
+    /**
      * Used to retrieve any custom data that was sent with the task. The custom data could be used to send processing instructions to the
      * worker, to affect how the document is processed.
      *
