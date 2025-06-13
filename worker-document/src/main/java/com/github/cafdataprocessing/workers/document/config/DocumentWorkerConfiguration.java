@@ -32,6 +32,11 @@ public class DocumentWorkerConfiguration extends WorkerConfiguration
     private String failureQueue;
 
     /**
+     * Invalid queue to return invalid documents to RabbitMQ.
+     */
+    private String invalidQueue;
+
+    /**
      * Number of threads to use in the worker.
      */
     @Min(1)
@@ -81,6 +86,14 @@ public class DocumentWorkerConfiguration extends WorkerConfiguration
     public void setFailureQueue(final String failureQueue)
     {
         this.failureQueue = failureQueue;
+    }
+
+    public String getInvalidQueue() {
+        return invalidQueue;
+    }
+
+    public void setInvalidQueue(String invalidQueue) {
+        this.invalidQueue = invalidQueue;
     }
 
     public int getThreads()

@@ -107,7 +107,7 @@ public class DocumentWorkerAdapter implements WorkerFactory
     @Override
     public String getInvalidTaskQueue()
     {
-        return application.getFailureQueue();
+        return application.getInvalidQueue();
     }
 
     @Override
