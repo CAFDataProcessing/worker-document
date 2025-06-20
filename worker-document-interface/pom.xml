@@ -22,6 +22,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>worker-document-interface</artifactId>
+    <name>worker-document-interface</name>
 
     <parent>
         <groupId>com.github.cafdataprocessing.workers.document</groupId>
