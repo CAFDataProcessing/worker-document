@@ -22,6 +22,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>worker-document-validator</artifactId>
+    <name>worker-document-validator</name>
 
     <parent>
         <groupId>com.github.cafdataprocessing.workers.document</groupId>
