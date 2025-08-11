@@ -195,7 +195,7 @@ public class ApplicationImpl implements Application
         final String invalidQueue = configuration.getInvalidQueue();
 
         return (invalidQueue == null || invalidQueue.isEmpty())
-            ? configuration.getOutputQueue()
+            ? getFailureQueue(configuration)
             : invalidQueue;
     }
 }
