@@ -92,7 +92,7 @@ public class DocumentWorkerConfiguration extends WorkerConfiguration
         return invalidQueue;
     }
 
-    public void setInvalidQueue(String invalidQueue) {
+    public void setInvalidQueue(final String invalidQueue) {
         this.invalidQueue = invalidQueue;
     }
 
