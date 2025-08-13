@@ -41,6 +41,7 @@ public class ApplicationImpl implements Application
     private final JavaScriptManager javaScriptManager;
     private final String successQueue;
     private final String failureQueue;
+    private final String invalidQueue;
 
     public ApplicationImpl(final ConfigurationSource configSource, final DataStore dataStore, final Codec codec)
         throws WorkerException
@@ -55,6 +56,7 @@ public class ApplicationImpl implements Application
         this.javaScriptManager = new JavaScriptManager(configuration.getScriptCaching());
         this.successQueue = configuration.getOutputQueue();
         this.failureQueue = getFailureQueue(configuration);
+        this.invalidQueue = getInvalidQueue(configuration);
 
         // Register services
         serviceLocator.register(Codec.class, codec);
@@ -148,6 +150,11 @@ public class ApplicationImpl implements Application
         return failureQueue;
     }
 
+    public String getInvalidQueue()
+    {
+        return invalidQueue;
+    }
+
     public <T> byte[] serialiseResult(final T result)
     {
         try {
@@ -181,5 +188,14 @@ public class ApplicationImpl implements Application
         return (failureQueue == null || failureQueue.isEmpty())
             ? configuration.getOutputQueue()
             : failureQueue;
+    }
+
+    private static String getInvalidQueue(final DocumentWorkerConfiguration configuration)
+    {
+        final String invalidQueue = configuration.getInvalidQueue();
+
+        return (invalidQueue == null || invalidQueue.isEmpty())
+            ? getFailureQueue(configuration)
+            : invalidQueue;
     }
 }
