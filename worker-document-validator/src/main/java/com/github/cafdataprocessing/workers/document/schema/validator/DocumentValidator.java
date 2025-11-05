@@ -23,10 +23,10 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.cafdataprocessing.workers.document.schema.model.SchemaResource;
-import com.networknt.schema.JsonSchema;
-import com.networknt.schema.JsonSchemaFactory;
-import com.networknt.schema.SpecVersionDetector;
-import com.networknt.schema.ValidationMessage;
+import com.networknt.schema.Error;
+import com.networknt.schema.Schema;
+import com.networknt.schema.SchemaRegistry;
+import com.networknt.schema.SpecificationVersion;
 import com.worldturner.medeia.api.JsonSchemaVersion;
 import com.worldturner.medeia.api.SchemaSource;
 import com.worldturner.medeia.api.StreamSchemaSource;
@@ -35,7 +35,7 @@ import com.worldturner.medeia.schema.validation.SchemaValidator;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.UncheckedIOException;
-import java.util.Set;
+import java.util.List;
 
 /**
  * Validates a Document.
@@ -43,7 +43,7 @@ import java.util.Set;
 public final class DocumentValidator
 {
     private static ObjectMapper MAPPER = new ObjectMapper();
-    private static final JsonSchema SCHEMA_VALIDATOR_1 = getJsonSchema();
+    private static final Schema SCHEMA_VALIDATOR_1 = getJsonSchema();
     private static final SchemaValidator SCHEMA_VALIDATOR_2;
 
     static {
@@ -59,11 +59,11 @@ public final class DocumentValidator
     public static void validate(final String document) throws InvalidDocumentException
     {
         final JsonNode documentJson = parseDocument(document);
-        final Set<ValidationMessage> errors = SCHEMA_VALIDATOR_1.validate(documentJson);
+        final List<Error> errors = SCHEMA_VALIDATOR_1.validate(documentJson);
 
         if (!errors.isEmpty()) {
             final StringBuilder errMsg = new StringBuilder("Schema validation errors:");
-            for (final ValidationMessage error : errors) {
+            for (final Error error : errors) {
                 errMsg.append('\n').append(error.getMessage());
             }
             throw new InvalidDocumentException(errMsg.toString());
@@ -80,12 +80,11 @@ public final class DocumentValidator
         return api.decorateJsonParser(SCHEMA_VALIDATOR_2, unvalidatedParser);
     }
 
-    private static JsonSchema getJsonSchema()
+    private static Schema getJsonSchema()
     {
         final JsonNode schemaNode = getSchemaNode();
-
-        final JsonSchemaFactory factory = JsonSchemaFactory.getInstance(SpecVersionDetector.detect(schemaNode));
-        return factory.getSchema(schemaNode);
+        final SchemaRegistry schemaRegistry = SchemaRegistry.withDefaultDialect(SpecificationVersion.DRAFT_4);
+        return schemaRegistry.getSchema(schemaNode);
     }
 
     private static JsonNode getSchemaNode()
