@@ -40,6 +40,10 @@
             <artifactId>jackson-core</artifactId>
         </dependency>
         <dependency>
+            <groupId>com.github.cafapi.common</groupId>
+            <artifactId>util-jackson</artifactId>
+        </dependency>
+        <dependency>
             <groupId>com.github.cafdataprocessing.workers.document</groupId>
             <artifactId>worker-document-schema</artifactId>
         </dependency>
