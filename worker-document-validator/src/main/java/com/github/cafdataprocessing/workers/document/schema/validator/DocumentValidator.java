@@ -22,6 +22,7 @@ import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.github.cafapi.common.util.jackson.JacksonMigrationFunctions;
 import com.github.cafdataprocessing.workers.document.schema.model.SchemaResource;
 import com.networknt.schema.Error;
 import com.networknt.schema.Schema;
@@ -59,7 +60,7 @@ public final class DocumentValidator
     public static void validate(final String document) throws InvalidDocumentException
     {
         final JsonNode documentJson = parseDocument(document);
-        final List<Error> errors = SCHEMA_VALIDATOR_1.validate(documentJson);
+        final List<Error> errors = SCHEMA_VALIDATOR_1.validate(JacksonMigrationFunctions.toJackson3(documentJson));
 
         if (!errors.isEmpty()) {
             final StringBuilder errMsg = new StringBuilder("Schema validation errors:");
@@ -84,7 +85,7 @@ public final class DocumentValidator
     {
         final JsonNode schemaNode = getSchemaNode();
         final SchemaRegistry schemaRegistry = SchemaRegistry.withDefaultDialect(SpecificationVersion.DRAFT_4);
-        return schemaRegistry.getSchema(schemaNode);
+        return schemaRegistry.getSchema(JacksonMigrationFunctions.toJackson3(schemaNode));
     }
 
     private static JsonNode getSchemaNode()
