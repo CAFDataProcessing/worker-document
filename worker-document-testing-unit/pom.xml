@@ -27,7 +27,7 @@
     <parent>
         <artifactId>worker-document-aggregator</artifactId>
         <groupId>com.github.cafdataprocessing.workers.document</groupId>
-        <version>7.2.1-SNAPSHOT</version>
+        <version>7.2.2-SNAPSHOT</version>
     </parent>
 
     <dependencies>
